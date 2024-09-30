@@ -19,6 +19,6 @@ Route::get('/', function () {
 
 Route::prefix('/admin')->group(function () {
     Route::get('/', function () {
-        return view('admin.dashboard');
+        return view('admin.dashboard.index');
     });
 });
