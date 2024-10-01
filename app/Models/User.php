@@ -21,6 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'username',
+        'phone',
+        'address',
+        'avatar',
+        'is_active'
     ];
 
     /**
@@ -41,5 +46,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'is_active' => 'boolean'
     ];
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function orders(){
+        return $this->hasMany(Order::class);
+    }
+
+    public function productComments()
+    {
+        return $this->hasMany(ProductComment::class);
+    }
+    public function productRatings()
+    {
+        return $this->hasMany(ProductRating::class);
+    }
 }

@@ -13,10 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('client.home.index');
+
+// viết các route client ở đây
+Route::prefix('/')->group(function () {
+    Route::get('/', function () {
+        return view('client.home.index');
+    });
 });
 
+// viết các route admin vào đây
 Route::prefix('/admin')->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard.index');
