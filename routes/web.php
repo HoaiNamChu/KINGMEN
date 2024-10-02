@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,4 +27,6 @@ Route::prefix('/admin')->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard.index');
     });
+
+    Route::resource('users', UserController::class);
 });

@@ -212,11 +212,11 @@
             <li class="menu-title mt-2">Users</li>
 
             <li class="nav-item">
-                <a class="nav-link" href="pages-profile.html">
+                <a class="nav-link" href="{{ route('users.index') }}">
                                    <span class="nav-icon">
                                         <iconify-icon icon="solar:chat-square-like-bold-duotone"></iconify-icon>
                                    </span>
-                    <span class="nav-text"> Profile </span>
+                    <span class="nav-text"> List </span>
                 </a>
             </li>
 
