@@ -44,80 +44,82 @@
             </div>
 
             <div class="col-xl-9 col-lg-8 ">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Add Thumbnail Photo</h4>
-                    </div>
-                    <div class="card-body">
-                        <!-- File Upload -->
-{{--                        <form action="https://techzaa.getappui.com/" method="post" class="dropzone"--}}
-{{--                              id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews"--}}
-{{--                              data-upload-preview-template="#uploadPreviewTemplate">--}}
-{{--                            <div class="fallback">--}}
-{{--                                <input name="file" type="file" multiple/>--}}
-{{--                            </div>--}}
-{{--                            <div class="dz-message needsclick">--}}
-{{--                                <i class="bx bx-cloud-upload fs-48 text-primary"></i>--}}
-{{--                                <h3 class="mt-4">Drop your images here, or <span--}}
-{{--                                        class="text-primary">click to browse</span>--}}
-{{--                                </h3>--}}
-{{--                                <span class="text-muted fs-13">--}}
-{{--                                                       1600 x 1200 (4:3) recommended. PNG, JPG and GIF files are allowed--}}
-{{--                                                  </span>--}}
-{{--                            </div>--}}
-{{--                        </form>--}}
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label for="category-thumbnail" class="form-label">Category Thumbnail</label>
-                                <input type="file" id="category-thumbnail" class="form-control"
-                                       placeholder="Enter Title">
-                            </div>
+                <form action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Add Thumbnail Photo</h4>
                         </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">General Information</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
+                        <div class="card-body">
+                            <!-- File Upload -->
+                            {{--                        <form action="https://techzaa.getappui.com/" method="post" class="dropzone"--}}
+                            {{--                              id="myAwesomeDropzone" data-plugin="dropzone" data-previews-container="#file-previews"--}}
+                            {{--                              data-upload-preview-template="#uploadPreviewTemplate">--}}
+                            {{--                            <div class="fallback">--}}
+                            {{--                                <input name="file" type="file" multiple/>--}}
+                            {{--                            </div>--}}
+                            {{--                            <div class="dz-message needsclick">--}}
+                            {{--                                <i class="bx bx-cloud-upload fs-48 text-primary"></i>--}}
+                            {{--                                <h3 class="mt-4">Drop your images here, or <span--}}
+                            {{--                                        class="text-primary">click to browse</span>--}}
+                            {{--                                </h3>--}}
+                            {{--                                <span class="text-muted fs-13">--}}
+                            {{--                                                       1600 x 1200 (4:3) recommended. PNG, JPG and GIF files are allowed--}}
+                            {{--                                                  </span>--}}
+                            {{--                            </div>--}}
+                            {{--                        </form>--}}
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label for="category-name" class="form-label">Category Name</label>
-                                    <input type="text" id="category-name" class="form-control"
-                                           placeholder="Enter Name">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <label for="category-parent" class="form-label">Category Parent</label>
-                                <select class="form-control" id="category-parent" data-choices data-choices-groups
-                                        data-placeholder="Select Crater">
-                                    <option value="">Select Crater</option>
-                                    <option value="Seller">Seller</option>
-                                    <option value="Admin">Admin</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="mb-0">
-                                    <label for="description" class="form-label">Description</label>
-                                    <textarea class="form-control bg-light-subtle" id="description" rows="7"
-                                              placeholder="Type description"></textarea>
+                                    <label for="category-thumbnail" class="form-label">Category Thumbnail</label>
+                                    <input type="file" id="category-thumbnail" class="form-control"
+                                           placeholder="Enter Title">
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="p-3 bg-light mb-3 rounded">
-                    <div class="row justify-content-end g-2">
-                        <div class="col-lg-2">
-                            <a href="#!" class="btn btn-outline-secondary w-100">Save Change</a>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">General Information</h4>
                         </div>
-                        <div class="col-lg-2">
-                            <a href="{{ route('categories.create') }}" class="btn btn-primary w-100">Cancel</a>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="category-name" class="form-label">Category Name</label>
+                                        <input type="text" id="category-name" class="form-control"
+                                               placeholder="Enter Name">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="category-parent" class="form-label">Category Parent</label>
+                                    <select class="form-control" id="category-parent" data-choices data-choices-groups
+                                            data-placeholder="Select Crater">
+                                        <option value="">Select Crater</option>
+                                        <option value="Seller">Seller</option>
+                                        <option value="Admin">Admin</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="mb-0">
+                                        <label for="description" class="form-label">Description</label>
+                                        <textarea class="form-control bg-light-subtle" id="description" rows="7"
+                                                  placeholder="Type description"></textarea>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="p-3 bg-light mb-3 rounded">
+                        <div class="row justify-content-end g-2">
+                            <div class="col-lg-2">
+                                <button type="submit" class="btn btn-outline-secondary w-100">Save Change</button>
+                            </div>
+                            <div class="col-lg-2">
+                                <a href="{{ route('categories.create') }}" class="btn btn-primary w-100">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
 
