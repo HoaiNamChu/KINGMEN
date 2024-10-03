@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -36,12 +39,22 @@ class CategoryController extends Controller
             'parent_id' => request('parent_id'),
             'description' => request('description'),
         ];
+        $data['slug'] = Str::slug($data['name']);
         $data['image'] ??= null;
         $data['is_active'] = request('is_active') ? 1 : 0;
         if (request()->hasFile('image')) {
             $data['image'] = Storage::put(self::PATH_UPLOAD, request()->file('image'));
         }
-        dd($data);
+        try {
+            Category::query()->create($data);
+            return redirect()->route('categories.index');
+        }catch (\Exception $exception){
+            if ($data['image'] && Storage::exists($data['image'])){
+                Storage::delete($data['image']);
+            }
+            DB::rollBack();
+            return redirect()->back();
+        }
     }
 
     /**

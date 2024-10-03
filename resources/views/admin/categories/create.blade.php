@@ -95,9 +95,9 @@
                                     <select class="form-control" name="parent_id" id="category-parent" data-choices data-choices-groups
                                             data-placeholder="Select Crater">
                                         <option value="">Select Crater</option>
-                                        <option value="Seller">Seller</option>
-                                        <option value="Admin">Admin</option>
-                                        <option value="Other">Other</option>
+                                        <option value="1">Seller</option>
+                                        <option value="2">Admin</option>
+                                        <option value="3">Other</option>
                                     </select>
                                 </div>
                                 <div class="col-lg-6">
