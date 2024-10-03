@@ -45,6 +45,7 @@
 
             <div class="col-xl-9 col-lg-8 ">
                 <form action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data">
+                    @csrf
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Add Thumbnail Photo</h4>
@@ -70,7 +71,7 @@
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label for="category-thumbnail" class="form-label">Category Thumbnail</label>
-                                    <input type="file" id="category-thumbnail" class="form-control"
+                                    <input type="file" name="image" id="category-thumbnail" class="form-control"
                                            placeholder="Enter Title">
                                 </div>
                             </div>
@@ -85,13 +86,13 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="category-name" class="form-label">Category Name</label>
-                                        <input type="text" id="category-name" class="form-control"
+                                        <input type="text" name="name" id="category-name" class="form-control"
                                                placeholder="Enter Name">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <label for="category-parent" class="form-label">Category Parent</label>
-                                    <select class="form-control" id="category-parent" data-choices data-choices-groups
+                                    <select class="form-control" name="parent_id" id="category-parent" data-choices data-choices-groups
                                             data-placeholder="Select Crater">
                                         <option value="">Select Crater</option>
                                         <option value="Seller">Seller</option>
@@ -99,10 +100,18 @@
                                         <option value="Other">Other</option>
                                     </select>
                                 </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" name="is_active" role="switch" id="is-active" checked>
+                                            <label class="form-check-label" for="is-active">Is Active</label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-lg-12">
                                     <div class="mb-0">
                                         <label for="description" class="form-label">Description</label>
-                                        <textarea class="form-control bg-light-subtle" id="description" rows="7"
+                                        <textarea class="form-control bg-light-subtle" name="description" id="description" rows="7"
                                                   placeholder="Type description"></textarea>
                                     </div>
                                 </div>
