@@ -45,6 +45,7 @@ class CategoryController extends Controller
         if (request()->hasFile('image')) {
             $data['image'] = Storage::put(self::PATH_UPLOAD, request()->file('image'));
         }
+
         try {
             Category::query()->create($data);
             return redirect()->route('categories.index');
