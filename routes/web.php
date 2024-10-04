@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AccountGoogleController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +21,19 @@ Route::prefix('/')->group(function () {
     Route::get('/', function () {
         return view('client.home.index');
     });
+
+    Route::get('/login', [AccountGoogleController::class, 'viewLogin'])->name('login');
+
+    Route::get('/register', [AccountGoogleController::class, 'create'])->name('account.index');
+    Route::post('/register', [AccountGoogleController::class, 'store'])->name('store');
+   
+    Route::get('/account', [AccountGoogleController::class, 'index'])->name('account.index');
+
+    Route::get('auth/google', [AccountGoogleController::class, 'redirectToGoogle'])->name('login-by-google');
+    Route::get('auth/google/callback', [AccountGoogleController::class, 'handleGoogleCallback']);
+    Route::get('/logout', [AccountGoogleController::class, 'logout'])->name('logout');
+
+    
 });
 
 // viết các route admin vào đây
