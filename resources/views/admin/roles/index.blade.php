@@ -4,7 +4,6 @@
 @section('content')
 
 <div class="table-responsive table-centered">
-   <a href="{{route('users.create')}}"> <button class="btn btn-outline-secondary">Add</button></a>
     <table class="table mb-0">
         <thead class="bg-light bg-opacity-50">
             <tr>
@@ -15,34 +14,32 @@
                     Name
                 </th>
                 <th>
-                    User Name
+                    description
                 </th>
                 <th>
-                    Avatar
+                    created_at
                 </th>
                 <th>
-                    Action
+                    updated_at
+                </th>
+                <th>
+                    action
                 </th>
             </tr>
         </thead>
         <!-- end thead-->
         <tbody>
-        @foreach($data as $user)
-            <tr>
-                <td>{{ $user->id }}</td>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->username }}</td>
-                <td>
-                    @if($user->avatar)
-                        <img src="{{ Storage::url($user->avatar) }}" alt="Avatar" style="width: 200px; height: 130px;">
-                    @else
-                        <span>Không có</span>
-                    @endif
-                </td>
-                <!-- <td>{{ $user->email_verified_at ? 'Đã xác thực' : 'Chưa xác thực' }}</td>
-                <td>{{ $user->is_active ? 'Hoạt động' : 'Không hoạt động' }}</td> -->
-                <td>
-                <script>
+            @foreach($roles as $role)
+                <tr>
+                    <td>{{ $role->id }}</td>
+                    <td>{{ $role->name }}</td>
+                    <td>{{ $role->description }}</td>
+                    <td>{{ $role->created_at }}</td>
+                    <td>{{ $role->updated_at }}</td>
+                    <td>
+                        <a href="{{route('roles.edit', $role->id)}}"><button class="btn btn"
+                                style="background-color: orange;">Update</button></a>
+                        <script>
                             // Hàm để xác nhận xóa
                             function confirmDelete(event) {
                                 if (!confirm('Bạn có chắc chắn muốn xóa role này?')) {
@@ -50,14 +47,14 @@
                                 }
                             }
                         </script>
-                        <form action="{{route('users.destroy', $user->id)}}" method="post">
+                        <form action="{{route('roles.destroy', $role->id)}}" method="post">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" onclick="confirmDelete(event)" class="btn btn-outline-secondary w-50" >Delete</button>
+                            <button type="submit" onclick="confirmDelete(event)" class="btn" style="background-color:crimson; color:white;">Delete</button>
                         </form>
-                    <a href="{{Route('users.show',  $user->id)}}"><button class="btn btn-outline-secondary w-50">Detail</button></a>
-                </td>
-            </tr>
+                    </td>
+
+                </tr>
             @endforeach
         </tbody>
         <!-- end tbody -->

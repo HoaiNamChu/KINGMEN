@@ -232,13 +232,10 @@
                     <ul class="nav sub-navbar-nav">
                         <ul class="nav sub-navbar-nav">
                             <li class="sub-nav-item">
-                                <a class="sub-nav-link" href="role-list.html">List</a>
+                                <a class="sub-nav-link" href="{{ route('roles.index') }}">List</a>
                             </li>
                             <li class="sub-nav-item">
-                                <a class="sub-nav-link" href="role-edit.html">Edit</a>
-                            </li>
-                            <li class="sub-nav-item">
-                                <a class="sub-nav-link" href="role-add.html">Create</a>
+                                <a class="sub-nav-link" href="{{ route('roles.create') }}">Create</a>
                             </li>
                         </ul>
                     </ul>
