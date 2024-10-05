@@ -44,7 +44,7 @@
             </div>
 
             <div class="col-xl-9 col-lg-8 ">
-                <form action="{{ route('categories.store') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('admin.categories.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card">
                         <div class="card-header">
@@ -124,7 +124,7 @@
                                 <button type="submit" class="btn btn-outline-secondary w-100">Save Change</button>
                             </div>
                             <div class="col-lg-2">
-                                <a href="{{ route('categories.create') }}" class="btn btn-primary w-100">Cancel</a>
+                                <a href="{{ route('admin.categories.create') }}" class="btn btn-primary w-100">Cancel</a>
                             </div>
                         </div>
                     </div>
