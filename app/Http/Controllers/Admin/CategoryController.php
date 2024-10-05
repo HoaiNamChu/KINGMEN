@@ -18,7 +18,8 @@ class CategoryController extends Controller
     const PATH_UPLOAD = 'categories';
     public function index()
     {
-        return view(self::PATH_VIEW . __FUNCTION__);
+        $categories = Category::all();
+        return view(self::PATH_VIEW . __FUNCTION__, compact('categories'));
     }
 
     /**
@@ -38,17 +39,17 @@ class CategoryController extends Controller
             'name' => request('name'),
             'parent_id' => request('parent_id'),
             'description' => request('description'),
+            'is_active' => request('is_active'),
         ];
         $data['slug'] = Str::slug($data['name']);
-        $data['image'] ??= null;
-        $data['is_active'] = request('is_active') ? 1 : 0;
         if (request()->hasFile('image')) {
             $data['image'] = Storage::put(self::PATH_UPLOAD, request()->file('image'));
         }
+        $data['image'] ??= null;
 
         try {
             Category::query()->create($data);
-            return redirect()->route('categories.index');
+            return redirect()->route('admin.categories.index');
         }catch (\Exception $exception){
             if ($data['image'] && Storage::exists($data['image'])){
                 Storage::delete($data['image']);
@@ -71,7 +72,8 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        return view(self::PATH_VIEW . __FUNCTION__);
+        $category = Category::query()->findOrFail($id);
+        return view(self::PATH_VIEW . __FUNCTION__, compact('category'));
     }
 
     /**
@@ -79,7 +81,32 @@ class CategoryController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $category = Category::query()->findOrFail($id);
+        $oldImage = $category->image;
+        $data = [
+            'name' => request('name'),
+            'parent_id' => request('parent_id'),
+            'description' => request('description'),
+            'slug' => Str::slug(request('slug')),
+            'is_active' => request('is_active')
+        ];
+        if ($request->hasFile('image')) {
+            $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
+        }
+        $data['image'] ??= $category->image;
+        try {
+            $category->update($data);
+            if ($data['image'] != $oldImage && $oldImage && Storage::exists($oldImage)) {
+                Storage::delete($oldImage);
+            }
+            return redirect()->route('admin.categories.edit',$category);
+        }catch (\Exception $exception){
+            if ($data['image'] != $oldImage && Storage::exists($data['image'])) {
+                Storage::delete($data['image']);
+            }
+            DB::rollBack();
+            return redirect()->back()->withErrors([$exception->getMessage()]);
+        }
     }
 
     /**
@@ -87,6 +114,16 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $category = Category::query()->findOrFail($id);
+        try {
+            $category->delete();
+            if ($category->image && Storage::exists($category->image)){
+                Storage::delete($category->image);
+            }
+            return redirect()->route('admin.categories.index');
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return redirect()->back();
+        }
     }
 }
