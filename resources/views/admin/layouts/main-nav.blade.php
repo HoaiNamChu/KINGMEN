@@ -2,13 +2,13 @@
     <!-- Sidebar Logo -->
     <div class="logo-box">
         <a href="index-2.html" class="logo-dark">
-            <img src="assets/images/logo-sm.png" class="logo-sm" alt="logo sm">
-            <img src="assets/images/logo-dark.png" class="logo-lg" alt="logo dark">
+            <img src="{{ asset('theme/admin/assets/images/logo-sm.png') }}" class="logo-sm" alt="logo sm">
+            <img src="{{ asset('theme/admin/assets/images/logo-dark.png') }}" class="logo-lg" alt="logo dark">
         </a>
 
         <a href="index-2.html" class="logo-light">
-            <img src="assets/images/logo-sm.png" class="logo-sm" alt="logo sm">
-            <img src="assets/images/logo-light.png" class="logo-lg" alt="logo light">
+            <img src="{{ asset('theme/admin/assets/images/logo-sm.png') }}" class="logo-sm" alt="logo sm">
+            <img src="{{ asset('theme/admin/assets/images/logo-light.png') }}" class="logo-lg" alt="logo light">
         </a>
     </div>
 
@@ -23,7 +23,7 @@
             <li class="menu-title">General</li>
 
             <li class="nav-item">
-                <a class="nav-link" href="index-2.html">
+                <a class="nav-link" href="{{ route('admin.dashboard') }}">
                                    <span class="nav-icon">
                                         <iconify-icon icon="solar:widget-5-bold-duotone"></iconify-icon>
                                    </span>
@@ -91,13 +91,10 @@
                 <div class="collapse" id="sidebarCategory">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="category-list.html">List</a>
+                            <a class="sub-nav-link" href="{{ route('admin.categories.index') }}">List</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="category-edit.html">Edit</a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="category-add.html">Create</a>
+                            <a class="sub-nav-link" href="{{ route('admin.categories.create') }}">Create</a>
                         </li>
                     </ul>
                 </div>

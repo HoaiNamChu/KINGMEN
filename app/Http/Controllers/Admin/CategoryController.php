@@ -1,0 +1,129 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+
+class CategoryController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    const PATH_VIEW = 'admin.categories.';
+    const PATH_UPLOAD = 'categories';
+    public function index()
+    {
+        $categories = Category::all();
+        return view(self::PATH_VIEW . __FUNCTION__, compact('categories'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view(self::PATH_VIEW . __FUNCTION__);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $data = [
+            'name' => request('name'),
+            'parent_id' => request('parent_id'),
+            'description' => request('description'),
+            'is_active' => request('is_active'),
+        ];
+        $data['slug'] = Str::slug($data['name']);
+        if (request()->hasFile('image')) {
+            $data['image'] = Storage::put(self::PATH_UPLOAD, request()->file('image'));
+        }
+        $data['image'] ??= null;
+
+        try {
+            Category::query()->create($data);
+            return redirect()->route('admin.categories.index');
+        }catch (\Exception $exception){
+            if ($data['image'] && Storage::exists($data['image'])){
+                Storage::delete($data['image']);
+            }
+            DB::rollBack();
+            return redirect()->back();
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        return view(self::PATH_VIEW . __FUNCTION__);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $category = Category::query()->findOrFail($id);
+        return view(self::PATH_VIEW . __FUNCTION__, compact('category'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $category = Category::query()->findOrFail($id);
+        $oldImage = $category->image;
+        $data = [
+            'name' => request('name'),
+            'parent_id' => request('parent_id'),
+            'description' => request('description'),
+            'slug' => Str::slug(request('slug')),
+            'is_active' => request('is_active')
+        ];
+        if ($request->hasFile('image')) {
+            $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
+        }
+        $data['image'] ??= $category->image;
+        try {
+            $category->update($data);
+            if ($data['image'] != $oldImage && $oldImage && Storage::exists($oldImage)) {
+                Storage::delete($oldImage);
+            }
+            return redirect()->route('admin.categories.edit',$category);
+        }catch (\Exception $exception){
+            if ($data['image'] != $oldImage && Storage::exists($data['image'])) {
+                Storage::delete($data['image']);
+            }
+            DB::rollBack();
+            return redirect()->back()->withErrors([$exception->getMessage()]);
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $category = Category::query()->findOrFail($id);
+        try {
+            $category->delete();
+            if ($category->image && Storage::exists($category->image)){
+                Storage::delete($category->image);
+            }
+            return redirect()->route('admin.categories.index');
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return redirect()->back();
+        }
+    }
+}
