@@ -6,11 +6,11 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    <form action="{{ route('admin.attributes.update', $attribute) }}" method="post">
+                    <form action="{{ route('admin.attributeValues.update', $attributeValue) }}" method="post">
                         @csrf
                         @method('PUT')
                         <div class="card-header">
-                            <h4 class="card-title">Update Attribute</h4>
+                            <h4 class="card-title">Update Attribute Value</h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -18,30 +18,15 @@
                                     <div class="mb-3">
                                         <label for="variant-name" class="form-label text-dark">Attribute
                                             Variant</label>
-                                        <input type="text" id="variant-name" value="{{ $attribute->name }}" name="name"
+                                        <input type="text" id="variant-name" value="{{ $attributeValue->name }}" name="name"
                                                class="form-control"
                                                placeholder="Enter Name">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label for="choices-text-unique-values" class="form-label text-dark">Attribute
-                                            Value</label>
-                                        <input class="form-control" id="choices-text-unique-values"
-                                               name="attribute_value" data-choices
-                                               data-choices-text-unique-true type="text"
-                                               @if($attribute->attributeValues)
-                                                   value="@foreach($attribute->attributeValues as $item)
-                                                         {{ $item->name }},
-                                                     @endforeach"
-                                            @endif
-                                        />
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
                                         <label for="variant-slug" class="form-label text-dark">Slug</label>
-                                        <input type="text" id="variant-slug" value="{{ $attribute->slug }}" name="slug"
+                                        <input type="text" id="variant-slug" value="{{ $attributeValue->slug }}" name="slug"
                                                class="form-control"
                                                placeholder="Enter Slug">
                                     </div>
@@ -52,7 +37,7 @@
                                         <textarea class="form-control bg-light-subtle" name="description"
                                                   id="description"
                                                   rows="7"
-                                                  placeholder="Type description">{{ $attribute->description }}</textarea>
+                                                  placeholder="Type description">{{ $attributeValue->description }}</textarea>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -60,14 +45,14 @@
                                     <div class="d-flex gap-2 align-items-center">
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" value="1" name="is_active"
-                                                   id="is_active1" @checked($attribute->is_active)>
+                                                   id="is_active1" @checked($attributeValue->is_active)>
                                             <label class="form-check-label" for="is_active1">
                                                 Active
                                             </label>
                                         </div>
                                         <div class="form-check">
                                             <input class="form-check-input" type="radio" value="0" name="is_active"
-                                                   id="is_active2" @checked(!$attribute->is_active)>
+                                                   id="is_active2" @checked(!$attributeValue->is_active)>
                                             <label class="form-check-label" for="is_active2">
                                                 In Active
                                             </label>

@@ -42,13 +42,13 @@ class AttributeController extends Controller
         ];
         if (request('slug')) {
             $dataAttribute['slug'] = \Illuminate\Support\Str::slug(request('slug'));
-        }else{
+        } else {
             $dataAttribute['slug'] = \Illuminate\Support\Str::slug(request('name'));
         }
 
         $attributeValue = explode(',', request('attribute_value'));
 
-        if ($attributeValue){
+        if ($attributeValue) {
             foreach (array_filter($attributeValue) as $value) {
                 $dataAttributeValue[] = [
                     'name' => $value,
@@ -70,7 +70,7 @@ class AttributeController extends Controller
                 ]);
             }
             return redirect()->route('admin.attributes.index');
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->with('error', $exception->getMessage());
         }
@@ -98,7 +98,46 @@ class AttributeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        dd($request->all());
+        $attribute = Attribute::query()->findOrFail($id);
+
+        $dataAttribute = [
+            'name' => request('name'),
+            'description' => request('description'),
+            'is_active' => request('is_active'),
+        ];
+        if (request('slug')) {
+            $dataAttribute['slug'] = \Illuminate\Support\Str::slug(request('slug'));
+        } else {
+            $dataAttribute['slug'] = \Illuminate\Support\Str::slug(request('name'));
+        }
+//        $attributeValue = explode(',', request('attribute_value'));
+//
+//        if ($attributeValue) {
+//            foreach (array_filter($attributeValue) as $value) {
+//                $dataAttributeValue[] = [
+//                    'name' => $value,
+//                    'slug' => \Illuminate\Support\Str::slug($value),
+//                    'description' => null,
+//                    'is_active' => 1,
+//                ];
+//            }
+//        }
+        try {
+            $attribute->update($dataAttribute);
+//            foreach ($dataAttributeValue as $value) {
+//                $attribute->attributeValues()->create([
+//                    'attribute_id' => $attribute->id,
+//                    'name' => $value['name'],
+//                    'slug' => $value['slug'],
+//                    'description' => $value['description'],
+//                    'is_active' => $value['is_active'],
+//                ]);
+//            }
+            return redirect()->route('admin.attributes.edit', $attribute);
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
     }
 
     /**
@@ -111,7 +150,7 @@ class AttributeController extends Controller
             $attribute->attributeValues()->delete();
             $attribute->delete();
             return redirect()->route('admin.attributes.index');
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->with('error', $exception->getMessage());
         }

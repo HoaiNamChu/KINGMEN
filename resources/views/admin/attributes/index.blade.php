@@ -57,7 +57,7 @@
                                             <td>{{ $item->name }}</td>
                                             <td>
                                                 @foreach($item->attributeValues as $value)
-                                                    <a href="">{{ $value->name }}</a>,
+                                                    <a href="{{ route('admin.attributeValues.edit', $value) }}">{{ $value->name }}</a>,
                                                 @endforeach
                                             </td>
                                             <td>{{ $item->created_at }}</td>
