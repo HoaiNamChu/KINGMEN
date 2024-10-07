@@ -3,6 +3,9 @@
 
 @section('content')
 
+
+@if(in_array(1, $userRoles)) <!-- Role ID 1 cho admin -->
+ 
 <div class="table-responsive table-centered">
     <table class="table mb-0">
         <thead class="bg-light bg-opacity-50">
@@ -61,6 +64,15 @@
     </table>
     <!-- end table -->
 </div>
+@endif
+
+@if(in_array(2, $userRoles)) <!-- Role ID 2 cho nhân viên -->
+    <h3>Tài Khoản không được truy cập</h3>
+@endif
+@if(in_array(3, $userRoles)) <!-- Role ID 3 cho người dùng -->
+    <h3>Tài Khoản không được truy cập</h3>
+@endif
+
 
 @endsection
 

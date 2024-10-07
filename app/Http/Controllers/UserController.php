@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
@@ -17,8 +18,16 @@ class UserController extends Controller
     // Hiển thị danh sách người dùng
     public function index()
     {
-        $data = User::query()->get();
-        return view('admin.users.index', compact('data'));
+        $userId = 5; // Thay thế bằng ID của người dùng hiện tại, khi có chức năng đăng nhập lấy id từ tài khoản đăng nhập
+        $userRoles = DB::table('role_user')->where('user_id', $userId)->pluck('role_id')->toArray();
+
+        if (in_array(1, $userRoles)) {
+            # code...
+            $data = User::query()->get();
+        return view('admin.users.index', compact('data','userRoles'));
+          }
+        //   trỏ lại vào trang trước đó với thông báo lỗi
+          return back()->with('error', 'Bạn không có quyền truy cập vào trang này.');
        
     }
 
@@ -30,20 +39,8 @@ class UserController extends Controller
     }
 
     // Lưu dữ liệu user mới
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-         // Validate dữ liệu đầu vào
-        // $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'username' => 'required|string|max:255|unique:users,username',
-        //     'email' => 'required|string|email|max:255|unique:users,email',
-        //     'password' => 'required|string|min:3',
-        //     'phone' => 'required|string|max:15',
-        //     'address' => 'required|string|max:255',
-        //     'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Avatar là ảnh
-        //     'is_active' => 'required',
-        //     'role' => 'required|exists:roles,id',
-        // ]);
 
          // Upload avatar nếu có
          $avatarPath = null;
@@ -83,18 +80,8 @@ class UserController extends Controller
     }
 
     // Cập nhật thông tin user
-    public function update(Request $request, User $user)
+    public function update(request $request, User $user)
     {
-        // $request->validate([
-        //     'name' => 'required|string|max:255',
-        //     'username' => 'required|string|max:255|unique:users,username,' . $user->id,
-        //     'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
-        //     'phone' => 'required|string|max:20|unique:users,phone,' . $user->id,
-        //     'address' => 'required|string|max:255',
-        //     'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        //     'password' => 'nullable|string|min:8|confirmed',
-        //     'roles' => 'required|array',
-        // ]);
 
         // Xử lý avatar nếu có upload
         if ($request->hasFile('avatar')) {

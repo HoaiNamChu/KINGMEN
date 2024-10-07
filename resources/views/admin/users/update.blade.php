@@ -18,6 +18,16 @@
                         <div class="card-header">
                             <h4 class="card-title">Update User</h4>
                         </div>
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="card-body">
                             <div class="row">
                                 <form action="{{ route('users.update', $user->id) }}" method="post"
@@ -145,8 +155,8 @@
                                         <div class="form-check form-switch">
                                             <label for="is_active">Status</label>
                                             <input class="form-check-input" type="checkbox" role="switch"
-                                                id="flexSwitchCheckChecked1" id="is_active" name="is_active"
-                                                value="1" {{ $user->is_active ? 'checked' : '' }}>
+                                                id="flexSwitchCheckChecked1" id="is_active" name="is_active" value="1"
+                                                {{ $user->is_active ? 'checked' : '' }}>
                                             <label for="is_active">
                                                 {{ $user->is_active ? 'Active' : 'Inactive' }}
                                             </label>
@@ -177,7 +187,7 @@
                                                     User</button>
                                             </div>
                                             <div class="col-lg-2">
-                                                <a href="{{route('users.show',$user->id)}}"
+                                                <a href="{{route('users.show', $user->id)}}"
                                                     class="btn btn-secondary w-100">Cancel</a>
                                             </div>
                                         </div>

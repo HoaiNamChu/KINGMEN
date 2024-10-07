@@ -18,6 +18,17 @@
                         <div class="card-header">
                             <h4 class="card-title">Add User</h4>
                         </div>
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+
                         <div class="card-body">
                             <div class="row">
                                 <form action="{{route('users.store')}}" method="post" enctype="multipart/form-data">
@@ -81,7 +92,7 @@
 
                                         <div class="mb-3">
                                             <label for="brand-link" class="form-label">Password</label>
-                                            <input name="password" type="password"  class="form-control"
+                                            <input name="password" type="password" class="form-control"
                                                 placeholder="****">
                                         </div>
 
@@ -95,7 +106,7 @@
                                             <span class="input-group-text fs-20"><iconify-icon
                                                     icon="solar:point-on-map-bold-duotone"
                                                     class="fs-18"></iconify-icon></span>
-                                            <input name="address" type="text"class="form-control"
+                                            <input name="address" type="text" class="form-control"
                                                 placeholder="Add Address">
                                         </div>
 
@@ -107,7 +118,7 @@
                                             <span class="input-group-text fs-20"><iconify-icon
                                                     icon="solar:letter-bold-duotone"
                                                     class="fs-18"></iconify-icon></span>
-                                            <input name="email" type="email"class="form-control"
+                                            <input name="email" type="email" class="form-control"
                                                 placeholder="Add Email">
                                         </div>
 
@@ -119,14 +130,15 @@
                                             <span class="input-group-text fs-20"><iconify-icon
                                                     icon="solar:outgoing-call-rounded-bold-duotone"
                                                     class="fs-20"></iconify-icon></span>
-                                            <input name="phone" type="number"  class="form-control"
+                                            <input name="phone" type="number" class="form-control"
                                                 placeholder="Phone number">
                                         </div>
 
                                         <div class="col-lg-6">
                                             <label for="is_active">User Status:</label>
                                             <select class="form-control" data-choices data-choices-groups
-                                                data-placeholder="Select Categories" id="is_active" name="is_active" required>
+                                                data-placeholder="Select Categories" id="is_active" name="is_active"
+                                                required>
                                                 <option value="1" {{ old('is_active') == 1 ? 'selected' : '' }}>Active
                                                 </option>
                                                 <option value="0" {{ old('is_active') == 0 ? 'selected' : '' }}>Inactive

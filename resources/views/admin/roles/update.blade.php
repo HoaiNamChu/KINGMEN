@@ -52,6 +52,21 @@
                                                 placeholder="Type description" required>{{$role->description}}</textarea>
                                         </div>
                                     </div>
+                                    <br>
+                                    <div class="form-check form-switch">
+                                            <label for="is_active">Status</label>
+                                            <input type="hidden" name="is_active" value="0">
+                                        <!-- Trường ẩn: input type="hidden" với giá trị 0 sẽ được gửi khi biểu mẫu được gửi đi, bất kể checkbox có được chọn hay không.
+                                        Checkbox: Nếu checkbox được chọn, giá trị 1 sẽ được gửi, và giá trị 0 từ trường ẩn sẽ bị ghi đè. -->
+
+                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                id="flexSwitchCheckChecked1" id="is_active" name="is_active" value="1"
+                                                {{ $role->is_active ? 'checked' : '' }}>
+                                            <label for="is_active">
+                                                {{ $role->is_active ? 'Active' : 'Inactive' }}
+                                            </label>
+                                        </div>
+
                                         <br>
                                     <div class="p-3 bg-light mb-3 rounded">
                                         <div class="row justify-content-end g-2">
