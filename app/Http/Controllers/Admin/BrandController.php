@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Brands\StoreBrandRequest;
+use App\Http\Requests\Admin\Brands\UpdateBrandRequest;
 use App\Models\Brand;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +21,7 @@ class BrandController extends Controller
 
     public function index()
     {
-        $brands = Brand::all();
+        $brands = Brand::query()->with('products')->latest()->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('brands'));
     }
 
@@ -34,7 +36,7 @@ class BrandController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBrandRequest $request)
     {
         $data = [
             'name' => request('name'),
@@ -49,8 +51,8 @@ class BrandController extends Controller
         $data['image'] ??= null;
 
         try {
-            Brand::query()->create($data);
-            return redirect()->route('admin.brands.index');
+            $brand = Brand::query()->create($data);
+            return redirect()->route('admin.brands.edit', $brand)->with('success', 'Created brand successfully');
         }catch (\Exception $exception){
             if ($data['image'] && Storage::exists($data['image'])) {
                 Storage::delete($data['image']);
@@ -63,7 +65,7 @@ class BrandController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Brand $brand)
     {
         return view(self::PATH_VIEW . __FUNCTION__);
     }
@@ -71,25 +73,29 @@ class BrandController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Brand $brand)
     {
-        $brand = Brand::query()->findOrFail($id);
+//        $brand = Brand::query()->findOrFail($brand);
         return view(self::PATH_VIEW . __FUNCTION__, compact('brand'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateBrandRequest $request, Brand $brand)
     {
-        $brand = Brand::query()->findOrFail($id);
+//        $brand = Brand::query()->findOrFail($brand);
         $oldImage = $brand->image;
         $data = [
             'name' => request('name'),
             'description' => request('description'),
-            'slug' => Str::slug(request('slug')),
             'is_active' => request('is_active')
         ];
+        if (request('slug')) {
+            $data['slug'] = Str::slug(request('slug'));
+        }else{
+            $data['slug'] = Str::slug(request('name'));
+        }
         if ($request->hasFile('image')) {
             $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
         }
@@ -99,7 +105,7 @@ class BrandController extends Controller
             if ($data['image'] != $oldImage && $oldImage && Storage::exists($oldImage)) {
                 Storage::delete($oldImage);
             }
-            return redirect()->route('admin.brands.edit',$brand);
+            return redirect()->route('admin.brands.edit',$brand)->with('success', 'Updated brand successfully');
         }catch (\Exception $exception){
             if ($data['image'] != $oldImage && Storage::exists($data['image'])) {
                 Storage::delete($data['image']);
@@ -112,9 +118,9 @@ class BrandController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Brand $brand)
     {
-        $brand = Brand::query()->findOrFail($id);
+//        $brand = Brand::query()->findOrFail($brand);
         try {
             $brand->delete();
             if ($brand->image && Storage::exists($brand->image)){

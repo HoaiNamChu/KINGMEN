@@ -1,5 +1,4 @@
 @extends('admin.layouts.main')
-
 @section('content')
     <div class="container-xxl">
 
@@ -16,14 +15,24 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="brands-name" class="form-label">Brand Name</label>
-                                        <input type="text" id="brands-name" name="name" class="form-control"
+                                        <input type="text" id="brands-name" value="{{ old('name') }}" name="name" class="form-control"
                                                placeholder="Brand name">
+                                        <span class="error-notification">
+                                            @error('name')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="brand-image" class="form-label">Brand Thumbnail</label>
                                         <input type="file" id="brand-image" name="image" class="form-control">
+                                        <span class="error-notification">
+                                        @error('image')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -32,7 +41,12 @@
                                         <textarea class="form-control bg-light-subtle" name="description"
                                                   id="description"
                                                   rows="7"
-                                                  placeholder="Type description"></textarea>
+                                                  placeholder="Type description">{{ old('description') }}</textarea>
+                                        <span class="error-notification">
+                                        @error('description')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -52,10 +66,14 @@
                                                 In Active
                                             </label>
                                         </div>
+                                        <span class="error-notification">
+                                        @error('is_active')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <div class="card-footer border-top">
                             <button type="submit" class="btn btn-primary">Create Brand</button>

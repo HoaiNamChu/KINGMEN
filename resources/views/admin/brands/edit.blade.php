@@ -31,7 +31,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-xl-9 col-lg-8 ">
                 <form action="{{ route('admin.brands.update', $brand) }}" method="post" enctype="multipart/form-data">
                     @csrf
@@ -60,6 +59,11 @@
                                         <label for="brand-name" class="form-label">Brand Name</label>
                                         <input type="text" id="brand-name" name="name" class="form-control"
                                                placeholder="Enter Title" value="{{ $brand->name }}">
+                                        <span class="error-notification">
+                                            @error('name')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -67,6 +71,11 @@
                                         <label for="brand-slug" class="form-label">Slug</label>
                                         <input type="text" id="brand-slug" name="slug" class="form-control"
                                                placeholder="Slug" value="{{ $brand->slug }}">
+                                        <span class="error-notification">
+                                            @error('slug')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -75,6 +84,11 @@
                                         <textarea class="form-control bg-light-subtle" id="description" name="description"
                                                   rows="7"
                                                   placeholder="Type description">{{ $brand->description }}</textarea>
+                                        <span class="error-notification">
+                                            @error('description')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -94,6 +108,11 @@
                                                 In Active
                                             </label>
                                         </div>
+                                        <span class="error-notification">
+                                            @error('is_active')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -105,13 +124,31 @@
                                 <button type="submit" class="btn btn-outline-secondary w-100">Save Change</button>
                             </div>
                             <div class="col-lg-2">
-                                <a href="{{ route('admin.brands.edit', $brand) }}" class="btn btn-primary w-100">Cancel</a>
+                                <a href="{{ route('admin.brands.index') }}" class="btn btn-primary w-100">Cancel</a>
                             </div>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-
     </div>
+@endsection
+@section('lib-script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+@endsection
+@section('script')
+    <script>
+        @if (session('success'))
+        Swal.fire({
+            title: 'Good job!',
+            text: '{{ session('success') }}',
+            icon: 'success',
+            showCancelButton: false,
+            confirmButtonClass: 'btn btn-primary w-xs me-2 mt-2',
+            cancelButtonClass: 'btn btn-danger w-xs mt-2',
+            buttonsStyling: false,
+            showCloseButton: true
+        })
+        @endif
+    </script>
 @endsection
