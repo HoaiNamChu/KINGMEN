@@ -203,7 +203,7 @@
                                 <div class="product-action">
                                     <a class="btn-product-wishlist" href="shop-wishlist.html"><i
                                             class="fa fa-heart"></i></a>
-                                    <a class="btn-product-cart" href="shop-cart.html"><i
+                                    <a class="btn-product-cart" href="{{route('route_shopcart')}}"><i
                                             class="fa fa-shopping-cart"></i></a>
                                     <button type="button" class="btn-product-quick-view-open">
                                         <i class="fa fa-arrows"></i>
@@ -244,7 +244,7 @@
                                 <div class="product-action">
                                     <a class="btn-product-wishlist" href="shop-wishlist.html"><i
                                             class="fa fa-heart"></i></a>
-                                    <a class="btn-product-cart" href="shop-cart.html"><i
+                                    <a class="btn-product-cart" href="{{route('route_shopcart')}}"><i
                                             class="fa fa-shopping-cart"></i></a>
                                     <button type="button" class="btn-product-quick-view-open">
                                         <i class="fa fa-arrows"></i>
@@ -288,7 +288,7 @@
                                 <div class="product-action">
                                     <a class="btn-product-wishlist" href="shop-wishlist.html"><i
                                             class="fa fa-heart"></i></a>
-                                    <a class="btn-product-cart" href="shop-cart.html"><i
+                                    <a class="btn-product-cart" href="{{route('route_shopcart')}}"><i
                                             class="fa fa-shopping-cart"></i></a>
                                     <button type="button" class="btn-product-quick-view-open">
                                         <i class="fa fa-arrows"></i>
@@ -329,7 +329,7 @@
                                 <div class="product-action">
                                     <a class="btn-product-wishlist" href="shop-wishlist.html"><i
                                             class="fa fa-heart"></i></a>
-                                    <a class="btn-product-cart" href="shop-cart.html"><i
+                                    <a class="btn-product-cart" href="{{route('route_shopcart')}}"><i
                                             class="fa fa-shopping-cart"></i></a>
                                     <button type="button" class="btn-product-quick-view-open">
                                         <i class="fa fa-arrows"></i>
@@ -368,7 +368,7 @@
                                 <div class="product-action">
                                     <a class="btn-product-wishlist" href="shop-wishlist.html"><i
                                             class="fa fa-heart"></i></a>
-                                    <a class="btn-product-cart" href="shop-cart.html"><i
+                                    <a class="btn-product-cart" href="{{route('route_shopcart')}}"><i
                                             class="fa fa-shopping-cart"></i></a>
                                     <button type="button" class="btn-product-quick-view-open">
                                         <i class="fa fa-arrows"></i>
