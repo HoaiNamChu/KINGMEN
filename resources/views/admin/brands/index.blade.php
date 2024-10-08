@@ -124,7 +124,7 @@
                                         </td>
                                         <td>{{ $item->slug }}</td>
                                         <td>{{ $item->id }}</td>
-                                        <td>100</td>
+                                        <td>{{ count($item->products) }}</td>
                                         <td>
                                             @if($item->is_active)
                                                 <span class="badge bg-success rounded-pill me-1">Active</span>
@@ -135,7 +135,7 @@
                                         <td>{{ $item->created_at }}</td>
                                         <td>
                                             <div class="d-flex gap-2">
-                                                <a href="#!" class="btn btn-light btn-sm">
+                                                <a href="{{ route('admin.brands.show', $item) }}" class="btn btn-light btn-sm">
                                                     <iconify-icon icon="solar:eye-broken"
                                                                   class="align-middle fs-18"></iconify-icon>
                                                 </a>
@@ -146,7 +146,7 @@
                                                 <form action="{{ route('admin.brands.destroy', $item) }}" method="post">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-soft-danger btn-sm">
+                                                    <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-soft-danger btn-sm">
                                                         <iconify-icon icon="solar:trash-bin-minimalistic-2-broken"
                                                                       class="align-middle fs-18"></iconify-icon>
                                                     </button>
