@@ -23,7 +23,7 @@
 
     <!-- App css (Require in all Page) -->
     <link href="{{ asset('theme/admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css"/>
-    //để thêm link của trang đó hoặc là thêm nếu cần
+{{--    để thêm link của trang đó hoặc là thêm nếu cần--}}
     @yield('links')
     <!-- Theme Config js (Require in all Page) -->
     <script src="{{ asset('theme/admin/assets/js/config.js') }}"></script>
@@ -76,9 +76,9 @@
 <script src="{{ asset('theme/admin/assets/js/app.js') }}"></script>
 
 
-// js dành cho trang dó thôi
+{{--// js dành cho trang dó thôi--}}
 @yield('lib-script')
-// js tự viết hoặc thêm (nếu có)
+{{--// js tự viết hoặc thêm (nếu có)--}}
 @yield('script')
 
 </body>

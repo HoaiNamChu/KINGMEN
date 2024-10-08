@@ -53,7 +53,7 @@
                             <a href="javascript:void(0);" class="dropdown-item py-3 border-bottom text-wrap">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <img src="assets/images/users/avatar-1.jpg"
+                                        <img src="{{ asset('theme/admin/assets/images/users/avatar-1.jpg') }}"
                                              class="img-fluid me-2 avatar-sm rounded-circle" alt="avatar-1"/>
                                     </div>
                                     <div class="flex-grow-1">
@@ -86,7 +86,7 @@
                             <a href="javascript:void(0);" class="dropdown-item py-3 border-bottom">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <img src="assets/images/users/avatar-3.jpg"
+                                        <img src="{{ asset('theme/admin/assets/images/users/avatar-3.jpg') }}"
                                              class="img-fluid me-2 avatar-sm rounded-circle" alt="avatar-3"/>
                                     </div>
                                     <div class="flex-grow-1">
@@ -119,7 +119,7 @@
                             <a href="javascript:void(0);" class="dropdown-item py-3 border-bottom">
                                 <div class="d-flex">
                                     <div class="flex-shrink-0">
-                                        <img src="assets/images/users/avatar-5.jpg"
+                                        <img src="{{ asset('theme/admin/assets/images/users/avatar-5.jpg') }}"
                                              class="img-fluid me-2 avatar-sm rounded-circle" alt="avatar-5"/>
                                     </div>
                                     <div class="flex-grow-1">
@@ -161,7 +161,7 @@
                        aria-haspopup="true" aria-expanded="false">
                                         <span class="d-flex align-items-center">
                                              <img class="rounded-circle" width="32"
-                                                  src="assets/images/users/avatar-1.jpg" alt="avatar-3">
+                                                  src="{{ asset('theme/admin/assets/images/users/avatar-1.jpg') }}" alt="avatar-3">
                                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
