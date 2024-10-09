@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BrandController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
@@ -24,7 +25,9 @@ Route::prefix('/')->group(function () {
 });
 
 // viết các route admin vào đây
-Route::prefix('/admin')->group(function () {
+Route::prefix('/admin')
+    ->as('admin.')
+    ->group(function () {
     Route::get('/', function () {
          // Giả sử bạn có cách lấy ID người dùng từ session hoặc Auth
          $userId = 3; // Lấy ID người dùng từ session hoặc Auth
@@ -42,4 +45,5 @@ Route::prefix('/admin')->group(function () {
 
     Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
+    Route::resource('brands', BrandController::class);
 });
