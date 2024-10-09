@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 // viết các route client ở đây
 Route::prefix('/')->group(function () {
-    Route::get('/', function () {
-        return view('client.home.index');
-    });
+    Route::get('/', [CartController::class, 'index']);
+    Route::get('list-cart', [CartController::class, 'listcart'])->name('listcart');
 });
 
 // viết các route admin vào đây
