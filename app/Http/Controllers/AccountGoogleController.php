@@ -19,29 +19,40 @@ class AccountGoogleController extends Controller
     }
 
     public function handleGoogleCallback()
-    {
-        try {
-            $user = Socialite::driver('google')->user();     
-            $finduser = User::where('google_id', $user->google_id)->first();
-         
-            if($finduser){
-                Auth::login($finduser);        
-                return redirect()->intended('/');         
-            }else{
-                $newUser = User::updateOrCreate(['email' => $user->email],[
-                        'name' => $user->name,
-                        'google_id'=> $user->id,
-                        'password' => encrypt('12345678')
-                    ]);
-         
-                Auth::login($newUser);       
-                return redirect()->intended('/');
-            }        
-            } catch (Exception $e) {
-            dd($e->getMessage());
-        }
+{
+    try {
+        // Lấy thông tin người dùng từ Google thông qua Socialite
+        $user = Socialite::driver('google')->user();     
 
+        // Tìm người dùng trong cơ sở dữ liệu dựa trên email của họ
+        $finduser = User::where('email', $user->email)->first();
+
+        // Nếu người dùng đã tồn tại và google_id của họ không rỗng
+        if($finduser && !empty($finduser->google_id)){
+            // Đăng nhập người dùng
+            Auth::login($finduser);
+            return redirect()->intended('/');  // Chuyển hướng đến trang chủ (hoặc trang mong muốn)
+        } else if($finduser && empty($finduser->google_id)){
+            // Nếu google_id rỗng, không đăng nhập
+            return redirect()->back()->with('error', 'This account is not linked with Google. Please use another login method.');
+        } else {
+            // Nếu người dùng chưa tồn tại, tạo người dùng mới với thông tin từ Google
+            $newUser = User::updateOrCreate(['email' => $user->email], [
+                'name' => $user->name,
+                'google_id'=> $user->id,
+                'password' => encrypt('12345678')  // Mật khẩu mặc định
+            ]);
+
+            // Đăng nhập người dùng mới
+            Auth::login($newUser);
+            return redirect()->intended('/');
+        }        
+    } catch (Exception $e) {
+        // Nếu xảy ra lỗi, hiển thị thông báo lỗi (debugging)
+        dd($e->getMessage());
     }
+}
+
 
     // logout
     public function logout(Request $request)
@@ -119,23 +130,26 @@ class AccountGoogleController extends Controller
         return view('client.home.account.login'); 
     }
 
-    // public function login(Request $request)
-    // {
-    //     // Xác thực dữ liệu đầu vào
-    //     $request->validate([
-    //         'email' => 'required|email',
-    //         'password' => 'required',
-    //     ]);
+    public function login(Request $request)
+    {
+        // Validate input
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|email',
+            'password' => 'required|string|min:6',
+        ]);
 
-    //     // Kiểm tra thông tin đăng nhập
-    //     if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-    //         // Đăng nhập thành công, chuyển hướng đến trang mong muốn
-    //         return redirect()->intended('/')->with('success', 'Đăng nhập thành công!');
-    //     }
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
 
-    //     // Đăng nhập thất bại, quay lại với thông báo lỗi
-    //     return redirect()->back()->withErrors(['email' => 'Thông tin đăng nhập không chính xác.'])->withInput();
-    // }
+        $credentials = $request->only('username', 'password');
+
+        if (Auth::attempt(['email' => $credentials['username'], 'password' => $credentials['password']], $request->has('remember'))) {
+            return redirect()->intended('/'); // Change 'dashboard' to your desired route after login
+        }
+
+        return redirect()->back()->with('error', 'Invalid credentials.');
+    }
 
     /**
      * Display the specified resource.

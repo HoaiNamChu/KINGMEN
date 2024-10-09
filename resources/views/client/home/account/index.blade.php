@@ -142,20 +142,6 @@
 
                         <form action="#">
                           @if(Auth::check()) <!-- Kiểm tra nếu người dùng đã đăng nhập -->
-                              <div class="row">
-                                  <div class="col-lg-6">
-                                      <div class="single-input-item">
-                                          <label for="first-name" class="required">First Name</label>
-                                          <input type="text" id="first-name" value="{{ $userData->name }}" /> <!-- Hiển thị tên người dùng -->
-                                      </div>
-                                  </div>
-                                  <div class="col-lg-6">
-                                      <div class="single-input-item">
-                                          <label for="last-name" class="required">Last Name</label>
-                                          <input type="text" id="last-name" value="{{ $userData->last_name ?? '' }}"  /> <!-- Hiển thị họ người dùng, nếu có -->
-                                      </div>
-                                  </div>
-                              </div>
                               <div class="single-input-item">
                                   <label for="display-name" class="required">Display Name</label>
                                   <input type="text" id="display-name" value="{{ $userData->name }}" readonly /> <!-- Hiển thị tên hiển thị -->

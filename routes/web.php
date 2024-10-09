@@ -23,6 +23,7 @@ Route::prefix('/')->group(function () {
     });
 
     Route::get('/login', [AccountGoogleController::class, 'viewLogin'])->name('login');
+    Route::post('login', [AccountGoogleController::class, 'login'])->name('login.submit');
 
     Route::get('/register', [AccountGoogleController::class, 'create'])->name('account.index');
     Route::post('/register', [AccountGoogleController::class, 'store'])->name('store');

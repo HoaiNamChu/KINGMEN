@@ -20,8 +20,8 @@
           <div class="col-12">
             <div class="login-form-content">
 
-              <form action="#">
-
+              <form action="#{{ route('login.submit') }}" method="POST">
+              @csrf
                 <div class="row">
                   <div class="col-12">
                     <div class="form-group">
