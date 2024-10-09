@@ -25,12 +25,8 @@ class User extends Authenticatable
         'phone',
         'address',
         'avatar',
-<<<<<<< HEAD
         'is_active',
         'google_id'
-=======
-        'is_active'
->>>>>>> d17a51d63ad1223aa572ebff2767f844dd72150f
     ];
 
     /**
@@ -71,13 +67,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(ProductRating::class);
     }
-<<<<<<< HEAD
-=======
 
     public function cart()
     {
         return $this->hasOne(Cart::class);
     }
 
->>>>>>> d17a51d63ad1223aa572ebff2767f844dd72150f
 }

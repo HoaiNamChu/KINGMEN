@@ -2,15 +2,6 @@
     <!-- Sidebar Logo -->
     <div class="logo-box">
         <a href="index-2.html" class="logo-dark">
-<<<<<<< HEAD
-            <img src="assets/images/logo-sm.png" class="logo-sm" alt="logo sm">
-            <img src="assets/images/logo-dark.png" class="logo-lg" alt="logo dark">
-        </a>
-
-        <a href="index-2.html" class="logo-light">
-            <img src="assets/images/logo-sm.png" class="logo-sm" alt="logo sm">
-            <img src="assets/images/logo-light.png" class="logo-lg" alt="logo light">
-=======
             <img src="{{ asset('theme/admin/assets/images/logo-sm.png') }}" class="logo-sm" alt="logo sm">
             <img src="{{ asset('theme/admin/assets/images/logo-dark.png') }}" class="logo-lg" alt="logo dark">
         </a>
@@ -18,7 +9,6 @@
         <a href="index-2.html" class="logo-light">
             <img src="{{ asset('theme/admin/assets/images/logo-sm.png') }}" class="logo-sm" alt="logo sm">
             <img src="{{ asset('theme/admin/assets/images/logo-light.png') }}" class="logo-lg" alt="logo light">
->>>>>>> d17a51d63ad1223aa572ebff2767f844dd72150f
         </a>
     </div>
 
@@ -71,8 +61,6 @@
             </li>
 
             <li class="nav-item">
-<<<<<<< HEAD
-=======
                 <a class="nav-link menu-arrow" href="#sidebarBrand" data-bs-toggle="collapse" role="button"
                    aria-expanded="false" aria-controls="sidebarBrand">
                                    <span class="nav-icon">
@@ -93,7 +81,6 @@
             </li>
 
             <li class="nav-item">
->>>>>>> d17a51d63ad1223aa572ebff2767f844dd72150f
                 <a class="nav-link menu-arrow" href="#sidebarCategory" data-bs-toggle="collapse" role="button"
                    aria-expanded="false" aria-controls="sidebarCategory">
                                    <span class="nav-icon">

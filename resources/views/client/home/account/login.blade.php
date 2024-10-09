@@ -19,27 +19,40 @@
         <div class="row">
           <div class="col-12">
             <div class="login-form-content">
-
-              <form action="#{{ route('login.submit') }}" method="POST">
+              <form action="{{ route('login.submit') }}" method="POST">
               @csrf
                 <div class="row">
                   <div class="col-12">
                     <div class="form-group">
-                      <label for="username">Username or email address <span class="required">*</span></label>
-                      <input id="username" class="form-control" type="email">
+                        <label for="email">Email address <span class="required">*</span></label>
+                        <input id="username" name="email" class="form-control" type="email" value="{{ old('email') }}">
+                        @if($errors->has('email'))
+                            <span class="text-danger">{{ $errors->first('email') }}</span>
+                        @endif
                     </div>
                   </div>
                   <div class="col-12">
                     <div class="form-group">
-                      <label for="password">Password <span class="required">*</span></label>
-                      <input id="password" class="form-control" type="password">
+                        <label for="password">Password <span class="required">*</span></label>
+                        <input id="password" name="password" class="form-control" type="password">
+                        @if($errors->has('password'))
+                            <span class="text-danger">{{ $errors->first('password') }}</span>
+                        @endif
                     </div>
                   </div>
+                  <!-- Hiển thị thông báo lỗi nếu thông tin đăng nhập không đúng -->
+                  @if($errors->has('login_error'))
+                    <div class="col-12">
+                      <div class="alert alert-danger">
+                        {{ $errors->first('login_error') }}
+                      </div>
+                    </div>
+                  @endif
                   <div class="col-12">
                     <div class="form-group mb--0">
                       <div class="form-group mb--0">
                         <button type="submit" class="btn-login">Login</button>
-                    </div>
+                      </div>
                     </div>
                     <div class="text-center">Hoặc</div>
                     

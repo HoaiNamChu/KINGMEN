@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Exception;
 use App\Models\User;
+use Illuminate\Console\View\Components\Alert;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+
+use function Laravel\Prompts\alert;
 
 class AccountGoogleController extends Controller
 {
@@ -132,24 +135,31 @@ class AccountGoogleController extends Controller
 
     public function login(Request $request)
     {
-        // Validate input
+        // Xác thực input
         $validator = Validator::make($request->all(), [
-            'username' => 'required|email',
-            'password' => 'required|string|min:6',
+            'email' => 'required|email', // Kiểm tra email hợp lệ
+            'password' => 'required|string|min:6', // Mật khẩu ít nhất 6 ký tự
         ]);
 
+        // Nếu xác thực thất bại
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $credentials = $request->only('username', 'password');
+        // Lấy thông tin đăng nhập từ form
+        $user = $request->only('email', 'password');
 
-        if (Auth::attempt(['email' => $credentials['username'], 'password' => $credentials['password']], $request->has('remember'))) {
-            return redirect()->intended('/'); // Change 'dashboard' to your desired route after login
+        // Kiểm tra thông tin đăng nhập
+        if (Auth::attempt(['email' => $user['email'], 'password' => $user['password']], $request->has('remember'))) {
+            // Nếu đúng, chuyển hướng đến trang mong muốn sau khi đăng nhập
+            return redirect()->intended('/');
         }
 
-        return redirect()->back()->with('error', 'Invalid credentials.');
+        // Nếu thông tin sai, quay lại với thông báo lỗi
+        return redirect()->back()->withErrors(['login_error' => 'The provided user are incorrect.'])->withInput();
     }
+
+
 
     /**
      * Display the specified resource.

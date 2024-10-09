@@ -144,43 +144,58 @@
                           @if(Auth::check()) <!-- Kiểm tra nếu người dùng đã đăng nhập -->
                               <div class="single-input-item">
                                   <label for="display-name" class="required">Display Name</label>
-                                  <input type="text" id="display-name" value="{{ $userData->name }}" readonly /> <!-- Hiển thị tên hiển thị -->
+                                  <input type="text" id="display-name" value="{{ Auth::user()->name }}" readonly /> <!-- Hiển thị tên hiển thị -->
                               </div>
+                      
                               <div class="single-input-item">
                                   <label for="email" class="required">Email Address</label>
-                                  <input type="email" id="email" value="{{ $userData->email }}" readonly /> <!-- Hiển thị email người dùng -->
+                                  <input type="email" id="email" value="{{ Auth::user()->email }}" readonly /> <!-- Hiển thị email người dùng -->
                               </div>
-                              <fieldset>
-                                  <legend>Password change</legend>
+                      
+                              @php
+                                  // Kiểm tra người dùng đã đăng nhập bằng Google hay không
+                                  $finduser = Auth::user();
+                              @endphp
+                      
+                              @if(!empty($finduser->google_id)) <!-- Kiểm tra nếu người dùng đăng nhập bằng Google -->
+                                <div class="text-center">
+                                  <div class="col-md-12">
+                                    <img src="https://img.icons8.com/color/16/000000/google-logo.png"> Google account
+                                  </div>
+                                </div>
+                              @else
+                                  <fieldset>
+                                      <legend>Password change</legend>
+                                      <div class="single-input-item">
+                                          <label for="current-pwd" class="required">Current Password</label>
+                                          <input type="password" id="current-pwd" placeholder="Enter current password" value="{{ Auth::user()->password }}" />
+                                      </div>
+                                      <div class="row">
+                                          <div class="col-lg-6">
+                                              <div class="single-input-item">
+                                                  <label for="new-pwd" class="required">New Password</label>
+                                                  <input type="password" id="new-pwd" placeholder="Enter new password" />
+                                              </div>
+                                          </div>
+                                          <div class="col-lg-6">
+                                              <div class="single-input-item">
+                                                  <label for="confirm-pwd" class="required">Confirm Password</label>
+                                                  <input type="password" id="confirm-pwd" placeholder="Confirm new password" />
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </fieldset>
                                   <div class="single-input-item">
-                                      <label for="current-pwd" class="required">Current Password</label>
-                                      <input type="password" id="current-pwd" value="{{ $userData->password }}" /> 
-                                  </div>
-                                  <div class="row">
-                                      <div class="col-lg-6">
-                                          <div class="single-input-item">
-                                              <label for="new-pwd" class="required">New Password</label>
-                                              <input type="password" id="new-pwd" />
-                                          </div>
-                                      </div>
-                                      <div class="col-lg-6">
-                                          <div class="single-input-item">
-                                              <label for="confirm-pwd" class="required">Confirm Password</label>
-                                              <input type="password" id="confirm-pwd" />
-                                          </div>
-                                      </div>
-                                  </div>
-                              </fieldset>
-                              <div class="single-input-item">
-                                  <button class="check-btn sqr-btn">Save Changes</button>
-                              </div>
+                                    <button class="check-btn sqr-btn">Save Changes</button>
+                                </div>
+                              @endif
+                      
+                              
                           @else
                               <p>Bạn cần đăng nhập để xem thông tin tài khoản.</p> <!-- Thông báo nếu chưa đăng nhập -->
                           @endif
                       </form>
                       
-                      
-
                       </div>
                     </div>
                   </div>

@@ -17,7 +17,6 @@
                                                 123 456 789</a></li>
                                         <li class="email"><i class="fa fa-envelope"></i><a
                                                 href="mailto://demo@example.com">demo@example.com</a></li>
-<<<<<<< HEAD
 
                                             @if(Auth::check()) 
                                                 <li class="account"><i class="fa fa-user"></i><a href="/account">Account : {{ Auth::user()->name }}</a></li>
@@ -26,10 +25,6 @@
                                                 <li class="account"><i class="fa fa-user"></i><a href="/login">Account</a></li>
                                             @endif                                            
 
-=======
-                                        <li class="account"><i class="fa fa-user"></i><a href="account-login.html">Account</a>
-                                        </li>
->>>>>>> d17a51d63ad1223aa572ebff2767f844dd72150f
                                     </ul>
                                 </div>
                             </div>
