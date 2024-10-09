@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BrandController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,8 +23,11 @@ Route::prefix('/')->group(function () {
 });
 
 // viết các route admin vào đây
-Route::prefix('/admin')->group(function () {
+Route::prefix('/admin')
+    ->as('admin.')
+    ->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard.index');
     });
+    Route::resource('brands', BrandController::class);
 });
