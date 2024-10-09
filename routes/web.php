@@ -1,8 +1,13 @@
 <?php
 
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountGoogleController;
 
+=======
+use App\Http\Controllers\Admin\BrandController;
+use Illuminate\Support\Facades\Route;
+>>>>>>> d17a51d63ad1223aa572ebff2767f844dd72150f
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +26,7 @@ Route::prefix('/')->group(function () {
     Route::get('/', function () {
         return view('client.home.index');
     });
+<<<<<<< HEAD
 
     Route::get('/login', [AccountGoogleController::class, 'viewLogin'])->name('login');
     Route::post('login', [AccountGoogleController::class, 'login'])->name('login.submit');
@@ -42,4 +48,16 @@ Route::prefix('/admin')->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard.index');
     });
+=======
+});
+
+// viết các route admin vào đây
+Route::prefix('/admin')
+    ->as('admin.')
+    ->group(function () {
+    Route::get('/', function () {
+        return view('admin.dashboard.index');
+    });
+    Route::resource('brands', BrandController::class);
+>>>>>>> d17a51d63ad1223aa572ebff2767f844dd72150f
 });

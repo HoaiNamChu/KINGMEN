@@ -23,8 +23,14 @@
 
     <!-- App css (Require in all Page) -->
     <link href="{{ asset('theme/admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css"/>
+<<<<<<< HEAD
     //để thêm link của trang đó hoặc là thêm nếu cần
     @yield('links')
+=======
+{{--    để thêm link của trang đó hoặc là thêm nếu cần--}}
+    @yield('links')
+    @yield('styles')
+>>>>>>> d17a51d63ad1223aa572ebff2767f844dd72150f
     <!-- Theme Config js (Require in all Page) -->
     <script src="{{ asset('theme/admin/assets/js/config.js') }}"></script>
 </head>
@@ -76,9 +82,15 @@
 <script src="{{ asset('theme/admin/assets/js/app.js') }}"></script>
 
 
+<<<<<<< HEAD
 // js dành cho trang dó thôi
 @yield('lib-script')
 // js tự viết hoặc thêm (nếu có)
+=======
+{{--// js dành cho trang dó thôi--}}
+@yield('lib-script')
+{{--// js tự viết hoặc thêm (nếu có)--}}
+>>>>>>> d17a51d63ad1223aa572ebff2767f844dd72150f
 @yield('script')
 
 </body>

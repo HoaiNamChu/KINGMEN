@@ -31,6 +31,7 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+<<<<<<< HEAD
     'google' => [
 
         'client_id' => '287307522473-qqmbkl8mcus4dmo4m48md4e14jum6rot.apps.googleusercontent.com',
@@ -42,3 +43,6 @@ return [
     ],
 
 ];  
+=======
+];
+>>>>>>> d17a51d63ad1223aa572ebff2767f844dd72150f
