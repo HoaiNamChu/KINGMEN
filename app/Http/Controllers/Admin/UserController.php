@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\Admin\Users\UserRequest;
+use App\Http\Controllers\Controller;
 
 class UserController extends Controller
 {
@@ -38,8 +39,7 @@ class UserController extends Controller
         return view('admin.users.add', compact('roles'));
     }
 
-    // Lưu dữ liệu user mới
-    public function store(UserRequest $request)
+        public function store(UserRequest $request)
     {
 
          // Upload avatar nếu có
@@ -63,7 +63,7 @@ class UserController extends Controller
     $user->roles()->attach($request->role); // Sử dụng bảng role_users
 
           // Chuyển hướng về trang danh sách users với thông báo thành công
-          return redirect()->route('users.create')->with('success', 'User đã được tạo thành công!');
+          return redirect()->route('admin.users.index')->with('success', 'User đã được tạo thành công!');
     }
 
     // Hiển thị thông tin một user cụ thể
@@ -106,13 +106,13 @@ class UserController extends Controller
         // Cập nhật quyền (roles)
         $user->roles()->sync($request->roles); // Đồng bộ roles
 
-        return redirect()->route('users.index')->with('success', 'User updated successfully.');
+        return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
 
     // Xóa user
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect()->route('users.index')->with('success', 'User deleted successfully');
+        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully');
     }
 }

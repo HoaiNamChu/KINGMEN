@@ -19,18 +19,18 @@
                             <p class="mb-0">{{$user->username}}</p>
                         </div>
                         <div class="d-flex align-items-center gap-2 my-2 my-lg-0">
-                            <a href="#" class="btn btn-info">
+                            <button class="btn btn-info">
                             <!-- list danh sach user co cung role tai day -->
-                                <p>
-                                    <ul style="text-decoration: none; list-style: none; ">
+                            
+                                    
                                         @foreach($user->roles as $role)
-                                            <li>{{ $role->name }}</li>
+                                            {{ $role->name }}
                                         @endforeach
-                                    </ul>
+                                    
                                 
-                                </p>
-                            </a>
-                            <a href="{{route('users.index')}}" class="btn btn-outline-primary"></i> Cance</a>
+                            
+                            </button>
+                            <a href="{{route('admin.users.index')}}" class="btn btn-outline-primary"></i> Cance</a>
                             <div class="dropdown">
                                 <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown"
                                     aria-expanded="false">
@@ -48,13 +48,13 @@
                                     </script>
                                     <!-- item-->
 
-                                    <a href="{{route('users.destroy', $user->id)}}" class="dropdown-item"
+                                    <a href="{{route('admin.users.destroy', $user->id)}}" class="dropdown-item"
                                         onclick="confirmDelete(event)">Delete</a>
                                     <!-- item-->
                                     <!-- <a href="#" class="dropdown-item">Created at </a> -->
                                     <!-- item-->
 
-                                    <a href="{{route('users.edit', $user->id)}}" class="dropdown-item">Updated</a>
+                                    <a href="{{route('admin.users.edit', $user->id)}}" class="dropdown-item">Updated</a>
                                 </div>
                             </div>
                         </div>

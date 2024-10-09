@@ -232,7 +232,7 @@
             <li class="menu-title mt-2">Users</li>
 
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('users.index') }}">
+                <a class="nav-link" href="{{ route('admin.users.index') }}">
                                    <span class="nav-icon">
                                         <iconify-icon icon="solar:chat-square-like-bold-duotone"></iconify-icon>
                                    </span>
@@ -252,10 +252,10 @@
                     <ul class="nav sub-navbar-nav">
                         <ul class="nav sub-navbar-nav">
                             <li class="sub-nav-item">
-                                <a class="sub-nav-link" href="{{ route('roles.index') }}">List</a>
+                                <a class="sub-nav-link" href="{{ route('admin.roles.index') }}">List</a>
                             </li>
                             <li class="sub-nav-item">
-                                <a class="sub-nav-link" href="{{ route('roles.create') }}">Create</a>
+                                <a class="sub-nav-link" href="{{ route('admin.roles.create') }}">Create</a>
                             </li>
                         </ul>
                     </ul>

@@ -43,7 +43,7 @@
 
                         <div class="card-body">
                             <div class="row">
-                                <form action="{{route('roles.store')}}" method="post" enctype="multipart/form-data">
+                                <form action="{{route('admin.roles.store')}}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="col-lg-12">
 
@@ -76,13 +76,11 @@
                                     <br>
                                     <div class="p-3 bg-light mb-3 rounded">
                                         <div class="row justify-content-end g-2">
-                                            <div class="col-lg-2">
-                                                <button type="submit" class="btn btn-outline-secondary w-100">Save
-                                                    Change</button>
+                                            <div class="col-lg-3">
+                                            <button type="submit" class="btn btn-primary w-100">Save Change</button>
                                             </div>
                                             <div class="col-lg-2">
-                                                <a href="{{route('roles.index')}}"
-                                                    class="btn btn-primary w-100">Cancel</a>
+                                                <a href="{{route('admin.roles.index')}}" class="btn btn-outline-secondary w-100">Cancel</a>
                                             </div>
                                         </div>
                                     </div>

@@ -30,7 +30,7 @@
                         @endif
                         <div class="card-body">
                             <div class="row">
-                                <form action="{{ route('users.update', $user->id) }}" method="post"
+                                <form action="{{ route('admin.users.update', $user->id) }}" method="post"
                                     enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT')
@@ -187,7 +187,7 @@
                                                     User</button>
                                             </div>
                                             <div class="col-lg-2">
-                                                <a href="{{route('users.show', $user->id)}}"
+                                                <a href="{{route('admin.users.show', $user->id)}}"
                                                     class="btn btn-secondary w-100">Cancel</a>
                                             </div>
                                         </div>

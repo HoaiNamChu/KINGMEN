@@ -7,222 +7,154 @@
 
 <div class="wrapper">
 
-    <div class="page-content">
+    <!-- <div class="page-content"> -->
 
-        <div class="container-xxl">
 
-            <div class="row">
-                <div class="col-xl-9 col-lg-8 ">
+    <div class="container-xxl">
 
+        <div class="row">
+            <div class="col-lg-12">
+                <form action="{{route('admin.users.store')}}" method="post" enctype="multipart/form-data">
+                    @csrf
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Add User</h4>
                         </div>
-
-                        @if ($errors->any())
-                            <div class="alert alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        @endif
-
                         <div class="card-body">
                             <div class="row">
-                                <form action="{{route('users.store')}}" method="post" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h4 class="card-title">Add Image User</h4>
-                                        </div>
-                                        <div class="card-body">
-                                            <!-- File Upload -->
-
-
-                                            <div class="dz-message needsclick">
-                                                <input type="file" name="avatar">
-                                                <!-- chỉnh lại css cho phù hợp -->
-                                                <i class="bx bx-cloud-upload fs-48 text-primary"></i>
-                                                <h3 class="mt-4">Drop your images here, or <span
-                                                        class="text-primary">click to browse</span></h3>
-                                                <span class="text-muted fs-13">
-                                                    1600 x 1200 (4:3) recommended. PNG, JPG and GIF files are
-                                                    allowed
-                                                </span>
-
-                                            </div>
-                                            <hr>
-
-                                        </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="User-name" class="form-label">Name</label>
+                                        <input type="text" value="{{ old('name') }}" name="name"
+                                            class="form-control" placeholder="Enter Name">
+                                        <span class="error-notification">
+                                            @error('name')
+                                                {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
-                                    <div class="col-lg-12">
-
-                                        <div class="mb-3">
-                                            <label for="brand-title" class="form-label">Name</label>
-                                            <input name="name" type="text" class="form-control"
-                                                placeholder="Enter Name">
-                                        </div>
-
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="User-name" class="form-label"> User Name</label>
+                                        <input type="text"  value="{{ old('username') }}" name="username"
+                                            class="form-control" placeholder="User name">
+                                        <span class="error-notification">
+                                            @error('username')
+                                                {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
-                                    <div class="col-lg-12">
+                                </div>
+                                <div class="col-lg-6">
 
-                                        <div class="mb-3">
-                                            <label for="brand-title" class="form-label">User Name</label>
-                                            <input name="username" type="text" class="form-control"
-                                                placeholder="Enter User Name">
-                                        </div>
+                                    <label for="product-categories" class="form-label">Role User</label>
+                                    <select class="form-control" data-choices data-choices-groups
+                                        data-placeholder="Select Categories" name="role[]" required>
+                                        @foreach($roles as $role)
+                                            <option value="{{ $role->id }}">{{ $role->name }}</option>
+                                        @endforeach
+                                    </select>
 
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="brand-image" class="form-label">User Thumbnail</label>
+                                        <input type="file" name="avatar" class="form-control">
+                                        <span class="error-notification">
+                                            @error('avatar')
+                                                {{ $message }}
+                                            @enderror
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="User-name" class="form-label">Password</label>
+                                        <input type="text"  value="{{ old('password') }}" name="password"
+                                            class="form-control" placeholder="Enter Password">
+                                        <span class="error-notification">
+                                            @error('password')
+                                                {{ $message }}
+                                            @enderror
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+
+                                    <label for="seller-location" class="form-label">Location</label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text fs-20"><iconify-icon
+                                                icon="solar:point-on-map-bold-duotone"
+                                                class="fs-18"></iconify-icon></span>
+                                        <input name="address" type="text" class="form-control"
+                                            placeholder="Add Address" value="{{ old('address') }}">
                                     </div>
 
-                                    <div class="col-lg-12">
-
-                                        <label for="product-categories" class="form-label">Role User</label>
-                                        <select class="form-control" data-choices data-choices-groups
-                                            data-placeholder="Select Categories" name="role" required>
-                                            @foreach($roles as $role)
-                                                <option value="{{ $role->id }}">{{ $role->name }}</option>
-                                            @endforeach
-                                        </select>
-
+                                </div>
+                                <div class="col-lg-12">
+                                    <label for="seller-email" class="form-label">Email</label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text fs-20"><iconify-icon
+                                                icon="solar:letter-bold-duotone" class="fs-18"></iconify-icon></span>
+                                        <input name="email" type="email" class="form-control" value="{{ old(key: 'email') }}" placeholder="Add Email">
+                                        <span class="error-notification">
+                                            @error('email')
+                                                {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
-                                    <br>
-                                    <div class="col-lg-12">
 
-                                        <div class="mb-3">
-                                            <label for="brand-link" class="form-label">Password</label>
-                                            <input name="password" type="password" class="form-control"
-                                                placeholder="****">
-                                        </div>
-
-
+                                </div>
+                                <div class="col-lg-12">
+                                    <label for="seller-number" class="form-label">Phone Number</label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text fs-20"><iconify-icon
+                                                icon="solar:outgoing-call-rounded-bold-duotone"
+                                                class="fs-20"></iconify-icon></span>
+                                        <input name="phone" type="text" class="form-control"
+                                            placeholder="Phone number" value="{{ old('phone') }}">
+                                        <span class="error-notification">
+                                            @error('phone')
+                                                {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
-                                    <br>
-                                    <div class="col-lg-12">
+                                </div>
+ 
+                                <div class="col-lg-6">
+                                    <div class="form-check form-switch">
+                                        <label for="is_active">Status</label>
+                                        <input type="hidden" name="is_active" value="0" value="{{ old(key: 'is_active') }}">
+                                        <!-- Trường ẩn: input type="hidden" với giá trị 0 sẽ được gửi khi biểu mẫu được gửi đi, bất kể checkbox có được chọn hay không.
+                                        Checkbox: Nếu checkbox được chọn, giá trị 1 sẽ được gửi, và giá trị 0 từ trường ẩn sẽ bị ghi đè. -->
 
-                                        <label for="seller-location" class="form-label">Location</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text fs-20"><iconify-icon
-                                                    icon="solar:point-on-map-bold-duotone"
-                                                    class="fs-18"></iconify-icon></span>
-                                            <input name="address" type="text" class="form-control"
-                                                placeholder="Add Address">
-                                        </div>
-
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                            id="flexSwitchCheckChecked1" name="is_active" value="1">
                                     </div>
-                                    <div class="col-lg-12">
-
-                                        <label for="seller-email" class="form-label">Email</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text fs-20"><iconify-icon
-                                                    icon="solar:letter-bold-duotone"
-                                                    class="fs-18"></iconify-icon></span>
-                                            <input name="email" type="email" class="form-control"
-                                                placeholder="Add Email">
-                                        </div>
-
-                                    </div>
-                                    <div class="col-lg-12">
-
-                                        <label for="seller-number" class="form-label">Phone Number</label>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text fs-20"><iconify-icon
-                                                    icon="solar:outgoing-call-rounded-bold-duotone"
-                                                    class="fs-20"></iconify-icon></span>
-                                            <input name="phone" type="number" class="form-control"
-                                                placeholder="Phone number">
-                                        </div>
-
-                                        <div class="col-lg-6">
-                                            <label for="is_active">User Status:</label>
-                                            <select class="form-control" data-choices data-choices-groups
-                                                data-placeholder="Select Categories" id="is_active" name="is_active"
-                                                required>
-                                                <option value="1" {{ old('is_active') == 1 ? 'selected' : '' }}>Active
-                                                </option>
-                                                <option value="0" {{ old('is_active') == 0 ? 'selected' : '' }}>Inactive
-                                                </option>
-                                            </select>
-                                        </div>
-
-                                    </div>
-                                    <!-- <div class="col-lg-12">
-                                        <label for="customRange1" class="form-label">Yearly Revenue</label>
-                                        <div id="product-price-range" [data-slider-size="md" ] class=""></div>
-                                        <div class="formCost row mt-2">
-                                            <div class="col-lg-12">
-                                                <input name="" class="form-control form-control-sm text-center"
-                                                    type="text" id="minCost" value="0">
-                                            </div>
-
-                                            <div class="col-lg-12">
-                                                <input name="" class="form-control form-control-sm text-center"
-                                                    type="text" id="maxCost" value="1000">
-                                            </div>
-                                        </div>
-                                    </div> -->
-                                    <br>
-
-                                    <div class="p-3 bg-light mb-3 rounded">
-                                        <div class="row justify-content-end g-2">
-                                            <div class="col-lg-2">
-                                                <button type="submit" class="btn btn-outline-primary w-100">Create
-                                                    User</button>
-                                            </div>
-                                            <div class="col-lg-2">
-                                                <a href="{{route('users.index')}}"
-                                                    class="btn btn-secondary w-100">Cancel</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
+                                </div>
                             </div>
+                        </div>
+                        <div class="card-footer border-top">
+                            <div class="col-lg-6">
+                               <button type="submit" class="btn btn-primary">Create User</button>
+                            </div>
+
                         </div>
                     </div>
-                    <!-- <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title">Seller Product Information</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-4">
-
-                                    <div class="mb-3">
-                                        <label for="items-stock" class="form-label">Items Stock</label>
-                                        <input name="" type="number" id="items-stock" class="form-control"
-                                            placeholder="000">
-                                    </div>
-
-                                </div>
-                                <div class="col-lg-4">
-
-                                    <div class="mb-3">
-                                        <label for="items-sells" class="form-label">Product Sells</label>
-                                        <input name="" type="number" id="items-sells" class="form-control"
-                                            placeholder="000">
-                                    </div>
-
-                                </div>
-                                <div class="col-lg-4">
-
-                                    <div class="mb-3">
-                                        <label for="happy-client" class="form-label">Happy Client</label>
-                                        <input name="" type="number" id="happy-client" class="form-control"
-                                            placeholder="000">
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-
-                </div>
+                </form>
             </div>
 
 
+
+            <div class="col-lg-6">
+                <a href="{{route('admin.users.index')}}"><button class="btn btn-secondary">Cance</button></a>
+            </div>
+
         </div>
     </div>
+
+
 </div>
 @endsection
 

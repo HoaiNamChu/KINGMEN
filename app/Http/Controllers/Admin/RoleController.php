@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\Requests\RoleRequest;
+use App\Http\Requests\Admin\Roles\RoleRequest;
+use App\Http\Controllers\Controller;
+
 
 
 
@@ -64,7 +66,7 @@ class RoleController extends Controller
             'description' => $request->description,
             'is_active'=>$request->is_active,
         ]);
-        return redirect()->route('roles.index')->with('success', 'Role được tạo thành công!');
+        return redirect()->route('admin.roles.index')->with('success', 'Role được tạo thành công!');
     }
 
     /**
@@ -98,7 +100,7 @@ class RoleController extends Controller
         ]);
 
         // Chuyển hướng về trang danh sách roles với thông báo thành công
-        return redirect()->route('roles.index')->with('success', 'Role đã được cập nhật thành công!');
+        return redirect()->route('admin.roles.index')->with('success', 'Role đã được cập nhật thành công!');
     }
 
     /**
@@ -110,6 +112,6 @@ class RoleController extends Controller
         $role->delete();
 
         // Chuyển hướng về trang danh sách roles với thông báo thành công
-        return redirect()->route('roles.index')->with('success', 'Role đã được xóa thành công!');
+        return redirect()->route('admin.roles.index')->with('success', 'Role đã được xóa thành công!');
     }
 }
