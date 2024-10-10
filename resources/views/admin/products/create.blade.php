@@ -7,226 +7,427 @@
 @section('content')
     <div class="container-xxl">
 
-        <div class="row">
-            <div class="col-xl-9 col-lg-8 ">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Product Information</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="mb-3">
-                                    <label for="product-name" class="form-label">Product Name</label>
-                                    <input type="text" id="product-name" class="form-control"
-                                           placeholder="Items Name">
-                                </div>
-                            </div>
+        <form action="{{ route('admin.products.store') }}" method="post" enctype="multipart/form-data">
+            @csrf
+            <div class="row">
+                <div class="col-xl-9 col-lg-8 ">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Product Information</h4>
                         </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="mb-3">
-                                    <label for="product-sku" class="form-label">Product SKU</label>
-                                    <input type="text" id="product-sku" value="{{ \Illuminate\Support\Str::random(8) }}"
-                                           class="form-control"
-                                           placeholder="SKU">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div>
-                                    <label for="description" class="form-label">Description</label>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
                                     <div class="mb-3">
-                                        <div id="snow-editor"  style="height: 300px;">
+                                        <label for="product-name" class="form-label">Product Name</label>
+                                        <input type="text" id="product-name" name="name" class="form-control"
+                                               placeholder="Items Name">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="product-sku" class="form-label">Product SKU</label>
+                                        <input type="text" id="product-sku" name="sku"
+                                               value="{{ \Illuminate\Support\Str::random(8) }}"
+                                               class="form-control"
+                                               placeholder="SKU">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div>
+                                        <label for="description" class="form-label">Description</label>
+                                        <div class="mb-3">
+                                            <div id="snow-editor" style="height: 300px;">
 
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">Pricing Details</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <form>
-                                    <label for="product-price" class="form-label">Price</label>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text fs-20"><i class='bx bx-dollar'></i></span>
-                                        <input type="number" id="product-price" class="form-control"
-                                               placeholder="000">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Product data
+                                <span>
+                                -
+                                <label for="product-type">
+                                    <select name="product_type" id="product-type">
+                                        <optgroup label="Product Type">
+                                            <option value="simple" selected id="simple">Product simple</option>
+                                            <option value="variable" id="variable">Variable product</option>
+                                        </optgroup>
+                                    </select>
+                                </label>
+                            </span>
+                            </h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <ul class="list-group">
+                                        <li class="list-group-item product-option" id="general">General</li>
+                                        <li class="list-group-item product-option" id="inventory">Inventory</li>
+                                        <li class="list-group-item product-option" id="attributes">Attributes</li>
+                                        <li class="list-group-item product-option" id="variations">Variations</li>
+                                    </ul>
+                                </div>
+                                <!-- end col -->
+                                <div class="col-lg-9">
+                                    <div class="row pt-3 pb-3" id="general-item">
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="price-regular" class="form-label">Regular price</label>
+                                                <input type="text" id="price-regular" value="{{ old('product_price') }}"
+                                                       name="product_price"
+                                                       class="form-control">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="price-sale" class="form-label">Sale price</label>
+                                                <input type="text" id="price-sale"
+                                                       value="{{ old('product_price_sale') }}"
+                                                       name="product_price_sale"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
                                     </div>
-                                </form>
-                            </div>
-                            <div class="col-lg-4">
-                                <form>
-                                    <label for="product-discount" class="form-label">Discount</label>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text fs-20"><i class='bx bxs-discount'></i></span>
-                                        <input type="number" id="product-discount" class="form-control"
-                                               placeholder="000">
+                                    <div class="row pt-3 pb-3" id="inventory-item">
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
+                                                <label for="product-quantity" class="form-label">Quantity</label>
+                                                <input type="text" id="product-quantity"
+                                                       value="{{ old('product_quantity') }}" name="product_quantity"
+                                                       class="form-control">
+                                            </div>
+                                        </div>
                                     </div>
-                                </form>
+                                    <div class="row pt-3 pb-3" id="attributes-item">
+                                        <div>
+                                            <div class="col-lg-6 mb-3 d-inline-block">
+                                                <select id="select-attributes" class="form-select">
+                                                    <option value="">Select attributes</option>
+                                                    @foreach($attributes as $id => $name)
+                                                        <option value="{{ $id }}"
+                                                                id="attribute-option-{{ $id }}">{{ $name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <button type="button" id="add-attribute" class="btn btn-sm btn-primary">Add
+                                                attribute
+                                            </button>
+                                            <hr>
+                                        </div>
+                                        <div>
+                                            <div id="product-attributes">
+
+                                            </div>
+                                            <div>
+                                                <button type="button" class="btn btn-sm btn-primary"
+                                                        id="btn-save-attributes">Save attributes
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="row pt-3 pb-3" id="variations-item">
+
+                                    </div>
+                                </div>
+                                <!--  end col -->
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        Short Description
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div>
-                                    <textarea class="form-control bg-light-subtle" id="short-description" rows="7"
+                    <div class="card">
+                        <div class="card-header">
+                            Short Description
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div>
+                                    <textarea class="form-control bg-light-subtle" name="short_desc"
+                                              id="short-description" rows="7"
                                               placeholder="Short description about the product"></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="p-3 bg-light mb-3 rounded">
-                    <div class="row justify-content-end g-2">
-                        <div class="col-lg-2">
-                            <a href="#!" class="btn btn-outline-secondary w-100">Create Product</a>
+                    <div class="p-3 bg-light mb-3 rounded">
+                        <div class="row justify-content-end g-2">
+                            <div class="col-lg-2">
+                                <button type="submit" class="btn btn-outline-secondary w-100">Create Product</button>
+                            </div>
+                            <div class="col-lg-2">
+                                <a href="{{ route('admin.products.index') }}" class="btn btn-primary w-100">Cancel</a>
+                            </div>
                         </div>
-                        <div class="col-lg-2">
-                            <a href="#!" class="btn btn-primary w-100">Cancel</a>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-lg-4">
+                    <div class="card">
+                        <div class="card-header">
+                            Publish
+                        </div>
+                        <div class="card-body">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" name="is_active" type="checkbox" role="switch"
+                                       id="is-active" checked>
+                                <label class="form-check-label" for="is-active">Is Active</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" name="is_hot" type="checkbox" role="switch" id="is-hot">
+                                <label class="form-check-label" for="is-hot">Is Hot</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" name="is_sale" type="checkbox" role="switch"
+                                       id="is-sale">
+                                <label class="form-check-label" for="is-sale">Is Sale</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" name="is_home" type="checkbox" role="switch"
+                                       id="is-home" checked>
+                                <label class="form-check-label" for="is-home">Is Home</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            Product Image
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div>
+                                        <input type="file" name="image" id="product-image" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            Product Gallery
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div>
+                                        <input type="file" name="galleries[]" id="product-image" multiple
+                                               class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            Product Categories
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <select class="form-control" id="product-categories" data-choices
+                                            data-choices-groups data-placeholder="Select Categories"
+                                            name="category_id">
+                                        <option value="">Choose a categories</option>
+                                        @foreach($categories as $item)
+                                            @php
+                                                $dash = ' ';
+                                            @endphp
+                                            @include('components.admin.categories.create', ['item'=>$item, 'dash' => $dash])
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            Product Brands
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <select class="form-control" id="product-brand" data-choices
+                                            data-choices-groups data-placeholder="Select Brands"
+                                            name="brand_id">
+                                        <option value="">Choose a brand</option>
+                                        @foreach($brands as $id => $name)
+                                            <option value="{{ $id }}">{{ $name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            Tags
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <select class="form-control" id="choices-multiple-remove-button" data-choices
+                                            data-choices-removeItem name="tags[]" multiple>
+                                        @foreach($tags as $id => $name)
+                                            <option value="{{ $id }}">{{ $name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </form>
 
-            <div class="col-xl-3 col-lg-4">
-                <div class="card">
-                    <div class="card-header">
-                        Publish
-                    </div>
-                    <div class="card-body">
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="is-active" checked>
-                            <label class="form-check-label" for="is-active">Is Active</label>
-                        </div>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="is-hot">
-                            <label class="form-check-label" for="is-hot">Is Hot</label>
-                        </div>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="is-sale">
-                            <label class="form-check-label" for="is-sale">Is Sale</label>
-                        </div>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="is-home" checked>
-                            <label class="form-check-label" for="is-home">Is Home</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Product Image
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div>
-                                    <input type="file" id="product-image" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Product Gallery
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div>
-                                    <input type="file" id="product-image" multiple class="form-control">
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Product Categories
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <select class="form-control" id="product-categories" data-choices
-                                        data-choices-groups data-placeholder="Select Categories"
-                                        name="choices-single-groups">
-                                    <option value="">Choose a categories</option>
-                                    @foreach($categories as $item)
-                                        @php
-                                            $dash = ' ';
-                                        @endphp
-                                        @include('components.admin.categories.create', ['item'=>$item, 'dash' => $dash])
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>\
-                <div class="card">
-                    <div class="card-header">
-                        Product Brands
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <select class="form-control" id="product-brand" data-choices
-                                        data-choices-groups data-placeholder="Select Brands"
-                                        name="choices-single-groups">
-                                    <option value="">Choose a brand</option>
-                                    @foreach($brands as $id => $name)
-                                        <option value="{{ $id }}">{{ $name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        Tags
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <select class="form-control" id="choices-multiple-remove-button" data-choices
-                                        data-choices-removeItem name="choices-multiple-remove-button" multiple>
-                                    @foreach($tags as $id => $name)
-                                        <option value="{{ $id }}">{{ $name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    </div>
 @endsection
 
 
 @section('lib-script')
-        <script src="{{ asset('theme/admin/assets/js/components/form-quilljs.js') }}"></script>
+    <script src="{{ asset('theme/admin/assets/js/components/form-quilljs.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 @endsection
 
 @section('script')
+    <script>
 
+
+        $(document).ready(function () {
+
+            $('#product-type').change(function () {
+                var productType = $('#product-type option:selected');
+                if (productType.val() === 'simple') {
+                    $('#variations, #attributes, #inventory-item, #attributes-item, #variations-item').hide();
+                    $('#general, #inventory, #general-item').show();
+                }
+                if (productType.val() === 'variable') {
+                    $('#variations, #attributes, #attributes-item').show();
+                    $('#general, #inventory, #general-item, #inventory-item, #variations-item').hide();
+                }
+            })
+
+            var productType = $('#product-type option:selected');
+            if (productType.val() === 'simple') {
+                $('#variations, #attributes').hide();
+                $('#general, #inventory').show();
+            }
+            if (productType.val() === 'variable') {
+                $('#variations, #attributes').show();
+                $('#general, #inventory').hide();
+            }
+
+            $('#inventory-item, #attributes-item, #variations-item').hide();
+            $('.product-option').click(function () {
+                var selectedId = $(this).attr('id');
+                $('#general-item, #inventory-item, #attributes-item, #variations-item').hide();
+                $('#' + selectedId + '-item').show();
+            });
+
+
+            $('#product-type').change(function () {
+                var productType = $('#product-type option:selected');
+                if (productType.val() === 'simple') {
+                    $('#variations, #attributes').hide();
+                    $('#general, #inventory').show();
+                }
+                if (productType.val() === 'variable') {
+                    $('#variations, #attributes').show();
+                    $('#general, #inventory').hide();
+                }
+            });
+
+
+            $('#add-attribute').click(function () {
+                var attribute = $('#select-attributes option:selected').val();
+                // var productAttributesHtml = ``
+                if (attribute && $('#block-attribute-' + attribute).length === 0) {
+                    $.ajax({
+                        url: `/api/addAttribute/${attribute}`,
+                        type: 'GET',
+                        success: function (response) {
+                            $('#product-attributes').append(response);
+                            $('#attribute-option-' + attribute).prop('selected', false).prop('disabled', true);
+                        },
+                        error: function (xhr, status, error) {
+
+                        }
+                    });
+                }
+
+            });
+
+        });
+        $(document).on('click', '#btn-save-attributes', function () {
+            if ($('#product-attributes').html().trim().length === 0) {
+                console.log('No data');
+            } else {
+                var attributeValueIds = [];
+                var attributeIds = [];
+                $('.block-attributes').each(function () {
+                    var arrId = $(this).attr('id').split('-');
+                    attributeIds.push(arrId[2]);
+                    $('#select-' + arrId[2] + ' option:selected').each(function () {
+                        attributeValueIds.push($(this).val());
+                    });
+                });
+                $('#variations-item').innerHTML = '';
+                $.ajax({
+                    url: '/api/addAttributeValue',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        attributeIds: attributeIds,
+                        attributeValueIds: attributeValueIds
+                    },
+                    success: function (response) {
+                        $('#variations-item').append(response);
+                    },
+                    error: function (response) {
+
+                    }
+                });
+
+            }
+        });
+
+        $(document).on('click', '.btn-remove-variant', function () {
+            var btnId = $(this).attr('id');
+            $('#variant-' + btnId).remove();
+        });
+
+        $(document).on('click', '.btn-remove-attribute', function () {
+            var btnId = $(this).attr('id').split('-');
+            var attributeId = btnId[2]
+            $('#block-attribute-' + attributeId).remove();
+            $('#attribute-option-' + attributeId).prop('disabled', false)
+        });
+
+
+        $(document).on('click', '.btn-selectAll-attribute', function () {
+            var btnId = $(this).attr('id').split('-');
+            var attributeId = btnId[2]
+            $('#select-' + attributeId + ' option').prop('selected', true);
+        });
+
+
+        $(document).on('click', '.btn-selectNone-attribute', function () {
+            var btnId = $(this).attr('id').split('-');
+            var attributeId = btnId[2]
+            console.log(attributeId);
+            $('#select-' + attributeId + ' option').prop('selected', false);
+        });
+
+    </script>
 @endsection

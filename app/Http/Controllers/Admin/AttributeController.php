@@ -69,7 +69,7 @@ class AttributeController extends Controller
                     'is_active' => $value['is_active'],
                 ]);
             }
-            return redirect()->route('admin.attributes.index');
+            return redirect()->route('admin.attributes.edit', $attribute)->with('success', 'Add Attribute Successfully');
         } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->with('error', $exception->getMessage());
@@ -96,10 +96,8 @@ class AttributeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Attribute $attribute)
     {
-        $attribute = Attribute::query()->findOrFail($id);
-
         $dataAttribute = [
             'name' => request('name'),
             'description' => request('description'),
@@ -110,30 +108,10 @@ class AttributeController extends Controller
         } else {
             $dataAttribute['slug'] = \Illuminate\Support\Str::slug(request('name'));
         }
-//        $attributeValue = explode(',', request('attribute_value'));
-//
-//        if ($attributeValue) {
-//            foreach (array_filter($attributeValue) as $value) {
-//                $dataAttributeValue[] = [
-//                    'name' => $value,
-//                    'slug' => \Illuminate\Support\Str::slug($value),
-//                    'description' => null,
-//                    'is_active' => 1,
-//                ];
-//            }
-//        }
         try {
+            $attribute->attributeValues()->whereNot('id',request('attribute_value_id'))->delete();
             $attribute->update($dataAttribute);
-//            foreach ($dataAttributeValue as $value) {
-//                $attribute->attributeValues()->create([
-//                    'attribute_id' => $attribute->id,
-//                    'name' => $value['name'],
-//                    'slug' => $value['slug'],
-//                    'description' => $value['description'],
-//                    'is_active' => $value['is_active'],
-//                ]);
-//            }
-            return redirect()->route('admin.attributes.edit', $attribute);
+            return redirect()->route('admin.attributes.edit', $attribute)->with('success', 'Update Attribute Successfully');
         }catch (\Exception $exception){
             DB::rollBack();
             return redirect()->back()->with('error', $exception->getMessage());
@@ -143,9 +121,8 @@ class AttributeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Attribute $attribute)
     {
-        $attribute = Attribute::query()->findOrFail($id);
         try {
             $attribute->attributeValues()->delete();
             $attribute->delete();

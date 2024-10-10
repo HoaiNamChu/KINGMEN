@@ -1,5 +1,9 @@
 @extends('admin.layouts.main')
 
+@section('link')
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+@endsection
+
 @section('content')
     <div class="container-xxl">
 
@@ -17,10 +21,15 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="variant-name" class="form-label text-dark">Attribute
-                                            Variant</label>
+                                            Value</label>
                                         <input type="text" id="variant-name" value="{{ $attributeValue->name }}" name="name"
                                                class="form-control"
                                                placeholder="Enter Name">
+                                        <span class="error-notification">
+                                            @error('name')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -29,6 +38,11 @@
                                         <input type="text" id="variant-slug" value="{{ $attributeValue->slug }}" name="slug"
                                                class="form-control"
                                                placeholder="Enter Slug">
+                                        <span class="error-notification">
+                                            @error('slug')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -38,6 +52,11 @@
                                                   id="description"
                                                   rows="7"
                                                   placeholder="Type description">{{ $attributeValue->description }}</textarea>
+                                        <span class="error-notification">
+                                            @error('description')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -57,6 +76,11 @@
                                                 In Active
                                             </label>
                                         </div>
+                                        <span class="error-notification">
+                                            @error('is_active')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -70,4 +94,30 @@
         </div>
 
     </div>
+@endsection
+
+@section('lib-script')
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+@endsection
+
+@section('script')
+
+    <script>
+
+        @if(session('success'))
+        Toastify({
+
+            text: "{{ session('success') }}",
+
+            duration: 3000,
+
+            gravity: top,
+
+            close: true,
+
+        }).showToast();
+        @endif
+
+    </script>
+
 @endsection

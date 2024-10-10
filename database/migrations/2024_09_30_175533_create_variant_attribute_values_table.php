@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('variant_attribute_values', function (Blueprint $table) {
+        Schema::create('variant_attribute_value', function (Blueprint $table) {
             $table->foreignIdFor(\App\Models\Variant::class)->constrained();
             $table->foreignIdFor(\App\Models\AttributeValue::class)->constrained();
 

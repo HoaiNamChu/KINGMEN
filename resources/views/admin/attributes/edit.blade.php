@@ -1,5 +1,9 @@
 @extends('admin.layouts.main')
 
+@section('link')
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+@endsection
+
 @section('content')
     <div class="container-xxl">
 
@@ -25,18 +29,20 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label for="choices-text-unique-values" class="form-label text-dark">Attribute
+                                        <label for="choices-multiple-remove-button" class="form-label text-dark">Attribute
                                             Value</label>
-                                        <input class="form-control" id="choices-text-unique-values"
-                                               name="attribute_value" data-choices
-                                               data-choices-text-unique-true type="text"
-                                               @if($attribute->attributeValues)
-                                                   value="@foreach($attribute->attributeValues as $item)
-                                                         {{ $item->name }},
-                                                     @endforeach"
+
+                                        <select class="form-control" id="choices-multiple-remove-button" data-choices data-choices-removeItem name="attribute_value_id[]" multiple>
+
+                                            @if($attribute->attributeValues)
+                                                @foreach($attribute->attributeValues as $item)
+                                                    <option value="{{ $item->id }}" selected>{{ $item->name }}</option>
+                                                @endforeach
                                             @endif
-                                        />
+                                        </select>
+                                        <span><a href="" class="text-decoration-underline">+ Add attribute value</a></span>
                                     </div>
+
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
@@ -85,4 +91,30 @@
         </div>
 
     </div>
+@endsection
+
+@section('lib-script')
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+@endsection
+
+@section('script')
+
+    <script>
+
+        @if(session('success'))
+        Toastify({
+
+            text: "{{ session('success') }}",
+
+            duration: 3000,
+
+            gravity: top,
+
+            close: true,
+
+        }).showToast();
+        @endif
+
+    </script>
+
 @endsection

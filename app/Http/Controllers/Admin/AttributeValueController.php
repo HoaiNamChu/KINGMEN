@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\AttributeValues\UpdateAttributeValueRequest;
 use App\Models\AttributeValue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class AttributeValueController extends Controller
@@ -39,7 +41,7 @@ class AttributeValueController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(AttributeValue $attributeValue)
     {
         return view(self::PATH_VIEW . __FUNCTION__);
     }
@@ -47,18 +49,16 @@ class AttributeValueController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(AttributeValue $attributeValue)
     {
-        $attributeValue = AttributeValue::query()->findOrFail($id);
         return view(self::PATH_VIEW . __FUNCTION__, compact('attributeValue'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateAttributeValueRequest $request, AttributeValue $attributeValue)
     {
-        $attributeValue = AttributeValue::query()->findOrFail($id);
 
         $data = [
             'name' => request('name'),
@@ -70,12 +70,20 @@ class AttributeValueController extends Controller
         }else{
             $data['slug'] = Str::slug(request('name'));
         }
+
+        try {
+            $attributeValue->update($data);
+            return redirect()->route('admin.attributeValue.edit', $attributeValue)->with('success', 'Updated Attribute Value Successfully');
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(AttributeValue $attributeValue)
     {
         //
     }
