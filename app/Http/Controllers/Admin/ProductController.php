@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Attribute;
+use App\Models\Brand;
+use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 
@@ -27,7 +29,9 @@ class ProductController extends Controller
     {
         $attributes  =  Attribute::query()->pluck('name', 'id');
         $tags        =  Tag::query()->pluck('name', 'id');
-        return view(self::PATH_VIEW . __FUNCTION__, compact('attributes', 'tags'));
+        $brands      =  Brand::query()->pluck('name', 'id');
+        $categories = Category::query()->whereNull('parent_id')->with('children')->get();
+        return view(self::PATH_VIEW . __FUNCTION__, compact('attributes', 'tags', 'brands', 'categories'));
     }
 
     /**

@@ -73,16 +73,6 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="col-lg-4">
-                                <form>
-                                    <label for="product-tex" class="form-label">Tex</label>
-                                    <div class="input-group mb-3">
-                                        <span class="input-group-text fs-20"><i class='bx bxs-file-txt'></i></span>
-                                        <input type="number" id="product-tex" class="form-control"
-                                               placeholder="000">
-                                    </div>
-                                </form>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -179,17 +169,33 @@
                                         data-choices-groups data-placeholder="Select Categories"
                                         name="choices-single-groups">
                                     <option value="">Choose a categories</option>
-                                    <option value="Fashion">Fashion</option>
-                                    <option value="Electronics">Electronics</option>
-                                    <option value="Footwear">Footwear</option>
-                                    <option value="Sportswear">Sportswear</option>
-                                    <option value="Watches">Watches</option>
-                                    <option value="Furniture">Furniture</option>
-                                    <option value="Appliances">Appliances</option>
-                                    <option value="Headphones">Headphones</option>
-                                    <option value="Other Accessories">Other Accessories</option>
+                                    @foreach($categories as $item)
+                                        @php
+                                            $dash = ' ';
+                                        @endphp
+                                        @include('components.admin.categories.create', ['item'=>$item, 'dash' => $dash])
+                                    @endforeach
                                 </select>
+                            </div>
+                        </div>
 
+                    </div>
+                </div>\
+                <div class="card">
+                    <div class="card-header">
+                        Product Brands
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <select class="form-control" id="product-brand" data-choices
+                                        data-choices-groups data-placeholder="Select Brands"
+                                        name="choices-single-groups">
+                                    <option value="">Choose a brand</option>
+                                    @foreach($brands as $id => $name)
+                                        <option value="{{ $id }}">{{ $name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
