@@ -77,9 +77,9 @@
 <script src="{{ asset('theme/admin/assets/js/app.js') }}"></script>
 
 
-// js dành cho trang dó thôi
+{{--// js dành cho trang dó thôi--}}
 @yield('lib-script')
-// js tự viết hoặc thêm (nếu có)
+{{--// js tự viết hoặc thêm (nếu có)--}}
 @yield('script')
 
 </body>
