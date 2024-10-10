@@ -22,19 +22,8 @@ class BrandController extends Controller
 
     public function index()
     {
-        $userId = 8; // Thay thế bằng ID của người dùng hiện tại, khi có chức năng đăng nhập lấy id từ tài khoản đăng nhập
-        $userRoles = DB::table('role_user')
-        ->join('roles', 'role_user.role_id', '=', 'roles.id')
-        ->where('role_user.user_id', $userId)
-        ->pluck('roles.name') // Lấy tên vai trò từ bảng roles
-        ->toArray();
-        if (in_array('Admin', $userRoles)) {
-            # code...
-            $brands = Brand::query()->with('products')->latest()->get();
+        $brands = Brand::query()->with('products')->latest()->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('brands'));
-          }
-          return back()->with('error', 'Bạn không có quyền truy cập vào trang này.');
-       
     }
 
     /**

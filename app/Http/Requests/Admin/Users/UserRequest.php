@@ -26,7 +26,6 @@ class UserRequest extends FormRequest
 
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users,username',
-            'role' => 'required|in:admin,user', // giả sử bạn có các vai trò là 'admin' và 'user'
             'password' => 'required|string|min:4', // yêu cầu xác nhận mật khẩu
             'address' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',

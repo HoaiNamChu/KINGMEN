@@ -236,7 +236,7 @@
                                    <span class="nav-icon">
                                         <iconify-icon icon="solar:chat-square-like-bold-duotone"></iconify-icon>
                                    </span>
-                    <span class="nav-text"> List </span>
+                    <span class="nav-text"> Users </span>
                 </a>
             </li>
 
@@ -263,7 +263,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="pages-permissions.html">
+                <a class="nav-link" href="{{route('admin.permissions.index')}}">
                                    <span class="nav-icon">
                                         <iconify-icon icon="solar:checklist-minimalistic-bold-duotone"></iconify-icon>
                                    </span>

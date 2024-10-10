@@ -3,7 +3,7 @@
 
 @section('content')
 
-@if(in_array(1, $userRoles)) <!-- Role ID 1 cho admin -->
+
     <div class="table-responsive table-centered">
         <a href="{{route('admin.users.create')}}"> <button class="btn btn-outline-secondary">Add</button></a>
         <table class="table mb-0">
@@ -35,7 +35,7 @@
                         <td>{{ $user->username }}</td>
                         <td>
                             @if($user->avatar)
-                                <img src="{{ Storage::url($user->avatar) }}" alt="Avatar" style="width: 200px; height: 130px;">
+                            <img src="{{ Storage::url($user->avatar) }}" alt="image" class="img-fluid rounded" width="120">
                             @else
                                 <span>Không có</span>
                             @endif
@@ -54,9 +54,10 @@
 
 
                             <div class="d-flex gap-2">
+
                                 <a href="{{Route('admin.users.show', $user->id)}}" class="btn btn-light btn-sm"><iconify-icon
                                         icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
-                                <!-- <a href="role-edit.html" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a> -->
+                                <a href="{{route('admin.users.edit',$user->id)}}" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
                                 <form action="{{route('admin.users.destroy', $user->id)}}" method="post">
                                     @csrf
                                     @method('DELETE')
@@ -75,14 +76,7 @@
         </table>
         <!-- end table -->
     </div>
-@endif
 
-@if(in_array(2, $userRoles)) <!-- Role ID 2 cho nhân viên -->
-    <h3>Tài Khoản không được truy cập</h3>
-@endif
-@if(in_array(3, $userRoles)) <!-- Role ID 3 cho người dùng -->
-    <h3>Tài Khoản không được truy cập</h3>
-@endif
 
 
 @endsection

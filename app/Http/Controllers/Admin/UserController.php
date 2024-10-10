@@ -19,16 +19,8 @@ class UserController extends Controller
     // Hiển thị danh sách người dùng
     public function index()
     {
-        $userId = 5; // Thay thế bằng ID của người dùng hiện tại, khi có chức năng đăng nhập lấy id từ tài khoản đăng nhập
-        $userRoles = DB::table('role_user')->where('user_id', $userId)->pluck('role_id')->toArray();
-
-        if (in_array(1, $userRoles)) {
-            # code...
-            $data = User::query()->get();
-        return view('admin.users.index', compact('data','userRoles'));
-          }
-        //   trỏ lại vào trang trước đó với thông báo lỗi
-          return back()->with('error', 'Bạn không có quyền truy cập vào trang này.');
+        $data = User::query()->get();
+        return view('admin.users.index', compact('data'));
        
     }
 

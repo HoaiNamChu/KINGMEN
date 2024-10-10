@@ -4,6 +4,8 @@ use App\Http\Controllers\Admin\BrandController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\PermissionController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,21 +31,16 @@ Route::prefix('/admin')
     ->as('admin.')
     ->group(function () {
     Route::get('/', function () {
-         // Giả sử bạn có cách lấy ID người dùng từ session hoặc Auth
-         $userId = 3; // Lấy ID người dùng từ session hoặc Auth
-
-         // Lấy tất cả các role của người dùng
-         $userRoles = DB::table('role_user')->where('user_id', $userId)->pluck('role_id')->toArray();
+        
  
-         // Kiểm tra nếu người dùng có role là 'người dùng' (ví dụ role_id = 4)
-         if (in_array(4, $userRoles)) { // Giả sử role_id = 4 người dùng
-             return redirect('/')->with('error', 'Bạn không có quyền truy cập trang này.');
-         }
- 
+        
         return view('admin.dashboard.index');
     });
 
-    Route::resource('users', UserController::class);
-    Route::resource('roles', RoleController::class);
-    Route::resource('brands', BrandController::class);
+    Route::resource('users', UserController::class)->middleware('checkPermission:Manage Users');
+    Route::resource('roles', RoleController::class)->middleware('checkPermission:Manage Roles');
+    Route::resource('brands', BrandController::class)->middleware('checkPermission:Manage Brands');
+
+    Route::resource('permissions', PermissionController::class)->middleware('checkPermission:Manage Permissions');
+  
 });

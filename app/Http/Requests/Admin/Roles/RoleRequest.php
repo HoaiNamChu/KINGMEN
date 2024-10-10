@@ -37,6 +37,7 @@ class RoleRequest extends FormRequest
             'name.unique' => 'Tên danh mục đã tồn tại.',
             'description.string' => 'Mô tả phải là một chuỗi.',
             'description.max' => 'Mô tả không được vượt quá 1000 ký tự.',
+            'permissions.*' => 'exists:permissions,id', // Đảm bảo ID quyền tồn tại
         ];
     }
 }

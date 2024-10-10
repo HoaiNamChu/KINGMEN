@@ -53,6 +53,21 @@
                                         </div>
                                     </div>
                                     <br>
+                                    <div class="mb-3">
+            <label for="permissions" class="form-label">Permissions</label>
+            <select name="permissions[]" class="form-control" multiple required>
+                @foreach($permissions as $permission)
+                    <option value="{{ $permission->id }}" 
+                        @if($role->permissions->contains($permission->id)) selected @endif>
+                        {{ $permission->name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('permissions')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
+        </div>
+        <br>
                                     <div class="form-check form-switch">
                                             <label for="is_active">Status</label>
                                             <input type="hidden" name="is_active" value="0">

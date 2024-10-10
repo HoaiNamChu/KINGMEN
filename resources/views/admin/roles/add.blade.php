@@ -43,7 +43,8 @@
 
                         <div class="card-body">
                             <div class="row">
-                                <form action="{{route('admin.roles.store')}}" method="post" enctype="multipart/form-data">
+                                <form action="{{route('admin.roles.store')}}" method="post"
+                                    enctype="multipart/form-data">
                                     @csrf
                                     <div class="col-lg-12">
 
@@ -64,6 +65,18 @@
                                         </div>
                                     </div>
                                     <br>
+                                    <div class="mb-3">
+                                        <label for="permissions" class="form-label">Permissions</label>
+                                        <select name="permissions[]" class="form-control" multiple required>
+                                            @foreach($permissions as $permission)
+                                                <option value="{{ $permission->id }}">{{ $permission->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('permissions')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <br>
                                     <div class="form-check form-switch">
                                         <label for="is_active">Status</label>
                                         <input type="hidden" name="is_active" value="0">
@@ -77,10 +90,11 @@
                                     <div class="p-3 bg-light mb-3 rounded">
                                         <div class="row justify-content-end g-2">
                                             <div class="col-lg-3">
-                                            <button type="submit" class="btn btn-primary w-100">Save Change</button>
+                                                <button type="submit" class="btn btn-primary w-100">Save Change</button>
                                             </div>
                                             <div class="col-lg-2">
-                                                <a href="{{route('admin.roles.index')}}" class="btn btn-outline-secondary w-100">Cancel</a>
+                                                <a href="{{route('admin.roles.index')}}"
+                                                    class="btn btn-outline-secondary w-100">Cancel</a>
                                             </div>
                                         </div>
                                     </div>

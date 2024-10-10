@@ -182,12 +182,12 @@
 
                                     <div class="p-3 bg-light mb-3 rounded">
                                         <div class="row justify-content-end g-2">
-                                            <div class="col-lg-2">
+                                            <div class="col-lg-3">
                                                 <button type="submit" class="btn btn-outline-primary w-100">Update
                                                     User</button>
                                             </div>
                                             <div class="col-lg-2">
-                                                <a href="{{route('admin.users.show', $user->id)}}"
+                                                <a href="{{route('admin.users.index')}}"
                                                     class="btn btn-secondary w-100">Cancel</a>
                                             </div>
                                         </div>
