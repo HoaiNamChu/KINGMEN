@@ -62,7 +62,7 @@
                     <div class="card-header d-flex justify-content-between align-items-center gap-1">
                         <h4 class="card-title flex-grow-1">All Categories List</h4>
 
-                        <a href="{{ route('admin.brands.index') }}" class="btn btn-sm btn-primary">
+                        <a href="{{ route('admin.brands.create') }}" class="btn btn-sm btn-primary">
                             Add Brand
                         </a>
 

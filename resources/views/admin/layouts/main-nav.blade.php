@@ -53,6 +53,9 @@
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="{{ route('admin.tags.index') }}">Tags</a>
                         </li>
+                        <li class="sub-nav-item">
+                            <a class="sub-nav-link" href="{{ route('admin.attributes.index') }}">Attributes</a>
+                        </li>
                     </ul>
                 </div>
             </li>
@@ -76,6 +79,7 @@
                     </ul>
                 </div>
             </li>
+
 
             <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarInventory" data-bs-toggle="collapse" role="button"
