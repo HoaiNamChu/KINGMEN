@@ -33,7 +33,7 @@
                                                class="form-control"
                                                placeholder="Tag slug">
                                         <span class="error-notification">
-                                            @error('name')
+                                            @error('slug')
                                             {{ $message }}
                                             @enderror
                                         </span>

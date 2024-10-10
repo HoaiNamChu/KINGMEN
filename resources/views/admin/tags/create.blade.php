@@ -30,7 +30,7 @@
                                         <input type="text" id="tags-slug" value="{{ old('slug') }}" name="slug" class="form-control"
                                                placeholder="Tag slug">
                                         <span class="error-notification">
-                                            @error('name')
+                                            @error('slug')
                                             {{ $message }}
                                             @enderror
                                         </span>
