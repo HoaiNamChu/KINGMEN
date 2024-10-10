@@ -34,9 +34,12 @@
                                                 data-choices-groups
                                                 data-placeholder="Select Parent">
                                             <option value="">Select Parent</option>
-                                            <option value="1">Seller</option>
-                                            <option value="2">Admin</option>
-                                            <option value="3">Other</option>
+                                            @foreach($categories as $item)
+                                                @php
+                                                    $dash = ' ';
+                                                @endphp
+                                                @include('components.admin.categories.create', ['item'=>$item, 'dash' => $dash])
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>

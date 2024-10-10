@@ -9,7 +9,7 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <div
-                            class="rounded bg-secondary-subtle d-flex align-items-center justify-content-center mx-auto">
+                                class="rounded bg-secondary-subtle d-flex align-items-center justify-content-center mx-auto">
                             <img src="{{ asset('theme/admin/assets/images/product/p-1.png') }}" alt=""
                                  class="avatar-xl">
                         </div>
@@ -21,7 +21,7 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <div
-                            class="rounded bg-primary-subtle d-flex align-items-center justify-content-center mx-auto">
+                                class="rounded bg-primary-subtle d-flex align-items-center justify-content-center mx-auto">
                             <img src="{{ asset('theme/admin/assets/images/product/p-6.png') }}" alt=""
                                  class="avatar-xl">
                         </div>
@@ -34,7 +34,7 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <div
-                            class="rounded bg-warning-subtle d-flex align-items-center justify-content-center mx-auto">
+                                class="rounded bg-warning-subtle d-flex align-items-center justify-content-center mx-auto">
                             <img src="{{ asset('theme/admin/assets/images/product/p-7.png') }}" alt=""
                                  class="avatar-xl">
                         </div>
@@ -47,7 +47,7 @@
                 <div class="card">
                     <div class="card-body text-center">
                         <div
-                            class="rounded bg-info-subtle d-flex align-items-center justify-content-center mx-auto">
+                                class="rounded bg-info-subtle d-flex align-items-center justify-content-center mx-auto">
                             <img src="{{ asset('theme/admin/assets/images/product/p-9.png') }}" alt=""
                                  class="avatar-xl">
                         </div>
@@ -95,6 +95,7 @@
                                     </th>
                                     <th>Categories</th>
                                     <th>ID</th>
+                                    <th>Parent</th>
                                     <th>Product</th>
                                     <th>Status</th>
                                     <th>Create At</th>
@@ -102,57 +103,12 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($categories as $item)
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input type="checkbox" value="{{ $item->id }}" class="form-check-input" id="{{ $item->id }}">
-                                                    <label class="form-check-label" for="{{ $item->id }}"></label>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex align-items-center gap-2">
-                                                    <div
-                                                        class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                        <img src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}"
-                                                             alt="" class="avatar-md">
-                                                    </div>
-                                                    <p class="text-dark fw-medium fs-15 mb-0">{{ $item->name }}</p>
-                                                </div>
-
-                                            </td>
-                                            <td>{{ $item->id }}</td>
-                                            <td>100</td>
-                                            <td>
-                                                @if($item->is_active)
-                                                    <span class="badge bg-success rounded-pill me-1">Active</span>
-                                                @else
-                                                    <span class="badge bg-danger rounded-pill me-1">In Active</span>
-                                                @endif
-                                            </td>
-                                            <td>{{ $item->created_at }}</td>
-                                            <td>
-                                                <div class="d-flex gap-2">
-                                                    <a href="#!" class="btn btn-light btn-sm">
-                                                        <iconify-icon icon="solar:eye-broken"
-                                                                      class="align-middle fs-18"></iconify-icon>
-                                                    </a>
-                                                    <a href="{{ route('admin.categories.edit', $item) }}" class="btn btn-soft-primary btn-sm">
-                                                        <iconify-icon icon="solar:pen-2-broken"
-                                                                      class="align-middle fs-18"></iconify-icon>
-                                                    </a>
-                                                    <form action="{{ route('admin.categories.destroy', $item) }}" method="post">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-soft-danger btn-sm">
-                                                            <iconify-icon icon="solar:trash-bin-minimalistic-2-broken"
-                                                                          class="align-middle fs-18"></iconify-icon>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                @foreach($categories as $item)
+                                    @php
+                                        $dash = '';
+                                    @endphp
+                                    @include('components.admin.categories.index', ['item' => $item, 'dash' => $dash])
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
