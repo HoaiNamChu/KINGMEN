@@ -26,7 +26,7 @@ class CartController extends Controller
         $cart = Cart::query()->create($dataCart);
         $dataCartItem = [
             'cart_id' => $cart->id,
-            'product_id' => 2,
+            'product_id' => 1,
             'quantity' => 1
         ];
         $cartItem = CartItem::query()->create($dataCartItem);
@@ -37,6 +37,19 @@ class CartController extends Controller
         // dd($id);
         $cartItem = CartItem::query()->findOrFail($id);
         $cartItem->delete();
+        return back();
+    }
+
+    public function destroyAllCart(){
+        CartItem::query()->delete();
+        return back();
+    }
+
+    public function updateCart(Request $request){
+        $data = [
+            'quantity' => $request['quantity']
+        ];
+        DB::table('cart_items')->update($data);
         return back();
     }
 }

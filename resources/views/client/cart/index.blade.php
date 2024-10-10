@@ -28,67 +28,85 @@
                 <div class="col-md-12">
                     <div class="shopping-cart-form table-responsive">
                         {{-- <form action="#" method="post"> --}}
-                            <table class="table text-center">
-                                <thead>
-                                    <tr>
-                                        <th class="product-remove">&nbsp;</th>
-                                        <th class="product-thumb">&nbsp;</th>
-                                        <th class="product-name">Product</th>
-                                        <th class="product-price">Price</th>
-                                        <th class="product-quantity">Quantity</th>
-                                        <th class="product-subtotal">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($carts as $cart)
-                                        <tr class="cart-product-item">
-                                            <form action="{{ route('destroyCart', $cart->id) }}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                                <td class="remove">
-                                                    <button type="submit" class="btn btn-light"><i
-                                                            class="fa fa-trash-o"></i></button>
-                                                    {{-- <a href="{{route('destroyCart',$cart->id)}}"><i class="fa fa-trash-o"></i></a> --}}
-                                                </td>
-                                            </form>
+                        <table class="table text-center">
+                            <thead>
+                                <tr>
+                                    <th class="product-remove">&nbsp;</th>
+                                    <th class="product-thumb">&nbsp;</th>
+                                    <th class="product-name">Product</th>
+                                    <th class="product-price">Price</th>
+                                    <th class="product-quantity">Quantity</th>
+                                    <th class="product-subtotal">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($carts as $cart)
+                                    <tr class="cart-product-item">
+                                        <form action="{{ route('destroyCart', $cart->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <td class="remove">
+                                                <button type="submit" class="btn btn-light"><i
+                                                        class="fa fa-trash-o"></i></button>
+                                                {{-- <a href="{{route('destroyCart',$cart->id)}}"><i class="fa fa-trash-o"></i></a> --}}
+                                            </td>
+                                        </form>
 
-                                            <td class="product-thumb">
-                                                <a href="single-product.html">
-                                                    <img src="{{ $cart->image }}" width="90" height="110"
-                                                        alt="Image-HasTech">
-                                                </a>
-                                            </td>
-                                            <td class="product-name">
-                                                <h4 class="title"><a href="single-product.html">{{ $cart->name }}</a>
-                                                </h4>
-                                            </td>
-                                            <td class="product-price">
-                                                <span class="price">{{ number_format($cart->price_sale) }}$</span>
-                                            </td>
-                                            <td class="product-quantity">
-                                                <div class="pro-qty">
-                                                    <input type="text" class="quantity" title="Quantity"
-                                                        value="{{ $cart->quantity }}">
-                                                </div>
-                                            </td>
-                                            <td class="product-subtotal">
-                                                <span
-                                                    class="price">{{ number_format($cart->price_sale * $cart->quantity) }}$</span>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
-
-                                    <tr class="actions">
-                                        <td class="border-0" colspan="6">
-                                            <button type="submit" class="update-cart" disabled>Update cart</button>
-
-                                            <button type="submit" class="clear-cart">Clear Cart</button>
-                                            <a href="shop.html" class="btn-theme btn-flat">Continue Shopping</a>
+                                        <td class="product-thumb">
+                                            <a href="single-product.html">
+                                                <img src="{{ $cart->image }}" width="90" height="110"
+                                                    alt="Image-HasTech">
+                                            </a>
+                                        </td>
+                                        <td class="product-name">
+                                            <h4 class="title"><a href="single-product.html">{{ $cart->name }}</a>
+                                            </h4>
+                                        </td>
+                                        <td class="product-price">
+                                            <span class="price">{{ number_format($cart->price_sale) }}$</span>
+                                        </td>
+                                        <td class="product-quantity">
+                                            <div class="pro-qty">
+                                                <input type="text" class="quantity" title="Quantity" name="quantity"
+                                                    value="{{ $cart->quantity }}">
+                                            </div>
+                                        </td>
+                                        <td class="product-subtotal">
+                                            <span
+                                                class="price">{{ number_format($cart->price_sale * $cart->quantity) }}$</span>
                                         </td>
                                     </tr>
-                                </tbody>
-                            </table>
+                                @endforeach
+
+
+                                <tr class="actions">
+                                    <td class="border-0" colspan="4">
+                                        <a href="/" class="btn-theme btn-flat">Continue Shopping</a>
+                                        <form action="{{ route('updateCart') }}" method="post">
+                                            @csrf
+                                            @method('PUT')
+                                        <td class="remove">
+                                        <button type="submit" class="update-cart" disabled>Update cart</button>
+                                        {{-- <button type="submit" class="clear-cart">Clear Cart</button> --}}
+                                        {{-- <button type="submit" class="btn btn-light"><i
+                                                            class="fa fa-trash-o"></i></button> --}}
+                                        {{-- <a href="{{route('destroyCart',$cart->id)}}"><i class="fa fa-trash-o"></i></a> --}}
+                                    </td>
+                                    </form>
+                                    <form action="{{ route('destroyAllCart') }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <td class="remove">
+                                            <button type="submit" class="clear-cart">Clear Cart</button>
+                                            {{-- <button type="submit" class="btn btn-light"><i
+                                                            class="fa fa-trash-o"></i></button> --}}
+                                            {{-- <a href="{{route('destroyCart',$cart->id)}}"><i class="fa fa-trash-o"></i></a> --}}
+                                        </td>
+                                    </form>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                         {{-- </form> --}}
                     </div>
                 </div>

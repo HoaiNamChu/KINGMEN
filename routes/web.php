@@ -24,6 +24,8 @@ Route::prefix('/')->group(function () {
     Route::get('cart', [CartController::class, 'index'])->name('cart.index');
     Route::get('add-cart', [CartController::class, 'addCart'])->name('addCart');
     Route::delete('delete-cart/{id}', [CartController::class, 'destroyCart'])->name('destroyCart');
+    Route::delete('delete-all-cart', [CartController::class, 'destroyAllCart'])->name('destroyAllCart');
+    Route::put('update-cart', [CartController::class, 'updateCart'])->name('updateCart');
 });
 
 // viết các route admin vào đây
