@@ -144,7 +144,7 @@
                                                     <form action="{{ route('admin.categories.destroy', $item) }}" method="post">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-soft-danger btn-sm">
+                                                        <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-soft-danger btn-sm">
                                                             <iconify-icon icon="solar:trash-bin-minimalistic-2-broken"
                                                                           class="align-middle fs-18"></iconify-icon>
                                                         </button>
