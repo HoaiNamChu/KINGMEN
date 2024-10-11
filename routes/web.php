@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\CheckoutController;
-use App\Http\Controllers\ShopCartController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,17 +20,21 @@ use Illuminate\Support\Facades\Route;
 // viết các route client ở đây
 Route::prefix('/')->group(function () {
     Route::get('/', function () {
-        return view('client.home.index');
+        $prd = Product::query()->latest('id')->paginate(8);
+        return view('client.home.index',compact('prd'));
     });
 });
 
-// Route::get('shop-cart',[ShopCartController::class,'index'])->name('route_shopcart');
-Route::get('/checkout',[CheckoutController::class,'checkout'])->name('order.checkout');
+//Order
+Route::get('/checkout/{id}',[CheckoutController::class,'checkout'])->name('order.checkout');
 Route::post('/checkout',[CheckoutController::class,'post_checkout']);
 
 // viết các route admin vào đây
-Route::prefix('/admin')->group(function () {
+Route::prefix('/admin')
+    ->as('admin.')
+    ->group(function () {
     Route::get('/', function () {
         return view('admin.dashboard.index');
     });
+    Route::resource('brands', BrandController::class);
 });
