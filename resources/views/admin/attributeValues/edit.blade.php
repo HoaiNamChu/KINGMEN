@@ -22,7 +22,8 @@
                                     <div class="mb-3">
                                         <label for="variant-name" class="form-label text-dark">Attribute
                                             Value</label>
-                                        <input type="text" id="variant-name" value="{{ $attributeValue->name }}" name="name"
+                                        <input type="text" id="variant-name" value="{{ $attributeValue->name }}"
+                                               name="name"
                                                class="form-control"
                                                placeholder="Enter Name">
                                         <span class="error-notification">
@@ -35,7 +36,8 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="variant-slug" class="form-label text-dark">Slug</label>
-                                        <input type="text" id="variant-slug" value="{{ $attributeValue->slug }}" name="slug"
+                                        <input type="text" id="variant-slug" value="{{ $attributeValue->slug }}"
+                                               name="slug"
                                                class="form-control"
                                                placeholder="Enter Slug">
                                         <span class="error-notification">

@@ -52,7 +52,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">Product data
+                            <h4 class="card-title mb-0">Product data
                                 <span>
                                 -
                                 <label for="product-type">
@@ -63,12 +63,12 @@
                                         </optgroup>
                                     </select>
                                 </label>
-                            </span>
-                            </h5>
+                                </span>
+                            </h4>
                         </div>
                         <div class="card-body p-0">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-lg-3">
                                     <ul class="list-group">
                                         <li class="list-group-item product-option" id="general">General</li>
                                         <li class="list-group-item product-option" id="inventory">Inventory</li>
@@ -81,27 +81,33 @@
                                     <div class="row pt-3 pb-3" id="general-item">
                                         <div class="col-lg-6">
                                             <div class="mb-3">
-                                                <label for="price-regular" class="form-label">Regular price</label>
-                                                <input type="text" id="price-regular" value="{{ old('product_price') }}"
-                                                       name="product_price"
-                                                       class="form-control">
+                                                <label for="product-price" class="form-label">Price</label>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text fs-20"><i
+                                                            class="bx bx-dollar"></i></span>
+                                                    <input type="number" name="price" id="product-price"
+                                                           class="form-control"
+                                                           placeholder="000">
+                                                </div>
                                             </div>
                                             <div class="mb-3">
-                                                <label for="price-sale" class="form-label">Sale price</label>
-                                                <input type="text" id="price-sale"
-                                                       value="{{ old('product_price_sale') }}"
-                                                       name="product_price_sale"
-                                                       class="form-control">
+                                                <label for="product-price-sale" class="form-label">Price Sale</label>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text fs-20"><i
+                                                            class="bx bx-dollar"></i></span>
+                                                    <input type="number" name="price_sale" id="product-price-sale"
+                                                           class="form-control"
+                                                           placeholder="000">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row pt-3 pb-3" id="inventory-item">
                                         <div class="col-lg-6">
                                             <div class="mb-3">
-                                                <label for="product-quantity" class="form-label">Quantity</label>
-                                                <input type="text" id="product-quantity"
-                                                       value="{{ old('product_quantity') }}" name="product_quantity"
-                                                       class="form-control">
+                                                <label for="product-stock" class="form-label">Stock</label>
+                                                <input type="number" id="product-stock" name="quantity"
+                                                       class="form-control" placeholder="Quantity">
                                             </div>
                                         </div>
                                     </div>
@@ -137,13 +143,12 @@
 
                                     </div>
                                 </div>
-                                <!--  end col -->
                             </div>
                         </div>
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            Short Description
+                            <h4 class="card-title">Short Description</h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -172,25 +177,25 @@
                 <div class="col-xl-3 col-lg-4">
                     <div class="card">
                         <div class="card-header">
-                            Publish
+                            <h4 class="card-title">Publish</h4>
                         </div>
                         <div class="card-body">
                             <div class="form-check form-switch">
                                 <input class="form-check-input" name="is_active" type="checkbox" role="switch"
-                                       id="is-active" checked>
+                                       id="is-active" value="1" checked>
                                 <label class="form-check-label" for="is-active">Is Active</label>
                             </div>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" name="is_hot" type="checkbox" role="switch" id="is-hot">
+                                <input class="form-check-input" name="is_hot" value="1" type="checkbox" role="switch" id="is-hot">
                                 <label class="form-check-label" for="is-hot">Is Hot</label>
                             </div>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" name="is_sale" type="checkbox" role="switch"
+                                <input class="form-check-input" name="is_sale" value="1" type="checkbox" role="switch"
                                        id="is-sale">
                                 <label class="form-check-label" for="is-sale">Is Sale</label>
                             </div>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" name="is_home" type="checkbox" role="switch"
+                                <input class="form-check-input" name="is_home" value="1" type="checkbox" role="switch"
                                        id="is-home" checked>
                                 <label class="form-check-label" for="is-home">Is Home</label>
                             </div>
@@ -198,7 +203,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            Product Image
+                            <h4 class="card-title">Product Image</h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -213,7 +218,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            Product Gallery
+                            <h4 class="card-title">Product Gallery</h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -229,7 +234,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            Product Categories
+                            <h4 class="card-title">Product Categories</h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -252,7 +257,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            Product Brands
+                            <h4 class="card-title">Product Brands</h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -272,7 +277,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            Tags
+                            <h4 class="card-title">Tags</h4>
                         </div>
                         <div class="card-body">
                             <div class="row">

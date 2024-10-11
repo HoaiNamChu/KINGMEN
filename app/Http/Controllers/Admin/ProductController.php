@@ -8,6 +8,8 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -39,7 +41,35 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        dd(request()->all());
+        if (request('product_type') === 'simple') {
+            $data = [
+                'name' => request('name'),
+                'sku' => request('sku'),
+                'price' => request('price'),
+                'price_sale' => request('price_sale'),
+                'description' => request('description'),
+                'short_desc' => request('short_desc'),
+                'category_id' => request('category_id'),
+                'brand_id' => request('brand_id'),
+                'quantity' => request('quantity'),
+                'is_active' => request('is_active') ?? 0,
+                'is_sale' => request('is_sale') ?? 0,
+                'is_hot' => request('is_hot') ?? 0,
+                'is_home' => request('is_home') ?? 0,
+            ];
+
+            if($request->hasFile('image')) {
+                $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
+            }
+            $data['image'] ??= null;
+
+            $data['product_slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))).'-'.$data['sku'];;
+
+            $tags = request('tags');
+            $galleries = request('galleries');
+
+            dd($data);
+        }
     }
 
     /**

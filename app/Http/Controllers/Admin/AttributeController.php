@@ -69,7 +69,7 @@ class AttributeController extends Controller
                     'is_active' => $value['is_active'],
                 ]);
             }
-            return redirect()->route('admin.attributes.edit', $attribute)->with('success', 'Add Attribute Successfully');
+            return redirect()->route('admin.attributes.index')->with('success', 'Add Attribute Successfully');
         } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->with('error', $exception->getMessage());
@@ -126,7 +126,7 @@ class AttributeController extends Controller
         try {
             $attribute->attributeValues()->delete();
             $attribute->delete();
-            return redirect()->route('admin.attributes.index');
+            return redirect()->route('admin.attributes.index')->with('success', 'Delete Attribute Successfully');
         } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->with('error', $exception->getMessage());

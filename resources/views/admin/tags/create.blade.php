@@ -15,7 +15,8 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="tags-name" class="form-label">Tag Name</label>
-                                        <input type="text" id="tags-name" value="{{ old('name') }}" name="name" class="form-control"
+                                        <input type="text" id="tags-name" value="{{ old('name') }}" name="name"
+                                               class="form-control"
                                                placeholder="Tag name">
                                         <span class="error-notification">
                                             @error('name')
@@ -27,7 +28,8 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="tags-slug" class="form-label">Tag Slug</label>
-                                        <input type="text" id="tags-slug" value="{{ old('slug') }}" name="slug" class="form-control"
+                                        <input type="text" id="tags-slug" value="{{ old('slug') }}" name="slug"
+                                               class="form-control"
                                                placeholder="Tag slug">
                                         <span class="error-notification">
                                             @error('slug')

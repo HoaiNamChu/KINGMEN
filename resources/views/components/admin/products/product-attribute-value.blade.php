@@ -1,5 +1,5 @@
 <div id="block-attribute-{{ $attribute->id }}" class="block-attributes">
-    <h4 class="d-inline-block">{{ $attribute->attribute_name }}</h4>
+    <h4 class="d-inline-block">{{ $attribute->name }}</h4>
     <button type="button" class="btn btn-sm btn-danger float-end btn-remove-attribute"
             id="btn-remove-{{ $attribute->id }}">
         Remmove

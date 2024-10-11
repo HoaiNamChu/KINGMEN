@@ -1,20 +1,90 @@
 @extends('admin.layouts.main')
 
+@section('link')
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+@endsection
+
 @section('content')
     <div class="container-xxl">
 
         <div class="row">
-            <div class="col-xl-12">
+            <div class="col-xl-4">
+                <div class="card">
+                    <form action="{{ route('admin.attributes.store') }}" method="post">
+                        @csrf
+                        <div class="card-header">
+                            <h4 class="card-title">Add Attribute</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="variant-name" class="form-label text-dark">Attribute
+                                            Variant</label>
+                                        <input type="text" id="variant-name" name="name" class="form-control"
+                                               placeholder="Enter Name">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="variant-slug" class="form-label text-dark">Slug</label>
+                                        <input type="text" id="variant-slug" name="slug" class="form-control"
+                                               placeholder="Enter Slug">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="choices-text-unique-values" class="form-label text-dark">Attribute
+                                            Value</label>
+                                        <input class="form-control" id="choices-text-unique-values"
+                                               name="attribute_value" data-choices
+                                               data-choices-text-unique-true type="text"/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Description</label>
+                                        <textarea class="form-control bg-light-subtle" name="description"
+                                                  id="description"
+                                                  rows="7"
+                                                  placeholder="Type description"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <p>Attribute Status </p>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" value="1" name="is_active"
+                                                   id="is_active1" checked="">
+                                            <label class="form-check-label" for="is_active1">
+                                                Active
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" value="0" name="is_active"
+                                                   id="is_active2">
+                                            <label class="form-check-label" for="is_active2">
+                                                In Active
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer border-top">
+                            <button type="submit" class="btn btn-primary">Save Change</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-xl-8">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center gap-1">
                         <h4 class="card-title flex-grow-1">All Attributes List</h4>
 
-                        <a href="{{ route('admin.attributes.create') }}" class="btn btn-sm btn-primary">
-                            Add Attribute
-                        </a>
-
                         <div class="dropdown">
-                            <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light" data-bs-toggle="dropdown"
+                               aria-expanded="false">
                                 This Month
                             </a>
                             <div class="dropdown-menu dropdown-menu-end">
@@ -47,50 +117,54 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($attributes as $item)
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input type="checkbox" class="form-check-input" id="{{ $item->id }}">
-                                                    <label class="form-check-label" for="{{ $item->id }}">&nbsp;</label>
-                                                </div>
-                                            </td>
-                                            <td>{{ $item->id }}</td>
-                                            <td>{{ $item->name }}</td>
-                                            <td>
-                                                @foreach($item->attributeValues as $value)
-                                                    <a href="{{ route('admin.attributeValues.edit', $value) }}">{{ $value->name }}</a>,
-                                                @endforeach
-                                            </td>
-                                            <td>{{ $item->created_at }}</td>
-                                            <td>
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" role="switch"
-                                                           id="flexSwitchCheckChecked1" @checked($item->is_active)>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex gap-2">
-                                                    <a href="#!" class="btn btn-light btn-sm">
-                                                        <iconify-icon icon="solar:eye-broken"
+                                @foreach($attributes as $item)
+                                    <tr>
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="{{ $item->id }}">
+                                                <label class="form-check-label" for="{{ $item->id }}">&nbsp;</label>
+                                            </div>
+                                        </td>
+                                        <td>{{ $item->id }}</td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>
+                                            @foreach($item->attributeValues as $value)
+                                                <a href="{{ route('admin.attributeValues.edit', $value) }}">{{ $value->name }}</a>
+                                                ,
+                                            @endforeach
+                                        </td>
+                                        <td>{{ $item->created_at }}</td>
+                                        <td>
+                                            <div class="form-check form-switch">
+                                                <input class="form-check-input" type="checkbox" role="switch"
+                                                       id="flexSwitchCheckChecked1" @checked($item->is_active)>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex gap-2">
+                                                <a href="#!" class="btn btn-light btn-sm">
+                                                    <iconify-icon icon="solar:eye-broken"
+                                                                  class="align-middle fs-18"></iconify-icon>
+                                                </a>
+                                                <a href="{{ route('admin.attributes.edit', $item) }}"
+                                                   class="btn btn-soft-primary btn-sm">
+                                                    <iconify-icon icon="solar:pen-2-broken"
+                                                                  class="align-middle fs-18"></iconify-icon>
+                                                </a>
+                                                <form action="{{ route('admin.attributes.destroy', $item) }}"
+                                                      method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" onclick="return confirm('Are you sure?')"
+                                                            class="btn btn-soft-danger btn-sm">
+                                                        <iconify-icon icon="solar:trash-bin-minimalistic-2-broken"
                                                                       class="align-middle fs-18"></iconify-icon>
-                                                    </a>
-                                                    <a href="{{ route('admin.attributes.edit', $item) }}" class="btn btn-soft-primary btn-sm">
-                                                        <iconify-icon icon="solar:pen-2-broken"
-                                                                      class="align-middle fs-18"></iconify-icon>
-                                                    </a>
-                                                    <form action="{{ route('admin.attributes.destroy', $item) }}" method="post">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-soft-danger btn-sm">
-                                                            <iconify-icon icon="solar:trash-bin-minimalistic-2-broken"
-                                                                          class="align-middle fs-18"></iconify-icon>
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -114,4 +188,30 @@
         </div>
 
     </div>
+@endsection
+
+@section('lib-script')
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+@endsection
+
+@section('script')
+
+    <script>
+
+        @if(session('success'))
+        Toastify({
+
+            text: "{{ session('success') }}",
+
+            duration: 3000,
+
+            gravity: top,
+
+            close: true,
+
+        }).showToast();
+        @endif
+
+    </script>
+
 @endsection

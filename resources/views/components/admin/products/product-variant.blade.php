@@ -40,40 +40,62 @@
             <!-- end row -->
 
             <div class="row">
-                <div class="col-lg-3 col-sm-6">
+                <div class="col-lg-4 col-sm-6">
                     <div class="mb-3">
-                        <label class="form-label" for="variant-quantity[{{ $attributeValueIds }}]">Quantity</label>
-                        <input type="text" class="form-control" id="variant-quantity[{{ $attributeValueIds }}]"
-                               placeholder="Stocks"
-                               name="product_variants[{{ $attributeValueIds }}][variant_quantity]">
+                        <label for="variant-quantity[{{ $attributeValueIds }}]" class="form-label">Stock</label>
+                        <input type="number" id="variant-quantity[{{ $attributeValueIds }}]" name="product_variants[{{ $attributeValueIds }}][variant_quantity]"
+                               class="form-control" placeholder="Quantity">
+{{--                        <label class="form-label" for="variant-quantity[{{ $attributeValueIds }}]">Quantity</label>--}}
+                        {{--                        <input type="text" class="form-control" id="variant-quantity[{{ $attributeValueIds }}]"--}}
+                        {{--                               placeholder="Stocks"--}}
+                        {{--                               name="product_variants[{{ $attributeValueIds }}][variant_quantity]">--}}
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6">
+                <div class="col-lg-4 col-sm-6">
                     <div class="mb-3">
-                        <label class="form-label" for="variant-price[{{ $attributeValueIds }}]">Price</label>
-                        <div class="input-group has-validation mb-3">
-                            <span class="input-group-text" id="variant-price-addon">$</span>
-                            <input type="text" class="form-control" id="variant-price[{{ $attributeValueIds }}]"
+                        <label for="variant-price[{{ $attributeValueIds }}]" class="form-label">Price</label>
+                        <div class="input-group mb-3">
+                                                    <span class="input-group-text fs-20"><i
+                                                            class="bx bx-dollar"></i></span>
+                            <input type="number" id="variant-price[{{ $attributeValueIds }}]"
                                    name="product_variants[{{ $attributeValueIds }}][variant_price]"
-                                   placeholder="Enter price" aria-label="Price"
-                                   aria-describedby="product-price-addon">
+                                   class="form-control"
+                                   placeholder="000">
                         </div>
+{{--                        <label class="form-label" for="variant-price[{{ $attributeValueIds }}]">Price</label>--}}
+{{--                        <div class="input-group has-validation mb-3">--}}
+{{--                            <span class="input-group-text" id="variant-price-addon">$</span>--}}
+{{--                            <input type="text" class="form-control" id="variant-price[{{ $attributeValueIds }}]"--}}
+{{--                                   name="product_variants[{{ $attributeValueIds }}][variant_price]"--}}
+{{--                                   placeholder="Enter price" aria-label="Price"--}}
+{{--                                   aria-describedby="product-price-addon">--}}
+{{--                        </div>--}}
 
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6">
+                <div class="col-lg-4 col-sm-6">
                     <div class="mb-3">
-                        <label class="form-label" for="variant-price-sale[{{ $attributeValueIds }}]">Price
-                            Sale</label>
+                        <label for="variant-price-sale[{{ $attributeValueIds }}]" class="form-label">Price Sale</label>
                         <div class="input-group mb-3">
-                                                        <span class="input-group-text"
-                                                              id="variant-price-sale-addon">$</span>
-                            <input type="text" class="form-control"
+                                                    <span class="input-group-text fs-20"><i
+                                                            class="bx bx-dollar"></i></span>
+                            <input type="number"
                                    id="variant-price-sale[{{ $attributeValueIds }}]"
                                    name="product_variants[{{ $attributeValueIds }}][variant_price_sale]"
-                                   placeholder="Enter discount" aria-label="discount"
-                                   aria-describedby="product-discount-addon">
+                                   class="form-control"
+                                   placeholder="000">
                         </div>
+{{--                        <label class="form-label" for="variant-price-sale[{{ $attributeValueIds }}]">Price--}}
+                        {{--                            Sale</label>--}}
+                        {{--                        <div class="input-group mb-3">--}}
+                        {{--                                                        <span class="input-group-text"--}}
+                        {{--                                                              id="variant-price-sale-addon">$</span>--}}
+                        {{--                            <input type="text" class="form-control"--}}
+                        {{--                                   id="variant-price-sale[{{ $attributeValueIds }}]"--}}
+                        {{--                                   name="product_variants[{{ $attributeValueIds }}][variant_price_sale]"--}}
+                        {{--                                   placeholder="Enter discount" aria-label="discount"--}}
+                        {{--                                   aria-describedby="product-discount-addon">--}}
+                        {{--                        </div>--}}
                     </div>
                 </div>
                 <!-- end col -->
