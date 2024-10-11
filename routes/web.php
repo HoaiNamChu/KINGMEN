@@ -4,6 +4,10 @@ use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\CheckoutController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\PermissionController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +38,16 @@ Route::prefix('/admin')
     ->as('admin.')
     ->group(function () {
     Route::get('/', function () {
+        
+ 
+        
         return view('admin.dashboard.index');
     });
-    Route::resource('brands', BrandController::class);
+
+    Route::resource('users', UserController::class)->middleware('checkPermission:Manage Users');
+    Route::resource('roles', RoleController::class)->middleware('checkPermission:Manage Roles');
+    Route::resource('brands', BrandController::class)->middleware('checkPermission:Manage Brands');
+
+    Route::resource('permissions', PermissionController::class)->middleware('checkPermission:Manage Permissions');
+  
 });

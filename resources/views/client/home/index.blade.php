@@ -1,6 +1,12 @@
 @extends('client.layouts.main')
 
 @section('content')
+
+@if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <!--== Start Hero Area Wrapper ==-->
     <section class="home-slider-area">
         <div class="swiper-container home-slider-container default-slider-container">
