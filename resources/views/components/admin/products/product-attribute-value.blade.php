@@ -16,12 +16,12 @@
             <tbody>
             <tr>
                 <td>
-                    <strong>{{ $attribute->attribute_name }}</strong>
+                    <strong>{{ $attribute->name }}</strong>
                 </td>
                 <td>
                     <select id="select-{{ $attribute->id }}" style="width: 100%" multiple>
                         @foreach($attribute->attributeValues as $item)
-                            <option value="{{ $item->id }}">{{ $item->attribute_value_name }}</option>
+                            <option value="{{ $item->id }}">{{ $item->name }}</option>
                         @endforeach
                     </select>
                 </td>

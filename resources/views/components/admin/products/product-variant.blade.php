@@ -10,7 +10,7 @@
     <div class="pe-4" id="variant-{{ $attributeValueIds }}">
         <div class="align-items-center">
             @foreach($productVariant as $item)
-                <h5 class="d-inline-block mb-0 me-3">{{ $item->attribute_value_name }}</h5>
+                <h5 class="d-inline-block mb-0 me-3">{{ $item->name }}</h5>
             @endforeach
             <button class="btn btn-sm btn-danger float-end btn-remove-variant" id="{{ $attributeValueIds }}"
                     type="button">Remove
