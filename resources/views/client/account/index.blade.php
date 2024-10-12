@@ -118,21 +118,54 @@
                       <p class="saved-message">You Can't Saved Your Payment Method yet.</p>
                     </div>
                   </div>
+
+                  {{-- Update billing address --}}
                   <div class="tab-pane fade" id="address-edit" role="tabpanel" aria-labelledby="address-edit-tab">
                     <div class="myaccount-content">
-                      <h3>Billing Address</h3>
-                      @if(Auth::check())
-                        <address>
-                          <p><strong>{{$userData->name}}</strong></p>
-                          <p>{{$userData->address}}<br></p>
-                          <p>Mobile: {{$userData->phone}}</p>
-                        </address>
-                        <a href="#/" class="check-btn sqr-btn"><i class="fa fa-edit"></i> Edit Address</a>
-                        @else
-                        <p>Bạn cần đăng nhập để xem thông tin tài khoản.</p> <!-- Thông báo nếu chưa đăng nhập -->
+                      
+                      @if(session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
                       @endif
+                      
+                      @if($errors->any())
+                          <div class="alert alert-danger">
+                              <ul>
+                                  @foreach($errors->all() as $error)
+                                      <li>{{ $error }}</li>
+                                  @endforeach
+                              </ul>
+                          </div>
+                      @endif
+                  
+                        <h3>Billing Address</h3>
+                        @if(Auth::check())
+                        <form action="/update-billing-address" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="name" name="name" value="{{ $userData->name }}">
+                            </div>
+                
+                            <div class="form-group">
+                                <label for="address">Address:</label>
+                                <input type="text" class="form-control" id="address" name="address" value="{{ $userData->address }}">
+                            </div>
+                
+                            <div class="form-group">
+                                <label for="phone">Mobile:</label>
+                                <input type="text" class="form-control" id="phone" name="phone" value="{{ $userData->phone }}"><hr>
+                            </div>
+                
+                            <button type="submit" class="btn btn-success" style="background-color: #eb3e32; border-color: #eb3e32;">Update</button>
+                        </form>
+                        @else
+                        <p>Bạn cần đăng nhập để xem thông tin tài khoản.</p>
+                        @endif
                     </div>
                   </div>
+                  {{--  --}}
 
                   {{-- ACCOUNT detail --}}
                   <div class="tab-pane fade" id="account-info" role="tabpanel" aria-labelledby="account-info-tab">
@@ -164,30 +197,15 @@
                                   </div>
                                 </div>
                               @else
-                                  <fieldset>
-                                      <legend>Password change</legend>
-                                      <div class="single-input-item">
-                                          <label for="current-pwd" class="required">Current Password</label>
-                                          <input type="password" id="current-pwd" placeholder="Enter current password" value="{{ Auth::user()->password }}" />
-                                      </div>
-                                      <div class="row">
-                                          <div class="col-lg-6">
-                                              <div class="single-input-item">
-                                                  <label for="new-pwd" class="required">New Password</label>
-                                                  <input type="password" id="new-pwd" placeholder="Enter new password" />
-                                              </div>
-                                          </div>
-                                          <div class="col-lg-6">
-                                              <div class="single-input-item">
-                                                  <label for="confirm-pwd" class="required">Confirm Password</label>
-                                                  <input type="password" id="confirm-pwd" placeholder="Confirm new password" />
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </fieldset>
-                                  <div class="single-input-item">
-                                    <button class="check-btn sqr-btn">Save Changes</button>
-                                </div>
+                                  <form action="#" method="POST">
+                                    @csrf
+                                    <fieldset>
+                                        <legend>you forgot your password ?</legend>
+                                    </fieldset>
+                                    <div class="single-input-item">
+                                      <button class="check-btn sqr-btn">Save Changes</button>
+                                    </div>
+                                  </form>
                               @endif
                       
                               

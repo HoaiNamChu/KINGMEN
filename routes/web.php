@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AccountGoogleController;
 
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Client\AccountGoogleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,26 +23,28 @@ Route::prefix('/')->group(function () {
         return view('client.home.index');
     });
 
+    // view account
+    Route::get('/account', [AccountGoogleController::class, 'index'])->name('account.index');
+    
+    // login 
     Route::get('/login', [AccountGoogleController::class, 'viewLogin'])->name('login');
     Route::post('login', [AccountGoogleController::class, 'login'])->name('login.submit');
 
+    // register
     Route::get('/register', [AccountGoogleController::class, 'create'])->name('account.index');
     Route::post('/register', [AccountGoogleController::class, 'store'])->name('store');
-   
-    Route::get('/account', [AccountGoogleController::class, 'index'])->name('account.index');
 
+    // login by google
     Route::get('auth/google', [AccountGoogleController::class, 'redirectToGoogle'])->name('login-by-google');
     Route::get('auth/google/callback', [AccountGoogleController::class, 'handleGoogleCallback']);
+
+    // logout account
     Route::get('/logout', [AccountGoogleController::class, 'logout'])->name('logout');
 
-    
-});
+    // update billing address
+    Route::post('/update-billing-address', [AccountGoogleController::class, 'updateBillingAddress']);
 
-// viết các route admin vào đây
-Route::prefix('/admin')->group(function () {
-    Route::get('/', function () {
-        return view('admin.dashboard.index');
-    });
+    
 });
 
 // viết các route admin vào đây

@@ -1,6 +1,6 @@
 <?php
-
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Client;
+use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
@@ -22,39 +22,39 @@ class AccountGoogleController extends Controller
     }
 
     public function handleGoogleCallback()
-{
-    try {
-        // Lấy thông tin người dùng từ Google thông qua Socialite
-        $user = Socialite::driver('google')->user();     
+    {
+        try {
+            // Lấy thông tin người dùng từ Google thông qua Socialite
+            $user = Socialite::driver('google')->user();     
 
-        // Tìm người dùng trong cơ sở dữ liệu dựa trên email của họ
-        $finduser = User::where('email', $user->email)->first();
+            // Tìm người dùng trong cơ sở dữ liệu dựa trên email của họ
+            $finduser = User::where('email', $user->email)->first();
 
-        // Nếu người dùng đã tồn tại và google_id của họ không rỗng
-        if($finduser && !empty($finduser->google_id)){
-            // Đăng nhập người dùng
-            Auth::login($finduser);
-            return redirect()->intended('/');  // Chuyển hướng đến trang chủ (hoặc trang mong muốn)
-        } else if($finduser && empty($finduser->google_id)){
-            // Nếu google_id rỗng, không đăng nhập
-            return redirect()->back()->with('error', 'This account is not linked with Google. Please use another login method.');
-        } else {
-            // Nếu người dùng chưa tồn tại, tạo người dùng mới với thông tin từ Google
-            $newUser = User::updateOrCreate(['email' => $user->email], [
-                'name' => $user->name,
-                'google_id'=> $user->id,
-                'password' => encrypt('12345678')  // Mật khẩu mặc định
-            ]);
+            // Nếu người dùng đã tồn tại và google_id của họ không rỗng
+            if($finduser && !empty($finduser->google_id)){
+                // Đăng nhập người dùng
+                Auth::login($finduser);
+                return redirect()->intended('/');  // Chuyển hướng đến trang chủ (hoặc trang mong muốn)
+            } else if($finduser && empty($finduser->google_id)){
+                // Nếu google_id rỗng, không đăng nhập
+                return redirect()->back()->with('error', 'This account is not linked with Google. Please use another login method.');
+            } else {
+                // Nếu người dùng chưa tồn tại, tạo người dùng mới với thông tin từ Google
+                $newUser = User::updateOrCreate(['email' => $user->email], [
+                    'name' => $user->name,
+                    'google_id'=> $user->id,
+                    'password' => encrypt('12345678')  // Mật khẩu mặc định
+                ]);
 
-            // Đăng nhập người dùng mới
-            Auth::login($newUser);
-            return redirect()->intended('/');
-        }        
-    } catch (Exception $e) {
-        // Nếu xảy ra lỗi, hiển thị thông báo lỗi (debugging)
-        dd($e->getMessage());
+                // Đăng nhập người dùng mới
+                Auth::login($newUser);
+                return redirect()->intended('/');
+            }        
+        } catch (Exception $e) {
+            // Nếu xảy ra lỗi, hiển thị thông báo lỗi (debugging)
+            dd($e->getMessage());
+        }
     }
-}
 
 
     // logout
@@ -73,9 +73,7 @@ class AccountGoogleController extends Controller
     }
 
 
-    /**
-     * Display a listing of the resource.
-     */
+    // View detail account
     public function index()
     {
         $user = Auth::user(); 
@@ -87,20 +85,15 @@ class AccountGoogleController extends Controller
             return redirect()->route('login'); // Redirect đến trang đăng nhập 
         }
 
-        return view('client.home.account.index', compact('userData'));
+        return view('client.account.index', compact('userData'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // register
     public function create()
     {
-        return view('client.home.account.register');
+        return view('client.account.register');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         // Xác thực dữ liệu đầu vào
@@ -125,12 +118,13 @@ class AccountGoogleController extends Controller
         Auth::login($user);
 
         // Chuyển hướng đến trang thành công
-        return redirect()->route('account.index')->with('success', 'Đăng ký thành công!');
+        return redirect()->route('account')->with('success', 'Đăng ký thành công!');
     }
 
+    // view login
     public function viewLogin()
     {
-        return view('client.home.account.login'); 
+        return view('client.account.login'); 
     }
 
     public function login(Request $request)
@@ -160,38 +154,37 @@ class AccountGoogleController extends Controller
     }
 
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // edit Billing Address (acc detail)
+    public function updateBillingAddress(Request $request)
     {
-        //
+        // Xác thực dữ liệu đầu vào
+        try {
+            $validatedData = $request->validate([
+                'name' => 'required|string|max:255',
+                'address' => 'required|string|max:255',
+                'phone' => 'required|string|max:15',
+            ]);
+
+            // Nếu xác thực thành công, tiến hành cập nhật thông tin
+            $user = Auth::user();
+
+            // Cập nhật thông tin người dùng
+            $user->name = $validatedData['name'];
+            $user->address = $validatedData['address'];
+            $user->phone = $validatedData['phone'];
+            $user->save();
+
+            // Chuyển hướng với thông báo thành công
+            return redirect()->back()->with('success', 'Billing Address updated successfully!');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Xử lý khi xác thực thất bại
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput(); // Giữ lại các giá trị đã nhập
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 
     
 }
