@@ -24,7 +24,7 @@
                         <label class="form-label" for="variant-sku[{{ $attributeValueIds }}]">SKU</label>
                         <input type="text" class="form-control" id="variant-sku[{{ $attributeValueIds }}]"
                                name="product_variants[{{ $attributeValueIds }}][variant_sku]"
-                               placeholder="Enter SKU" value=" ">
+                               placeholder="Enter SKU" value="{{ \Illuminate\Support\Str::random(8) }}">
                     </div>
                 </div>
                 <div class="col-lg-6">

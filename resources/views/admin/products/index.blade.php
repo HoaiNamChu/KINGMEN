@@ -83,8 +83,8 @@
                                         </td>
                                         <td> {{ $item->category->name }}</td>
                                         <td><span class="badge p-1 bg-light text-dark fs-12 me-1"><i
-                                                    class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 4.5</span>
-                                            55 Review
+                                                    class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> {{  }}</span>
+                                            {{ $item->productRatings->count() }} Review
                                         </td>
                                         <td>
                                             <div class="d-flex gap-2">

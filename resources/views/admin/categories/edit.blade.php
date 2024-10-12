@@ -20,7 +20,7 @@
                                 </div>
                                 <div class="col-lg-4 col-4">
                                     <p class="mb-1 mt-2">Product :</p>
-                                    <h5 class="mb-0">100</h5>
+                                    <h5 class="mb-0">{{ $category->products->count() }}</h5>
                                 </div>
                                 <div class="col-lg-4 col-4">
                                     <p class="mb-1 mt-2">ID :</p>
