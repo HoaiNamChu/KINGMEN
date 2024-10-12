@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Gallery;
+use App\Models\Product;
 use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -21,7 +24,8 @@ class ProductController extends Controller
 
     public function index()
     {
-        return view(self::PATH_VIEW . __FUNCTION__);
+        $products = Product::query()->with('category')->latest()->get();
+        return view(self::PATH_VIEW . __FUNCTION__, compact('products'));
     }
 
     /**
@@ -63,19 +67,37 @@ class ProductController extends Controller
             }
             $data['image'] ??= null;
 
-            $data['product_slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))).'-'.$data['sku'];;
+            $data['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))).'-'.$data['sku'];;
 
             $tags = request('tags');
             $galleries = request('galleries');
 
-            dd($data);
+            try {
+                $product = Product::query()->create($data);
+
+                $product->tags()->sync($tags);
+
+                if (!empty($galleries)){
+                    foreach ($galleries as $gallery){
+                        Gallery::query()->create([
+                            'product_id' => $product->id,
+                            'image' => Storage::put('galleries', $gallery)
+                        ]);
+                    }
+                }
+
+                return redirect()->route('admin.products.index')->with('success', 'Add Product Successfully');
+            }catch (\Exception $exception){
+                DB::rollBack();
+                return redirect()->route('admin.products.create')->with('error', $exception->getMessage());
+            }
         }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Product $product)
     {
         return view(self::PATH_VIEW . __FUNCTION__);
     }
@@ -83,7 +105,7 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Product $product)
     {
         return view(self::PATH_VIEW . __FUNCTION__);
     }
@@ -91,7 +113,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Product $product)
     {
         //
     }
@@ -99,8 +121,31 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        //
+        try {
+
+            $product->tags()->detach();
+
+            if ($product->galleries->count()){
+
+                foreach ($product->galleries as $gallery){
+                    $gallery->delete();
+                    Storage::delete($gallery->image);
+                }
+            }
+
+            $product->delete();
+
+            if (!empty($product->image) && Storage::exists($product->image)){
+                Storage::delete($product->image);
+            }
+
+
+            return redirect()->route('admin.products.index')->with('success', 'Delete Product Successfully');
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return redirect()->route('admin.products.index')->with('error', $exception->getMessage());
+        }
     }
 }
