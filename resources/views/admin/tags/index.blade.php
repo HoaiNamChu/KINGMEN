@@ -89,6 +89,8 @@
                     </div>
                 </form>
             </div>
+
+
             <div class="col-xl-8">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center gap-1">
@@ -138,7 +140,7 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="text-dark fw-medium fs-15 mb-0">{{ $item->name }}</p>
+                                            <span class="badge bg-info me-1">{{ $item->name }}</span>
                                         </td>
                                         <td>{{ $item->slug }}</td>
                                         <td>{{ $item->id }}</td>

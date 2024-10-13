@@ -46,6 +46,7 @@
                                     <th>Product Name & Size</th>
                                     <th>Price</th>
                                     <th>Stock</th>
+                                    <th>Brand</th>
                                     <th>Category</th>
                                     <th>Rating</th>
                                     <th>Action</th>
@@ -81,9 +82,10 @@
                                                 Left</p>
                                             <p class="mb-0 text-muted">155 Sold</p>
                                         </td>
+                                        <td> {{ $item->brand->name }}</td>
                                         <td> {{ $item->category->name }}</td>
                                         <td><span class="badge p-1 bg-light text-dark fs-12 me-1"><i
-                                                    class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> {{  }}</span>
+                                                    class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 4.5</span>
                                             {{ $item->productRatings->count() }} Review
                                         </td>
                                         <td>
