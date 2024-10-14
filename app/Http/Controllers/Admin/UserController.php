@@ -20,8 +20,13 @@ class UserController extends Controller
     // Hiển thị danh sách người dùng
     public function index()
     {
+
         $data = User::query()->get();
-        return view('admin.users.index', compact('data'));
+      if ($data->isEmpty()) {
+        return redirect()->route('admin.users.create')->with('info', 'No users found. Please create a user.');
+    }
+
+    return view('admin.users.index', compact('data'));
        
     }
 
