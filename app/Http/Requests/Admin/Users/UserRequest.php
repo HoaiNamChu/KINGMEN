@@ -34,23 +34,23 @@ class UserRequest extends FormRequest
         ];
     }
 
-    public function messages()
-    {
-        return [
-            'name.required' => 'Tên là bắt buộc.',
-            'username.required' => 'Tên người dùng là bắt buộc.',
-            'username.unique' => 'Tên người dùng đã tồn tại.',
-            'role.required' => 'Vai trò là bắt buộc.',
-            'password.required' => 'Mật khẩu là bắt buộc.',
+    // public function messages()
+    // {
+    //     return [
+    //         'name.required' => 'Tên là bắt buộc.',
+    //         'username.required' => 'Tên người dùng là bắt buộc.',
+    //         'username.unique' => 'Tên người dùng đã tồn tại.',
+    //         'role.required' => 'Vai trò là bắt buộc.',
+    //         'password.required' => 'Mật khẩu là bắt buộc.',
           
-            'address.required' => 'Địa chỉ là bắt buộc.',
-            'email.required' => 'Email là bắt buộc.',
-            'email.email' => 'Địa chỉ email không hợp lệ.',
-            'email.unique' => 'Email đã tồn tại.',
-            'phone.required' => 'Số điện thoại là bắt buộc.',
-            'phone.regex' => 'Số điện thoại không hợp lệ.',
-            'avatar.image' => 'Avatar phải là một hình ảnh.',
-            'avatar.mimes' => 'Avatar phải có định dạng jpeg, png, jpg, hoặc gif.',
-        ];
-    }
+    //         'address.required' => 'Địa chỉ là bắt buộc.',
+    //         'email.required' => 'Email là bắt buộc.',
+    //         'email.email' => 'Địa chỉ email không hợp lệ.',
+    //         'email.unique' => 'Email đã tồn tại.',
+    //         'phone.required' => 'Số điện thoại là bắt buộc.',
+    //         'phone.regex' => 'Số điện thoại không hợp lệ.',
+    //         'avatar.image' => 'Avatar phải là một hình ảnh.',
+    //         'avatar.mimes' => 'Avatar phải có định dạng jpeg, png, jpg, hoặc gif.',
+    //     ];
+    // }
 }

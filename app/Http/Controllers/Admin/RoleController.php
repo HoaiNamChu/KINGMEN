@@ -5,6 +5,8 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Admin\Roles\RoleRequest;
+use App\Http\Requests\Admin\Roles\UpdateRoleRequest;
+
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
 
@@ -76,7 +78,7 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Role $role)
+    public function update(UpdateRoleRequest $request, Role $role)
     {
 
         // Cập nhật role với dữ liệu mới

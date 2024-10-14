@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\Admin\Users\UserRequest;
+use App\Http\Requests\Admin\Users\UpdateUserRequest;
 use App\Http\Controllers\Controller;
 
 class UserController extends Controller
@@ -72,7 +73,7 @@ class UserController extends Controller
     }
 
     // Cập nhật thông tin user
-    public function update(request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
 
         // Xử lý avatar nếu có upload
@@ -104,6 +105,11 @@ class UserController extends Controller
     // Xóa user
     public function destroy(User $user)
     {
+
+          // Kiểm tra nếu người dùng có ảnh và ảnh tồn tại trong thư mục
+          if ($user->avatar) {
+            Storage::delete($user->avatar); // Xóa avatar cũ nếu có
+        }
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully');
     }
