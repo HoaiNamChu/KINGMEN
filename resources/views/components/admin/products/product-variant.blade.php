@@ -23,7 +23,7 @@
                     <div class="mb-3">
                         <label class="form-label" for="variant-sku[{{ $attributeValueIds }}]">SKU</label>
                         <input type="text" class="form-control" id="variant-sku[{{ $attributeValueIds }}]"
-                               name="product_variants[{{ $attributeValueIds }}][variant_sku]"
+                               name="product_variants[{{ $attributeValueIds }}][sku]"
                                placeholder="Enter SKU" value="{{ \Illuminate\Support\Str::random(8) }}">
                     </div>
                 </div>
@@ -31,7 +31,7 @@
                     <div class="mb-3">
                         <label class="form-label" for="variant-image[{{ $attributeValueIds }}]">Image</label>
                         <input type="file" class="form-control"
-                               name="product_variants[{{ $attributeValueIds }}][variant_image]"
+                               name="product_variants[{{ $attributeValueIds }}][image]"
                                id="variant-image[{{ $attributeValueIds }}]"
                                placeholder="Enter manufacturer brand">
                     </div>
@@ -43,7 +43,7 @@
                 <div class="col-lg-4 col-sm-6">
                     <div class="mb-3">
                         <label for="variant-quantity[{{ $attributeValueIds }}]" class="form-label">Stock</label>
-                        <input type="number" id="variant-quantity[{{ $attributeValueIds }}]" name="product_variants[{{ $attributeValueIds }}][variant_quantity]"
+                        <input type="number" id="variant-quantity[{{ $attributeValueIds }}]" name="product_variants[{{ $attributeValueIds }}][quantity]"
                                class="form-control" placeholder="Quantity">
 {{--                        <label class="form-label" for="variant-quantity[{{ $attributeValueIds }}]">Quantity</label>--}}
                         {{--                        <input type="text" class="form-control" id="variant-quantity[{{ $attributeValueIds }}]"--}}
@@ -58,7 +58,7 @@
                                                     <span class="input-group-text fs-20"><i
                                                             class="bx bx-dollar"></i></span>
                             <input type="number" id="variant-price[{{ $attributeValueIds }}]"
-                                   name="product_variants[{{ $attributeValueIds }}][variant_price]"
+                                   name="product_variants[{{ $attributeValueIds }}][price]"
                                    class="form-control"
                                    placeholder="000">
                         </div>
@@ -81,7 +81,7 @@
                                                             class="bx bx-dollar"></i></span>
                             <input type="number"
                                    id="variant-price-sale[{{ $attributeValueIds }}]"
-                                   name="product_variants[{{ $attributeValueIds }}][variant_price_sale]"
+                                   name="product_variants[{{ $attributeValueIds }}][price_sale]"
                                    class="form-control"
                                    placeholder="000">
                         </div>

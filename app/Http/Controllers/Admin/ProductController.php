@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Gallery;
 use App\Models\Product;
 use App\Models\Tag;
+use App\Models\Variant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -96,8 +97,9 @@ class ProductController extends Controller
             $data = [
                 'name' => request('name'),
                 'sku' => request('sku'),
-                'price' => request('price'),
-                'price_sale' => request('price_sale'),
+                'price' => 0,
+                'price_sale' =>0,
+                'quantity' =>0,
                 'description' => request('description'),
                 'short_desc' => request('short_desc'),
                 'category_id' => request('category_id'),
@@ -113,14 +115,50 @@ class ProductController extends Controller
             }
             $data['image'] ??= null;
 
-            $data['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))).'-'.$data['sku'];;
+            $data['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))).'-'.$data['sku'];
 
             $tags = request('tags');
             $galleries = request('galleries');
 
-            $dataVariant = $request->product_variants;
+            $dataVariants = $request->product_variants;
 
-            dd($dataVariant);
+            try {
+                DB::beginTransaction();
+                $product = Product::query()->create($data);
+
+
+                foreach ($dataVariants as $key => $dataVariant) {
+                    $valueIds = explode('-', $key);
+                    array_pop($valueIds);
+                    $dataVariant['product_id'] = $product->id;
+                    $dataVariant['image'] ??= null;
+                    $dataVariant['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))).'-'.$dataVariant['sku'];
+                    if ($dataVariant['image']) {
+                        $dataVariant['image'] = Storage::put(self::PATH_UPLOAD, $dataVariant['image']);
+                    }
+                    $productVariant = Variant::query()->create($dataVariant);
+                    $productVariant->attributeValues()->attach($valueIds);
+
+
+                }
+
+
+                $product->tags()->sync($tags);
+
+                if (!empty($galleries)){
+                    foreach ($galleries as $gallery){
+                        Gallery::query()->create([
+                            'product_id' => $product->id,
+                            'image' => Storage::put(self::PATH_UPLOAD, $gallery)
+                        ]);
+                    }
+                }
+                DB::commit();
+                return redirect()->route('admin.products.index')->with('success', 'Add Product Successfully');
+            } catch (\Exception $exception) {
+                DB::rollBack();
+                return redirect()->route('admin.products.create')->with('error', $exception->getMessage());
+            }
         }
     }
 
@@ -153,29 +191,50 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        try {
+        if ($product->variants->count()) {
+            try {
 
-            $product->tags()->detach();
+                $product->tags()->detach();
 
-            if ($product->galleries->count()){
-
-                foreach ($product->galleries as $gallery){
-                    $gallery->delete();
-                    Storage::delete($gallery->image);
+                foreach ( $product->variants as $variant){
+                    $variant->attributeValues()->detach();
                 }
+
+                $product->variants()->delete();
+
+                $product->delete();
+
+                return redirect()->route('admin.products.index')->with('success', 'Delete Product Successfully');
+            }catch (\Exception $exception){
+                DB::rollBack();
+                return redirect()->route('admin.products.index')->with('error', $exception->getMessage());
             }
+        }else{
+            try {
 
-            $product->delete();
+                $product->tags()->detach();
 
-            if (!empty($product->image) && Storage::exists($product->image)){
-                Storage::delete($product->image);
+                if ($product->galleries->count()){
+
+                    foreach ($product->galleries as $gallery){
+                        $gallery->delete();
+                        Storage::delete($gallery->image);
+                    }
+                }
+
+                $product->delete();
+
+                if (!empty($product->image) && Storage::exists($product->image)){
+                    Storage::delete($product->image);
+                }
+
+
+                return redirect()->route('admin.products.index')->with('success', 'Delete Product Successfully');
+            }catch (\Exception $exception){
+                DB::rollBack();
+                return redirect()->route('admin.products.index')->with('error', $exception->getMessage());
             }
-
-
-            return redirect()->route('admin.products.index')->with('success', 'Delete Product Successfully');
-        }catch (\Exception $exception){
-            DB::rollBack();
-            return redirect()->route('admin.products.index')->with('error', $exception->getMessage());
         }
+
     }
 }
