@@ -175,7 +175,11 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view(self::PATH_VIEW . __FUNCTION__);
+        $attributes  =  Attribute::query()->pluck('name', 'id');
+        $tags        =  Tag::query()->pluck('name', 'id');
+        $brands      =  Brand::query()->pluck('name', 'id');
+        $categories = Category::query()->whereNull('parent_id')->with('children')->get();
+        return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'attributes', 'tags', 'brands', 'categories'));
     }
 
     /**
