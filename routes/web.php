@@ -44,7 +44,14 @@ Route::prefix('/')->group(function () {
     // update billing address
     Route::post('/update-billing-address', [AccountGoogleController::class, 'updateBillingAddress']);
 
-    
+    // forget password
+    Route::get('/forget-password', [AccountGoogleController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+
+    Route::post('/forget-password', [AccountGoogleController::class, 'sendEmailForgetPasswordForm'])->name('forget.password.post'); 
+
+    Route::get('reset-password/{token}', [AccountGoogleController::class, 'showResetPasswordForm'])->name('reset.password.get');
+
+    Route::post('reset-password', [AccountGoogleController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 });
 
 // viết các route admin vào đây

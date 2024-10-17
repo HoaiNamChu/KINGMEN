@@ -1,7 +1,8 @@
 <?php
 namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Exception;
@@ -10,6 +11,8 @@ use Illuminate\Console\View\Components\Alert;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon; 
+use Illuminate\Support\Str;
 
 use function Laravel\Prompts\alert;
 
@@ -118,7 +121,7 @@ class AccountGoogleController extends Controller
         Auth::login($user);
 
         // Chuyển hướng đến trang thành công
-        return redirect()->route('account')->with('success', 'Đăng ký thành công!');
+        return redirect()->intended('/');
     }
 
     // view login
@@ -157,18 +160,28 @@ class AccountGoogleController extends Controller
     // edit Billing Address (acc detail)
     public function updateBillingAddress(Request $request)
     {
-        // Xác thực dữ liệu đầu vào
         try {
+            // Xác thực dữ liệu đầu vào
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
                 'address' => 'required|string|max:255',
-                'phone' => 'required|string|max:15',
+                'phone' => 'required|string|max:10',
             ]);
 
-            // Nếu xác thực thành công, tiến hành cập nhật thông tin
+            // Lấy thông tin người dùng hiện tại
             $user = Auth::user();
 
-            // Cập nhật thông tin người dùng
+            // Kiểm tra xem số điện thoại đã tồn tại cho người dùng khác chưa
+            $existingUser = User::where('phone', $validatedData['phone'])->where('id', '!=', $user->id)->first();
+
+            if ($existingUser) {
+                // Nếu có người dùng khác đã sử dụng số điện thoại này, trả về lỗi
+                return redirect()->back()
+                    ->withErrors(['phone' => 'This phone number is already taken.'])
+                    ->withInput(); // Giữ lại các giá trị đã nhập
+            }
+
+            // Cập nhật thông tin người dùng nếu không có trùng lặp
             $user->name = $validatedData['name'];
             $user->address = $validatedData['address'];
             $user->phone = $validatedData['phone'];
@@ -185,6 +198,78 @@ class AccountGoogleController extends Controller
         }
     }
 
+    // Forget password
+    public function showForgetPasswordForm()
+    {
+        return view('client.account.viewForgetPassword');
+    }
 
-    
+    public function sendEmailForgetPasswordForm(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email', // Ensure the email exists in the users table
+        ]);
+
+        try {
+            // random token
+            $token = Str::random(64);
+
+            // Insert token vào bảng password_reset_tokens
+            DB::table('password_reset_tokens')->insert([
+                'email' => $request->email, 
+                'token' => $token, 
+                'created_at' => Carbon::now()
+            ]);
+
+            // Send email
+            Mail::send('client.email.forgetPassword', ['token' => $token], function($message) use($request){
+                $message->to($request->email);
+                $message->subject('Reset Password');
+            });
+
+            return back()->with('success', 'We have e-mailed your password reset link!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Something went wrong. Please try again later.');
+        }
+    }
+
+
+    public function showResetPasswordForm($token) { 
+        return view('client.account.formResetPassword', ['token' => $token]);
+    }
+
+    public function submitResetPasswordForm(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email', 
+            'password' => 'required|string|min:8|confirmed', 
+            'password_confirmation' => 'required' 
+        ]);
+
+        // Check token đã được tạo chưa
+        $updatePassword = DB::table('password_reset_tokens')->where([
+            'email' => $request->email, 
+            'token' => $request->token
+        ])->first();
+
+        // token chưa dc tạo báo lỗi
+        if (!$updatePassword) {
+            return back()->withInput()->with('error', 'Invalid token or the link has expired!');
+        }
+
+        // Update password
+        User::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
+        
+        // xóa token khi password được cập nhật
+        DB::table('password_reset_tokens')->where(['email'=> $request->email])->delete();
+
+        // SAu khi Update password tự động login
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            return redirect()->intended('/')->with('message', 'Your password has been reset and you are now logged in!');
+        }
+
+        return redirect('/login')->with('error', 'There was an issue logging in. Please try logging in manually.');
+    }
+
+
 }

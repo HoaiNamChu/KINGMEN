@@ -31,6 +31,22 @@
               </div>
               <div class="col-lg-9 col-md-8">
                 <div class="tab-content" id="nav-tabContent">
+                  @if(session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                  @endif
+                  
+                  @if($errors->any())
+                      <div class="alert alert-danger">
+                          <ul>
+                              @foreach($errors->all() as $error)
+                                  <li>{{ $error }}</li>
+                              @endforeach
+                          </ul>
+                      </div>
+                  @endif
+                  
                   <div class="tab-pane fade show active" id="dashboad" role="tabpanel" aria-labelledby="dashboad-tab">
                     <div class="myaccount-content">
                       <h3>Dashboard</h3>
@@ -122,23 +138,6 @@
                   {{-- Update billing address --}}
                   <div class="tab-pane fade" id="address-edit" role="tabpanel" aria-labelledby="address-edit-tab">
                     <div class="myaccount-content">
-                      
-                      @if(session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                      @endif
-                      
-                      @if($errors->any())
-                          <div class="alert alert-danger">
-                              <ul>
-                                  @foreach($errors->all() as $error)
-                                      <li>{{ $error }}</li>
-                                  @endforeach
-                              </ul>
-                          </div>
-                      @endif
-                  
                         <h3>Billing Address</h3>
                         @if(Auth::check())
                         <form action="/update-billing-address" method="POST">
