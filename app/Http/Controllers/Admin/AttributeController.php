@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Attributes\StoreAttributeRequest;
+use App\Http\Requests\Admin\Attributes\UpdateAttributeRequest;
 use App\Models\Attribute;
 use App\Models\AttributeValue;
 use Illuminate\Http\Request;
@@ -33,7 +35,7 @@ class AttributeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreAttributeRequest $request)
     {
         $dataAttribute = [
             'name' => request('name'),
@@ -96,7 +98,7 @@ class AttributeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Attribute $attribute)
+    public function update(UpdateAttributeRequest $request, Attribute $attribute)
     {
         $dataAttribute = [
             'name' => request('name'),

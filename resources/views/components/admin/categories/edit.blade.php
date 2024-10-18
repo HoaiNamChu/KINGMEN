@@ -1,5 +1,5 @@
 <option value="{{ $item->id }}" @selected($item->id == $category->parent_id)>{{ $dash }}{{ $item->name }}</option>
-@if($item->children)
+@if($item->children->count())
     @php
         $dash .= '--';
     @endphp

@@ -21,7 +21,8 @@
                                 <div class="col-lg-12">
                                     <div class="mb-3">
                                         <label for="product-name" class="form-label">Product Name</label>
-                                        <input type="text" id="product-name" value="{{ $product->name }}" name="name" class="form-control"
+                                        <input type="text" id="product-name" value="{{ $product->name }}" name="name"
+                                               class="form-control"
                                                placeholder="Items Name">
                                     </div>
                                 </div>
@@ -59,8 +60,9 @@
                                 <label for="product-type">
                                     <select name="product_type" id="product-type">
                                         <optgroup label="Product Type">
-                                            <option value="simple" @selected(!$product->variants) id="simple">Product simple</option>
-                                            <option value="variable"  @selected($product->variants) id="variable">Variable product</option>
+                                            <option value="simple" @selected(!$product->variants->count()) id="simple">Product simple</option>
+                                            <option value="variable"
+                                                    @selected($product->variants->count()) id="variable">Variable product</option>
                                         </optgroup>
                                     </select>
                                 </label>
@@ -85,7 +87,7 @@
                                                 <label for="product-price" class="form-label">Price</label>
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text fs-20"><i
-                                                            class="bx bx-dollar"></i></span>
+                                                                class="bx bx-dollar"></i></span>
                                                     <input type="number" name="price" id="product-price"
                                                            class="form-control"
                                                            placeholder="000">
@@ -95,7 +97,7 @@
                                                 <label for="product-price-sale" class="form-label">Price Sale</label>
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text fs-20"><i
-                                                            class="bx bx-dollar"></i></span>
+                                                                class="bx bx-dollar"></i></span>
                                                     <input type="number" name="price_sale" id="product-price-sale"
                                                            class="form-control"
                                                            placeholder="000">
@@ -187,16 +189,19 @@
                                 <label class="form-check-label" for="is-active">Is Active</label>
                             </div>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" @checked($product->is_hot) name="is_hot" value="1" type="checkbox" role="switch" id="is-hot">
+                                <input class="form-check-input" @checked($product->is_hot) name="is_hot" value="1"
+                                       type="checkbox" role="switch" id="is-hot">
                                 <label class="form-check-label" for="is-hot">Is Hot</label>
                             </div>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" @checked($product->is_sale) name="is_sale" value="1" type="checkbox" role="switch"
+                                <input class="form-check-input" @checked($product->is_sale) name="is_sale" value="1"
+                                       type="checkbox" role="switch"
                                        id="is-sale">
                                 <label class="form-check-label" for="is-sale">Is Sale</label>
                             </div>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" @checked($product->is_home) name="is_home" value="1" type="checkbox" role="switch"
+                                <input class="form-check-input" @checked($product->is_home) name="is_home" value="1"
+                                       type="checkbox" role="switch"
                                        id="is-home" checked>
                                 <label class="form-check-label" for="is-home">Is Home</label>
                             </div>
@@ -241,7 +246,7 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <select class="form-control" id="product-categories" data-choices
-                                            data-choices-groups data-placeholder="Select Categories"
+                                            data-choices-sorting-false data-placeholder="Select Categories"
                                             name="category_id">
                                         <option value="">Choose a categories</option>
                                         @foreach($categories as $item)

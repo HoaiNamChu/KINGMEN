@@ -1,5 +1,9 @@
 @extends('admin.layouts.main')
 
+@section('link')
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+@endsection
+
 @section('content')
     <div class="container-xxl">
 
@@ -115,8 +119,9 @@
                                             <div class="d-flex align-items-center gap-2">
                                                 <div
                                                     class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                    <img src="{{\Illuminate\Support\Facades\Storage::url($item->image)}}"
-                                                         alt="" class="avatar-md">
+                                                    <img
+                                                        src="{{\Illuminate\Support\Facades\Storage::url($item->image)}}"
+                                                        alt="" class="avatar-md">
                                                 </div>
                                                 <p class="text-dark fw-medium fs-15 mb-0">{{ $item->name }}</p>
                                             </div>
@@ -135,18 +140,21 @@
                                         <td>{{ $item->created_at }}</td>
                                         <td>
                                             <div class="d-flex gap-2">
-                                                <a href="{{ route('admin.brands.show', $item) }}" class="btn btn-light btn-sm">
+                                                <a href="{{ route('admin.brands.show', $item) }}"
+                                                   class="btn btn-light btn-sm">
                                                     <iconify-icon icon="solar:eye-broken"
                                                                   class="align-middle fs-18"></iconify-icon>
                                                 </a>
-                                                <a href="{{ route('admin.brands.edit', $item) }}" class="btn btn-soft-primary btn-sm">
+                                                <a href="{{ route('admin.brands.edit', $item) }}"
+                                                   class="btn btn-soft-primary btn-sm">
                                                     <iconify-icon icon="solar:pen-2-broken"
                                                                   class="align-middle fs-18"></iconify-icon>
                                                 </a>
                                                 <form action="{{ route('admin.brands.destroy', $item) }}" method="post">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-soft-danger btn-sm">
+                                                    <button type="submit" onclick="return confirm('Are you sure?')"
+                                                            class="btn btn-soft-danger btn-sm">
                                                         <iconify-icon icon="solar:trash-bin-minimalistic-2-broken"
                                                                       class="align-middle fs-18"></iconify-icon>
                                                     </button>
@@ -180,3 +188,30 @@
 
     </div>
 @endsection
+
+@section('lib-script')
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+@endsection
+
+@section('script')
+
+    <script>
+
+        @if(session('success'))
+        Toastify({
+
+            text: "{{ session('success') }}",
+
+            duration: 3000,
+
+            gravity: top,
+
+            close: true,
+
+        }).showToast();
+        @endif
+
+    </script>
+
+@endsection
+

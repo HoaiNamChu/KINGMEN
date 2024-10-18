@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Categories\StoreCategoryRequset;
+use App\Http\Requests\Admin\Categories\UpdateCategoryRequset;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,13 +30,14 @@ class CategoryController extends Controller
     public function create()
     {
         $categories = Category::query()->whereNull('parent_id')->with('children')->get();
+//        dd($categories);
         return view(self::PATH_VIEW . __FUNCTION__, compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequset $request)
     {
         $data = [
             'name' => request('name'),
@@ -80,7 +83,7 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(UpdateCategoryRequset $request, Category $category)
     {
         $oldImage = $category->image;
         $data = [

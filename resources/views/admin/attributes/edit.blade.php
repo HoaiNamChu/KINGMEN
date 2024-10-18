@@ -25,6 +25,11 @@
                                         <input type="text" id="variant-name" value="{{ $attribute->name }}" name="name"
                                                class="form-control"
                                                placeholder="Enter Name">
+                                        <span class="error-notification">
+                                            @error('name')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -32,7 +37,8 @@
                                         <label for="choices-multiple-remove-button" class="form-label text-dark">Attribute
                                             Value</label>
 
-                                        <select class="form-control" id="choices-multiple-remove-button" data-choices data-choices-removeItem name="attribute_value_id[]" multiple>
+                                        <select class="form-control" id="choices-multiple-remove-button" data-choices
+                                                data-choices-removeItem name="attribute_value_id[]" multiple>
 
                                             @if($attribute->attributeValues)
                                                 @foreach($attribute->attributeValues as $item)
@@ -40,7 +46,8 @@
                                                 @endforeach
                                             @endif
                                         </select>
-                                        <span><a href="" class="text-decoration-underline">+ Add attribute value</a></span>
+                                        <span><a href=""
+                                                 class="text-decoration-underline">+ Add attribute value</a></span>
                                     </div>
 
                                 </div>
@@ -50,6 +57,11 @@
                                         <input type="text" id="variant-slug" value="{{ $attribute->slug }}" name="slug"
                                                class="form-control"
                                                placeholder="Enter Slug">
+                                        <span class="error-notification">
+                                            @error('slug')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -59,6 +71,11 @@
                                                   id="description"
                                                   rows="7"
                                                   placeholder="Type description">{{ $attribute->description }}</textarea>
+                                        <span class="error-notification">
+                                            @error('description')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -78,6 +95,11 @@
                                                 In Active
                                             </label>
                                         </div>
+                                        <span class="error-notification">
+                                            @error('is_active')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                             </div>

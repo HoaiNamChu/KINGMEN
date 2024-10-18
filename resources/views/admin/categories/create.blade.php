@@ -19,19 +19,29 @@
                                         <label for="category-name" class="form-label">Category Name</label>
                                         <input type="text" id="category-name" name="name" class="form-control"
                                                placeholder="Category name">
+                                        <span class="error-notification">
+                                            @error('name')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="brand-image" class="form-label">Category Thumbnail</label>
                                         <input type="file" id="brand-image" name="image" class="form-control">
+                                        <span class="error-notification">
+                                            @error('image')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="crater" class="form-label">Parent</label>
                                         <select class="form-control" id="crater" name="parent_id" data-choices
-                                                data-choices-groups
+                                                data-choices-sorting-false
                                                 data-placeholder="Select Parent">
                                             <option value="">Select Parent</option>
                                             @foreach($categories as $item)
@@ -50,6 +60,11 @@
                                                   id="description"
                                                   rows="7"
                                                   placeholder="Type description"></textarea>
+                                        <span class="error-notification">
+                                            @error('description')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -69,6 +84,11 @@
                                                 In Active
                                             </label>
                                         </div>
+                                        <span class="error-notification">
+                                            @error('is_active')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                             </div>

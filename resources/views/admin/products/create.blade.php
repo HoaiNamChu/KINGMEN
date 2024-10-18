@@ -186,7 +186,8 @@
                                 <label class="form-check-label" for="is-active">Is Active</label>
                             </div>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" name="is_hot" value="1" type="checkbox" role="switch" id="is-hot">
+                                <input class="form-check-input" name="is_hot" value="1" type="checkbox" role="switch"
+                                       id="is-hot">
                                 <label class="form-check-label" for="is-hot">Is Hot</label>
                             </div>
                             <div class="form-check form-switch">
@@ -240,7 +241,7 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <select class="form-control" id="product-categories" data-choices
-                                            data-choices-groups data-placeholder="Select Categories"
+                                            data-choices-sorting-false data-placeholder="Select Categories"
                                             name="category_id">
                                         <option value="">Choose a categories</option>
                                         @foreach($categories as $item)

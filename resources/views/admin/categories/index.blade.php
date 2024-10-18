@@ -95,6 +95,7 @@
                                     </th>
                                     <th>Categories</th>
                                     <th>ID</th>
+                                    <th>Parent</th>
                                     <th>Product</th>
                                     <th>Status</th>
                                     <th>Create At</th>

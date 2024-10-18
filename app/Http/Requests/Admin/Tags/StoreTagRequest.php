@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Tags;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class StoreTagRequest extends FormRequest
 {
@@ -27,5 +28,18 @@ class StoreTagRequest extends FormRequest
             'description' => 'nullable|max:500',
             'is_active' => 'required|boolean',
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        if (request('slug')) {
+            $attributeSlug = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('slug')));
+        }else{
+            $attributeSlug = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name')));
+        }
+
+        $this->merge([
+            'slug' => $attributeSlug,
+        ]);
     }
 }

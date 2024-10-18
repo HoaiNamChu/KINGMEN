@@ -9,7 +9,7 @@
     <td>
         <div class="d-flex align-items-center gap-2">
             <div
-                    class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
+                class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
                 <img src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}"
                      alt="" class="avatar-md">
             </div>
@@ -56,7 +56,7 @@
         </div>
     </td>
 </tr>
-@if($item->children)
+@if($item->children->count())
     @php
         $dash .= '--';
     @endphp

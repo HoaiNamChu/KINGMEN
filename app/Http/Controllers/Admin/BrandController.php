@@ -126,7 +126,7 @@ class BrandController extends Controller
             if ($brand->image && Storage::exists($brand->image)){
                 Storage::delete($brand->image);
             }
-            return redirect()->route('admin.brands.index');
+            return redirect()->route('admin.brands.index')->with('success', 'Deleted brand successfully');
         }catch (\Exception $exception){
             DB::rollBack();
             return redirect()->back()->withErrors([$exception->getMessage()]);

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Brands;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class StoreBrandRequest extends FormRequest
 {
@@ -27,5 +28,18 @@ class StoreBrandRequest extends FormRequest
             'description' => 'string|nullable|max:500',
             'is_active' => 'required|boolean',
         ];
+    }
+
+    public function prepareForValidation()
+    {
+        if (request('slug')) {
+            $attributeSlug = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('slug')));
+        }else{
+            $attributeSlug = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name')));
+        }
+
+        $this->merge([
+            'slug' => $attributeSlug,
+        ]);
     }
 }

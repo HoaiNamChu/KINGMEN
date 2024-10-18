@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Admin\AttributeValues;
+namespace App\Http\Requests\Admin\Attributes;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
-class UpdateAttributeValueRequest extends FormRequest
+class UpdateAttributeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class UpdateAttributeValueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:100|'.Rule::unique('attribute_values', 'name')->ignore($this->attributeValue),
-            'slug' => 'nullable|max:255|'.Rule::unique('attribute_values', 'slug')->ignore($this->attributeValue),
-            'description' => 'nullable|max:500',
+            'name' => 'max:100|string|required|'.Rule::unique('attributes', 'name')->ignore($this->attribute),
+            'slug' => 'max:100|string|required|'.Rule::unique('attributes', 'slug')->ignore($this->attribute),
+            'description' => 'string|nullable|max:500',
             'is_active' => 'required|boolean',
         ];
     }

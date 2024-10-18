@@ -23,6 +23,11 @@
                                             Variant</label>
                                         <input type="text" id="variant-name" name="name" class="form-control"
                                                placeholder="Enter Name">
+                                        <span class="error-notification">
+                                            @error('name')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -30,6 +35,11 @@
                                         <label for="variant-slug" class="form-label text-dark">Slug</label>
                                         <input type="text" id="variant-slug" name="slug" class="form-control"
                                                placeholder="Enter Slug">
+                                        <span class="error-notification">
+                                            @error('slug')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -48,6 +58,11 @@
                                                   id="description"
                                                   rows="7"
                                                   placeholder="Type description"></textarea>
+                                        <span class="error-notification">
+                                            @error('description')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="col-lg-12">
@@ -67,6 +82,11 @@
                                                 In Active
                                             </label>
                                         </div>
+                                        <span class="error-notification">
+                                            @error('is_active')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
                                     </div>
                                 </div>
                             </div>
