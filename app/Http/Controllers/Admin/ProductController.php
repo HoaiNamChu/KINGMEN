@@ -25,7 +25,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::query()->with('category', 'brand')->latest()->get();
+        $products = Product::query()->with('categories', 'brand')->latest()->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('products'));
     }
 
@@ -54,7 +54,6 @@ class ProductController extends Controller
                 'price_sale' => request('price_sale'),
                 'description' => request('description'),
                 'short_desc' => request('short_desc'),
-                'category_id' => request('category_id'),
                 'brand_id' => request('brand_id'),
                 'quantity' => request('quantity'),
                 'is_active' => request('is_active') ?? 0,
@@ -70,6 +69,7 @@ class ProductController extends Controller
 
             $data['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))).'-'.$data['sku'];;
 
+            $categories = request('category_id');
             $tags = request('tags');
             $galleries = request('galleries');
 
@@ -77,6 +77,7 @@ class ProductController extends Controller
                 $product = Product::query()->create($data);
 
                 $product->tags()->sync($tags);
+                $product->categories()->sync($categories);
 
                 if (!empty($galleries)){
                     foreach ($galleries as $gallery){
@@ -90,6 +91,7 @@ class ProductController extends Controller
                 return redirect()->route('admin.products.index')->with('success', 'Add Product Successfully');
             }catch (\Exception $exception){
                 DB::rollBack();
+                dd($exception->getMessage());
                 return redirect()->route('admin.products.create')->with('error', $exception->getMessage());
             }
         }
@@ -102,7 +104,6 @@ class ProductController extends Controller
                 'quantity' =>0,
                 'description' => request('description'),
                 'short_desc' => request('short_desc'),
-                'category_id' => request('category_id'),
                 'brand_id' => request('brand_id'),
                 'is_active' => request('is_active') ?? 0,
                 'is_sale' => request('is_sale') ?? 0,
@@ -118,6 +119,7 @@ class ProductController extends Controller
             $data['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))).'-'.$data['sku'];
 
             $tags = request('tags');
+            $categories = request('category_id');
             $galleries = request('galleries');
 
             $dataVariants = $request->product_variants;
@@ -125,8 +127,8 @@ class ProductController extends Controller
             try {
                 DB::beginTransaction();
                 $product = Product::query()->create($data);
-
-
+                $product->categories()->sync($categories);
+                $product->tags()->sync($tags);
                 foreach ($dataVariants as $key => $dataVariant) {
                     $valueIds = explode('-', $key);
                     array_pop($valueIds);
@@ -142,8 +144,6 @@ class ProductController extends Controller
 
                 }
 
-
-                $product->tags()->sync($tags);
 
                 if (!empty($galleries)){
                     foreach ($galleries as $gallery){
@@ -179,6 +179,10 @@ class ProductController extends Controller
         $tags        =  Tag::query()->pluck('name', 'id');
         $brands      =  Brand::query()->pluck('name', 'id');
         $categories = Category::query()->whereNull('parent_id')->with('children')->get();
+        $product->load([
+            'categories',
+            'tags',
+        ]);
         return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'attributes', 'tags', 'brands', 'categories'));
     }
 

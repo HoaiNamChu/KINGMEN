@@ -168,7 +168,7 @@
                     <div class="p-3 bg-light mb-3 rounded">
                         <div class="row justify-content-end g-2">
                             <div class="col-lg-2">
-                                <button type="submit" class="btn btn-outline-secondary w-100">Create Product</button>
+                                <button type="submit" class="btn btn-outline-secondary w-100">Update Product</button>
                             </div>
                             <div class="col-lg-2">
                                 <a href="{{ route('admin.products.index') }}" class="btn btn-primary w-100">Cancel</a>
@@ -243,20 +243,16 @@
                             <h4 class="card-title">Product Categories</h4>
                         </div>
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <select class="form-control" id="product-categories" data-choices
-                                            data-choices-sorting-false data-placeholder="Select Categories"
-                                            name="category_id">
-                                        <option value="">Choose a categories</option>
-                                        @foreach($categories as $item)
-                                            @php
-                                                $dash = ' ';
-                                            @endphp
-                                            @include('components.admin.categories.create', ['item'=>$item, 'dash' => $dash])
-                                        @endforeach
-                                    </select>
-                                </div>
+                            <p class="text-muted mb-2"><a href="{{ route('admin.categories.create') }}"
+                                                          class="float-end text-decoration-underline">Add
+                                    New</a>Select product category</p>
+                            <div class="border" style="padding: 5px 10px; max-height: 200px; overflow: scroll;">
+                                @foreach($categories as $item)
+                                    @php
+                                        $marginLeft = 0;
+                                    @endphp
+                                    @include('components.admin.products.edit-category', ['category'=>$item, 'marginLeft'=>$marginLeft, 'product' => $product])
+                                @endforeach
                             </div>
 
                         </div>

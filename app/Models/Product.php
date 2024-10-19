@@ -34,9 +34,9 @@ class Product extends Model
         'is_home' => 'boolean',
     ];
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class, 'product_category', 'product_id', 'category_id');
     }
 
     public function brand()
