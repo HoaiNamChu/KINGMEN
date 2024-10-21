@@ -71,5 +71,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Cart::class);
     }
+    public function isActive()
+{
+    return $this->is_active == 1; // Hoặc return (bool) $this->is_active;
+}
 
 }

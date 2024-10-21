@@ -352,7 +352,7 @@
             <li class="menu-title mt-2">Other Apps</li>
 
             <li class="nav-item">
-                <a class="nav-link" href="apps-chat.html">
+                <a class="nav-link" href="#">
                                    <span class="nav-icon">
                                         <iconify-icon icon="solar:chat-round-bold-duotone"></iconify-icon>
                                    </span>

@@ -10,7 +10,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Add Permission</h4>
+                    <h4 class="card-title">Update Permission</h4>
                 </div>
 
 
@@ -26,15 +26,16 @@
 
                 <div class="card-body">
                             <div class="row">
-                                <form action="{{route('admin.permissions.store')}}" method="post"
+                                <form action="{{route('admin.permissions.update', $permission->id)}}" method="post"
                                     enctype="multipart/form-data">
                                     @csrf
+                                    @method('PUT')
                                     <div class="col-lg-12">
 
                                         <div class="mb-3">
                                             <label for="category-title" class="form-label">Permission Name</label>
                                             <input type="text" name="name" id="" class="form-control"
-                                                placeholder="Enter Title">
+                                                placeholder="Enter Title"   value="{{$permission->name}}">
                                         </div>
 
                                     </div>
@@ -44,7 +45,7 @@
                                         <div class="mb-0">
                                             <label for="description" class="form-label">Description</label>
                                             <textarea class="form-control bg-light-subtle" name="description" id=""
-                                                rows="7" placeholder="Type description"></textarea>
+                                                rows="7" placeholder="Type description" >{{$permission->description}}</textarea>
                                         </div>
                                     </div>
                                     <br>

@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\ChatController;
+
 
 
 /*
@@ -42,5 +44,5 @@ Route::prefix('/admin')
     Route::resource('brands', BrandController::class)->middleware('checkPermission:Manage Brands');
 
     Route::resource('permissions', PermissionController::class)->middleware('checkPermission:Manage Permissions');
-  
+
 });
