@@ -52,6 +52,7 @@
                       <h3>Dashboard</h3>
                       <div class="welcome">
                         <p>Hello, <strong>{{$userData->name}}</strong> (If Not <strong>{{$userData->name}} !</strong><a href="/logout" class="logout"> Logout</a>)</p>
+                        <p> <strong>{{$userData->name}}</strong> (If you are an administrator click here to access the</strong><a href="/admin" class="logout"> Admin Page</a> !)</p>
                       </div>
                       <p>From your account dashboard. you can easily check & view your recent orders, manage your shipping and billing addresses and edit your password and account details.</p>
                     </div>

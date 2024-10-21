@@ -27,7 +27,7 @@ use App\Http\Controllers\Client\AccountGoogleController;
 Route::prefix('/')->group(function () {
     Route::get('/', function () {
         return view('client.home.index');
-    });
+    })->name(name: '/');
 
     // view account
     Route::get('/account', [AccountGoogleController::class, 'index'])->name('account.index');
@@ -69,7 +69,7 @@ Route::prefix('/admin')
  
         
         return view('admin.dashboard.index');
-    });
+    })->middleware('checkPermission:Manage Users,Manage Roles,Manage Brands,Manage Permissions');
 
     Route::resource('users', UserController::class)->middleware('checkPermission:Manage Users');
     Route::resource('roles', RoleController::class)->middleware('checkPermission:Manage Roles');

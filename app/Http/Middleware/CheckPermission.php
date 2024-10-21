@@ -17,9 +17,9 @@ class CheckPermission
     public function handle(Request $request, Closure $next, $permission)
     {
         // Giả lập người dùng bằng ID (ví dụ ID = 1)
-        Auth::loginUsingId(1); // Thay ID 1 bằng ID thực tế nếu cần
+        // Auth::loginUsingId(1);
 
-        // Lấy người dùng hiện tạiS
+        // Lấy người dùng hiện tại
         $user = Auth::user();
 
         // Kiểm tra nếu người dùng không tồn tại
@@ -38,7 +38,7 @@ class CheckPermission
 
         // Kiểm tra xem user có permission yêu cầu không
         if (!in_array($permission, $userPermissions)) {
-            Auth::logout();
+            // Auth::logout();
             abort(403, 'Không đủ quyền để thực hiện yêu cầu này!'); // Trả về lỗi nếu không có quyền
         }
 
