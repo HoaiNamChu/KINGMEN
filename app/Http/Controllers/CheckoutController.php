@@ -10,6 +10,6 @@ class CheckoutController extends Controller
     public function checkout(Request $request){
 
         dd($request);
-        return view('client.home.checkout');
+        return view('client.home.orders.checkout');
     }
 }

@@ -36,7 +36,7 @@ class RoleController extends Controller
         //
         $permissions = Permission::all();
         return view('admin.roles.add', compact('permissions'));
-        
+
     }
 
     /**
