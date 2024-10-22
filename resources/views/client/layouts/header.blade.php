@@ -108,6 +108,7 @@
                                         <li><a href="account-login.html"><span>Login</span></a></li>
                                         <li><a href="account-register.html"><span>Register</span></a></li>
                                         <li><a href="page-not-found.html"><span>Page Not Found</span></a></li>
+                                        <li><a href="{{route('tickets.create')}}"><span>Tickets</span></a></li>
                                     </ul>
                                 </li>
                                 <li class="has-submenu position-static"><a href="shop.html"><span>Shop</span></a>

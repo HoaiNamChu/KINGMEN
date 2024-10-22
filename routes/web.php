@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
@@ -10,6 +11,9 @@ use App\Http\Controllers\ChatController;
 
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Client\AccountGoogleController;
+
+use App\Http\Controllers\Admin\TicketAdminController;
+use App\Http\Controllers\Client\TicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +32,11 @@ Route::prefix('/')->group(function () {
 Route::get('/', function () {
     return view('client.home.index');
 })->name(name: '/');
+
+//tickets
+Route::get('/tickets', [TicketController::class, 'create'])->name('tickets.create');
+Route::post('/tickets', [TicketController::class, 'store'])->name('tickets.store');
+
 
 // view account
 Route::get('/account', [AccountGoogleController::class, 'index'])->name('account.index');
@@ -75,5 +84,6 @@ Route::resource('users', UserController::class)->middleware('checkPermission:Man
 Route::resource('roles', RoleController::class)->middleware('checkPermission:Manage Roles');
 Route::resource('brands', BrandController::class)->middleware('checkPermission:Manage Brands');
 Route::resource('permissions', PermissionController::class)->middleware('checkPermission:Manage Permissions');
+Route::resource('admin.tickets', TicketAdminController::class)->middleware('checkPermission: Manage Tickets');
 
 });
