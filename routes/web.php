@@ -12,8 +12,6 @@ use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Client\AccountGoogleController;
 
-use App\Http\Controllers\Admin\TicketAdminController;
-use App\Http\Controllers\Client\TicketController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,9 +31,6 @@ Route::get('/', function () {
     return view('client.home.index');
 })->name(name: '/');
 
-//tickets
-Route::get('/tickets', [TicketController::class, 'create'])->name('tickets.create');
-Route::post('/tickets', [TicketController::class, 'store'])->name('tickets.store');
 
 
 // view account
