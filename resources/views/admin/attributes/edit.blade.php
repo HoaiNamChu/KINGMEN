@@ -47,6 +47,8 @@
                                             @endif
                                         </select>
                                         <span><a href=""
+                                                 data-bs-toggle="modal"
+                                                 data-bs-target="#modalCreateAttributeValue"
                                                  class="text-decoration-underline">+ Add attribute value</a></span>
                                     </div>
 
@@ -113,6 +115,7 @@
         </div>
 
     </div>
+    @include('admin.attributes.modals.create-attribute-value')
 @endsection
 
 @section('lib-script')

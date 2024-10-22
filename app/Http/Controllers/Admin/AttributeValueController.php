@@ -35,7 +35,21 @@ class AttributeValueController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = [
+            'name' => request('name'),
+            'attribute_id' => request('attribute_id'),
+            'slug' => Str::slug(request('name')),
+            'description' => request('description'),
+            'is_active' => 1,
+        ];
+
+        try {
+            AttributeValue::query()->create($data);
+        }catch (\Exception $exception){
+            DB::rollBack();
+            return redirect()->back()->with('error', $exception->getMessage());
+        }
+        return redirect()->back()->with('success', 'Attribute value created successfully.');
     }
 
     /**

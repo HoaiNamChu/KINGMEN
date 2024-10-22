@@ -111,7 +111,11 @@ class AttributeController extends Controller
             $dataAttribute['slug'] = \Illuminate\Support\Str::slug(request('name'));
         }
         try {
-            $attribute->attributeValues()->whereNotIn('id',request('attribute_value_id'))->delete();
+            if (request('attribute_value_id')){
+                $attribute->attributeValues()->whereNotIn('id',request('attribute_value_id'))->delete();
+            }else{
+                $attribute->attributeValues()->delete();
+            }
             $attribute->update($dataAttribute);
             return redirect()->route('admin.attributes.edit', $attribute)->with('success', 'Update Attribute Successfully');
         }catch (\Exception $exception){

@@ -235,12 +235,14 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Product Categories</h4>
+                            <h4 class="card-title d-inline-block">Product Categories</h4><a href=""
+                                                                             data-bs-toggle="modal"
+                                                                             data-bs-target="#modalCreateCategory"
+                                                                             class="float-end text-decoration-underline">Add
+                                New</a>
                         </div>
                         <div class="card-body">
-                            <p class="text-muted mb-2"><a href="{{ route('admin.categories.create') }}"
-                                                          class="float-end text-decoration-underline">Add
-                                    New</a>Select product category</p>
+                            <p class="text-muted mb-2">Select product category</p>
                             <div class="border" style="padding: 5px 10px; max-height: 200px; overflow: scroll;">
                                 @foreach($categories as $item)
                                     @php
@@ -254,7 +256,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Product Brands</h4>
+                            <h4 class="card-title d-inline-block">Product Brands</h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -274,7 +276,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Tags</h4>
+                            <h4 class="card-title d-inline-block">Tags</h4>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -294,6 +296,7 @@
         </form>
 
     </div>
+    @include('admin.products.modals.create-category')
 @endsection
 
 

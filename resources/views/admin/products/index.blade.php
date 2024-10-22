@@ -82,12 +82,15 @@
                                                 Left</p>
                                             <p class="mb-0 text-muted">155 Sold</p>
                                         </td>
-                                        <td> {{ $item->brand->name }}</td>
+                                        <td> {{ $item->brand ? $item->brand->name : "No brand" }}</td>
                                         <td> @if($item->categories->count())
                                                  @foreach($item->categories as $cate)
                                                      <a href="{{ route('admin.categories.show', $cate) }}">{{ $cate->name }}</a>,
                                                  @endforeach
-                                        @endif</td>
+                                            @else
+                                                 {{ "No category" }}
+                                            @endif
+                                        </td>
                                         <td><span class="badge p-1 bg-light text-dark fs-12 me-1"><i
                                                     class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 4.5</span>
                                             {{ $item->productRatings->count() }} Review
