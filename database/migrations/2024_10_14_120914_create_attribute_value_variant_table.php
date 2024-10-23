@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\AttributeValue;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,11 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('variant_attribute_values', function (Blueprint $table) {
+        Schema::create('attribute_value_variant', function (Blueprint $table) {
+            $table->foreignIdFor(AttributeValue::class)->constrained();
             $table->foreignIdFor(\App\Models\Variant::class)->constrained();
-            $table->foreignIdFor(\App\Models\AttributeValue::class)->constrained();
 
-            $table->primary(['variant_id', 'attribute_value_id']);
+            $table->primary(['attribute_value_id', 'variant_id']);
         });
     }
 
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('variant_attribute_values');
+        Schema::dropIfExists('attribute_value_variant');
     }
 };
