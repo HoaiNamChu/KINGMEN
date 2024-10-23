@@ -1,12 +1,12 @@
 <?php
 
-namespace App\View\Components\admin\categories;
+namespace App\View\Components\categories;
 
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class create-select extends Component
+class createselect extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class create-select extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin.categories.create-select');
+        return view('components.categories.create-select');
     }
 }
