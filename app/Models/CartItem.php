@@ -15,4 +15,19 @@ class CartItem extends Model
         'variant_id',
         'quantity',
     ];
+
+    public function cart()
+    {
+        return $this->belongsTo(Cart::class);
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+
+    // public function variant()
+    // {
+    //     return $this->belongsTo(VariantProduct::class, 'variant_id');
+    // }
 }
