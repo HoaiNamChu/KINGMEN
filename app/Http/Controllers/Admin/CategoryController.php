@@ -53,7 +53,7 @@ class CategoryController extends Controller
 
         try {
             $category = Category::query()->create($data);
-            return redirect()->route('admin.categories.edit', $category)->with('success', 'Add Category successfully');
+            return redirect()->back()->with('success', 'Add Category successfully');
         }catch (\Exception $exception){
             if ($data['image'] && Storage::exists($data['image'])){
                 Storage::delete($data['image']);
@@ -122,7 +122,7 @@ class CategoryController extends Controller
             if ($category->image && Storage::exists($category->image)){
                 Storage::delete($category->image);
             }
-            return redirect()->route('admin.categories.index');
+            return redirect()->back()->with('success', 'Delete Category successfully');
         }catch (\Exception $exception){
             DB::rollBack();
             return redirect()->back();

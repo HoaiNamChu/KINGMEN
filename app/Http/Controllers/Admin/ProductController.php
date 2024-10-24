@@ -88,10 +88,8 @@ class ProductController extends Controller
                     }
                 }
 
-                return redirect()->route('admin.products.index')->with('success', 'Add Product Successfully');
             }catch (\Exception $exception){
                 DB::rollBack();
-                dd($exception->getMessage());
                 return redirect()->route('admin.products.create')->with('error', $exception->getMessage());
             }
         }
@@ -154,12 +152,12 @@ class ProductController extends Controller
                     }
                 }
                 DB::commit();
-                return redirect()->route('admin.products.index')->with('success', 'Add Product Successfully');
             } catch (\Exception $exception) {
                 DB::rollBack();
                 return redirect()->route('admin.products.create')->with('error', $exception->getMessage());
             }
         }
+        return redirect()->route('admin.products.index')->with('success', 'Add Product Successfully');
     }
 
     /**
@@ -191,7 +189,118 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        if (request('product_type') === 'simple') {
+            $data = [
+                'name' => request('name'),
+                'sku' => request('sku'),
+                'slug' => Str::slug(request('slug')) ?? $product->slug,
+                'price' => request('price') ?? 0,
+                'price_sale' => request('price_sale') ?? 0,
+                'description' => request('description'),
+                'short_desc' => request('short_desc'),
+                'brand_id' => request('brand_id'),
+                'quantity' => request('quantity') ?? 0,
+                'is_active' => request('is_active') ?? 0,
+                'is_sale' => request('is_sale') ?? 0,
+                'is_hot' => request('is_hot') ?? 0,
+                'is_home' => request('is_home') ?? 0,
+            ];
+
+            if($request->hasFile('image')) {
+                $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
+            }
+            $data['image'] ??= $product->image;
+
+
+            $categories = request('category_id');
+            $tags = request('tags');
+            $galleries = request('galleries');
+
+            try {
+                $product->update($data);
+
+                $product->tags()->sync($tags);
+                $product->categories()->sync($categories);
+
+                if (!empty($galleries)){
+                    foreach ($galleries as $gallery){
+                        Gallery::query()->create([
+                            'product_id' => $product->id,
+                            'image' => Storage::put('galleries', $gallery)
+                        ]);
+                    }
+                }
+
+            }catch (\Exception $exception){
+                DB::rollBack();
+                return redirect()->route('admin.products.create')->with('error', $exception->getMessage());
+            }
+        }
+        if (request('product_type') === 'variable') {
+            $data = [
+                'name' => request('name'),
+                'sku' => request('sku'),
+                'price' => 0,
+                'price_sale' =>0,
+                'quantity' =>0,
+                'description' => request('description'),
+                'short_desc' => request('short_desc'),
+                'brand_id' => request('brand_id'),
+                'is_active' => request('is_active') ?? 0,
+                'is_sale' => request('is_sale') ?? 0,
+                'is_hot' => request('is_hot') ?? 0,
+                'is_home' => request('is_home') ?? 0,
+            ];
+
+            if($request->hasFile('image')) {
+                $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
+            }
+            $data['image'] ??= null;
+
+            $data['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))).'-'.$data['sku'];
+
+            $tags = request('tags');
+            $categories = request('category_id');
+            $galleries = request('galleries');
+
+            $dataVariants = $request->product_variants;
+
+            try {
+                DB::beginTransaction();
+                $product = Product::query()->create($data);
+                $product->categories()->sync($categories);
+                $product->tags()->sync($tags);
+                foreach ($dataVariants as $key => $dataVariant) {
+                    $valueIds = explode('-', $key);
+                    array_pop($valueIds);
+                    $dataVariant['product_id'] = $product->id;
+                    $dataVariant['image'] ??= null;
+                    $dataVariant['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))).'-'.$dataVariant['sku'];
+                    if ($dataVariant['image']) {
+                        $dataVariant['image'] = Storage::put(self::PATH_UPLOAD, $dataVariant['image']);
+                    }
+                    $productVariant = Variant::query()->create($dataVariant);
+                    $productVariant->attributeValues()->attach($valueIds);
+
+
+                }
+
+
+                if (!empty($galleries)){
+                    foreach ($galleries as $gallery){
+                        Gallery::query()->create([
+                            'product_id' => $product->id,
+                            'image' => Storage::put(self::PATH_UPLOAD, $gallery)
+                        ]);
+                    }
+                }
+                DB::commit();
+            } catch (\Exception $exception) {
+                DB::rollBack();
+                return redirect()->route('admin.products.create')->with('error', $exception->getMessage());
+            }
+        }
+        return redirect()->back()->with('success', 'Update Product Successfully');
     }
 
     /**
@@ -203,6 +312,7 @@ class ProductController extends Controller
             try {
 
                 $product->tags()->detach();
+                $product->categories()->detach();
 
                 foreach ( $product->variants as $variant){
                     $variant->attributeValues()->detach();
@@ -221,6 +331,7 @@ class ProductController extends Controller
             try {
 
                 $product->tags()->detach();
+                $product->categories()->detach();
 
                 if ($product->galleries->count()){
 

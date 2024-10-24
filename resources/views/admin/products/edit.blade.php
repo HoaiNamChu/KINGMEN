@@ -1,8 +1,9 @@
 @extends('admin.layouts.main')
 
 @section('link')
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 @endsection
+
 
 @section('content')
     <div class="container-xxl">
@@ -35,6 +36,17 @@
                                                value="{{ $product->sku }}"
                                                class="form-control"
                                                placeholder="SKU">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="product-slug" class="form-label">Slug</label>
+                                        <input type="text" id="product-slug" name="slug"
+                                               value="{{ $product->slug }}"
+                                               class="form-control"
+                                               placeholder="Slug">
                                     </div>
                                 </div>
                             </div>
@@ -240,12 +252,14 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Product Categories</h4>
+                            <h4 class="card-title d-inline-block">Product Categories</h4>
+                            <a
+                               data-bs-toggle="modal"
+                               data-bs-target="#modalCreateCategory"
+                               class="float-end text-decoration-underline">Add
+                                New</a>
                         </div>
                         <div class="card-body">
-                            <p class="text-muted mb-2"><a href="{{ route('admin.categories.create') }}"
-                                                          class="float-end text-decoration-underline">Add
-                                    New</a>Select product category</p>
                             <div class="border" style="padding: 5px 10px; max-height: 200px; overflow: scroll;">
                                 @foreach($categories as $item)
                                     @php
@@ -299,12 +313,14 @@
         </form>
 
     </div>
+    @include('admin.products.modals.create-category')
 @endsection
 
 
 @section('lib-script')
     <script src="{{ asset('theme/admin/assets/js/components/form-quilljs.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 @endsection
 
 @section('script')
@@ -436,5 +452,18 @@
             $('#select-' + attributeId + ' option').prop('selected', false);
         });
 
+        @if(session('success'))
+        Toastify({
+
+            text: "{{ session('success') }}",
+
+            duration: 3000,
+
+            gravity: top,
+
+            close: true,
+
+        }).showToast();
+        @endif
     </script>
 @endsection

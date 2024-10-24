@@ -18,11 +18,6 @@
 
     </td>
     <td>{{ $item->id }}</td>
-    <td>
-        @if($item->parent)
-            {{ $item->parent->name }}
-        @endif
-    </td>
     <td>{{ $item->products->count() }}</td>
     <td>
         @if($item->is_active)
@@ -31,7 +26,7 @@
             <span class="badge bg-danger rounded-pill me-1">In Active</span>
         @endif
     </td>
-    <td>{{ $item->created_at }}</td>
+    <td>{{ date_format($item->created_at ,'d/m/Y') }}</td>
     <td>
         <div class="d-flex gap-2">
             <a href="#!" class="btn btn-light btn-sm">

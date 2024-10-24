@@ -1,7 +1,7 @@
 @extends('admin.layouts.main')
 
 @section('link')
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 @endsection
 
 @section('content')
@@ -303,6 +303,7 @@
 @section('lib-script')
     <script src="{{ asset('theme/admin/assets/js/components/form-quilljs.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 @endsection
 
 @section('script')
@@ -434,5 +435,18 @@
             $('#select-' + attributeId + ' option').prop('selected', false);
         });
 
+        @if(session('success'))
+        Toastify({
+
+            text: "{{ session('success') }}",
+
+            duration: 3000,
+
+            gravity: top,
+
+            close: true,
+
+        }).showToast();
+        @endif
     </script>
 @endsection

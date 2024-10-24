@@ -45,6 +45,7 @@
                                     </th>
                                     <th>Product Name & Size</th>
                                     <th>Price</th>
+                                    <th>Price Sale</th>
                                     <th>Stock</th>
                                     <th>Brand</th>
                                     <th>Category</th>
@@ -77,6 +78,7 @@
 
                                         </td>
                                         <td>${{ number_format($item->price) }}</td>
+                                        <td>${{ number_format($item->price_sale) }}</td>
                                         <td>
                                             <p class="mb-1 text-muted"><span class="text-dark fw-medium">{{ $item->quantity }} Item</span>
                                                 Left</p>
