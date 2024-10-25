@@ -84,11 +84,19 @@
                         <div class="card-body p-0">
                             <div class="row">
                                 <div class="col-lg-3">
-                                    <ul class="list-group">
-                                        <li class="list-group-item product-option" id="general">General</li>
-                                        <li class="list-group-item product-option" id="inventory">Inventory</li>
-                                        <li class="list-group-item product-option" id="attributes">Attributes</li>
-                                        <li class="list-group-item product-option" id="variations">Variations</li>
+                                    <ul class="list-group list-group-flush ">
+                                        <li class="list-group-item product-option" data-bs-toggle="pill" id="general">
+                                            General
+                                        </li>
+                                        <li class="list-group-item product-option" data-bs-toggle="pill" id="inventory">
+                                            Inventory
+                                        </li>
+                                        <li class="list-group-item product-option" data-bs-toggle="pill"
+                                            id="attributes">Attributes
+                                        </li>
+                                        <li class="list-group-item product-option" data-bs-toggle="pill"
+                                            id="variations">Variations
+                                        </li>
                                     </ul>
                                 </div>
                                 <!-- end col -->
@@ -99,8 +107,12 @@
                                                 <label for="product-price" class="form-label">Price</label>
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text fs-20"><i
-                                                                class="bx bx-dollar"></i></span>
-                                                    <input type="number" name="price" id="product-price"
+                                                            class="bx bx-dollar"></i></span>
+                                                    <input type="number" name="price"
+                                                           @if(!$product->variants->count())
+                                                               value="{{$product->price}}"
+                                                           @endif
+                                                           id="product-price"
                                                            class="form-control"
                                                            placeholder="000">
                                                 </div>
@@ -109,8 +121,12 @@
                                                 <label for="product-price-sale" class="form-label">Price Sale</label>
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text fs-20"><i
-                                                                class="bx bx-dollar"></i></span>
-                                                    <input type="number" name="price_sale" id="product-price-sale"
+                                                            class="bx bx-dollar"></i></span>
+                                                    <input type="number" name="price_sale"
+                                                           @if(!$product->variants->count())
+                                                               value="{{$product->price_sale}}"
+                                                           @endif
+                                                           id="product-price-sale"
                                                            class="form-control"
                                                            placeholder="000">
                                                 </div>
@@ -122,6 +138,9 @@
                                             <div class="mb-3">
                                                 <label for="product-stock" class="form-label">Stock</label>
                                                 <input type="number" id="product-stock" name="quantity"
+                                                       @if(!$product->variants->count())
+                                                           value="{{ $product->quantity }}"
+                                                       @endif
                                                        class="form-control" placeholder="Quantity">
                                             </div>
                                         </div>
@@ -155,7 +174,119 @@
 
                                     </div>
                                     <div class="row pt-3 pb-3" id="variations-item">
+                                        @foreach($product->variants as $productVariant)
+                                            <div class="pe-4" id="variant-{{ $productVariant->id }}">
+                                                <div class="align-items-center">
+                                                    @foreach($productVariant->attributeValues as $item)
+                                                        <h5 class="d-inline-block mb-0 me-3">{{ $item->name }}</h5>
+                                                    @endforeach
+                                                    <button class="btn btn-sm btn-danger float-end btn-remove-variant"
+                                                            id="{{ $productVariant->id }}"
+                                                            type="button">Remove
+                                                    </button>
+                                                    <hr>
+                                                </div>
+                                                <div>
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                       for="variant-sku[{{ $productVariant->id }}]">SKU</label>
+                                                                <input type="text" class="form-control"
+                                                                       id="variant-sku[{{ $productVariant->id }}]"
+                                                                       name="product_variants[{{ $productVariant->id }}][sku]"
+                                                                       placeholder="Enter SKU"
+                                                                       value="{{ $productVariant->sku }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                       for="variant-image[{{ $productVariant->id }}]">Image</label>
+                                                                <input type="file" class="form-control"
+                                                                       name="product_variants[{{ $productVariant->id }}][image]"
+                                                                       id="variant-image[{{ $productVariant->id }}]"
+                                                                       placeholder="Enter manufacturer brand">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- end row -->
 
+                                                    <div class="row">
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label for="variant-quantity[{{ $productVariant->id }}]"
+                                                                       class="form-label">Stock</label>
+                                                                <input type="number"
+                                                                       id="variant-quantity[{{ $productVariant->id }}]"
+                                                                       name="product_variants[{{ $productVariant->id }}][quantity]"
+                                                                       class="form-control" value="{{ $productVariant->quantity }}" placeholder="Quantity">
+                                                                {{--                        <label class="form-label" for="variant-quantity[{{ $productVariant->id }}]">Quantity</label>--}}
+                                                                {{--                        <input type="text" class="form-control" id="variant-quantity[{{ $productVariant->id }}]"--}}
+                                                                {{--                               placeholder="Stocks"--}}
+                                                                {{--                               name="product_variants[{{ $productVariant->id }}][variant_quantity]">--}}
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label for="variant-price[{{ $productVariant->id }}]"
+                                                                       class="form-label">Price</label>
+                                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text fs-20"><i
+                                                            class="bx bx-dollar"></i></span>
+                                                                    <input type="number"
+                                                                           id="variant-price[{{ $productVariant->id }}]"
+                                                                           value="{{ $productVariant->price }}"
+                                                                           name="product_variants[{{ $productVariant->id }}][price]"
+                                                                           class="form-control"
+                                                                           placeholder="000">
+                                                                </div>
+                                                                {{--                        <label class="form-label" for="variant-price[{{ $productVariant->id }}]">Price</label>--}}
+                                                                {{--                        <div class="input-group has-validation mb-3">--}}
+                                                                {{--                            <span class="input-group-text" id="variant-price-addon">$</span>--}}
+                                                                {{--                            <input type="text" class="form-control" id="variant-price[{{ $productVariant->id }}]"--}}
+                                                                {{--                                   name="product_variants[{{ $productVariant->id }}][variant_price]"--}}
+                                                                {{--                                   placeholder="Enter price" aria-label="Price"--}}
+                                                                {{--                                   aria-describedby="product-price-addon">--}}
+                                                                {{--                        </div>--}}
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label
+                                                                    for="variant-price-sale[{{ $productVariant->id }}]"
+                                                                    class="form-label">Price Sale</label>
+                                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text fs-20"><i
+                                                            class="bx bx-dollar"></i></span>
+                                                                    <input type="number"
+                                                                           id="variant-price-sale[{{ $productVariant->id }}]"
+                                                                           value="{{ $productVariant->price_sale }}"
+                                                                           name="product_variants[{{ $productVariant->id }}][price_sale]"
+                                                                           class="form-control"
+                                                                           placeholder="000">
+                                                                </div>
+                                                                {{--                        <label class="form-label" for="variant-price-sale[{{ $productVariant->id }}]">Price--}}
+                                                                {{--                            Sale</label>--}}
+                                                                {{--                        <div class="input-group mb-3">--}}
+                                                                {{--                                                        <span class="input-group-text"--}}
+                                                                {{--                                                              id="variant-price-sale-addon">$</span>--}}
+                                                                {{--                            <input type="text" class="form-control"--}}
+                                                                {{--                                   id="variant-price-sale[{{ $productVariant->id }}]"--}}
+                                                                {{--                                   name="product_variants[{{ $productVariant->id }}][variant_price_sale]"--}}
+                                                                {{--                                   placeholder="Enter discount" aria-label="discount"--}}
+                                                                {{--                                   aria-describedby="product-discount-addon">--}}
+                                                                {{--                        </div>--}}
+                                                            </div>
+                                                        </div>
+                                                        <!-- end col -->
+                                                    </div>
+                                                    <!-- end row -->
+                                                    <hr>
+                                                </div>
+                                            </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -199,6 +330,16 @@
                                 <input class="form-check-input" name="is_active" type="checkbox" role="switch"
                                        id="is-active" value="1" @checked($product->is_active)>
                                 <label class="form-check-label" for="is-active">Is Active</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" name="is_featured" type="checkbox" role="switch"
+                                       id="is-featured" value="1" @checked($product->is_featured)>
+                                <label class="form-check-label" for="is-featured">Is Featured</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" name="is_new" type="checkbox" role="switch"
+                                       id="is-new" value="1" @checked($product->is_new)>
+                                <label class="form-check-label" for="is-new">Is New</label>
                             </div>
                             <div class="form-check form-switch">
                                 <input class="form-check-input" @checked($product->is_hot) name="is_hot" value="1"
@@ -254,9 +395,9 @@
                         <div class="card-header">
                             <h4 class="card-title d-inline-block">Product Categories</h4>
                             <a
-                               data-bs-toggle="modal"
-                               data-bs-target="#modalCreateCategory"
-                               class="float-end text-decoration-underline">Add
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalCreateCategory"
+                                class="float-end text-decoration-underline">Add
                                 New</a>
                         </div>
                         <div class="card-body">
@@ -283,7 +424,8 @@
                                             name="brand_id">
                                         <option value="">Choose a brand</option>
                                         @foreach($brands as $id => $name)
-                                            <option value="{{ $id }}" @selected($product->brand_id == $id)>{{ $name }}</option>
+                                            <option
+                                                value="{{ $id }}" @selected($product->brand_id == $id)>{{ $name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -301,7 +443,8 @@
                                     <select class="form-control" id="choices-multiple-remove-button" data-choices
                                             data-choices-removeItem name="tags[]" multiple>
                                         @foreach($tags as $id => $name)
-                                            <option value="{{ $id }}" @selected(in_array($id, $product->tags->pluck('id')->toArray()))>{{ $name }}</option>
+                                            <option
+                                                value="{{ $id }}" @selected(in_array($id, $product->tags->pluck('id')->toArray()))>{{ $name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -329,6 +472,22 @@
 
         $(document).ready(function () {
 
+            var productType = $('#product-type option:selected');
+
+            if (productType.val() === 'simple') {
+                $('#variations, #attributes, #inventory-item, #attributes-item, #variations-item').hide();
+                $('#general, #inventory, #general-item').show();
+            }
+            if (productType.val() === 'variable') {
+                $('#variations, #attributes, #variations-item').show();
+                $('#general, #inventory, #general-item, #inventory-item, #attributes-item').hide();
+            }
+            $('.product-option').click(function () {
+                var selectedId = $(this).attr('id');
+                $('#general-item, #inventory-item, #attributes-item, #variations-item').hide();
+                $('#' + selectedId + '-item').show();
+            });
+
             $('#product-type').change(function () {
                 var productType = $('#product-type option:selected');
                 if (productType.val() === 'simple') {
@@ -340,36 +499,6 @@
                     $('#general, #inventory, #general-item, #inventory-item, #variations-item').hide();
                 }
             })
-
-            var productType = $('#product-type option:selected');
-            if (productType.val() === 'simple') {
-                $('#variations, #attributes').hide();
-                $('#general, #inventory').show();
-            }
-            if (productType.val() === 'variable') {
-                $('#variations, #attributes').show();
-                $('#general, #inventory').hide();
-            }
-
-            $('#inventory-item, #attributes-item, #variations-item').hide();
-            $('.product-option').click(function () {
-                var selectedId = $(this).attr('id');
-                $('#general-item, #inventory-item, #attributes-item, #variations-item').hide();
-                $('#' + selectedId + '-item').show();
-            });
-
-
-            $('#product-type').change(function () {
-                var productType = $('#product-type option:selected');
-                if (productType.val() === 'simple') {
-                    $('#variations, #attributes').hide();
-                    $('#general, #inventory').show();
-                }
-                if (productType.val() === 'variable') {
-                    $('#variations, #attributes').show();
-                    $('#general, #inventory').hide();
-                }
-            });
 
 
             $('#add-attribute').click(function () {

@@ -34,9 +34,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $attributes  =  Attribute::query()->pluck('name', 'id');
-        $tags        =  Tag::query()->pluck('name', 'id');
-        $brands      =  Brand::query()->pluck('name', 'id');
+        $attributes = Attribute::query()->pluck('name', 'id');
+        $tags = Tag::query()->pluck('name', 'id');
+        $brands = Brand::query()->pluck('name', 'id');
         $categories = Category::query()->whereNull('parent_id')->with('children')->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('attributes', 'tags', 'brands', 'categories'));
     }
@@ -57,17 +57,19 @@ class ProductController extends Controller
                 'brand_id' => request('brand_id'),
                 'quantity' => request('quantity') ?? 0,
                 'is_active' => request('is_active') ?? 0,
+                'is_featured' => request('is_featured') ?? 0,
+                'is_new' => request('is_new') ?? 0,
                 'is_sale' => request('is_sale') ?? 0,
                 'is_hot' => request('is_hot') ?? 0,
                 'is_home' => request('is_home') ?? 0,
             ];
 
-            if($request->hasFile('image')) {
+            if ($request->hasFile('image')) {
                 $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
             }
             $data['image'] ??= null;
 
-            $data['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))).'-'.$data['sku'];;
+            $data['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))) . '-' . $data['sku'];;
 
             $categories = request('category_id');
             $tags = request('tags');
@@ -79,8 +81,8 @@ class ProductController extends Controller
                 $product->tags()->sync($tags);
                 $product->categories()->sync($categories);
 
-                if (!empty($galleries)){
-                    foreach ($galleries as $gallery){
+                if (!empty($galleries)) {
+                    foreach ($galleries as $gallery) {
                         Gallery::query()->create([
                             'product_id' => $product->id,
                             'image' => Storage::put('galleries', $gallery)
@@ -88,7 +90,7 @@ class ProductController extends Controller
                     }
                 }
 
-            }catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 DB::rollBack();
                 return redirect()->route('admin.products.create')->with('error', $exception->getMessage());
             }
@@ -98,23 +100,25 @@ class ProductController extends Controller
                 'name' => request('name'),
                 'sku' => request('sku'),
                 'price' => 0,
-                'price_sale' =>0,
-                'quantity' =>0,
+                'price_sale' => 0,
+                'quantity' => 0,
                 'description' => request('description'),
                 'short_desc' => request('short_desc'),
                 'brand_id' => request('brand_id'),
                 'is_active' => request('is_active') ?? 0,
+                'is_featured' => request('is_featured') ?? 0,
+                'is_new' => request('is_new') ?? 0,
                 'is_sale' => request('is_sale') ?? 0,
                 'is_hot' => request('is_hot') ?? 0,
                 'is_home' => request('is_home') ?? 0,
             ];
 
-            if($request->hasFile('image')) {
+            if ($request->hasFile('image')) {
                 $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
             }
             $data['image'] ??= null;
 
-            $data['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))).'-'.$data['sku'];
+            $data['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))) . '-' . $data['sku'];
 
             $tags = request('tags');
             $categories = request('category_id');
@@ -132,7 +136,7 @@ class ProductController extends Controller
                     array_pop($valueIds);
                     $dataVariant['product_id'] = $product->id;
                     $dataVariant['image'] ??= null;
-                    $dataVariant['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))).'-'.$dataVariant['sku'];
+                    $dataVariant['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))) . '-' . $dataVariant['sku'];
                     if ($dataVariant['image']) {
                         $dataVariant['image'] = Storage::put(self::PATH_UPLOAD, $dataVariant['image']);
                     }
@@ -143,8 +147,8 @@ class ProductController extends Controller
                 }
 
 
-                if (!empty($galleries)){
-                    foreach ($galleries as $gallery){
+                if (!empty($galleries)) {
+                    foreach ($galleries as $gallery) {
                         Gallery::query()->create([
                             'product_id' => $product->id,
                             'image' => Storage::put(self::PATH_UPLOAD, $gallery)
@@ -173,9 +177,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $attributes  =  Attribute::query()->pluck('name', 'id');
-        $tags        =  Tag::query()->pluck('name', 'id');
-        $brands      =  Brand::query()->pluck('name', 'id');
+        $attributes = Attribute::query()->pluck('name', 'id');
+        $tags = Tag::query()->pluck('name', 'id');
+        $brands = Brand::query()->pluck('name', 'id');
         $categories = Category::query()->whereNull('parent_id')->with('children')->get();
         $product->load([
             'categories',
@@ -201,12 +205,14 @@ class ProductController extends Controller
                 'brand_id' => request('brand_id'),
                 'quantity' => request('quantity') ?? 0,
                 'is_active' => request('is_active') ?? 0,
+                'is_featured' => request('is_featured') ?? 0,
+                'is_new' => request('is_new') ?? 0,
                 'is_sale' => request('is_sale') ?? 0,
                 'is_hot' => request('is_hot') ?? 0,
                 'is_home' => request('is_home') ?? 0,
             ];
 
-            if($request->hasFile('image')) {
+            if ($request->hasFile('image')) {
                 $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
             }
             $data['image'] ??= $product->image;
@@ -217,13 +223,22 @@ class ProductController extends Controller
             $galleries = request('galleries');
 
             try {
+
+                if ($product->variants->count()){
+                    foreach ($product->variants as $variant) {
+                        $variant->attributeValues()->detach();
+                    }
+
+                    $product->variants()->delete();
+                }
                 $product->update($data);
 
                 $product->tags()->sync($tags);
+
                 $product->categories()->sync($categories);
 
-                if (!empty($galleries)){
-                    foreach ($galleries as $gallery){
+                if (!empty($galleries)) {
+                    foreach ($galleries as $gallery) {
                         Gallery::query()->create([
                             'product_id' => $product->id,
                             'image' => Storage::put('galleries', $gallery)
@@ -231,7 +246,7 @@ class ProductController extends Controller
                     }
                 }
 
-            }catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 DB::rollBack();
                 return redirect()->route('admin.products.create')->with('error', $exception->getMessage());
             }
@@ -240,61 +255,52 @@ class ProductController extends Controller
             $data = [
                 'name' => request('name'),
                 'sku' => request('sku'),
-                'price' => 0,
-                'price_sale' =>0,
-                'quantity' =>0,
+                'slug' => Str::slug(request('slug')) ?? $product->slug,
+//                'price' => 0,
+//                'price_sale' => 0,
+//                'quantity' => 0,
                 'description' => request('description'),
                 'short_desc' => request('short_desc'),
                 'brand_id' => request('brand_id'),
                 'is_active' => request('is_active') ?? 0,
+                'is_featured' => request('is_featured') ?? 0,
+                'is_new' => request('is_new') ?? 0,
                 'is_sale' => request('is_sale') ?? 0,
                 'is_hot' => request('is_hot') ?? 0,
                 'is_home' => request('is_home') ?? 0,
             ];
 
-            if($request->hasFile('image')) {
+            if ($request->hasFile('image')) {
                 $data['image'] = Storage::put(self::PATH_UPLOAD, $request->file('image'));
             }
-            $data['image'] ??= null;
-
-            $data['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))).'-'.$data['sku'];
+            $data['image'] ??= $product->image;
 
             $tags = request('tags');
             $categories = request('category_id');
             $galleries = request('galleries');
 
-            $dataVariants = $request->product_variants;
+            $dataVariants = request('product_variants');
 
             try {
-                DB::beginTransaction();
-                $product = Product::query()->create($data);
+                $product->update($data);
+
                 $product->categories()->sync($categories);
+
                 $product->tags()->sync($tags);
-                foreach ($dataVariants as $key => $dataVariant) {
-                    $valueIds = explode('-', $key);
-                    array_pop($valueIds);
-                    $dataVariant['product_id'] = $product->id;
-                    $dataVariant['image'] ??= null;
-                    $dataVariant['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))).'-'.$dataVariant['sku'];
-                    if ($dataVariant['image']) {
-                        $dataVariant['image'] = Storage::put(self::PATH_UPLOAD, $dataVariant['image']);
-                    }
-                    $productVariant = Variant::query()->create($dataVariant);
-                    $productVariant->attributeValues()->attach($valueIds);
 
-
+                foreach ($dataVariants as $key => $variant) {
+                    Variant::query()->where('id', $key)->update($variant);
                 }
 
 
-                if (!empty($galleries)){
-                    foreach ($galleries as $gallery){
+                if (!empty($galleries)) {
+                    foreach ($galleries as $gallery) {
                         Gallery::query()->create([
                             'product_id' => $product->id,
                             'image' => Storage::put(self::PATH_UPLOAD, $gallery)
                         ]);
                     }
                 }
-                DB::commit();
             } catch (\Exception $exception) {
                 DB::rollBack();
                 return redirect()->route('admin.products.create')->with('error', $exception->getMessage());
@@ -314,7 +320,7 @@ class ProductController extends Controller
                 $product->tags()->detach();
                 $product->categories()->detach();
 
-                foreach ( $product->variants as $variant){
+                foreach ($product->variants as $variant) {
                     $variant->attributeValues()->detach();
                 }
 
@@ -323,19 +329,19 @@ class ProductController extends Controller
                 $product->delete();
 
                 return redirect()->route('admin.products.index')->with('success', 'Delete Product Successfully');
-            }catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 DB::rollBack();
                 return redirect()->route('admin.products.index')->with('error', $exception->getMessage());
             }
-        }else{
+        } else {
             try {
 
                 $product->tags()->detach();
                 $product->categories()->detach();
 
-                if ($product->galleries->count()){
+                if ($product->galleries->count()) {
 
-                    foreach ($product->galleries as $gallery){
+                    foreach ($product->galleries as $gallery) {
                         $gallery->delete();
                         Storage::delete($gallery->image);
                     }
@@ -343,13 +349,13 @@ class ProductController extends Controller
 
                 $product->delete();
 
-                if (!empty($product->image) && Storage::exists($product->image)){
+                if (!empty($product->image) && Storage::exists($product->image)) {
                     Storage::delete($product->image);
                 }
 
 
                 return redirect()->route('admin.products.index')->with('success', 'Delete Product Successfully');
-            }catch (\Exception $exception){
+            } catch (\Exception $exception) {
                 DB::rollBack();
                 return redirect()->route('admin.products.index')->with('error', $exception->getMessage());
             }

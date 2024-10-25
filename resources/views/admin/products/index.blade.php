@@ -70,7 +70,7 @@
                                                          alt="" class="avatar-md">
                                                 </div>
                                                 <div>
-                                                    <a href="#!" class="text-dark fw-medium fs-15">{{ $item->name }}</a>
+                                                    <a href="{{ route('admin.products.edit', $item) }}" class="text-dark fw-medium fs-15">{{ $item->name }}</a>
                                                     <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S , M , L
                                                         , Xl </p>
                                                 </div>
@@ -95,7 +95,7 @@
                                         </td>
                                         <td><span class="badge p-1 bg-light text-dark fs-12 me-1"><i
                                                     class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 4.5</span>
-                                            {{ $item->productRatings->count() }} Review
+                                            {{ $item->reviews->count() }} Review
                                         </td>
                                         <td>
                                             <div class="d-flex gap-2">
