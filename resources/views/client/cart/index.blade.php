@@ -40,40 +40,40 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($carts as $cart)
+                                @foreach ($cartItems as $item)
                                     <tr class="cart-product-item">
-                                        <form action="{{ route('destroyCart', $cart->id) }}" method="post">
+                                        <form action="{{ route('destroyCart', $item->id) }}" method="post">
                                             @csrf
                                             @method('DELETE')
                                             <td class="remove">
                                                 <button type="submit" class="btn btn-light"><i
                                                         class="fa fa-trash-o"></i></button>
-                                                {{-- <a href="{{route('destroyCart',$cart->id)}}"><i class="fa fa-trash-o"></i></a> --}}
+                                                {{-- <a href="{{route('destroyCart',$item->id)}}"><i class="fa fa-trash-o"></i></a> --}}
                                             </td>
                                         </form>
 
                                         <td class="product-thumb">
-                                            <a href="single-product.html">
-                                                <img src="{{ $cart->image }}" width="90" height="110"
+                                            <a href="{{ route('productDetail', $item->product->slug) }}">
+                                                <img src="{{ Storage::url($item->product->image) }}" width="90" height="110"
                                                     alt="Image-HasTech">
                                             </a>
                                         </td>
                                         <td class="product-name">
-                                            <h4 class="title"><a href="single-product.html">{{ $cart->name }}</a>
+                                            <h4 class="title"><a href="{{ route('productDetail', $item->product->slug) }}">{{ $item->product->name }}</a>
                                             </h4>
                                         </td>
                                         <td class="product-price">
-                                            <span class="price">{{ number_format($cart->price_sale) }}$</span>
+                                            <span class="price">{{ number_format( $item->product->price) }}$</span>
                                         </td>
                                         <td class="product-quantity">
                                             <div class="pro-qty">
                                                 <input type="text" class="quantity" title="Quantity" name="quantity"
-                                                    value="{{ $cart->quantity }}">
+                                                    value="{{ $item->quantity }}">
                                             </div>
                                         </td>
                                         <td class="product-subtotal">
                                             <span
-                                                class="price">{{ number_format($cart->price_sale * $cart->quantity) }}$</span>
+                                                class="price">{{ number_format($item->product->price) * $item->quantity }}$</span>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -90,7 +90,7 @@
                                         {{-- <button type="submit" class="clear-cart">Clear Cart</button> --}}
                                         {{-- <button type="submit" class="btn btn-light"><i
                                                             class="fa fa-trash-o"></i></button> --}}
-                                        {{-- <a href="{{route('destroyCart',$cart->id)}}"><i class="fa fa-trash-o"></i></a> --}}
+                                        {{-- <a href="{{route('destroyCart',$item->id)}}"><i class="fa fa-trash-o"></i></a> --}}
                                     </td>
                                     </form>
                                     <form action="{{ route('destroyAllCart') }}" method="post">
@@ -100,7 +100,7 @@
                                             <button type="submit" class="clear-cart">Clear Cart</button>
                                             {{-- <button type="submit" class="btn btn-light"><i
                                                             class="fa fa-trash-o"></i></button> --}}
-                                            {{-- <a href="{{route('destroyCart',$cart->id)}}"><i class="fa fa-trash-o"></i></a> --}}
+                                            {{-- <a href="{{route('destroyCart',$item->id)}}"><i class="fa fa-trash-o"></i></a> --}}
                                         </td>
                                     </form>
                                     </td>
