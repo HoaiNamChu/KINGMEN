@@ -4,9 +4,11 @@
 use App\Http\Controllers\Admin\AttributeController;
 use App\Http\Controllers\Admin\AttributeValueController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\TagController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
@@ -28,6 +30,7 @@ use App\Http\Controllers\Client\AccountGoogleController;
 
 // viết các route client ở đây
 Route::prefix('/')->group(function () {
+
 Route::get('/', function () {
     return view('client.home.index');
 })->name(name: '/');
@@ -65,6 +68,27 @@ Route::post('/forget-password', [AccountGoogleController::class, 'sendEmailForge
 Route::get('reset-password/{token}', [AccountGoogleController::class, 'showResetPasswordForm'])->name('reset.password.get');
 
 Route::post('reset-password', [AccountGoogleController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+
+    //cart routes
+    Route::get('cart', [CartController::class, 'index'])->name('cart.index');
+    Route::get('add-cart', [CartController::class, 'addCart'])->name('addCart');
+    Route::get('add-cart/{slug}', [CartController::class, 'addCartIcon'])->name('addCartIcon');
+    Route::delete('delete-cart/{id}', [CartController::class, 'destroyCart'])->name('destroyCart');
+    Route::delete('delete-all-cart', [CartController::class, 'destroyAllCart'])->name('destroyAllCart');
+    Route::put('update-cart', [CartController::class, 'updateCart'])->name('updateCart');
+
+    //page routes
+    Route::get('shop', function (){
+        $products = Product::query()->with('variants', 'categories', 'brand', 'reviews')->paginate(12);
+        return view('client.shop.index', compact('products'));
+    });
+
+    Route::get('/product/{slug}', function (){
+        $product = Product::query()->where('slug', request()->slug)->with('categories', 'brand', 'galleries', 'variants')->first();
+        return view('client.singleProduct', compact('product'));
+    })->name('productDetail');
+
+
 });
 
 // viết các route admin vào đây

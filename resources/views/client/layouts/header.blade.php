@@ -99,7 +99,7 @@
                     <div class="header-align">
                         <div class="header-navigation-area position-relative">
                             <ul class="main-menu nav">
-                                <li class="has-submenu"><a href="index.html"><span>Home</span></a>
+                                <li class="has-submenu"><a href="/"><span>Home</span></a>
                                 </li>
                                 <li><a href="about-us.html"><span>About</span></a></li>
                                 <li class="has-submenu"><a href="#/"><span>Pages</span></a>
