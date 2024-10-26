@@ -1,64 +1,109 @@
 @extends('admin.layouts.main')
 
+@section('link')
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+@endsection
+
 
 @section('content')
     <div class="container-xxl">
-
         <div class="row">
-            <div class="col-md-6 col-xl-3">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div
-                                class="rounded bg-secondary-subtle d-flex align-items-center justify-content-center mx-auto">
-                            <img src="{{ asset('theme/admin/assets/images/product/p-1.png') }}" alt=""
-                                 class="avatar-xl">
+            <div class="col-lg-4">
+                <form action="{{ route('admin.categories.store') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title">Category Information</h4>
                         </div>
-                        <h4 class="mt-3 mb-0">Fashion Categories</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-xl-3">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div
-                                class="rounded bg-primary-subtle d-flex align-items-center justify-content-center mx-auto">
-                            <img src="{{ asset('theme/admin/assets/images/product/p-6.png') }}" alt=""
-                                 class="avatar-xl">
-                        </div>
-                        <h4 class="mt-3 mb-0">Electronics Headphone</h4>
-                    </div>
-                </div>
-            </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="category-name" class="form-label">Category Name</label>
+                                        <input type="text" id="category-name" name="name" class="form-control"
+                                               placeholder="Category name">
+                                        <span class="error-notification">
+                                            @error('name')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="brand-image" class="form-label">Category Thumbnail</label>
+                                        <input type="file" id="brand-image" name="image" class="form-control">
+                                        <span class="error-notification">
+                                            @error('image')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="crater" class="form-label">Parent</label>
+                                        <select class="form-control" id="crater" name="parent_id" data-choices
+                                                data-choices-sorting-false
+                                                data-placeholder="Select Parent">
+                                            <option value="">Select Parent</option>
+                                            @foreach($categories as $item)
+                                                @php
+                                                    $dash = ' ';
+                                                @endphp
+                                                @include('components.admin.categories.create', ['item'=>$item, 'dash' => $dash])
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Description</label>
+                                        <textarea class="form-control bg-light-subtle" name="description"
+                                                  id="description"
+                                                  rows="7"
+                                                  placeholder="Type description"></textarea>
+                                        <span class="error-notification">
+                                            @error('description')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <p>Category Status </p>
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" value="1" name="is_active"
+                                                   id="is_active1" checked="">
+                                            <label class="form-check-label" for="is_active1">
+                                                Active
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" value="0" name="is_active"
+                                                   id="is_active2">
+                                            <label class="form-check-label" for="is_active2">
+                                                In Active
+                                            </label>
+                                        </div>
+                                        <span class="error-notification">
+                                            @error('is_active')
+                                            {{ $message }}
+                                            @enderror
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
 
-            <div class="col-md-6 col-xl-3">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div
-                            class="rounded bg-warning-subtle d-flex align-items-center justify-content-center mx-auto">
-                            <img src="{{ asset('theme/admin/assets/images/product/p-7.png') }}" alt=""
-                                 class="avatar-xl">
                         </div>
-                        <h4 class="mt-3 mb-0">Foot Wares</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-xl-3">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div
-                            class="rounded bg-info-subtle d-flex align-items-center justify-content-center mx-auto">
-                            <img src="{{ asset('theme/admin/assets/images/product/p-9.png') }}" alt=""
-                                 class="avatar-xl">
+                        <div class="card-footer border-top">
+                            <button type="submit" class="btn btn-primary">Create Category</button>
                         </div>
-                        <h4 class="mt-3 mb-0">Eye Ware & Sunglass</h4>
                     </div>
-                </div>
+                </form>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xl-12">
+            <div class="col-xl-8">
                 <div class="card">
                     <div class="card-header d-flex justify-content-between align-items-center gap-1">
                         <h4 class="card-title flex-grow-1">All Categories List</h4>
@@ -95,7 +140,6 @@
                                     </th>
                                     <th>Categories</th>
                                     <th>ID</th>
-                                    <th>Parent</th>
                                     <th>Product</th>
                                     <th>Status</th>
                                     <th>Create At</th>
@@ -133,3 +177,30 @@
 
     </div>
 @endsection
+
+@section('lib-script')
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+@endsection
+
+@section('script')
+
+    <script>
+
+        @if(session('success'))
+        Toastify({
+
+            text: "{{ session('success') }}",
+
+            duration: 3000,
+
+            gravity: top,
+
+            close: true,
+
+        }).showToast();
+        @endif
+
+    </script>
+
+@endsection
+

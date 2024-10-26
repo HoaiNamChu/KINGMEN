@@ -71,7 +71,7 @@ class AttributeController extends Controller
                     'is_active' => $value['is_active'],
                 ]);
             }
-            return redirect()->route('admin.attributes.index')->with('success', 'Add Attribute Successfully');
+            return redirect()->back()->with('success', 'Add Attribute Successfully');
         } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->with('error', $exception->getMessage());

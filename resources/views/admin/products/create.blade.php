@@ -1,7 +1,7 @@
 @extends('admin.layouts.main')
 
 @section('link')
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 @endsection
 
 @section('content')
@@ -69,11 +69,11 @@
                         <div class="card-body p-0">
                             <div class="row">
                                 <div class="col-lg-3">
-                                    <ul class="list-group">
-                                        <li class="list-group-item product-option" id="general">General</li>
-                                        <li class="list-group-item product-option" id="inventory">Inventory</li>
-                                        <li class="list-group-item product-option" id="attributes">Attributes</li>
-                                        <li class="list-group-item product-option" id="variations">Variations</li>
+                                    <ul class="list-group list-group-flush ">
+                                        <li class="list-group-item product-option" data-bs-toggle="pill" id="general">General</li>
+                                        <li class="list-group-item product-option" data-bs-toggle="pill" id="inventory">Inventory</li>
+                                        <li class="list-group-item product-option" data-bs-toggle="pill" id="attributes">Attributes</li>
+                                        <li class="list-group-item product-option" data-bs-toggle="pill" id="variations">Variations</li>
                                     </ul>
                                 </div>
                                 <!-- end col -->
@@ -186,6 +186,16 @@
                                 <label class="form-check-label" for="is-active">Is Active</label>
                             </div>
                             <div class="form-check form-switch">
+                                <input class="form-check-input" name="is_new" type="checkbox" role="switch"
+                                       id="is-new" value="1">
+                                <label class="form-check-label" for="is-new">Is New</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" name="is_featured" type="checkbox" role="switch"
+                                       id="is-featured" value="1">
+                                <label class="form-check-label" for="is-featured">Is Featured</label>
+                            </div>
+                            <div class="form-check form-switch">
                                 <input class="form-check-input" name="is_hot" value="1" type="checkbox" role="switch"
                                        id="is-hot">
                                 <label class="form-check-label" for="is-hot">Is Hot</label>
@@ -236,9 +246,9 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title d-inline-block">Product Categories</h4><a href=""
-                                                                             data-bs-toggle="modal"
-                                                                             data-bs-target="#modalCreateCategory"
-                                                                             class="float-end text-decoration-underline">Add
+                                                                                            data-bs-toggle="modal"
+                                                                                            data-bs-target="#modalCreateCategory"
+                                                                                            class="float-end text-decoration-underline">Add
                                 New</a>
                         </div>
                         <div class="card-body">
@@ -303,6 +313,7 @@
 @section('lib-script')
     <script src="{{ asset('theme/admin/assets/js/components/form-quilljs.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 @endsection
 
 @section('script')
@@ -434,5 +445,18 @@
             $('#select-' + attributeId + ' option').prop('selected', false);
         });
 
+        @if(session('success'))
+        Toastify({
+
+            text: "{{ session('success') }}",
+
+            duration: 3000,
+
+            gravity: top,
+
+            close: true,
+
+        }).showToast();
+        @endif
     </script>
 @endsection

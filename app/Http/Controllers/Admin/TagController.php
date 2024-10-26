@@ -50,7 +50,7 @@ class TagController extends Controller
 
         try {
             $tag = Tag::query()->create($data);
-            return redirect()->route('admin.tags.index')->with('success', 'Add Tags Successfully');
+            return redirect()->back()->with('success', 'Add Tags Successfully');
         }catch (\Exception $exception){
             DB::rollBack();
             return redirect()->back()->with('error', $exception->getMessage());

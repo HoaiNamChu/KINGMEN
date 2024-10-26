@@ -45,6 +45,7 @@
                                     </th>
                                     <th>Product Name & Size</th>
                                     <th>Price</th>
+                                    <th>Price Sale</th>
                                     <th>Stock</th>
                                     <th>Brand</th>
                                     <th>Category</th>
@@ -69,7 +70,7 @@
                                                          alt="" class="avatar-md">
                                                 </div>
                                                 <div>
-                                                    <a href="#!" class="text-dark fw-medium fs-15">{{ $item->name }}</a>
+                                                    <a href="{{ route('admin.products.edit', $item) }}" class="text-dark fw-medium fs-15">{{ $item->name }}</a>
                                                     <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S , M , L
                                                         , Xl </p>
                                                 </div>
@@ -77,6 +78,7 @@
 
                                         </td>
                                         <td>${{ number_format($item->price) }}</td>
+                                        <td>${{ number_format($item->price_sale) }}</td>
                                         <td>
                                             <p class="mb-1 text-muted"><span class="text-dark fw-medium">{{ $item->quantity }} Item</span>
                                                 Left</p>
@@ -93,7 +95,7 @@
                                         </td>
                                         <td><span class="badge p-1 bg-light text-dark fs-12 me-1"><i
                                                     class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 4.5</span>
-                                            {{ $item->productRatings->count() }} Review
+                                            {{ $item->reviews->count() }} Review
                                         </td>
                                         <td>
                                             <div class="d-flex gap-2">
