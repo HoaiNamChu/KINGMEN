@@ -128,9 +128,13 @@ class ProductController extends Controller
 
             try {
                 DB::beginTransaction();
+
                 $product = Product::query()->create($data);
+
                 $product->categories()->sync($categories);
+
                 $product->tags()->sync($tags);
+
                 foreach ($dataVariants as $key => $dataVariant) {
                     $valueIds = explode('-', $key);
                     array_pop($valueIds);
@@ -224,7 +228,7 @@ class ProductController extends Controller
 
             try {
 
-                if ($product->variants->count()){
+                if ($product->variants->count()) {
                     foreach ($product->variants as $variant) {
                         $variant->attributeValues()->detach();
                     }
@@ -248,7 +252,7 @@ class ProductController extends Controller
 
             } catch (\Exception $exception) {
                 DB::rollBack();
-                return redirect()->route('admin.products.create')->with('error', $exception->getMessage());
+                return redirect()->back()->with('error', $exception->getMessage());
             }
         }
         if (request('product_type') === 'variable') {
@@ -256,9 +260,8 @@ class ProductController extends Controller
                 'name' => request('name'),
                 'sku' => request('sku'),
                 'slug' => Str::slug(request('slug')) ?? $product->slug,
-//                'price' => 0,
-//                'price_sale' => 0,
-//                'quantity' => 0,
+                'price' => 0,
+                'price_sale' => 0,
                 'description' => request('description'),
                 'short_desc' => request('short_desc'),
                 'brand_id' => request('brand_id'),
@@ -276,10 +279,17 @@ class ProductController extends Controller
             $data['image'] ??= $product->image;
 
             $tags = request('tags');
+
             $categories = request('category_id');
+
             $galleries = request('galleries');
 
             $dataVariants = request('product_variants');
+
+            $data['quantity'] ??= 0;
+            foreach ($dataVariants as $variant) {
+                $data['quantity'] += $variant['quantity'];
+            }
 
             try {
                 $product->update($data);
@@ -289,11 +299,37 @@ class ProductController extends Controller
                 $product->tags()->sync($tags);
 
                 foreach ($dataVariants as $key => $variant) {
-                    Variant::query()->where('id', $key)->update($variant);
+                    if (Variant::query()->where('id', $key)->exists()) {
+                        $item = Variant::query()->findOrFail($key);
+                        if (isset($variant['image'])) {
+                            $variant['image'] = Storage::put(self::PATH_UPLOAD, $variant['image']);
+                        }
+                        $variant['image'] ??= $item->image;
+
+                        $item->update($variant);
+
+                    }else{
+                        $valueIds = explode('-', $key);
+                        array_pop($valueIds);
+                        $variant['product_id'] = $product->id;
+                        $variant['image'] ??= null;
+                        $variant['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))) . '-' . $variant['sku'];
+                        if ($variant['image']) {
+                            $variant['image'] = Storage::put(self::PATH_UPLOAD, $variant['image']);
+                        }
+                        $productVariant = Variant::query()->create($variant);
+                        $productVariant->attributeValues()->attach($valueIds);
+                    }
                 }
 
 
                 if (!empty($galleries)) {
+                    foreach ($product->galleries as $gallery) {
+                        $gallery->delete();
+                        if (!empty($gallery->image) && Storage::exists($gallery->image)) {
+                            Storage::delete($gallery->image);
+                        }
+                    }
                     foreach ($galleries as $gallery) {
                         Gallery::query()->create([
                             'product_id' => $product->id,
@@ -303,7 +339,7 @@ class ProductController extends Controller
                 }
             } catch (\Exception $exception) {
                 DB::rollBack();
-                return redirect()->route('admin.products.create')->with('error', $exception->getMessage());
+                return redirect()->back()->with('error', $exception->getMessage());
             }
         }
         return redirect()->back()->with('success', 'Update Product Successfully');
@@ -318,15 +354,29 @@ class ProductController extends Controller
             try {
 
                 $product->tags()->detach();
+
                 $product->categories()->detach();
+
+                if ($product->galleries->count()) {
+                    foreach ($product->galleries as $gallery) {
+                        $gallery->delete();
+                        Storage::delete($gallery->image);
+                    }
+                }
 
                 foreach ($product->variants as $variant) {
                     $variant->attributeValues()->detach();
+                    $variant->delete();
+                    if (!empty($variant->image) && Storage::exists($variant->image)) {
+                        Storage::delete($variant->image);
+                    }
                 }
 
-                $product->variants()->delete();
-
                 $product->delete();
+
+                if (!empty($product->image) && Storage::exists($product->image)) {
+                    Storage::delete($product->image);
+                }
 
                 return redirect()->route('admin.products.index')->with('success', 'Delete Product Successfully');
             } catch (\Exception $exception) {
@@ -337,10 +387,10 @@ class ProductController extends Controller
             try {
 
                 $product->tags()->detach();
+
                 $product->categories()->detach();
 
                 if ($product->galleries->count()) {
-
                     foreach ($product->galleries as $gallery) {
                         $gallery->delete();
                         Storage::delete($gallery->image);

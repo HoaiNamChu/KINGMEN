@@ -207,6 +207,9 @@
                                                                        name="product_variants[{{ $productVariant->id }}][image]"
                                                                        id="variant-image[{{ $productVariant->id }}]"
                                                                        placeholder="Enter manufacturer brand">
+                                                                @if($productVariant->image)
+                                                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($productVariant->image) }}" alt="image" class="img-fluid avatar-xl rounded" />
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     </div>
@@ -370,6 +373,7 @@
                                     <div>
                                         <input type="file" name="image" id="product-image" class="form-control">
                                     </div>
+                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($product->image) }}" alt="image" class="img-fluid avatar-xl rounded" />
                                 </div>
                             </div>
 
@@ -386,6 +390,11 @@
                                         <input type="file" name="galleries[]" id="product-image" multiple
                                                class="form-control">
                                     </div>
+                                    @if($product->galleries->count())
+                                        @foreach($product->galleries as $gallery)
+                                            <img src="{{ \Illuminate\Support\Facades\Storage::url($gallery->image) }}" alt="image" class="img-fluid avatar-xl rounded" />
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
 
