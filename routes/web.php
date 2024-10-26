@@ -10,9 +10,7 @@ use App\Http\Controllers\Admin\TagController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\PermissionController;
-use App\Http\Controllers\ChatController;
-use App\Http\Controllers\client\CartController;
+use App\Http\Controllers\Admin\PermissionController;;
 use App\Http\Controllers\Client\AccountGoogleController;
 
 
@@ -34,14 +32,7 @@ Route::get('/', function () {
     return view('client.home.index');
 })->name(name: '/');
 
-//cart
-Route::middleware('auth')->group(function () {
-    Route::get('/cart', [CartController::class, 'show'])->name('cart.show');
-    Route::post('/cart/add/{product}', [CartController::class, 'addToCart'])->name('cart.add');
-    Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
-    Route::delete('/cart/remove/{cartItem}', [CartController::class, 'removeItem'])->name('cart.remove');
-    Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
-});
+
 
 
 
