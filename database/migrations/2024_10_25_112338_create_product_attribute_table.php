@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Product;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,11 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('role_users', function (Blueprint $table) {
-            $table->foreignIdFor(\App\Models\Role::class)->constrained();
-            $table->foreignIdFor(\App\Models\User::class)->constrained();
+        Schema::create('product_attribute', function (Blueprint $table) {
+            $table->foreignIdFor(Product::class)->constrained();
+            $table->foreignIdFor(\App\Models\Attribute::class)->constrained();
 
-            $table->primary(['role_id', 'user_id']);
+            $table->primary(['product_id', 'attribute_id']);
         });
     }
 
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('role_users');
+        Schema::dropIfExists('product_attribute');
     }
 };
