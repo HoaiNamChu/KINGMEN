@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/')->group(function () {
     Route::get('/', [CartController::class, 'index']);
     Route::get('list-cart', [CartController::class, 'listcart'])->name('listcart');
+    Route::get('addcart/{id}', [CartController::class, 'addcart']);
 });
 
 // viết các route admin vào đây

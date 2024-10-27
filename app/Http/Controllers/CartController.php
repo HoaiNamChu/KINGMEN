@@ -10,7 +10,6 @@ class CartController extends Controller
     public function index(){
         $carts = DB::table('cart_items')
         ->join('products', 'product_id', '=', 'products.id')
-        ->select('products.*')
         ->get();
         return view('client.home.index', compact('carts'));
     }
@@ -18,8 +17,9 @@ class CartController extends Controller
     public function listcart(){
         $carts = DB::table('cart_items')
         ->join('products', 'product_id', '=', 'products.id')
-        ->select( 'products.*', )
         ->get();
         return view('client.home.listcart', compact('carts'));
     }
+
+    
 }
