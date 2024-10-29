@@ -39,6 +39,12 @@ Route::prefix('/')->group(function () {
             Route::get('/', [CartController::class, 'index'])->name('index');
             Route::get('/clear-cart', [CartController::class, 'clearCart'])->name('clear');
         });
+    Route::prefix('/product')
+        ->as('product.')
+        ->group(function () {
+        Route::get('/{slug}', [\App\Http\Controllers\Client\ProductController::class, 'detail'])->name('detail');
+    });
+
 });
 
 
