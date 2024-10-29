@@ -38,6 +38,7 @@ Route::prefix('/')->group(function () {
         ->group(function () {
             Route::get('/', [CartController::class, 'index'])->name('index');
             Route::get('/clear-cart', [CartController::class, 'clearCart'])->name('clear');
+            Route::get('/add-cart/{slug}', [CartController::class, 'iconAddCart'])->name('iconAdd');
         });
     Route::prefix('/product')
         ->as('product.')

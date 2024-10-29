@@ -48,44 +48,59 @@
                                                     <a href="#/"><i class="fa fa-trash-o"></i></a>
                                                 </td>
                                                 <td class="product-thumb">
-                                                    <a href="single-product.html">
-                                                        <img src="assets/img/shop/product-mini/1.webp" width="90"
+                                                    <a href="{{ route('product.detail', $item->product->slug)}}">
+                                                        <img src="{{ Storage::url($item->product->image) }}" width="90"
                                                             height="110" alt="Image-HasTech">
                                                     </a>
                                                 </td>
                                                 <td class="product-name">
-                                                    <h4 class="title"><a href="single-product.html">Leather Mens
-                                                            Slipper</a></h4>
+                                                    <h4 class="title"><a
+                                                            href="{{ route('product.detail', $item->product->slug)}}">{{ $item->product->name }}</a></h4>
                                                 </td>
                                                 <td class="product-price">
-                                                    <span class="price">£69.99</span>
+                                                    @if ($item->product->is_sale && $item->product->price_sale > 0)
+                                                        <span
+                                                            class="price">${{ number_format($item->product->price_sale) }}</span>
+                                                    @else
+                                                        <span
+                                                            class="price">${{ number_format($item->product->price) }}</span>
+                                                    @endif
                                                 </td>
                                                 <td class="product-quantity">
                                                     <div class="pro-qty">
                                                         <input type="text" class="quantity" title="Quantity"
-                                                            value="1">
+                                                            value="{{ $item->quantity }}">
                                                     </div>
                                                 </td>
                                                 <td class="product-subtotal">
-                                                    <span class="price">£69.99</span>
+                                                    @if ($item->product->is_sale && $item->product->price_sale > 0)
+                                                        <span
+                                                            class="price">${{ number_format(intval($item->product->price_sale) * $item->quantity) }}</span>
+                                                    @else
+                                                        <span
+                                                            class="price">${{ number_format(intval($item->product->price) * $item->quantity) }}</span>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="6">
+                                                <span>No product in cart!</span>
+                                            </td>
+                                        </tr>
                                     @endif
-                                    <tr>
-                                        <td colspan="6">
-                                            <span>No product in cart!</span>
-                                        </td>
-                                    </tr>
+
                                     <tr class="actions">
                                         <td class="border-0" colspan="6">
                                             <button type="submit" class="update-cart" disabled>Update cart</button>
-                                            <a href="{{ route('cart.clear')}}"><button type="button" class="clear-cart">Clear Cart</button></a>
-                                            <a href="{{ route('shop')}}" class="btn-theme btn-flat">Continue Shopping</a>
+                                            <a href="{{ route('cart.clear') }}"><button type="button"
+                                                    class="clear-cart">Clear Cart</button></a>
+                                            <a href="{{ route('shop') }}" class="btn-theme btn-flat">Continue Shopping</a>
                                         </td>
                                     </tr>
                                 </tbody>
-                            </table>    
+                            </table>
                         </form>
                     </div>
                 </div>
