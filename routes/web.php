@@ -24,12 +24,16 @@ use Illuminate\Support\Facades\Route;
 
 // viết các route client ở đây
 Route::prefix('/')->group(function () {
-    Route::get('/', [CartController::class, 'index']);
+
+    Route::get('/', [\App\Http\Controllers\Client\HomeController::class, 'index'])->name('home');
+    Route::get('/shop', [\App\Http\Controllers\Client\ShopController::class, 'index'])->name('shop');
+    Route::get('/about', [\App\Http\Controllers\Client\AboutController::class, 'index'])->name('about');
+    Route::get('/blog', [\App\Http\Controllers\Client\BlogController::class, 'index'])->name('blog');
+    Route::get('/contact', [\App\Http\Controllers\Client\ContactController::class, 'index'])->name('contact');
+
+    // Route::get('/', [CartController::class, 'index']);
     Route::get('list-cart', [CartController::class, 'listcart'])->name('listcart');
     Route::get('addcart/{id}', [CartController::class, 'addcart']);
-    Route::get('/', function () {
-        return view('client.home.index');
-    });
 
     //cart routes
     Route::get('cart', [CartController::class, 'index'])->name('cart.index');
@@ -50,7 +54,11 @@ Route::prefix('/')->group(function () {
         return view('client.singleProduct', compact('product'));
     })->name('productDetail');
 
+    
 });
+
+
+
 
 // viết các route admin vào đây
 Route::prefix('/admin')
