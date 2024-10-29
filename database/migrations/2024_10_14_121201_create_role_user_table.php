@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_tags', function (Blueprint $table) {
-            $table->foreignIdFor(\App\Models\Product::class)->constrained();
-            $table->foreignIdFor(\App\Models\Tag::class)->constrained();
+        Schema::create('role_user', function (Blueprint $table) {
+            $table->foreignIdFor(\App\Models\Role::class)->constrained();
+            $table->foreignIdFor(\App\Models\User::class)->constrained();
 
-            $table->primary(['product_id', 'tag_id']);
+            $table->primary(['role_id', 'user_id']);
         });
     }
 
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_tags');
+        Schema::dropIfExists('role_user');
     }
 };

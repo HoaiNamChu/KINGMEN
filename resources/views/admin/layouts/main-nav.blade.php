@@ -23,7 +23,7 @@
             <li class="menu-title">General</li>
 
             <li class="nav-item">
-                <a class="nav-link" href="index-2.html">
+                <a class="nav-link" href="{{ route('admin.dashboard') }}">
                                    <span class="nav-icon">
                                         <iconify-icon icon="solar:widget-5-bold-duotone"></iconify-icon>
                                    </span>
@@ -42,19 +42,19 @@
                 <div class="collapse" id="sidebarProducts">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="product-list.html">List</a>
+                            <a class="sub-nav-link" href="{{ route('admin.products.index') }}">List</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="product-grid.html">Grid</a>
+                            <a class="sub-nav-link" href="{{ route('admin.products.create') }}">Create</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="product-details.html">Details</a>
+                            <a class="sub-nav-link" href="{{ route('admin.categories.index') }}">Categories</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="product-edit.html">Edit</a>
+                            <a class="sub-nav-link" href="{{ route('admin.tags.index') }}">Tags</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="product-add.html">Create</a>
+                            <a class="sub-nav-link" href="{{ route('admin.attributes.index') }}">Attributes</a>
                         </li>
                     </ul>
                 </div>
@@ -80,28 +80,6 @@
                 </div>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link menu-arrow" href="#sidebarCategory" data-bs-toggle="collapse" role="button"
-                   aria-expanded="false" aria-controls="sidebarCategory">
-                                   <span class="nav-icon">
-                                        <iconify-icon icon="solar:clipboard-list-bold-duotone"></iconify-icon>
-                                   </span>
-                    <span class="nav-text"> Category </span>
-                </a>
-                <div class="collapse" id="sidebarCategory">
-                    <ul class="nav sub-navbar-nav">
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="category-list.html">List</a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="category-edit.html">Edit</a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="category-add.html">Create</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
 
             <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarInventory" data-bs-toggle="collapse" role="button"
@@ -169,29 +147,6 @@
                         </li>
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="purchase-returns.html">Return</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link menu-arrow" href="#sidebarAttributes" data-bs-toggle="collapse" role="button"
-                   aria-expanded="false" aria-controls="sidebarAttributes">
-                                   <span class="nav-icon">
-                                        <iconify-icon icon="solar:confetti-minimalistic-bold-duotone"></iconify-icon>
-                                   </span>
-                    <span class="nav-text"> Attributes </span>
-                </a>
-                <div class="collapse" id="sidebarAttributes">
-                    <ul class="nav sub-navbar-nav">
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="attributes-list.html">List</a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="attributes-edit.html">Edit</a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="attributes-add.html">Create</a>
                         </li>
                     </ul>
                 </div>

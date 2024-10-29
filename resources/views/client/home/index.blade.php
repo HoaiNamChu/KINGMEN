@@ -1,18 +1,13 @@
 @extends('client.layouts.main')
 
 @section('content')
-
-@if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
     <!--== Start Hero Area Wrapper ==-->
     <section class="home-slider-area">
         <div class="swiper-container home-slider-container default-slider-container">
             <div class="swiper-wrapper home-slider-wrapper slider-default">
                 <div class="swiper-slide">
-                    <div class="slider-content-area" data-bg-img="{{ asset('theme/client/assets/img/shape/1.webp') }}">
+                    <div class="slider-content-area"
+                         data-bg-img="{{ asset('theme/client/assets/img/shape/1.webp') }}">
                         <div class="container">
                             <div class="slider-container">
                                 <div class="row justify-content-between align-items-center">
@@ -34,17 +29,19 @@
                                     <div class="col-sm-6 col-md-6">
                                         <div class="slider-thumb">
                                             <div class="thumb scene">
-                                                <span class="scene-layer" data-depth=".3"><img
-                                                        src="{{ asset('theme/client/assets/img/slider/slider-01.webp') }}"
-                                                        width="461" height="489" alt="Image-HasTech"></span>
+                                                    <span class="scene-layer" data-depth=".3"><img
+                                                            src="{{ asset('theme/client/assets/img/slider/slider-01.webp') }}"
+                                                            width="461"
+                                                            height="489" alt="Image-HasTech"></span>
                                             </div>
                                             <div class="shape-group mousemove">
                                                 <div class="shape-group-one mousemove-layer" data-speed=".8"
-                                                    data-bg-img="{{ asset('theme/client/assets/img/shape/2.webp') }}"></div>
+                                                     data-bg-img="{{ asset('theme/client/assets/img/shape/2.webp') }}"></div>
                                                 <div class="shape-group-two scene"><span class="scene-layer"
-                                                        data-depth=".6"><img
+                                                                                         data-depth=".6"><img
                                                             src="{{ asset('theme/client/assets/img/shape/3.webp') }}"
-                                                            width="471" height="462" alt="Image-HasTech"></span></div>
+                                                            width="471" height="462"
+                                                            alt="Image-HasTech"></span></div>
                                             </div>
                                         </div>
                                     </div>
@@ -55,7 +52,8 @@
                     </div>
                 </div>
                 <div class="swiper-slide">
-                    <div class="slider-content-area" data-bg-img="{{ asset('theme/client/assets/img/shape/1.webp') }}">
+                    <div class="slider-content-area"
+                         data-bg-img="{{ asset('theme/client/assets/img/shape/1.webp') }}">
                         <div class="container">
                             <div class="slider-container">
                                 <div class="row justify-content-between align-items-center">
@@ -77,17 +75,19 @@
                                     <div class="col-sm-6 col-md-6">
                                         <div class="slider-thumb">
                                             <div class="thumb scene">
-                                                <span class="scene-layer" data-depth=".3"><img
-                                                        src="{{ asset('theme/client/assets/img/slider/slider-03.webp') }}"
-                                                        width="548" height="649" alt="Image-HasTech"></span>
+                                                    <span class="scene-layer" data-depth=".3"><img
+                                                            src="{{ asset('theme/client/assets/img/slider/slider-03.webp') }}"
+                                                            width="548"
+                                                            height="649" alt="Image-HasTech"></span>
                                             </div>
                                             <div class="shape-group mousemove">
                                                 <div class="shape-group-one mousemove-layer" data-speed=".8"
-                                                    data-bg-img="{{ asset('theme/client/assets/img/shape/2.webp') }}"></div>
+                                                     data-bg-img="{{ asset('theme/client/assets/img/shape/2.webp') }}"></div>
                                                 <div class="shape-group-two scene"><span class="scene-layer"
-                                                        data-depth=".6"><img
+                                                                                         data-depth=".6"><img
                                                             src="{{ asset('theme/client/assets/img/shape/3.webp') }}"
-                                                            width="471" height="462" alt="Image-HasTech"></span></div>
+                                                            width="471" height="462"
+                                                            alt="Image-HasTech"></span></div>
                                             </div>
                                         </div>
                                     </div>
@@ -127,7 +127,7 @@
                                 </div>
                             </div>
                             <div class="product-collection-thumb"
-                                data-bg-img="{{ asset('theme/client/assets/img/shop/collection/1.webp') }}"></div>
+                                 data-bg-img="{{ asset('theme/client/assets/img/shop/collection/1.webp') }}"></div>
                             <a class="banner-link-overlay" href="shop.html"></a>
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                                 </div>
                             </div>
                             <div class="product-collection-thumb"
-                                data-bg-img="{{ asset('theme/client/assets/img/shop/collection/2.webp') }}"></div>
+                                 data-bg-img="{{ asset('theme/client/assets/img/shop/collection/2.webp') }}"></div>
                             <a class="banner-link-overlay" href="shop.html"></a>
                         </div>
                     </div>
@@ -161,7 +161,7 @@
                                 </div>
                             </div>
                             <div class="product-collection-thumb"
-                                data-bg-img="{{ asset('theme/client/assets/img/shop/collection/3.webp') }}"></div>
+                                 data-bg-img="{{ asset('theme/client/assets/img/shop/collection/3.webp') }}"></div>
                             <a class="banner-link-overlay" href="shop.html"></a>
                         </div>
                     </div>
@@ -186,227 +186,14 @@
                 </div>
             </div>
             <div class="row">
-                @foreach ($prd as $item)
-                    <div class="col-sm-6 col-lg-3">
-                        <form action="" method="get">
-                            @csrf
 
-                            <!--== Start Product Item ==-->
-                            <div class="product-item">
-                                <div class="inner-content">
-                                    <div class="product-thumb">
-                                        <a href="single-product.html">
-                                            <img src="{{ asset('theme/client/assets/img/shop/1.webp') }}" width="270"
-                                                height="274" alt="Image-HasTech">
-                                        </a>
-                                        <div class="product-flag">
-                                            <ul>
-                                                <li class="discount">-10%</li>
-                                            </ul>
-                                        </div>
-                                        <div class="product-action">
-                                            <a class="btn-product-wishlist" href="shop-wishlist.html"><i
-                                                    class="fa fa-heart"></i></a>
-                                            <a class="btn-product-cart" href="{{ route('order.checkout', $item->id) }}"><i
-                                                    class="fa fa-shopping-cart"></i></a>
-                                            <button type="button" class="btn-product-quick-view-open">
-                                                <i class="fa fa-arrows"></i>
-                                            </button>
-                                            <a class="btn-product-compare" href="shop-compare.html"><i
-                                                    class="fa fa-random"></i></a>
-                                        </div>
-                                        <a class="banner-link-overlay" href="#"></a>
-                                    </div>
-                                    <div class="product-info">
-                                        <div class="category">
-                                            <ul>
-                                                <li><a href="#">{{ $item->category_id }}</a></li>
-                                            </ul>
-                                        </div>
-                                        {{-- <h4 class="title"><a href="single-product.html">{{ $item->name }}</a></h4> --}}
-                                        <input type="text" class="title" name="name" value="{{ $item->name }}">
-                                        <div class="prices">
-                                            <span class="price-old">{{ $item->price }}$</span>
-                                            <span class="sep">-</span>
-                                            <span class="price" style="color:red">{{ $item->price_sale }}$</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        <!--== End prPduct Item ==-->
-                    </div>
-                @endforeach
-                {{-- <div class="col-sm-6 col-lg-3">
-                    <!--== Start Product Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                            <div class="product-thumb">
-                                <a href="single-product.html">
-                                    <img src="{{ asset('theme/client/assets/img/shop/2.webp') }}" width="270"
-                                         height="274" alt="Image-HasTech">
-                                </a>
-                                <div class="product-action">
-                                    <a class="btn-product-wishlist" href="shop-wishlist.html"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="btn-product-cart" href="{{route('order.checkout')}}"><i
-                                            class="fa fa-shopping-cart"></i></a>
-                                    <button type="button" class="btn-product-quick-view-open">
-                                        <i class="fa fa-arrows"></i>
-                                    </button>
-                                    <a class="btn-product-compare" href="shop-compare.html"><i
-                                            class="fa fa-random"></i></a>
-                                </div>
-                                <a class="banner-link-overlay" href="shop.html"></a>
-                            </div>
-                            <div class="product-info">
-                                <div class="category">
-                                    <ul>
-                                        <li><a href="shop.html">Men</a></li>
-                                        <li class="sep">/</li>
-                                        <li><a href="shop.html">Women</a></li>
-                                    </ul>
-                                </div>
-                                <h4 class="title"><a href="single-product.html">Quickiin Mens shoes</a></h4>
-                                <div class="prices">
-                                    <span class="price">$140.00</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--== End prPduct Item ==-->
-                </div>
                 <div class="col-sm-6 col-lg-3">
                     <!--== Start Product Item ==-->
                     <div class="product-item">
                         <div class="inner-content">
                             <div class="product-thumb">
                                 <a href="single-product.html">
-                                    <img src="{{ asset('theme/client/assets/img/shop/3.webp') }}" width="270"
-                                         height="274" alt="Image-HasTech">
-                                </a>
-                                <div class="product-flag">
-                                    <ul>
-                                        <li class="discount">-10%</li>
-                                    </ul>
-                                </div>
-                                <div class="product-action">
-                                    <a class="btn-product-wishlist" href="shop-wishlist.html"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="btn-product-cart" href="{{route('order.checkout')}}"><i
-                                            class="fa fa-shopping-cart"></i></a>
-                                    <button type="button" class="btn-product-quick-view-open">
-                                        <i class="fa fa-arrows"></i>
-                                    </button>
-                                    <a class="btn-product-compare" href="shop-compare.html"><i
-                                            class="fa fa-random"></i></a>
-                                </div>
-                                <a class="banner-link-overlay" href="shop.html"></a>
-                            </div>
-                            <div class="product-info">
-                                <div class="category">
-                                    <ul>
-                                        <li><a href="shop.html">Men</a></li>
-                                        <li class="sep">/</li>
-                                        <li><a href="shop.html">Women</a></li>
-                                    </ul>
-                                </div>
-                                <h4 class="title"><a href="single-product.html">Rexpo Womens shoes</a></h4>
-                                <div class="prices">
-                                    <span class="price-old">$60</span>
-                                    <span class="sep">-</span>
-                                    <span class="price">$260.00</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--== End prPduct Item ==-->
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <!--== Start Product Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                            <div class="product-thumb">
-                                <a href="single-product.html">
-                                    <img src="{{ asset('theme/client/assets/img/shop/4.webp') }}" width="270"
-                                         height="274" alt="Image-HasTech">
-                                </a>
-                                <div class="product-action">
-                                    <a class="btn-product-wishlist" href="shop-wishlist.html"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="btn-product-cart" href="{{route('order.checkout')}}"><i
-                                            class="fa fa-shopping-cart"></i></a>
-                                    <button type="button" class="btn-product-quick-view-open">
-                                        <i class="fa fa-arrows"></i>
-                                    </button>
-                                    <a class="btn-product-compare" href="shop-compare.html"><i
-                                            class="fa fa-random"></i></a>
-                                </div>
-                                <a class="banner-link-overlay" href="shop.html"></a>
-                            </div>
-                            <div class="product-info">
-                                <div class="category">
-                                    <ul>
-                                        <li><a href="shop.html">Men</a></li>
-                                        <li class="sep">/</li>
-                                        <li><a href="shop.html">Women</a></li>
-                                    </ul>
-                                </div>
-                                <h4 class="title"><a href="single-product.html">Hollister V-Neck Knit</a></h4>
-                                <div class="prices">
-                                    <span class="price">$880.00</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--== End prPduct Item ==-->
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <!--== Start Product Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                            <div class="product-thumb">
-                                <a href="single-product.html">
-                                    <img src="{{ asset('theme/client/assets/img/shop/5.webp') }}" width="270"
-                                         height="274" alt="Image-HasTech">
-                                </a>
-                                <div class="product-action">
-                                    <a class="btn-product-wishlist" href="shop-wishlist.html"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="btn-product-cart" href="{{route('order.checkout')}}"><i
-                                            class="fa fa-shopping-cart"></i></a>
-                                    <button type="button" class="btn-product-quick-view-open">
-                                        <i class="fa fa-arrows"></i>
-                                    </button>
-                                    <a class="btn-product-compare" href="shop-compare.html"><i
-                                            class="fa fa-random"></i></a>
-                                </div>
-                                <a class="banner-link-overlay" href="shop.html"></a>
-                            </div>
-                            <div class="product-info">
-                                <div class="category">
-                                    <ul>
-                                        <li><a href="shop.html">Men</a></li>
-                                        <li class="sep">/</li>
-                                        <li><a href="shop.html">Women</a></li>
-                                    </ul>
-                                </div>
-                                <h4 class="title"><a href="single-product.html">Primitive Mens shoes</a></h4>
-                                <div class="prices">
-                                    <span class="price">$500.00</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--== End prPduct Item ==-->
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <!--== Start Product Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                            <div class="product-thumb">
-                                <a href="single-product.html">
-                                    <img src="{{ asset('theme/client/assets/img/shop/6.webp') }}" width="270"
+                                    <img src="{{ asset('theme/client/assets/img/shop/1.webp') }}" width="270"
                                          height="274" alt="Image-HasTech">
                                 </a>
                                 <div class="product-flag">
@@ -435,102 +222,19 @@
                                         <li><a href="shop.html">Women</a></li>
                                     </ul>
                                 </div>
-                                <h4 class="title"><a href="single-product.html">New Womens High Hills</a></h4>
+                                <h4 class="title"><a href="single-product.html">Leather Mens Slipper</a></h4>
                                 <div class="prices">
-                                    <span class="price-old">$300</span>
+                                    <span class="price-old">$100</span>
                                     <span class="sep">-</span>
-                                    <span class="price">$333.00</span>
+                                    <span class="price">$240.00</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <!--== End prPduct Item ==-->
                 </div>
-                <div class="col-sm-6 col-lg-3">
-                    <!--== Start Product Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                            <div class="product-thumb">
-                                <a href="single-product.html">
-                                    <img src="{{ asset('theme/client/assets/img/shop/7.webp') }}" width="270"
-                                         height="274" alt="Image-HasTech">
-                                </a>
-                                <div class="product-action">
-                                    <a class="btn-product-wishlist" href="shop-wishlist.html"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="btn-product-cart" href="shop-cart.html"><i
-                                            class="fa fa-shopping-cart"></i></a>
-                                    <button type="button" class="btn-product-quick-view-open">
-                                        <i class="fa fa-arrows"></i>
-                                    </button>
-                                    <a class="btn-product-compare" href="shop-compare.html"><i
-                                            class="fa fa-random"></i></a>
-                                </div>
-                                <a class="banner-link-overlay" href="shop.html"></a>
-                            </div>
-                            <div class="product-info">
-                                <div class="category">
-                                    <ul>
-                                        <li><a href="shop.html">Men</a></li>
-                                        <li class="sep">/</li>
-                                        <li><a href="shop.html">Women</a></li>
-                                    </ul>
-                                </div>
-                                <h4 class="title"><a href="single-product.html">Simple Fabric Shoe</a></h4>
-                                <div class="prices">
-                                    <span class="price">$133.00</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--== End prPduct Item ==-->
-                </div>
-                <div class="col-sm-6 col-lg-3">
-                    <!--== Start Product Item ==-->
-                    <div class="product-item">
-                        <div class="inner-content">
-                            <div class="product-thumb">
-                                <a href="single-product.html">
-                                    <img src="{{ asset('theme/client/assets/img/shop/8.webp') }}" width="270"
-                                         height="274" alt="Image-HasTech">
-                                </a>
-                                <div class="product-flag">
-                                    <ul>
-                                        <li class="discount">-10%</li>
-                                    </ul>
-                                </div>
-                                <div class="product-action">
-                                    <a class="btn-product-wishlist" href="shop-wishlist.html"><i
-                                            class="fa fa-heart"></i></a>
-                                    <a class="btn-product-cart" href="shop-cart.html"><i
-                                            class="fa fa-shopping-cart"></i></a>
-                                    <button type="button" class="btn-product-quick-view-open">
-                                        <i class="fa fa-arrows"></i>
-                                    </button>
-                                    <a class="btn-product-compare" href="shop-compare.html"><i
-                                            class="fa fa-random"></i></a>
-                                </div>
-                                <a class="banner-link-overlay" href="shop.html"></a>
-                            </div>
-                            <div class="product-info">
-                                <div class="category">
-                                    <ul>
-                                        <li><a href="shop.html">Men</a></li>
-                                        <li class="sep">/</li>
-                                        <li><a href="shop.html">Women</a></li>
-                                    </ul>
-                                </div>
-                                <h4 class="title"><a href="single-product.html">exclusive mens shoe</a></h4>
-                                <div class="prices">
-                                    <span class="price-old">$300</span>
-                                    <span class="sep">-</span>
-                                    <span class="price">$420.00</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--== End prPduct Item ==-->
-                </div> --}}
+
+
             </div>
         </div>
     </section>
@@ -552,7 +256,7 @@
         </div>
         <div class="bg-layer-wrap">
             <div class="bg-layer-style z-index--1 parallax" data-speed="1.05"
-                data-bg-img="{{ asset('theme/client/assets/img/photos/bg1.webp') }}"></div>
+                 data-bg-img="{{ asset('theme/client/assets/img/photos/bg1.webp') }}"></div>
         </div>
     </section>
     <!--== End Divider Area Wrapper ==-->
@@ -582,7 +286,8 @@
                                             <div class="product-thumb">
                                                 <a href="single-product.html">
                                                     <img src="{{ asset('theme/client/assets/img/shop/1.webp') }}"
-                                                        width="270" height="274" alt="Image-HasTech">
+                                                         width="270" height="274"
+                                                         alt="Image-HasTech">
                                                 </a>
                                                 <div class="product-flag">
                                                     <ul>
@@ -629,7 +334,8 @@
                                             <div class="product-thumb">
                                                 <a href="single-product.html">
                                                     <img src="{{ asset('theme/client/assets/img/shop/7.webp') }}"
-                                                        width="270" height="274" alt="Image-HasTech">
+                                                         width="270" height="274"
+                                                         alt="Image-HasTech">
                                                 </a>
                                                 <div class="product-action">
                                                     <a class="btn-product-wishlist" href="shop-wishlist.html"><i
@@ -669,7 +375,8 @@
                                             <div class="product-thumb">
                                                 <a href="single-product.html">
                                                     <img src="{{ asset('theme/client/assets/img/shop/3.webp') }}"
-                                                        width="270" height="274" alt="Image-HasTech">
+                                                         width="270" height="274"
+                                                         alt="Image-HasTech">
                                                 </a>
                                                 <div class="product-flag">
                                                     <ul>
@@ -716,7 +423,8 @@
                                             <div class="product-thumb">
                                                 <a href="single-product.html">
                                                     <img src="{{ asset('theme/client/assets/img/shop/4.webp') }}"
-                                                        width="270" height="274" alt="Image-HasTech">
+                                                         width="270" height="274"
+                                                         alt="Image-HasTech">
                                                 </a>
                                                 <div class="product-action">
                                                     <a class="btn-product-wishlist" href="shop-wishlist.html"><i
@@ -756,7 +464,8 @@
                                             <div class="product-thumb">
                                                 <a href="single-product.html">
                                                     <img src="{{ asset('theme/client/assets/img/shop/5.webp') }}"
-                                                        width="270" height="274" alt="Image-HasTech">
+                                                         width="270" height="274"
+                                                         alt="Image-HasTech">
                                                 </a>
                                                 <div class="product-action">
                                                     <a class="btn-product-wishlist" href="shop-wishlist.html"><i
@@ -798,7 +507,8 @@
                                             <div class="product-thumb">
                                                 <a href="single-product.html">
                                                     <img src="{{ asset('theme/client/assets/img/shop/6.webp') }}"
-                                                        width="270" height="274" alt="Image-HasTech">
+                                                         width="270" height="274"
+                                                         alt="Image-HasTech">
                                                 </a>
                                                 <div class="product-flag">
                                                     <ul>
@@ -865,7 +575,8 @@
                         <div class="thumb">
                             <a href="shop.html">
                                 <img src="{{ asset('theme/client/assets/img/shop/banner/1.webp') }}" width="570"
-                                    height="350" alt="Image-HasTech">
+                                     height="350"
+                                     alt="Image-HasTech">
                             </a>
                         </div>
                         <div class="content">
@@ -880,7 +591,8 @@
                         <div class="thumb">
                             <a href="shop.html">
                                 <img src="{{ asset('theme/client/assets/img/shop/banner/2.webp') }}" width="570"
-                                    height="700" alt="Image-HasTech">
+                                     height="700"
+                                     alt="Image-HasTech">
                             </a>
                         </div>
                     </div>
@@ -909,8 +621,9 @@
                     <div class="post-item">
                         <div class="inner-content">
                             <div class="thumb">
-                                <a href="blog-details.html"><img src="{{ asset('theme/client/assets/img/blog/1.webp') }}"
-                                        width="370" height="260" alt="Image-HasTech"></a>
+                                <a href="blog-details.html"><img
+                                        src="{{ asset('theme/client/assets/img/blog/1.webp') }}" width="370"
+                                        height="260" alt="Image-HasTech"></a>
                             </div>
                             <div class="content">
                                 <div class="meta-post">
@@ -934,8 +647,9 @@
                     <div class="post-item">
                         <div class="inner-content">
                             <div class="thumb">
-                                <a href="blog-details.html"><img src="{{ asset('theme/client/assets/img/blog/2.webp') }}"
-                                        width="370" height="260" alt="Image-HasTech"></a>
+                                <a href="blog-details.html"><img
+                                        src="{{ asset('theme/client/assets/img/blog/2.webp') }}" width="370"
+                                        height="260" alt="Image-HasTech"></a>
                             </div>
                             <div class="content">
                                 <div class="meta-post">
@@ -959,8 +673,9 @@
                     <div class="post-item">
                         <div class="inner-content">
                             <div class="thumb">
-                                <a href="blog-details.html"><img src="{{ asset('theme/client/assets/img/blog/3.webp') }}"
-                                        width="370" height="260" alt="Image-HasTech"></a>
+                                <a href="blog-details.html"><img
+                                        src="{{ asset('theme/client/assets/img/blog/3.webp') }}" width="370"
+                                        height="260" alt="Image-HasTech"></a>
                             </div>
                             <div class="content">
                                 <div class="meta-post">

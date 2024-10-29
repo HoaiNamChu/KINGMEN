@@ -22,6 +22,8 @@ class Product extends Model
         'description',
         'quantity',
         'is_active',
+        'is_featured',
+        'is_new',
         'is_hot',
         'is_sale',
         'is_home',
@@ -29,14 +31,16 @@ class Product extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
+        'is_featured' => 'boolean',
+        'is_new' => 'boolean',
         'is_hot' => 'boolean',
         'is_sale' => 'boolean',
         'is_home' => 'boolean',
     ];
 
-    public function category()
+    public function categories()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Category::class, 'product_category', 'product_id', 'category_id');
     }
 
     public function brand()
@@ -44,8 +48,9 @@ class Product extends Model
         return $this->belongsTo(Brand::class);
     }
 
-    public function galleries(){
-        return $this->hasMany(Gallery::class);
+    public function galleries()
+    {
+        return $this->hasMany(Gallery::class, 'product_id', 'id');
     }
 
     public function variants()
@@ -58,15 +63,13 @@ class Product extends Model
         return $this->belongsToMany(Tag::class);
     }
 
-    public function orderItems(){
+    public function orderItems()
+    {
         return $this->hasMany(OrderItem::class);
     }
 
-    public function productComments(){
-        return $this->hasMany(ProductComment::class);
-    }
-
-    public function productRatings(){
-        return $this->hasMany(ProductRating::class);
+    public function reviews()
+    {
+        return $this->hasMany(ProductReview::class, 'product_id', 'id');
     }
 }
