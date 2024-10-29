@@ -3,7 +3,7 @@
     <div class="product-item">
         <div class="inner-content">
             <div class="product-thumb">
-                <a href="single-product.html">
+                <a href="{{ route('product.detail', $item->slug) }}">
                     <img src="{{ Storage::url($item->image) }}"
                          width="270"
                          height="274" alt="Image-HasTech">
@@ -40,7 +40,7 @@
                         @endif
                     </ul>
                 </div>
-                <h4 class="title"><a href="single-product.html">{{ $item->name }}</a></h4>
+                <h4 class="title"><a href="{{ route('product.detail', $item->slug) }}">{{ $item->name }}</a></h4>
                 <div class="prices">
                     @if($item->price_sale > 0)
                         <span class="price-old">${{ number_format($item->price) }}</span>
