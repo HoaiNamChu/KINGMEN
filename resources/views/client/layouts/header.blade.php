@@ -93,20 +93,18 @@
                     <div class="header-align">
                         <div class="header-navigation-area position-relative">
                             <ul class="main-menu nav">
-                                <li class="has-submenu"><a href="index.html"><span>Home</span></a>
-                                </li>
-                                <li><a href="about-us.html"><span>About</span></a></li>
-                                <li class="has-submenu"><a href="#/"><span>Pages</span></a>
+                                <li><a href="{{ route('home') }}"><span>Home</span></a></li>
+                                <li class="has-submenu position-static"><a href="{{ route('shop') }}"><span>Shop</span></a>
                                     <ul class="submenu-nav">
-                                        <li><a href="account.html"><span>Account</span></a></li>
-                                        <li><a href="account-login.html"><span>Login</span></a></li>
-                                        <li><a href="account-register.html"><span>Register</span></a></li>
-                                        <li><a href="page-not-found.html"><span>Page Not Found</span></a></li>
+                                        <li class="has-submenu"><a href=""><span>Menu 1</span></a>
+                                            <ul class="submenu-nav"><a href=""><span>Sub-Menu 1</span></a></ul>
+                                        </li>
+                                        <li><a href=""><span>Menu 2</span></a></li>
                                     </ul>
                                 </li>
-                                <li class="has-submenu position-static"><a href="shop.html"><span>Shop</span></a>
-                                </li>
-                                <li><a href="contact.html"><span>Contact</span></a></li>
+                                <li><a href="{{ route('about') }}"><span>About</span></a></li>
+                                <li><a href="{{ route('blog') }}"><span>Blog</span></a></li>
+                                <li><a href="{{ route('contact') }}"><span>Contact</span></a></li>
                             </ul>
                         </div>
                     </div>
