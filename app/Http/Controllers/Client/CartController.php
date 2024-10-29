@@ -15,24 +15,32 @@ class CartController extends Controller
 {
     public function index()
     {
-        $cart = Cart::query()->where('user_id', Auth::id())
-        ->with('cartItems')
-        ->with('cartItems.product')
-        ->with('cartItems.product.variants')
-        ->with('cartItems.product.variants.attributeValues')
-        ->with('cartItems.product.variants.attributeValues.attribute')
-        ->first();
+        $cart = Cart::query()->where('user_id', Auth::id());
+
+        if ($cart->exists()){
+            $cart->with('cartItems')
+                ->with('cartItems.product')
+                ->with('cartItems.product.variants')
+                ->with('cartItems.product.variants.attributeValues')
+                ->with('cartItems.product.variants.attributeValues.attribute');
+        }else{
+            $cart = Cart::query()->create([
+                'user_id' => Auth::id(),
+            ]);
+        }
+        $cart = $cart->first();
+
         return view('client.cart.index', compact('cart'));
     }
 
-    public function addCart(Request $request) 
+    public function addCart(Request $request)
     {
 
     }
 
     public function destroyCart($id)
     {
-        
+
     }
 
     public function clearCart()

@@ -9,12 +9,12 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\TagController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AccountGoogleController;
 
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\Client\AccountGoogleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,12 +30,19 @@ use App\Http\Controllers\CheckoutController;
 
 // viết các route client ở đây
 Route::prefix('/')->group(function () {
-    Auth::loginUsingId(1);
     Route::get('/', [\App\Http\Controllers\Client\HomeController::class, 'index'])->name('home');
     Route::get('/shop', [\App\Http\Controllers\Client\ShopController::class, 'index'])->name('shop');
     Route::get('/about', [\App\Http\Controllers\Client\AboutController::class, 'index'])->name('about');
     Route::get('/blog', [\App\Http\Controllers\Client\BlogController::class, 'index'])->name('blog');
     Route::get('/contact', [\App\Http\Controllers\Client\ContactController::class, 'index'])->name('contact');
+
+
+    // view account
+    Route::get('/account', [AccountGoogleController::class, 'index'])->name('account.index');
+
+    // login
+    Route::get('/login', [AccountGoogleController::class, 'viewLogin'])->name('login');
+    Route::post('login', [AccountGoogleController::class, 'login'])->name('login.submit');
 
 
     //cart routes
@@ -51,11 +58,30 @@ Route::prefix('/')->group(function () {
         ->group(function () {
         Route::get('/{slug}', [\App\Http\Controllers\Client\ProductController::class, 'detail'])->name('detail');
     });
+    // register
+    Route::get('/register', [AccountGoogleController::class, 'create'])->name('account.index');
+    Route::post('/register', [AccountGoogleController::class, 'store'])->name('store');
 
+    // login by google
+    Route::get('auth/google', [AccountGoogleController::class, 'redirectToGoogle'])->name('login-by-google');
+    Route::get('auth/google/callback', [AccountGoogleController::class, 'handleGoogleCallback']);
+
+    // logout account
+    Route::get('/logout', [AccountGoogleController::class, 'logout'])->name('logout');
+
+
+    // update billing address
+    Route::post('/update-billing-address', [AccountGoogleController::class, 'updateBillingAddress']);
+
+    // forget password
+    Route::get('/forget-password', [AccountGoogleController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+
+    Route::post('/forget-password', [AccountGoogleController::class, 'sendEmailForgetPasswordForm'])->name('forget.password.post');
+
+    Route::get('reset-password/{token}', [AccountGoogleController::class, 'showResetPasswordForm'])->name('reset.password.get');
+
+    Route::post('reset-password', [AccountGoogleController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 });
-
-
-
 
 // viết các route admin vào đây
 Route::prefix('/admin')
