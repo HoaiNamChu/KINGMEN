@@ -28,16 +28,16 @@ class RoleRequest extends FormRequest
         ];
     }
 
-    public function messages()
-    {
-        return [
-            'name.required' => 'Tên danh mục không được để trống.',
-            'name.string' => 'Tên danh mục phải là một chuỗi.',
-            'name.max' => 'Tên danh mục không được vượt quá 255 ký tự.',
-            'name.unique' => 'Tên danh mục đã tồn tại.',
-            'description.string' => 'Mô tả phải là một chuỗi.',
-            'description.max' => 'Mô tả không được vượt quá 1000 ký tự.',
-            'permissions.*' => 'exists:permissions,id', // Đảm bảo ID quyền tồn tại
-        ];
-    }
+    // public function messages()
+    // {
+    //     return [
+    //         'name.required' => 'Tên danh mục không được để trống.',
+    //         'name.string' => 'Tên danh mục phải là một chuỗi.',
+    //         'name.max' => 'Tên danh mục không được vượt quá 255 ký tự.',
+    //         'name.unique' => 'Tên danh mục đã tồn tại.',
+    //         'description.string' => 'Mô tả phải là một chuỗi.',
+    //         'description.max' => 'Mô tả không được vượt quá 1000 ký tự.',
+    //         'permissions.*' => 'exists:permissions,id', // Đảm bảo ID quyền tồn tại
+    //     ];
+    // }
 }

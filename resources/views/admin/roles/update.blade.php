@@ -29,6 +29,17 @@
                         <div class="card-header">
                             <h4 class="card-title">Update Role</h4>
                         </div>
+
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        
                         <div class="card-body">
                             <div class="row">
                                 <form action="{{route('admin.roles.update', $role->id)}}" method="post" enctype="multipart/form-data">
