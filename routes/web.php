@@ -7,7 +7,7 @@ use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\TagController;
-use App\Models\Product;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountGoogleController;
 
@@ -30,75 +30,46 @@ use App\Http\Controllers\CheckoutController;
 
 // viết các route client ở đây
 Route::prefix('/')->group(function () {
-    Route::get('/', [CartController::class, 'index']);
-    Route::get('list-cart', [CartController::class, 'listcart'])->name('listcart');
-    Route::get('addcart/{id}', [CartController::class, 'addcart']);
-    Route::get('/', function () {
-        return view('client.home.index');
-    });
+    Auth::loginUsingId(1);
+    Route::get('/', [\App\Http\Controllers\Client\HomeController::class, 'index'])->name('home');
+    Route::get('/shop', [\App\Http\Controllers\Client\ShopController::class, 'index'])->name('shop');
+    Route::get('/about', [\App\Http\Controllers\Client\AboutController::class, 'index'])->name('about');
+    Route::get('/blog', [\App\Http\Controllers\Client\BlogController::class, 'index'])->name('blog');
+    Route::get('/contact', [\App\Http\Controllers\Client\ContactController::class, 'index'])->name('contact');
+
 
     //cart routes
-    Route::get('cart', [CartController::class, 'index'])->name('cart.index');
-    Route::get('add-cart', [CartController::class, 'addCart'])->name('addCart');
-    Route::get('add-cart/{slug}', [CartController::class, 'addCartIcon'])->name('addCartIcon');
-    Route::delete('delete-cart/{id}', [CartController::class, 'destroyCart'])->name('destroyCart');
-    Route::delete('delete-all-cart', [CartController::class, 'destroyAllCart'])->name('destroyAllCart');
-    Route::put('update-cart', [CartController::class, 'updateCart'])->name('updateCart');
-
-    //page routes
-    Route::get('shop', function (){
-        $products = Product::query()->with('variants', 'categories', 'brand', 'reviews')->paginate(12);
-        return view('client.shop.index', compact('products'));
+    Route::prefix('/cart')
+        ->as('cart.')
+        ->group(function () {
+            Route::get('/', [CartController::class, 'index'])->name('index');
+            Route::get('/clear-cart', [CartController::class, 'clearCart'])->name('clear');
+            Route::get('/add-cart/{slug}', [CartController::class, 'iconAddCart'])->name('iconAdd');
+        });
+    Route::prefix('/product')
+        ->as('product.')
+        ->group(function () {
+        Route::get('/{slug}', [\App\Http\Controllers\Client\ProductController::class, 'detail'])->name('detail');
     });
-
-    Route::get('/product/{slug}', function (){
-        $product = Product::query()->where('slug', request()->slug)->with('categories', 'brand', 'galleries', 'variants')->first();
-        return view('client.singleProduct', compact('product'));
-    })->name('productDetail');
-
-
-    Route::get('/login', [AccountGoogleController::class, 'viewLogin'])->name('login');
-    Route::post('login', [AccountGoogleController::class, 'login'])->name('login.submit');
-
-    Route::get('/register', [AccountGoogleController::class, 'create'])->name('account.index');
-    Route::post('/register', [AccountGoogleController::class, 'store'])->name('store');
-
-    Route::get('/account', [AccountGoogleController::class, 'index'])->name('account.index');
-
-    Route::get('auth/google', [AccountGoogleController::class, 'redirectToGoogle'])->name('login-by-google');
-    Route::get('auth/google/callback', [AccountGoogleController::class, 'handleGoogleCallback']);
-    Route::get('/logout', [AccountGoogleController::class, 'logout'])->name('logout');
-
 
 });
 
-// viết các route admin vào đây
-Route::prefix('/admin')->group(function () {
-    Route::get('/', function () {
-        return view('admin.dashboard.index');
-    });
-});
 
-//Order
-Route::get('/checkout/{id}',[CheckoutController::class,'checkout'])->name('order.checkout');
-Route::post('/checkout',[CheckoutController::class,'post_checkout']);
+
 
 // viết các route admin vào đây
 Route::prefix('/admin')
     ->as('admin.')
     ->group(function () {
-    Route::get('/', function () {
-
-
-
-        return view('admin.dashboard.index');
-    })->name('dashboard');
-    Route::resource('categories', CategoryController::class);
-    Route::resource('brands', BrandController::class);
-    Route::resource('attributes', AttributeController::class);
-    Route::resource('attributeValues', AttributeValueController::class);
-    Route::resource('products', ProductController::class);
-    Route::resource('tags', TagController::class);
+        Route::get('/', function () {
+            return view('admin.dashboard.index');
+        })->name('dashboard');
+        Route::resource('categories', CategoryController::class);
+        Route::resource('brands', BrandController::class);
+        Route::resource('attributes', AttributeController::class);
+        Route::resource('attributeValues', AttributeValueController::class);
+        Route::resource('products', ProductController::class);
+        Route::resource('tags', TagController::class);
 
     Route::resource('users', UserController::class)->middleware('checkPermission:Manage Users');
     Route::resource('roles', RoleController::class)->middleware('checkPermission:Manage Roles');

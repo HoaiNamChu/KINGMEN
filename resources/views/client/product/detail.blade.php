@@ -68,7 +68,6 @@
                                                     </div>
                                                 @endforeach
                                             @endif
-
                                         </div>
                                     </div>
                                 </div>
@@ -79,7 +78,11 @@
                                 <div class="product-single-info">
                                     <h3 class="main-title">{{ $product->name }}</h3>
                                     <div class="prices">
-                                        <span class="price">$20.19</span>
+                                        @if($product->is_sale && $product->price_sale > 0)
+                                            <span class="price">${{ number_format($product->price_sale) }}</span>
+                                        @else
+                                            <span class="price">${{ number_format($product->price) }}</span>
+                                        @endif
                                     </div>
                                     <div class="rating-box-wrap">
                                         <div class="rating-box">
@@ -90,10 +93,13 @@
                                             <i class="fa fa-star"></i>
                                         </div>
                                         <div class="review-status">
-                                            <a href="javascript:void(0)">({{ $product->reviews->count() }} Customer Review)</a>
+                                            <a href="javascript:void(0)">(5 Customer Review)</a>
                                         </div>
                                     </div>
-                                    <p>{{ $product->short_desc }}</p>
+                                    <p>Lorem ipsum dolor sit amet, consecte adipisicing elit, sed do eiusmll tempor
+                                        incididunt ut labore et dolore magna aliqua. Ut enim ad mill veniam, quis
+                                        nostrud exercitation ullamco laboris nisi ut aliquip exet commodo consequat.
+                                        Duis aute irure dolor</p>
                                     <div class="product-color">
                                         <h6 class="title">Color</h6>
                                         <ul class="color-list">
@@ -125,7 +131,7 @@
                                         <a href="shop-compare.html"><i class="pe-7s-shuffle"></i>Add to Compare</a>
                                     </div>
                                     <div class="product-info-footer">
-                                        <h6 class="code"><span>Code :</span>{{ $product->sku }}</h6>
+                                        <h6 class="code"><span>Code :</span>Ch-256xl</h6>
                                         <div class="social-icons">
                                             <span>Share</span>
                                             <a href="#/"><i class="fa fa-facebook"></i></a>
