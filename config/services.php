@@ -33,12 +33,12 @@ return [
 
     'google' => [
 
-        'client_id' => '287307522473-qqmbkl8mcus4dmo4m48md4e14jum6rot.apps.googleusercontent.com',
+        'client_id' => '698458917138-25d502n11aroqrfhemle26ntcat16j85.apps.googleusercontent.com',
 
-        'client_secret' => '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',
+        'client_secret' => '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',
 
-        'redirect' => env('APP_URL').'auth/google/callback',
+        'redirect' => env('APP_URL') . 'auth/google/callback',
 
     ],
 
-];  
+];

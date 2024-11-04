@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PermissionController;;
 use App\Http\Controllers\Client\AccountGoogleController;
+use App\Http\Controllers\Admin\DashboardController;
 
 
 /*
@@ -92,27 +93,19 @@ Route::post('reset-password', [AccountGoogleController::class, 'submitResetPassw
 });
 
 // viết các route admin vào đây
-Route::prefix('/admin')
+Route::prefix('/admin')->as('admin.')->group(function () {
 
-->as('admin.')
-->group(function () {
-Route::get('/', function () {
-    
-
-    
-    return view('admin.dashboard.index');
-})->name('dashboard')->middleware('checkPermission:Manage Users,Manage Roles,Manage Brands,Manage Permissions');
+Route::get('/', function () { return view('admin.dashboard.index');})->name('dashboard')->middleware('checkPermission:Manage Users,Manage Roles,Manage Brands,Manage Permissions');
 
 Route::resource('users', UserController::class)->middleware('checkPermission:Manage Users');
 Route::resource('roles', RoleController::class)->middleware('checkPermission:Manage Roles');
 Route::resource('permissions', PermissionController::class)->middleware('checkPermission:Manage Permissions');
 Route::resource('categories', CategoryController::class);
-    Route::resource('brands', BrandController::class);
-    Route::resource('attributes', AttributeController::class);
-    Route::resource('attributeValues', AttributeValueController::class);
-    Route::resource('products', ProductController::class);
-    Route::resource('tags', TagController::class);
-
+Route::resource('brands', BrandController::class);
+Route::resource('attributes', AttributeController::class);
+Route::resource('attributeValues', AttributeValueController::class);
+Route::resource('products', ProductController::class);
+Route::resource('tags', TagController::class);
 
 
 
