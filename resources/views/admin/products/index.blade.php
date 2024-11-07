@@ -71,8 +71,8 @@
                                                 </div>
                                                 <div>
                                                     <a href="{{ route('admin.products.edit', $item) }}" class="text-dark fw-medium fs-15">{{ $item->name }}</a>
-                                                    <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S , M , L
-                                                        , Xl </p>
+{{--                                                    <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S , M , L--}}
+{{--                                                        , Xl </p>--}}
                                                 </div>
                                             </div>
 
@@ -127,13 +127,14 @@
                     <div class="card-footer border-top">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-end mb-0">
-                                <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
+                                {{ $products->links() }}
+{{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a>--}}
+{{--                                </li>--}}
+{{--                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a>--}}
+{{--                                </li>--}}
+{{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>--}}
+{{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>--}}
+{{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>--}}
                             </ul>
                         </nav>
                     </div>

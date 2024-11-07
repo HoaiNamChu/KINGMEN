@@ -25,7 +25,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::query()->with('categories', 'brand')->latest()->get();
+        $products = Product::query()->with('categories', 'brand', 'reviews')->latest()->paginate(10);
         return view(self::PATH_VIEW . __FUNCTION__, compact('products'));
     }
 

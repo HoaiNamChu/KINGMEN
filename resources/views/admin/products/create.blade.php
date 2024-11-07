@@ -4,6 +4,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 @endsection
 
+
 @section('content')
     <div class="container-xxl">
 
@@ -40,10 +41,10 @@
                                 <div class="col-lg-12">
                                     <div>
                                         <label for="description" class="form-label">Description</label>
-                                        <div class="mb-3">
-                                            <div id="snow-editor" style="height: 300px;">
+                                        <div class="mb-3 description">
+                                            <textarea id="editor1">
 
-                                            </div>
+                                            </textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -70,10 +71,18 @@
                             <div class="row">
                                 <div class="col-lg-3">
                                     <ul class="list-group list-group-flush ">
-                                        <li class="list-group-item product-option" data-bs-toggle="pill" id="general">General</li>
-                                        <li class="list-group-item product-option" data-bs-toggle="pill" id="inventory">Inventory</li>
-                                        <li class="list-group-item product-option" data-bs-toggle="pill" id="attributes">Attributes</li>
-                                        <li class="list-group-item product-option" data-bs-toggle="pill" id="variations">Variations</li>
+                                        <li class="list-group-item product-option" data-bs-toggle="pill" id="general">
+                                            General
+                                        </li>
+                                        <li class="list-group-item product-option" data-bs-toggle="pill" id="inventory">
+                                            Inventory
+                                        </li>
+                                        <li class="list-group-item product-option" data-bs-toggle="pill"
+                                            id="attributes">Attributes
+                                        </li>
+                                        <li class="list-group-item product-option" data-bs-toggle="pill"
+                                            id="variations">Variations
+                                        </li>
                                     </ul>
                                 </div>
                                 <!-- end col -->
@@ -317,6 +326,7 @@
 @endsection
 
 @section('script')
+
     <script>
 
 

@@ -31,8 +31,8 @@ Route::prefix('/')->group(function () {
     Route::prefix('/product')
         ->as('product.')
         ->group(function () {
-        Route::get('/{slug}', [\App\Http\Controllers\Client\ProductController::class, 'detail'])->name('detail');
-    });
+            Route::get('/{slug}', [\App\Http\Controllers\Client\ProductController::class, 'detail'])->name('detail');
+        });
 
 });
 
@@ -40,13 +40,15 @@ Route::prefix('/')->group(function () {
 Route::prefix('/admin')
     ->as('admin.')
     ->group(function () {
-    Route::get('/', function () {
-        return view('admin.dashboard.index');
-    })->name('dashboard');
-    Route::resource('categories', CategoryController::class);
-    Route::resource('brands', BrandController::class);
-    Route::resource('attributes', AttributeController::class);
-    Route::resource('attributeValues', AttributeValueController::class);
-    Route::resource('products', ProductController::class);
-    Route::resource('tags', TagController::class);
-});
+        Route::get('/', function () {
+            return view('admin.dashboard.index');
+        })->name('dashboard');
+        Route::resources([
+            'categories' => CategoryController::class,
+            'brands' => BrandController::class,
+            'attributes' => AttributeController::class,
+            'attributeValues' => AttributeValueController::class,
+            'products' => ProductController::class,
+            'tags' => TagController::class,
+        ]);
+    });
