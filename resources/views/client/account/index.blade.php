@@ -64,28 +64,23 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr>
-                                                        <td>1</td>
-                                                        <td>Aug 22, 2022</td>
-                                                        <td>Pending</td>
-                                                        <td>$3000</td>
-                                                        <td><a href="shop-cart.html" class="check-btn sqr-btn ">View</a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>2</td>
-                                                        <td>July 22, 2022</td>
-                                                        <td>Approved</td>
-                                                        <td>$200</td>
-                                                        <td><a href="shop-cart.html" class="check-btn sqr-btn ">View</a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>3</td>
-                                                        <td>June 12, 2022</td>
-                                                        <td>On Hold</td>
-                                                        <td>$990</td>
-                                                        <td><a href="shop-cart.html" class="check-btn sqr-btn ">View</a></td>
-                                                    </tr>
+                                                    @if($userData->orders)
+                                                        @foreach($userData->orders as $order)
+                                                            <tr>
+                                                                <td>{{ $order->id }}</td>
+                                                                <td>{{ date_format($order->created_at, 'd-m-Y H:i:s') }}</td>
+                                                                <td>{{ $order->status }}</td>
+                                                                <td>{{ number_format($order->total) }} VND</td>
+                                                                <td><a href="shop-cart.html" class="check-btn sqr-btn ">View</a></td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @endif
                                                     </tbody>
+                                                    <tfoot>
+                                                        <tr>
+{{--                                                            {{ $userData->append(\Request::all())->links() }}--}}
+                                                        </tr>
+                                                    </tfoot>
                                                 </table>
                                             </div>
                                         </div>

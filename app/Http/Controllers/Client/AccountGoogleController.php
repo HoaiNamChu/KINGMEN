@@ -83,7 +83,11 @@ class AccountGoogleController extends Controller
 
         if ($user) {
             // Lấy dữ liệu của người dùng theo ID
-            $userData = User::find($user->id);
+            $userData = User::query()->where('id', $user->id)->with('orders', function ($query)
+            {
+                $query->orderBy('created_at', 'desc');
+            })->first();
+
         } else {
             return redirect()->route('login'); // Redirect đến trang đăng nhập
         }
@@ -113,8 +117,6 @@ class AccountGoogleController extends Controller
         // Tạo người dùng mới
         $user = User::create([
             'username' => $request->username,
-            'name' => $request->username,
-            'phone' => 0,
             'email' => $request->email,
             'password' => Hash::make($request->password), // Mã hóa mật khẩu
         ]);

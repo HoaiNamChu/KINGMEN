@@ -5988,10 +5988,10 @@ table p {
   font-size: 14px;
   margin-bottom: 22px;
 }
-.shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap form .form-group {
+.shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap .form-group {
   margin-bottom: 30px;
 }
-.shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap form .form-group .form-control {
+.shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap .form-group .form-control {
   border: 1px solid #e8e8e8;
   border-radius: 0;
   -webkit-box-shadow: none;
@@ -6002,23 +6002,23 @@ table p {
   line-height: 50px;
   padding: 0 20px;
 }
-.shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap form .form-group .form-control::-webkit-input-placeholder {
+.shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap .form-group .form-control::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
   color: #626262;
 }
-.shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap form .form-group .form-control::-moz-placeholder {
+.shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap .form-group .form-control::-moz-placeholder {
   /* Firefox 19+ */
   color: #626262;
 }
-.shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap form .form-group .form-control:-ms-input-placeholder {
+.shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap .form-group .form-control:-ms-input-placeholder {
   /* IE 10+ */
   color: #626262;
 }
-.shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap form .form-group .form-control:-moz-placeholder {
+.shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap .form-group .form-control:-moz-placeholder {
   /* Firefox 18- */
   color: #626262;
 }
-.shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap form .btn-coupon {
+.shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap .btn-coupon {
   background-color: #333131;
   border: none;
   color: #fff;
@@ -6032,25 +6032,25 @@ table p {
   margin-left: 17px;
 }
 @media only screen and (max-width: 991px) {
-  .shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap form .btn-coupon {
+  .shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap .btn-coupon {
     margin-left: 0;
   }
 }
-.shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap form .btn-coupon:hover {
+.shopping-checkout-wrap .checkout-page-coupon-wrap .coupon-accordion .card .card-body .apply-coupon-wrap .btn-coupon:hover {
   background-color: #eb3e32;
 }
-.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap form .form-group {
+.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap .form-group {
   margin-bottom: 20px;
 }
-.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap form .form-group label {
+.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap .form-group label {
   font-size: 14px;
   color: #333131;
   margin-bottom: 8px;
 }
-.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap form .form-group label .required {
+.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap .form-group label .required {
   color: #f00;
 }
-.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap form .form-group .form-control {
+.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap .form-group .form-control {
   border-radius: 0;
   -webkit-box-shadow: none;
           box-shadow: none;
@@ -6061,26 +6061,26 @@ table p {
   line-height: 50px;
   padding: 0 20px;
 }
-.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap form .form-group .form-control::-webkit-input-placeholder {
+.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap .form-group .form-control::-webkit-input-placeholder {
   /* Chrome/Opera/Safari */
   color: #626262;
 }
-.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap form .form-group .form-control::-moz-placeholder {
+.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap .form-group .form-control::-moz-placeholder {
   /* Firefox 19+ */
   color: #626262;
 }
-.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap form .form-group .form-control:-ms-input-placeholder {
+.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap .form-group .form-control:-ms-input-placeholder {
   /* IE 10+ */
   color: #626262;
 }
-.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap form .form-group .form-control:-moz-placeholder {
+.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap .form-group .form-control:-moz-placeholder {
   /* Firefox 18- */
   color: #626262;
 }
-.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap form .form-group .form-control:active, .shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap form .form-group .form-control:focus {
+.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap .form-group .form-control:active, .shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap .form-group .form-control:focus {
   border-color: #333131;
 }
-.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap form .form-group textarea.form-control {
+.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap .form-group textarea.form-control {
   border: none;
   min-height: 120px;
   line-height: inherit;
@@ -6088,7 +6088,7 @@ table p {
   border-color: #f7f7f7;
   padding: 20px;
 }
-.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap form .form-group select {
+.shopping-checkout-wrap .checkout-billing-details-wrap .billing-form-wrap .form-group select {
   background-image: url("../img/icons/bottom-arrow.webp");
   line-height: normal;
   border-radius: 0;

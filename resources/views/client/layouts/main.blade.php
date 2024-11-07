@@ -11,7 +11,7 @@
     <meta name="description" content="Shome - Shoes eCommerce Website Template" />
     <meta name="keywords" content="footwear, shoes, modern, shop, store, ecommerce, responsive, e-commerce" />
     <meta name="author" content="codecarnival" />
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Shome - Shoes eCommerce Website Template</title>
 
     <!--== Favicon ==-->
@@ -40,10 +40,14 @@
     <!--== Main Style CSS ==-->
     <link href="{{ asset('theme/client/assets/css/style.css') }}" rel="stylesheet" />
 
+    @yield('link')
+
     <!--[if lt IE 9]>
     <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    @yield('style')
 </head>
 
 <body>
@@ -311,8 +315,13 @@
     <!--=== jQuery Aos Min Js ===-->
     <script src="{{ asset('theme/client/assets/js/aos.min.js') }}"></script>
 
+
     <!--=== jQuery Custom Js ===-->
     <script src="{{ asset('theme/client/assets/js/custom.js') }}"></script>
+
+    @yield('lib-script')
+
+    @yield('script')
 
 </body>
 

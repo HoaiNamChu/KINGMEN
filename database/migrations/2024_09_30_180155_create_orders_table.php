@@ -17,13 +17,14 @@ return new class extends Migration
             $table->string('name');
             $table->string('phone');
             $table->string('address');
-            $table->string('email');
             $table->string('status');
             $table->string('payment_method');
-            $table->string('payment_status');
+            $table->boolean('payment_status')->default(0);
             $table->string('shipping_method');
+            $table->decimal('shipping_fee', 19,2)->default(0);
             $table->string('shipping_status');
-            $table->decimal('discount')->default(0);
+            $table->text('note')->nullable();
+            $table->decimal('discount',19,2)->default(0);
             $table->decimal('total');
             $table->timestamps();
         });

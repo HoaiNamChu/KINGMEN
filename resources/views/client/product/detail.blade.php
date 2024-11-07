@@ -1,5 +1,105 @@
 @extends('client.layouts.main')
 
+@section('style')
+    <style>
+        .attribute {
+            font-family: Arial, sans-serif;
+        }
+
+        .attribute .title {
+            margin-bottom: 8px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .attribute-list {
+            display: flex;
+            gap: 10px;
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .attribute-list div {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .attribute-list input[type="radio"] {
+            display: none;
+        }
+
+        .attribute-list label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s;
+
+            /*display: inline-block;*/
+            /*padding: 10px 15px;*/
+            /*background-color: #f1f1f1;*/
+            /*color: #333;*/
+            /*border-radius: 5px;*/
+            /*cursor: pointer;*/
+            /*transition: background-color 0.3s, color 0.3s;*/
+        }
+
+        /* Style for selected size */
+        .attribute-list input[type="radio"]:checked + label {
+            background-color: #eb3e32;
+            color: white;
+            font-weight: bold;
+        }
+
+        .product-color {
+            font-family: Arial, sans-serif;
+        }
+
+        .title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .color-list {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .color-list li {
+            position: relative;
+        }
+
+        .color-list input[type="radio"] {
+            display: none;
+        }
+
+        .color-list label {
+            display: flex;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        .color-list input[type="radio"]:checked + label {
+            border-color: #eb3e32;
+        }
+
+
+    </style>
+@endsection
+
+
 @section('content')
     <!--== Start Page Header Area Wrapper ==-->
     <div class="page-header-area" data-bg-img="assets/img/photos/bg3.webp">
@@ -75,71 +175,94 @@
                             </div>
                             <div class="col-xl-6">
                                 <!--== Start Product Info Area ==-->
-                                <div class="product-single-info">
-                                    <h3 class="main-title">{{ $product->name }}</h3>
-                                    <div class="prices">
-                                        @if($product->is_sale && $product->price_sale > 0)
-                                            <span class="price">${{ number_format($product->price_sale) }}</span>
-                                        @else
-                                            <span class="price">${{ number_format($product->price) }}</span>
-                                        @endif
-                                    </div>
-                                    <div class="rating-box-wrap">
-                                        <div class="rating-box">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+                                <form action="{{ route('cart.add') }}" method="post">
+                                    @csrf
+                                    <div class="product-single-info">
+                                        <h3 class="main-title">{{ $product->name }}</h3>
+                                        <div class="prices">
+                                            @if($product->is_sale && $product->price_sale > 0)
+                                                <span class="price">${{ number_format($product->price_sale) }}</span>
+                                            @else
+                                                <span class="price">${{ number_format($product->price) }}</span>
+                                            @endif
                                         </div>
-                                        <div class="review-status">
-                                            <a href="javascript:void(0)">(5 Customer Review)</a>
-                                        </div>
-                                    </div>
-                                    <p>Lorem ipsum dolor sit amet, consecte adipisicing elit, sed do eiusmll tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad mill veniam, quis
-                                        nostrud exercitation ullamco laboris nisi ut aliquip exet commodo consequat.
-                                        Duis aute irure dolor</p>
-                                    <div class="product-color">
-                                        <h6 class="title">Color</h6>
-                                        <ul class="color-list">
-                                            <li data-bg-color="#586882"></li>
-                                            <li class="active" data-bg-color="#505050"></li>
-                                            <li data-bg-color="#73707a"></li>
-                                            <li data-bg-color="#c7bb9b"></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product-size">
-                                        <h6 class="title">Size</h6>
-                                        <ul class="size-list">
-                                            <li>S</li>
-                                            <li class="active">M</li>
-                                            <li>L</li>
-                                            <li>XL</li>
-                                        </ul>
-                                    </div>
-                                    <div class="product-quick-action">
-                                        <div class="qty-wrap">
-                                            <div class="pro-qty">
-                                                <input type="text" title="Quantity" value="1">
+                                        <div class="rating-box-wrap">
+                                            <div class="rating-box">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>
+                                            <div class="review-status">
+                                                <a href="javascript:void(0)">(5 Customer Review)</a>
                                             </div>
                                         </div>
-                                        <a class="btn-theme" href="shop-cart.html">Add to Cart</a>
-                                    </div>
-                                    <div class="product-wishlist-compare">
-                                        <a href="shop-wishlist.html"><i class="pe-7s-like"></i>Add to Wishlist</a>
-                                        <a href="shop-compare.html"><i class="pe-7s-shuffle"></i>Add to Compare</a>
-                                    </div>
-                                    <div class="product-info-footer">
-                                        <h6 class="code"><span>Code :</span>Ch-256xl</h6>
-                                        <div class="social-icons">
-                                            <span>Share</span>
-                                            <a href="#/"><i class="fa fa-facebook"></i></a>
-                                            <a href="#/"><i class="fa fa-dribbble"></i></a>
-                                            <a href="#/"><i class="fa fa-pinterest-p"></i></a>
+                                        <p>Lorem ipsum dolor sit amet, consecte adipisicing elit, sed do eiusmll tempor
+                                            incididunt ut labore et dolore magna aliqua. Ut enim ad mill veniam, quis
+                                            nostrud exercitation ullamco laboris nisi ut aliquip exet commodo consequat.
+                                            Duis aute irure dolor</p>
+                                        @if($product->variants->count())
+                                            @foreach($attributes as $attribute)
+                                                @if($attribute->name == 'Color')
+                                                    <div class="product-color">
+                                                        <h6 class="title">{{ $attribute->name }}</h6>
+                                                        <ul class="color-list">
+                                                            @foreach($attribute->attributeValues as $attributeValue)
+                                                                <div>
+                                                                    <input type="radio"
+                                                                           id="color-{{ $attributeValue->name }}"
+                                                                           name="attribute_id[{{$attribute->id}}]"
+                                                                           value="{{ $attributeValue->id }}" checked >
+                                                                    <label for="color-{{ $attributeValue->name }}"
+                                                                           style="background-color: {{ $attributeValue->name }};"></label>
+                                                                </div>
+                                                            @endforeach
+
+                                                        </ul>
+                                                    </div>
+                                                @else
+                                                    <div class="product-size attribute">
+                                                        <h6 class="title">{{ $attribute->name }}</h6>
+                                                        <ul class="size-list attribute-list">
+                                                            @foreach($attribute->attributeValues as $attributeValue)
+                                                                <div>
+                                                                    <input type="radio" id="{{ $attributeValue->id }}"
+                                                                           name="attribute_id[{{$attribute->id}}]"
+                                                                           value="{{ $attributeValue->id }}" checked>
+                                                                    <label
+                                                                        for="{{ $attributeValue->id }}">{{ $attributeValue->name }}</label>
+                                                                </div>
+                                                            @endforeach
+                                                        </ul>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                        <div class="product-quick-action">
+                                            <div class="qty-wrap">
+                                                <div class="pro-qty">
+                                                    <input type="text" title="Quantity" name="quantity" value="1">
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                            <button class="btn-theme" type="submit">Add to Cart</button>
+                                        </div>
+                                        <div class="product-wishlist-compare">
+                                            <a href="shop-wishlist.html"><i class="pe-7s-like"></i>Add to Wishlist</a>
+                                            <a href="shop-compare.html"><i class="pe-7s-shuffle"></i>Add to Compare</a>
+                                        </div>
+                                        <div class="product-info-footer">
+                                            <h6 class="code"><span>Code :</span>Ch-256xl</h6>
+                                            <div class="social-icons">
+                                                <span>Share</span>
+                                                <a href="#/"><i class="fa fa-facebook"></i></a>
+                                                <a href="#/"><i class="fa fa-dribbble"></i></a>
+                                                <a href="#/"><i class="fa fa-pinterest-p"></i></a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                </form>
                                 <!--== End Product Info Area ==-->
                             </div>
                         </div>

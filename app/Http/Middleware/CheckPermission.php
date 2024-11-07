@@ -17,7 +17,7 @@ class CheckPermission
     public function handle(Request $request, Closure $next, $permission)
     {
         // Giả lập người dùng bằng ID (ví dụ ID = 1)
-        Auth::loginUsingId(1); // Thay ID 1 bằng ID thực tế nếu cần
+//        Auth::loginUsingId(1); // Thay ID 1 bằng ID thực tế nếu cần
 
         // Lấy người dùng hiện tạiS
         $user = Auth::user();

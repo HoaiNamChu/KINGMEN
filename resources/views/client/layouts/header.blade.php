@@ -18,12 +18,12 @@
                                         <li class="email"><i class="fa fa-envelope"></i><a
                                                 href="mailto://demo@example.com">demo@example.com</a></li>
 
-                                            @if(Auth::check()) 
-                                                <li class="account"><i class="fa fa-user"></i><a href="/account">Account : {{ Auth::user()->name }}</a></li>
+                                            @if(Auth::check())
+                                                <li class="account"><i class="fa fa-user"></i><a href="/account">Account : {{ Auth::user()->username }}</a></li>
                                                 <li class="account"><a href="/logout" style="color: brown">Logout</a></li>
                                             @else
                                                 <li class="account"><i class="fa fa-user"></i><a href="/login">Account</a></li>
-                                            @endif                                            
+                                            @endif
 
                                     </ul>
                                 </div>

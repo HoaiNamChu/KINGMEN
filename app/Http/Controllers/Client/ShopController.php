@@ -14,6 +14,7 @@ class ShopController extends Controller
         $products = Product::query()
             ->where('is_active', '=', 1)
             ->with('categories:id,name')
+            ->with('variants')
             ->paginate(12);
         return view(self::PATH_VIEW.__FUNCTION__, compact('products'));
     }

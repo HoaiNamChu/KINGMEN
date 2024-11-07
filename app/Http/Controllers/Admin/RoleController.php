@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -8,7 +9,6 @@ use App\Http\Requests\Admin\Roles\RoleRequest;
 use App\Http\Requests\Admin\Roles\UpdateRoleRequest;
 
 use App\Http\Controllers\Controller;
-use Spatie\Permission\Models\Permission;
 
 
 

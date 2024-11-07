@@ -15,6 +15,7 @@ class HomeController extends Controller
             ->where('is_active', '=', 1)
             ->where('is_home', '=', 1)
             ->with('categories:id,name')
+            ->with('variants')
             ->get();
         return view(self::PATH_VIEW.__FUNCTION__, compact('products'));
     }

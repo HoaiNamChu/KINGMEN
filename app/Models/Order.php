@@ -14,14 +14,19 @@ class Order extends Model
         'name',
         'phone',
         'address',
-        'email',
         'status',
         'payment_method',
         'payment_status',
         'shipping_method',
+        'shipping_fee',
         'shipping_status',
+        'note',
         'discount',
         'total',
+    ];
+
+    protected $casts = [
+        'payment_status' => 'boolean'
     ];
 
     public function user()

@@ -7,13 +7,13 @@ use App\Http\Controllers\Client\CartController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\TagController;
+use App\Http\Controllers\Client\CheckoutController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\Client\AccountGoogleController;
 
 /*
@@ -48,16 +48,25 @@ Route::prefix('/')->group(function () {
     //cart routes
     Route::prefix('/cart')
         ->as('cart.')
+        ->middleware('auth')
         ->group(function () {
             Route::get('/', [CartController::class, 'index'])->name('index');
             Route::get('/clear-cart', [CartController::class, 'clearCart'])->name('clear');
             Route::get('/add-cart/{slug}', [CartController::class, 'iconAddCart'])->name('iconAdd');
+            Route::post('/add-cart', [CartController::class, 'addCart'])->name('add');
         });
     Route::prefix('/product')
         ->as('product.')
         ->group(function () {
-        Route::get('/{slug}', [\App\Http\Controllers\Client\ProductController::class, 'detail'])->name('detail');
+            Route::get('/{slug}', [\App\Http\Controllers\Client\ProductController::class, 'detail'])->name('detail');
+        });
+
+    Route::prefix('/checkout')->group(function () {
+        Route::get('/', [CheckoutController::class, 'index'])->name('checkout');
+        Route::post('/', [CheckoutController::class, 'order'])->name('order');
+        Route::get('/vnpay/return', [CheckoutController::class, 'vnPayReturn'])->name('vnpay.return');
     });
+
     // register
     Route::get('/register', [AccountGoogleController::class, 'create'])->name('account.index');
     Route::post('/register', [AccountGoogleController::class, 'store'])->name('store');
@@ -83,24 +92,28 @@ Route::prefix('/')->group(function () {
     Route::post('reset-password', [AccountGoogleController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 });
 
+
 // viết các route admin vào đây
 Route::prefix('/admin')
     ->as('admin.')
+    ->middleware(['auth', 'isAdmin'])
     ->group(function () {
         Route::get('/', function () {
             return view('admin.dashboard.index');
         })->name('dashboard');
-        Route::resource('categories', CategoryController::class);
-        Route::resource('brands', BrandController::class);
-        Route::resource('attributes', AttributeController::class);
-        Route::resource('attributeValues', AttributeValueController::class);
-        Route::resource('products', ProductController::class);
-        Route::resource('tags', TagController::class);
+        Route::resources([
+            'categories' => CategoryController::class,
+            'brands' => BrandController::class,
+            'attributes' => AttributeController::class,
+            'attributeValues' => AttributeValueController::class,
+            'products' => ProductController::class,
+            'tags' => TagController::class,
+            'orders' => \App\Http\Controllers\Admin\OrderController::class,
+        ]);
+        Route::resource('users', UserController::class)->middleware('checkPermission:Manage Users');
+        Route::resource('roles', RoleController::class)->middleware('checkPermission:Manage Roles');
+        Route::resource('brands', BrandController::class)->middleware('checkPermission:Manage Brands');
 
-    Route::resource('users', UserController::class)->middleware('checkPermission:Manage Users');
-    Route::resource('roles', RoleController::class)->middleware('checkPermission:Manage Roles');
-    Route::resource('brands', BrandController::class)->middleware('checkPermission:Manage Brands');
+        Route::resource('permissions', PermissionController::class)->middleware('checkPermission:Manage Permissions');
 
-    Route::resource('permissions', PermissionController::class)->middleware('checkPermission:Manage Permissions');
-
-});
+    });

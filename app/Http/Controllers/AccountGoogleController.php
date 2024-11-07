@@ -116,7 +116,7 @@ class AccountGoogleController extends Controller
 
         // Tạo người dùng mới
         $user = User::create([
-            'name' => $request->username,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password), // Mã hóa mật khẩu
         ]);

@@ -36,14 +36,20 @@
             </div>
             <h4 class="title"><a href="{{ route('product.detail', $item->slug) }}">{{ $item->name }}</a></h4>
             <div class="prices">
-                @if ($item->price_sale > 0)
-                    <span class="price-old">${{ number_format($item->price) }}</span>
+                @if($item->variants->count())
+                    <span class="price">{{ number_format($item->price_sale) }} VND</span>
                     <span class="sep">-</span>
-                    <span class="price">${{ number_format($item->price_sale) }}</span>
+                    <span class="price">{{ number_format($item->price) }} VND</span>
                 @else
-                    <span class="price">${{ number_format($item->price_sale) }}</span>
+                    @if ($item->price_sale > 0)
+                        <span class="price-old">${{ number_format($item->price) }} VND</span>
+                        <span class="sep">-</span>
+                        <span class="price">${{ number_format($item->price_sale) }} VND</span>
+                    @else
+                        <span class="price">${{ number_format($item->price_sale) }} VND</span>
+                    @endif
                 @endif
-                </ul>
+
             </div>
         </div>
     </div>
