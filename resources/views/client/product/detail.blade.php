@@ -213,7 +213,7 @@
                                                                     <input type="radio"
                                                                            id="color-{{ $attributeValue->name }}"
                                                                            name="attribute_id[{{$attribute->id}}]"
-                                                                           value="{{ $attributeValue->id }}" checked >
+                                                                           value="{{ $attributeValue->id }}">
                                                                     <label for="color-{{ $attributeValue->name }}"
                                                                            style="background-color: {{ $attributeValue->name }};"></label>
                                                                 </div>
@@ -229,7 +229,7 @@
                                                                 <div>
                                                                     <input type="radio" id="{{ $attributeValue->id }}"
                                                                            name="attribute_id[{{$attribute->id}}]"
-                                                                           value="{{ $attributeValue->id }}" checked>
+                                                                           value="{{ $attributeValue->id }}">
                                                                     <label
                                                                         for="{{ $attributeValue->id }}">{{ $attributeValue->name }}</label>
                                                                 </div>

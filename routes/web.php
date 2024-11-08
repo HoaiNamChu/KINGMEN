@@ -30,6 +30,7 @@ use App\Http\Controllers\Client\AccountGoogleController;
 
 // viết các route client ở đây
 Route::prefix('/')->group(function () {
+
     Route::get('/', [\App\Http\Controllers\Client\HomeController::class, 'index'])->name('home');
     Route::get('/shop', [\App\Http\Controllers\Client\ShopController::class, 'index'])->name('shop');
     Route::get('/about', [\App\Http\Controllers\Client\AboutController::class, 'index'])->name('about');
@@ -61,7 +62,9 @@ Route::prefix('/')->group(function () {
             Route::get('/{slug}', [\App\Http\Controllers\Client\ProductController::class, 'detail'])->name('detail');
         });
 
-    Route::prefix('/checkout')->group(function () {
+    Route::prefix('/checkout')
+        ->middleware('auth')
+        ->group(function () {
         Route::get('/', [CheckoutController::class, 'index'])->name('checkout');
         Route::post('/', [CheckoutController::class, 'order'])->name('order');
         Route::get('/vnpay/return', [CheckoutController::class, 'vnPayReturn'])->name('vnpay.return');
