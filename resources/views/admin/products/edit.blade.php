@@ -55,9 +55,9 @@
                                     <div>
                                         <label for="description" class="form-label">Description</label>
                                         <div class="mb-3">
-                                            <div id="snow-editor" style="height: 300px;">
-
-                                            </div>
+                                            <textarea id="editor" name="description">
+                                                {!! $product->description !!}
+                                            </textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -473,9 +473,20 @@
     <script src="{{ asset('theme/admin/assets/js/components/form-quilljs.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="{{ asset('theme/admin/assets/vendor/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
 @endsection
 
 @section('script')
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#editor' ) )
+            .then( editor => {
+                window.editor = editor;
+            } )
+            .catch( error => {
+                console.error( 'There was a problem initializing the editor.', error );
+            } );
+    </script>
     <script>
 
 

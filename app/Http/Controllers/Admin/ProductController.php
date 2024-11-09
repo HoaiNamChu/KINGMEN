@@ -34,10 +34,12 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $attributes = Attribute::query()->pluck('name', 'id');
-        $tags = Tag::query()->pluck('name', 'id');
-        $brands = Brand::query()->pluck('name', 'id');
-        $categories = Category::query()->whereNull('parent_id')->with('children')->get();
+        $attributes = Attribute::query()->where('is_active', '=', 1)->pluck('name', 'id');
+        $tags = Tag::query()->where('is_active', '=', 1)->pluck('name', 'id');
+        $brands = Brand::query()->where('is_active', '=', 1)->pluck('name', 'id');
+        $categories = Category::query()->whereNull('parent_id')->where('is_active', '=', 1)->with(['children' => function ($q) {
+            $q->where('is_active', '=', 1);
+        }])->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('attributes', 'tags', 'brands', 'categories'));
     }
 
@@ -125,6 +127,8 @@ class ProductController extends Controller
             $galleries = request('galleries');
 
             $dataVariants = $request->product_variants;
+
+            dd($dataVariants);
 
             try {
                 DB::beginTransaction();
@@ -308,7 +312,7 @@ class ProductController extends Controller
 
                         $item->update($variant);
 
-                    }else{
+                    } else {
                         $valueIds = explode('-', $key);
                         array_pop($valueIds);
                         $variant['product_id'] = $product->id;

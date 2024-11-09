@@ -41,10 +41,11 @@
                                 <div class="col-lg-12">
                                     <div>
                                         <label for="description" class="form-label">Description</label>
-                                        <div class="mb-3 description">
-                                            <textarea id="editor1">
+                                        <div class="mb-3">
+                                            <textarea id="editor" name="description">
 
                                             </textarea>
+
                                         </div>
                                     </div>
                                 </div>
@@ -320,13 +321,23 @@
 
 
 @section('lib-script')
-    <script src="{{ asset('theme/admin/assets/js/components/form-quilljs.js') }}"></script>
+    {{--    <script src="{{ asset('theme/admin/assets/js/components/form-quilljs.js') }}"></script>--}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="{{ asset('theme/admin/assets/vendor/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
 @endsection
 
 @section('script')
-
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(error => {
+                console.error('There was a problem initializing the editor.', error);
+            });
+    </script>
     <script>
 
 
@@ -380,16 +391,80 @@
                 // var productAttributesHtml = ``
                 if (attribute && $('#block-attribute-' + attribute).length === 0) {
                     $.ajax({
-                        url: `/api/addAttribute/${attribute}`,
-                        type: 'GET',
+                        url: `{{ route('addAttribute') }}`,
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            attribute_id: attribute
+                        },
                         success: function (response) {
-                            $('#product-attributes').append(response);
+                            var attributeValueHtml = '';
+                            response.attribute.attribute_values.forEach(function (attributeValue) {
+                                attributeValueHtml += '<option value="' + attributeValue.id + '">' + attributeValue.name + '</option>';
+                            });
+                            var attributeHtml = `<div id="block-attribute-${response.attribute.id}" class="block-attributes">
+                                <h4 class="d-inline-block">${response.attribute.name}</h4>
+                            <button type="button" class="btn btn-sm btn-danger float-end btn-remove-attribute"
+                                    id="btn-remove-${response.attribute.id}">
+                                Remmove
+                            </button>
+                            <hr>
+                                <div>
+                                    <table style="width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 30%;">Name:</th>
+                                            <th style="width: 70%;">Values:</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <strong>${response.attribute.name}</strong>
+                                            </td>
+                                            <td>
+                                                <select id="select-${response.attribute.id}" style="width: 100%" multiple>
+                                                     ${attributeValueHtml}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-sm btn-primary btn-selectAll-attribute float-start"
+                                                        id="btn-selectAll-${response.attribute.id}">Select
+                                                    all
+                                                </button>
+                                                <button type="button"
+                                                        class="btn btn-sm btn-warning btn-selectNone-attribute float-start"
+                                                        id="btn-selectNone-${response.attribute.id}">Select
+                                                    none
+                                                </button>
+                                                <button type="button"
+                                                        class="btn btn-sm btn-primary btn-create-attribute float-end"
+                                                        id="btn-create-${response.attribute.id}">
+                                                    Create
+                                                    value
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <hr>
+                                </div>
+                                `;
+                            $('#product-attributes').append(attributeHtml);
                             $('#attribute-option-' + attribute).prop('selected', false).prop('disabled', true);
                         },
                         error: function (xhr, status, error) {
 
                         }
+
                     });
+
                 }
 
             });
@@ -408,7 +483,6 @@
                         attributeValueIds.push($(this).val());
                     });
                 });
-                $('#variations-item').innerHTML = '';
                 $.ajax({
                     url: '/api/addAttributeValue',
                     type: 'POST',
@@ -418,7 +492,20 @@
                         attributeValueIds: attributeValueIds
                     },
                     success: function (response) {
-                        $('#variations-item').append(response);
+                        var arr = [];
+                        response.attributes.forEach(function (attributes){
+                            attributes.attribute_values.forEach(function (attributeValue){
+                                arr.push(attributeValue);
+                            });
+                        });
+                        var results = [[]]
+                        response.attributes.forEach(function (value1) {
+                            arr.forEach(function (attrValue){
+
+                            });
+                        });
+                        console.log(results)
+                        // $('#variations-item').append(response);
                     },
                     error: function (response) {
 
