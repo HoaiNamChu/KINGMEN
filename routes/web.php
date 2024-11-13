@@ -15,6 +15,9 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PermissionController;;
 use App\Http\Controllers\Client\AccountGoogleController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\OrderController;
+
+
 
 
 /*
@@ -44,10 +47,10 @@ Route::prefix('/admin')
     ->middleware(['auth', 'isAdmin'])
     ->group(function () {
         Route::get('/', function () {
-
             return view('admin.dashboard.index');
-        });
+        })->name('dashboard');
 
+        Route::resource('orders', OrderController::class);
         Route::resource('users', UserController::class)->middleware('checkPermission:Manage Users');
         Route::resource('roles', RoleController::class)->middleware('checkPermission:Manage Roles');
         Route::resource('brands', BrandController::class)->middleware('checkPermission:Manage Brands');
