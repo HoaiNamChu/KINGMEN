@@ -155,7 +155,7 @@
                 </li>
             </ul>
             <p class="cart-total"><span>Subtotal:</span><span class="amount">£89.99</span></p>
-            <a class="btn-theme" data-margin-bottom="10" href="{{ route('cart.index')}}">View cart</a>
+            <a class="btn-theme" data-margin-bottom="10" href="#">view cart</a>
             <a class="btn-theme" href="shop-checkout.html">Checkout</a>
             <a class="d-block text-end lh-1" href="shop-checkout.html"><img
                     src="{{ asset('theme/client/assets/img/photos/paypal.webp') }}"

@@ -70,13 +70,6 @@ Route::get('reset-password/{token}', [AccountGoogleController::class, 'showReset
 
 Route::post('reset-password', [AccountGoogleController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
-    //cart routes
-    Route::get('cart', [CartController::class, 'index'])->name('cart.index');
-    Route::get('add-cart', [CartController::class, 'addCart'])->name('addCart');
-    Route::get('add-cart/{slug}', [CartController::class, 'addCartIcon'])->name('addCartIcon');
-    Route::delete('delete-cart/{id}', [CartController::class, 'destroyCart'])->name('destroyCart');
-    Route::delete('delete-all-cart', [CartController::class, 'destroyAllCart'])->name('destroyAllCart');
-    Route::put('update-cart', [CartController::class, 'updateCart'])->name('updateCart');
 
     //page routes
     Route::get('shop', function (){
