@@ -26,7 +26,15 @@ Route::prefix('/')->group(function () {
     Route::get('/about', [\App\Http\Controllers\Client\AboutController::class, 'index'])->name('about');
     Route::get('/blog', [\App\Http\Controllers\Client\BlogController::class, 'index'])->name('blog');
     Route::get('/contact', [\App\Http\Controllers\Client\ContactController::class, 'index'])->name('contact');
+
+    //Route product
+    Route::get('/product/{slug}', [\App\Http\Controllers\Client\ProductController::class, 'productDetail'])->name('product.detail');
+
 });
+
+
+
+
 
 // viết các route admin vào đây
 Route::prefix('/admin')
