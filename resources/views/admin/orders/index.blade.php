@@ -173,7 +173,6 @@
                                                        <thead class="bg-light-subtle">
                                                             <tr>
                                                                  <th>Order ID</th>
-                                                                 <th>User ID</th>
                                                                  <th>Name</th>
                                                                  <th>Phone</th>
                                                                  <th>Address</th>
@@ -193,13 +192,12 @@
                                                                  <td>#
                                                                  {{ $order->id }}
                                                                  </td>
-                                                                 <td>#{{ $order->user_id }}</td>
                                                                  <td>
                                                                       <a href="#!" class="link-primary fw-medium">{{ $order->name }}</a>
                                                                  </td>
                                                                  <td> {{ $order->phone }}</td>
                                                                  <td> {{ $order->address }}</td>
-                                                                 <td>{{$order->discount}}</td>
+                                                                 <td>- {{$order->discount}}</td>
                                                                  <td>{{$order->total}}</td>
                                                                  <td> <span class="badge  bg-success text-light px-2 py-1 fs-13">{{ $order->payment_status }}</span></td>
                                                                  <td> {{ $order->status }}</td>

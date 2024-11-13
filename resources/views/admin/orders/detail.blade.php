@@ -168,7 +168,6 @@
                                             <th>Product Name &amp; Size</th>
                                             <th>Quantity</th>
                                             <th>Price</th>
-                                            <th>Discount</th>
                                             <th>Total Price</th>
                                         </tr>
                                     </thead>
@@ -192,9 +191,7 @@
                                                 </td>
                                                 <td>{{$item->product_quantity}}</td>
                                                 <td>{{$item->product_price}}</td>
-                                                <td>
-                                                    {{ $item->discount }}
-                                                </td>
+                                              
                                                 <td>{{$item->total_price}}</td>
                                             </tr>
                                         @endforeach
@@ -203,7 +200,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card">
+                    <!-- <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Order Timeline</h4>
                         </div>
@@ -322,7 +319,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="card bg-light-subtle">
                         <div class="card-body">
                             <div class="row g-3 g-lg-0">
@@ -438,7 +435,7 @@
                                     </div>
                                 @endforeach
             </div>
-            <div class="card">
+            <!-- <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">Payment Information</h4>
                 </div>
@@ -461,7 +458,7 @@
                             Gaston Lapierre</span></p>
 
                 </div>
-            </div>
+            </div> -->
             <div class="card">
                 <div class="card-header">
                     <h4 class="card-title">Customer Details</h4>
@@ -508,7 +505,7 @@
                     <p class="mb-1">Same as shipping address</p>
                 </div>
             </div>
-            <div class="card">
+            <!-- <div class="card">
                 <div class="card-body">
                     <div class="mapouter">
                         <div class="gmap_canvas"><iframe class="gmap_iframe rounded" width="100%" style="height: 418px;"
@@ -517,7 +514,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

@@ -22,7 +22,7 @@ class CategoryFactory extends Factory
         return [
             'name' => fake()->unique()->name(),
             'slug' => fake()->unique()->slug(),
-            'parent_id' => Arr::random(Category::all()->pluck('id')->toArray()),
+            // 'parent_id' => Arr::random(Category::all()->pluck('id')->toArray()),
             'is_active' => 1
         ];
     }

@@ -12,14 +12,6 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-         // Lấy người dùng có id = 1 (giả sử là admin)
-    $adminUser = \App\Models\User::find(2); 
-
-    // Kiểm tra xem người dùng có tồn tại không
-    if ($adminUser) {
-        \Illuminate\Support\Facades\Auth::login($adminUser);  // Fake đăng nhập người dùng
-    }
-
-        // return $request->expectsJson() ? null : route('login');
+        return $request->expectsJson() ? null : route('login');
     }
 }

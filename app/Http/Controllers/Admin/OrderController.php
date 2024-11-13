@@ -33,7 +33,6 @@ class OrderController extends Controller
             'product_price',
             'product_quantity',
             'product_image',
-            'discount',
             'total_price',
             'created_at',
             'updated_at'
@@ -54,9 +53,9 @@ public function updateStatus(Request $request, $id)
 
     // Các quy tắc chuyển đổi trạng thái
     $validTransitions = [
-        'Đang chờ xác nhận' => ['Đã xác nhận', 'Đã hủy'],
-        'Đã xác nhận' => ['Đang giao hàng'],
-        'Đang giao hàng' => ['Hoàn thành', 'Không giao được'],
+        'Đang chờ xác nhận' => ['Đã xác nhận', 'Đã hủy', 'Hoàn thành','Đang giao hàng', 'Hoàn đơn', 'Không giao được'],
+        'Đã xác nhận' => ['Chờ xác nhận', 'Đã hủy', 'Hoàn thành','Đang giao hàng', 'Hoàn đơn', 'Không giao được'],
+        'Đang giao hàng' => ['Đã xác nhận', 'Đã hủy', 'Hoàn thành','Đã xác nhận', 'Hoàn đơn', 'Không giao được'],
         'Hoàn thành' => [], // Không cho phép thay đổi nếu đã hoàn thành
         'Đã hủy' => [], // Không cho phép thay đổi nếu đã hủy
         'Hoàn đơn' => [], // Không cho phép thay đổi nếu đã hoàn đơn
@@ -75,7 +74,12 @@ public function updateStatus(Request $request, $id)
 
     // Cập nhật trạng thái nếu hợp lệ
     $order->status = $request->input('status');
+
     $order->save();
+    //nếu trạng thái đơn hàng == hoàn thành thì đổi trạng thái thanh toán thành 'đã thanh toán'
+    if($order->status == 'Hoàn thành'){
+        $order->update(['paymemnt_status'=>'Đã thanh toán']);
+    }
 
     return redirect()->route('admin.orders.show', $id)
                      ->with('success', 'Trạng thái đơn hàng đã được cập nhật thành công.');

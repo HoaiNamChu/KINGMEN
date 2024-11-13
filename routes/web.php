@@ -34,6 +34,12 @@ use App\Http\Controllers\Admin\OrderController;
 
 // viết các route client ở đây
 Route::prefix('/')->group(function () {
+
+    $adminUser = \App\Models\User::find(2); 
+    // Kiểm tra xem người dùng có tồn tại không
+    if ($adminUser) {
+        \Illuminate\Support\Facades\Auth::loginUsingId(2);  // Fake đăng nhập người dùng
+    }
     Route::get('/', [\App\Http\Controllers\Client\HomeController::class, 'index'])->name('home');
     Route::get('/shop', [\App\Http\Controllers\Client\ShopController::class, 'index'])->name('shop');
     Route::get('/about', [\App\Http\Controllers\Client\AboutController::class, 'index'])->name('about');
