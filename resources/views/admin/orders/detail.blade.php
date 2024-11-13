@@ -32,103 +32,127 @@
 
                                 </div>
 
-                                <div class="mt-4">
-                                    <h4 class="fw-medium text-dark">Status</h4>
-                                    <br>
-                                    <select class="form-control" data-choices name="status">
-                                    <option value="">This is a placeholder</option>
-                                    <option value="Choice 1">Choice 1</option>
-                                    <option value="Choice 2">Choice 2</option>
-                                    <option value="Choice 3">Choice 3</option>
-                                    </select>
-                                </div>
-                                <!-- <div class="row row-cols-xxl-5 row-cols-md-2 row-cols-1">
-                                    <div class="col">
-                                        <div class="progress mt-3" style="height: 10px;">
-                                            <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-success"
-                                                role="progressbar" style="width: 100%" aria-valuenow="70" aria-valuemin="0"
-                                                aria-valuemax="70">
-                                            </div>
-                                        </div>
-                                        <p class="mb-0 mt-2">Chờ Xác Nhận</p>
+                                <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH') <!-- Để sử dụng phương thức PATCH -->
+                                    <div class="mt-4">
+                                        <h4 class="fw-medium text-dark">Status</h4>
+                                        <br>
+                                        <select class="form-control" data-choices name="status">
+                                            <option value="{{$order->status}} selected ">{{$order->status}}</option>
+                                            <option value="Đang chờ xác nhận">Đang chờ xác nhận</option>
+                                            <option value="Đã xác nhận">Đã xác nhận</option>
+                                            <option value="Đang giao hàng">Đang giao hàng</option>
+                                            <option value="Hoàn thành">Hoàn thành</option>
+                                            <option value="Đã hủy">Đã hủy</option>
+                                            <option value="Hoàn đơn">Hoàn đơn</option>
+                                            <option value="Không giao được">Không giao được</option>
+                                        </select>
                                     </div>
-                                    <div class="col">
-                                        <div class="progress mt-3" style="height: 10px;">
-                                            <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-success"
-                                                role="progressbar" style="width: 100%" aria-valuenow="70" aria-valuemin="0"
-                                                aria-valuemax="70">
-                                            </div>
-                                        </div>
-                                        <p class="mb-0 mt-2">Đã Xác Nhận</p>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress mt-3" style="height: 10px;">
-                                            <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-success"
-                                                role="progressbar" style="width: 100%" aria-valuenow="70" aria-valuemin="0"
-                                                aria-valuemax="70">
-                                            </div>
-                                        </div>
-                                        <p class="mb-0 mt-2">Đang Giao Hàng</p>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress mt-3" style="height: 10px;">
-                                            <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-warning"
-                                                role="progressbar" style="width: 60%" aria-valuenow="70" aria-valuemin="0"
-                                                aria-valuemax="70">
-                                            </div>
-                                        </div>
-                                        <div class="d-flex align-items-center gap-2 mt-2">
-                                            <p class="mb-0">Hoàn Thành</p>
-                                            <div class="spinner-border spinner-border-sm text-warning" role="status">
-                                                <span class="visually-hidden">Loading...</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress mt-3" style="height: 10px;">
-                                            <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-primary"
-                                                role="progressbar" style="width: 0%" aria-valuenow="70" aria-valuemin="0"
-                                                aria-valuemax="70">
-                                            </div>
-                                        </div>
-                                        <p class="mb-0 mt-2">Đã hủy</p>
-                                    </div>
-                                    <div class="col">
-                                        <div class="progress mt-3" style="height: 10px;">
-                                            <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-primary"
-                                                role="progressbar" style="width: 0%" aria-valuenow="70" aria-valuemin="0"
-                                                aria-valuemax="70">
-                                            </div>
-                                        </div>
-                                        <p class="mb-0 mt-2">Hoàn Đơn</p>
-                                    </div>
+                                    <!-- <div class="row row-cols-xxl-5 row-cols-md-2 row-cols-1">
+                                                <div class="col">
+                                                    <div class="progress mt-3" style="height: 10px;">
+                                                        <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-success"
+                                                            role="progressbar" style="width: 100%" aria-valuenow="70" aria-valuemin="0"
+                                                            aria-valuemax="70">
+                                                        </div>
+                                                    </div>
+                                                    <p class="mb-0 mt-2">Chờ Xác Nhận</p>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="progress mt-3" style="height: 10px;">
+                                                        <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-success"
+                                                            role="progressbar" style="width: 100%" aria-valuenow="70" aria-valuemin="0"
+                                                            aria-valuemax="70">
+                                                        </div>
+                                                    </div>
+                                                    <p class="mb-0 mt-2">Đã Xác Nhận</p>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="progress mt-3" style="height: 10px;">
+                                                        <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-success"
+                                                            role="progressbar" style="width: 100%" aria-valuenow="70" aria-valuemin="0"
+                                                            aria-valuemax="70">
+                                                        </div>
+                                                    </div>
+                                                    <p class="mb-0 mt-2">Đang Giao Hàng</p>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="progress mt-3" style="height: 10px;">
+                                                        <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-warning"
+                                                            role="progressbar" style="width: 60%" aria-valuenow="70" aria-valuemin="0"
+                                                            aria-valuemax="70">
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-flex align-items-center gap-2 mt-2">
+                                                        <p class="mb-0">Hoàn Thành</p>
+                                                        <div class="spinner-border spinner-border-sm text-warning" role="status">
+                                                            <span class="visually-hidden">Loading...</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="progress mt-3" style="height: 10px;">
+                                                        <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-primary"
+                                                            role="progressbar" style="width: 0%" aria-valuenow="70" aria-valuemin="0"
+                                                            aria-valuemax="70">
+                                                        </div>
+                                                    </div>
+                                                    <p class="mb-0 mt-2">Đã hủy</p>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="progress mt-3" style="height: 10px;">
+                                                        <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-primary"
+                                                            role="progressbar" style="width: 0%" aria-valuenow="70" aria-valuemin="0"
+                                                            aria-valuemax="70">
+                                                        </div>
+                                                    </div>
+                                                    <p class="mb-0 mt-2">Hoàn Đơn</p>
+                                                </div>
 
-                                    <div class="col">
-                                        <div class="progress mt-3" style="height: 10px;">
-                                            <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-primary"
-                                                role="progressbar" style="width: 0%" aria-valuenow="70" aria-valuemin="0"
-                                                aria-valuemax="70">
-                                            </div>
-                                        </div>
-                                        <p class="mb-0 mt-2">Không Giao Được</p>
-                                    </div>
+                                                <div class="col">
+                                                    <div class="progress mt-3" style="height: 10px;">
+                                                        <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-primary"
+                                                            role="progressbar" style="width: 0%" aria-valuenow="70" aria-valuemin="0"
+                                                            aria-valuemax="70">
+                                                        </div>
+                                                    </div>
+                                                    <p class="mb-0 mt-2">Không Giao Được</p>
+                                                </div>
 
-                                </div> -->
-                             
+                                            </div> -->
+
                             </div>
-                           
-                           
-                             
+
+
+
                             <div
                                 class="card-footer d-flex flex-wrap align-items-center justify-content-between bg-light-subtle gap-2">
                                 <p class="border rounded mb-0 px-2 py-1 bg-body"><i
                                         class="bx bx-arrow-from-left align-middle fs-16"></i> Estimated shipping date :
-                                    <span class="text-dark fw-medium">Apr 25 , 2024</span></p>
+                                    <span class="text-dark fw-medium">Apr 25 , 2024</span>
+                                </p>
                                 <div>
-                                    <a href="#!" class="btn btn-primary">Make As Ready To Ship</a>
+                                    <button type="submit" class="btn btn-primary">Cập nhật trạng thái đơn</button>
                                 </div>
                             </div>
 
+                            <!-- Hiển thị thông báo lỗi nếu có -->
+                            @error('status')
+                                <div class="alert alert-danger mt-1">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+
+                            <!-- Hiển thị thông báo thành công nếu có -->
+                            @if (session('success'))
+                                <div class="alert alert-success mt-2">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
+                            
+                            </form>
                         @endforeach
 
                     </div>
@@ -371,51 +395,48 @@
                     <div class="table-responsive">
                         <table class="table mb-0">
                             <tbody>
-                                <tr>
-                                    <td class="px-0">
-                                        <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon
-                                                icon="solar:clipboard-text-broken"></iconify-icon> Sub Total : </p>
-                                    </td>
-                                    <td class="text-end text-dark fw-medium px-0">$777.00</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-0">
-                                        <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon
-                                                icon="solar:ticket-broken" class="align-middle"></iconify-icon> Discount
-                                            : </p>
-                                    </td>
-                                    <td class="text-end text-dark fw-medium px-0">-$60.00</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-0">
-                                        <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon
-                                                icon="solar:kick-scooter-broken" class="align-middle"></iconify-icon>
-                                            Delivery Charge : </p>
-                                    </td>
-                                    <td class="text-end text-dark fw-medium px-0">$00.00</td>
-                                </tr>
-                                <tr>
-                                    <td class="px-0">
-                                        <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon
-                                                icon="solar:calculator-minimalistic-broken"
-                                                class="align-middle"></iconify-icon> Estimated Tax (15.5%) : </p>
-                                    </td>
-                                    <td class="text-end text-dark fw-medium px-0">$20.00</td>
-                                </tr>
+                                @foreach ($orders as $order)
+                                                    <tr>
+                                                        <td class="px-0">
+                                                            <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon
+                                                                    icon="solar:clipboard-text-broken"></iconify-icon> Sub Total : </p>
+                                                        </td>
+                                                        <td class="text-end text-dark fw-medium px-0">tổng giá tiền của các sản phẩm(đã có
+                                                            discount)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="px-0">
+                                                            <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon
+                                                                    icon="solar:ticket-broken" class="align-middle"></iconify-icon> Discount
+                                                                : </p>
+                                                        </td>
+                                                        <td class="text-end text-dark fw-medium px-0">-{{$order->discount}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="px-0">
+                                                            <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon
+                                                                    icon="solar:kick-scooter-broken" class="align-middle"></iconify-icon>
+                                                                Shipping Fee : </p>
+                                                        </td>
+                                                        <td class="text-end text-dark fw-medium px-0">{{$order->shipping_fee}}</td>
+                                                    </tr>
 
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="card-footer d-flex align-items-center justify-content-between bg-light-subtle">
-                    <div>
-                        <p class="fw-medium text-dark mb-0">Total Amount</p>
-                    </div>
-                    <div>
-                        <p class="fw-medium text-dark mb-0">$737.00</p>
-                    </div>
 
-                </div>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer d-flex align-items-center justify-content-between bg-light-subtle">
+                                        <div>
+                                            <p class="fw-medium text-dark mb-0">Total Amount</p>
+                                        </div>
+                                        <div>
+                                            <p class="fw-medium text-dark mb-0">{{$order->total}}</p>
+                                        </div>
+
+                                    </div>
+                                @endforeach
             </div>
             <div class="card">
                 <div class="card-header">

@@ -47,7 +47,7 @@ class OrderController extends Controller
 }
 
 
-public function update(Request $request, $id)
+public function updateStatus(Request $request, $id)
 {
     // Lấy đơn hàng từ database
     $order = Order::findOrFail($id);
@@ -63,14 +63,14 @@ public function update(Request $request, $id)
         'Không giao được' => [], // Không cho phép thay đổi nếu không giao được
     ];
 
-    // Kiểm tra giá trị 'status' đầu vào
+    // Validate trạng thái mới
     $request->validate([
         'status' => [
             'required',
             Rule::in($validTransitions[$order->status] ?? []),
         ],
     ], [
-        'status.in' => 'Không thể chuyển trạng thái.',
+        'status.in' => 'Không chuyển được trạng thái đơn hàng.',
     ]);
 
     // Cập nhật trạng thái nếu hợp lệ
@@ -78,7 +78,7 @@ public function update(Request $request, $id)
     $order->save();
 
     return redirect()->route('admin.orders.show', $id)
-    ->with('success', 'Trạng thái đơn hàng đã được cập nhật thành công.');
+                     ->with('success', 'Trạng thái đơn hàng đã được cập nhật thành công.');
 }
 
 
