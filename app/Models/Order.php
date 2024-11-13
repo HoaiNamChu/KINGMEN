@@ -18,12 +18,18 @@ class Order extends Model
         'status',
         'payment_method',
         'payment_status',
+        'shipping_fee',
         'shipping_method',
         'shipping_status',
         'discount',
         'total',
     ];
 
+//    protected $casts = [
+//        'status' =>  'enum',
+//        'payment_status' =>  'enum',
+//        'payment_method' =>  'enum'
+//    ];
     public function user()
     {
         return $this->belongsTo(User::class);

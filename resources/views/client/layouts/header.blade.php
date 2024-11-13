@@ -86,5 +86,5 @@
             </div>
         </div>
     </div>
-    @include('client.layouts.main-nav')
+   @include('client.layouts.main-nav')
 </header>

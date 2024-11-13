@@ -7,6 +7,10 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\TagController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\PermissionController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -28,17 +32,19 @@ Route::prefix('/')->group(function () {
     Route::get('/blog', [\App\Http\Controllers\Client\BlogController::class, 'index'])->name('blog');
     Route::get('/contact', [\App\Http\Controllers\Client\ContactController::class, 'index'])->name('contact');
 
-    Route::prefix('/product')
-        ->as('product.')
-        ->group(function () {
-            Route::get('/{slug}', [\App\Http\Controllers\Client\ProductController::class, 'detail'])->name('detail');
-        });
+    //Route product
+    Route::get('/product/{slug}', [\App\Http\Controllers\Client\ProductController::class, 'productDetail'])->name('product.detail');
 
 });
+
+
+
+
 
 // viết các route admin vào đây
 Route::prefix('/admin')
     ->as('admin.')
+//    ->middleware(['auth', 'isAdmin'])
     ->group(function () {
         Route::get('/', function () {
             return view('admin.dashboard.index');
@@ -51,4 +57,10 @@ Route::prefix('/admin')
             'products' => ProductController::class,
             'tags' => TagController::class,
         ]);
+
+        Route::resource('users', UserController::class)->middleware('checkPermission:Manage Users');
+        Route::resource('roles', RoleController::class)->middleware('checkPermission:Manage Roles');
+        Route::resource('brands', BrandController::class)->middleware('checkPermission:Manage Brands');
+        Route::resource('permissions', PermissionController::class)->middleware('checkPermission:Manage Permissions');
+
     });

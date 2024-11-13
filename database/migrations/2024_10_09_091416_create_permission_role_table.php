@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_tag', function (Blueprint $table) {
-            $table->foreignIdFor(\App\Models\Product::class)->constrained();
-            $table->foreignIdFor(\App\Models\Tag::class)->constrained();
-
-            $table->primary(['product_id', 'tag_id']);
+        Schema::create('permission_role', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('role_id')->constrained()->onDelete('cascade');
+            $table->foreignId('permission_id')->constrained()->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_tag');
+        Schema::dropIfExists('permission_role');
     }
 };

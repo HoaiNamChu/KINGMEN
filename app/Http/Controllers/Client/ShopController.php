@@ -14,9 +14,8 @@ class ShopController extends Controller
 
     public function index(){
         $products = Product::query()
-            ->where('is_active', '=', 1)
-            ->with('categories:id,name')
-            ->latest()
+            ->where('is_active', '=',1)
+            ->with('categories')
             ->paginate(12);
         $categories = Category::query()->where('is_active', '=', 1)->with('products')->orderBy('name','ASC')->get();
         $brands = Brand::query()->where('is_active', '=', 1)->with('products')->orderBy('name','ASC')->get();

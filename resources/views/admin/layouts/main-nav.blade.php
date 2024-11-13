@@ -187,11 +187,11 @@
             <li class="menu-title mt-2">Users</li>
 
             <li class="nav-item">
-                <a class="nav-link" href="pages-profile.html">
+                <a class="nav-link" href="{{ route('admin.users.index') }}">
                                    <span class="nav-icon">
                                         <iconify-icon icon="solar:chat-square-like-bold-duotone"></iconify-icon>
                                    </span>
-                    <span class="nav-text"> Profile </span>
+                    <span class="nav-text"> Users </span>
                 </a>
             </li>
 
@@ -207,13 +207,10 @@
                     <ul class="nav sub-navbar-nav">
                         <ul class="nav sub-navbar-nav">
                             <li class="sub-nav-item">
-                                <a class="sub-nav-link" href="role-list.html">List</a>
+                                <a class="sub-nav-link" href="{{ route('admin.roles.index') }}">List</a>
                             </li>
                             <li class="sub-nav-item">
-                                <a class="sub-nav-link" href="role-edit.html">Edit</a>
-                            </li>
-                            <li class="sub-nav-item">
-                                <a class="sub-nav-link" href="role-add.html">Create</a>
+                                <a class="sub-nav-link" href="{{ route('admin.roles.create') }}">Create</a>
                             </li>
                         </ul>
                     </ul>
@@ -221,7 +218,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="pages-permissions.html">
+                <a class="nav-link" href="{{route('admin.permissions.index')}}">
                                    <span class="nav-icon">
                                         <iconify-icon icon="solar:checklist-minimalistic-bold-duotone"></iconify-icon>
                                    </span>

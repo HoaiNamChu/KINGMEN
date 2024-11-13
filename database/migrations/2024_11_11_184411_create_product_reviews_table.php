@@ -12,11 +12,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_attribute', function (Blueprint $table) {
+        Schema::create('product_reviews', function (Blueprint $table) {
+            $table->id();
             $table->foreignIdFor(Product::class)->constrained();
-            $table->foreignIdFor(\App\Models\Attribute::class)->constrained();
-
-            $table->primary(['product_id', 'attribute_id']);
+            $table->foreignIdFor(\App\Models\User::class)->constrained();
+            $table->unsignedFloat('rating')->default(5);
+            $table->text('comment')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_attribute');
+        Schema::dropIfExists('product_reviews');
     }
 };

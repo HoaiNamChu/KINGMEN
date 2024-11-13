@@ -32,7 +32,7 @@
                             <div class="shop-top-bar">
                                 <div class="shop-top-left">
                                     <p class="pagination-line"><a href="shop.html">12</a> Product Found of <a
-                                            href="shop.html">{{ $products->count() }}</a></p>
+                                            href="shop.html">30</a></p>
                                 </div>
                                 <div class="shop-top-center">
                                     <nav class="product-nav">
@@ -67,10 +67,12 @@
                                 <div class="tab-pane fade show active" id="nav-grid" role="tabpanel"
                                      aria-labelledby="nav-grid-tab">
                                     <div class="row">
-                                        @if($products != null)
+                                        @if(!empty($products))
                                             @foreach($products as $item)
                                                 <div class="col-sm-6 col-lg-4">
-                                                    @include('client.components.product.product-item', ['item' => $item])
+                                                    <!--== Start Product Item ==-->
+                                                    @include('client.components.product-item', ['item' => $item])
+                                                    <!--== End prPduct Item ==-->
                                                 </div>
                                             @endforeach
                                         @endif
@@ -88,57 +90,70 @@
                                 <div class="tab-pane fade" id="nav-list" role="tabpanel"
                                      aria-labelledby="nav-list-tab">
                                     <div class="row">
-                                        <div class="col-md-12">
-                                            <!--== Start Product Item ==-->
-                                            <div class="product-item product-list-item">
-                                                <div class="inner-content">
-                                                    <div class="product-thumb">
-                                                        <a href="single-product.html">
-                                                            <img
-                                                                src="{{ asset('theme/client/assets/img/shop/list-6.webp') }}"
-                                                                width="322"
-                                                                height="360" alt="Image-HasTech">
-                                                        </a>
-                                                        <div class="product-action">
-                                                            <a class="btn-product-wishlist"
-                                                               href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
-                                                            <a class="btn-product-cart" href="shop-cart.html"><i
-                                                                    class="fa fa-shopping-cart"></i></a>
-                                                            <button type="button"
-                                                                    class="btn-product-quick-view-open">
-                                                                <i class="fa fa-arrows"></i>
-                                                            </button>
-                                                            <a class="btn-product-compare" href="shop-compare.html"><i
-                                                                    class="fa fa-random"></i></a>
+                                        @if(!empty($products))
+                                            @foreach($products as $item)
+                                                <div class="col-md-12">
+                                                    <!--== Start Product Item ==-->
+                                                    <div class="product-item product-list-item">
+                                                        <div class="inner-content">
+                                                            <div class="product-thumb">
+                                                                <a href="single-product.html">
+                                                                    <img
+                                                                        src="{{ Storage::url($item->image) }}"
+                                                                        width="322"
+                                                                        height="360" alt="Image-HasTech">
+                                                                </a>
+                                                                <div class="product-flag">
+                                                                    <ul>
+                                                                        <li class="discount">-10%</li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="product-action">
+                                                                    <a class="btn-product-wishlist"
+                                                                       href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
+                                                                    <a class="btn-product-cart" href="shop-cart.html"><i
+                                                                            class="fa fa-shopping-cart"></i></a>
+                                                                    <button type="button"
+                                                                            class="btn-product-quick-view-open">
+                                                                        <i class="fa fa-arrows"></i>
+                                                                    </button>
+                                                                    <a class="btn-product-compare" href="shop-compare.html"><i
+                                                                            class="fa fa-random"></i></a>
+                                                                </div>
+                                                                <a class="banner-link-overlay" href="shop.html"></a>
+                                                            </div>
+                                                            <div class="product-info">
+                                                                <div class="category">
+                                                                    <ul>
+                                                                        <li><a href="shop.html">Men</a></li>
+                                                                        <li class="sep">/</li>
+                                                                        <li><a href="shop.html">Women</a></li>
+                                                                    </ul>
+                                                                </div>
+                                                                <h4 class="title"><a href="single-product.html">{{ $item->name }}</a></h4>
+                                                                <div class="prices">
+                                                                    @if($item->is_sale && $item->price_sale)
+                                                                        <span class="price-old">{{ number_format($item->price) }} VND</span>
+                                                                        <span class="sep">-</span>
+                                                                        <span class="price">{{ number_format($item->price_sale) }} VND</span>
+                                                                    @else
+                                                                        <span class="price">{{ number_format($item->price) }} VND</span>
+                                                                    @endif
+                                                                </div>
+                                                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+                                                                    Voluptatem quo, rerum rem soluta quisquam, repellat is
+                                                                    deleniti omnis culpa ea quis provident dolore esse,
+                                                                    offici modi dolorem nam cum eligendi enim!</p>
+                                                                <a class="btn-theme btn-sm" href="shop-cart.html">Add To
+                                                                    Cart</a>
+                                                            </div>
                                                         </div>
-                                                        <a class="banner-link-overlay" href="shop.html"></a>
                                                     </div>
-                                                    <div class="product-info">
-                                                        <div class="category">
-                                                            <ul>
-                                                                <li><a href="shop.html">Men</a></li>
-                                                                <li class="sep">/</li>
-                                                                <li><a href="shop.html">Women</a></li>
-                                                            </ul>
-                                                        </div>
-                                                        <h4 class="title"><a href="single-product.html">Leather Mens
-                                                                Slipper</a></h4>
-                                                        <div class="prices">
-                                                            <span class="price-old">$300</span>
-                                                            <span class="sep">-</span>
-                                                            <span class="price">$240.00</span>
-                                                        </div>
-                                                        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                                                            Voluptatem quo, rerum rem soluta quisquam, repellat is
-                                                            deleniti omnis culpa ea quis provident dolore esse,
-                                                            offici modi dolorem nam cum eligendi enim!</p>
-                                                        <a class="btn-theme btn-sm" href="shop-cart.html">Add To
-                                                            Cart</a>
-                                                    </div>
+                                                    <!--== End prPduct Item ==-->
                                                 </div>
-                                            </div>
-                                            <!--== End prPduct Item ==-->
-                                        </div>
+                                            @endforeach
+                                        @endif
+
                                         <div class="col-12">
                                             <div class="pagination-items">
                                                 <ul class="pagination justify-content-end mb--0">
@@ -156,20 +171,20 @@
                 </div>
                 <div class="col-xl-3">
                     <div class="shop-sidebar">
-
-                        @if($categories != null)
-                            <div class="shop-sidebar-category">
-                                <h4 class="sidebar-title">Top Categories</h4>
-                                <div class="sidebar-category">
-                                    <ul class="category-list mb--0">
-                                        @foreach($categories as $item)
-                                            <li><a href="shop.html">{{ $item->name }} <span>({{ $item->products->count() }})</span></a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                        <div class="shop-sidebar-category">
+                            <h4 class="sidebar-title">Top Categories</h4>
+                            <div class="sidebar-category">
+                                <ul class="category-list mb--0">
+                                    <li><a href="shop.html">Shoes <span>(6)</span></a></li>
+                                    <li><a href="shop.html">Computer <span>(4)</span></a></li>
+                                    <li><a href="shop.html">Covid-19 <span>(2)</span></a></li>
+                                    <li><a href="shop.html">Electronics <span>(6)</span></a></li>
+                                    <li><a href="shop.html">Frame Sunglasses <span>(12)</span></a></li>
+                                    <li><a href="shop.html">Furniture <span>(7)</span></a></li>
+                                    <li><a href="shop.html">Genuine Leather <span>(9)</span></a></li>
+                                </ul>
                             </div>
-                        @endif
+                        </div>
 
                         <div class="shop-sidebar-price-range">
                             <h4 class="sidebar-title">Price Filter</h4>
@@ -213,19 +228,18 @@
                             </div>
                         </div>
 
-                        @if($brands)
-                            <div class="shop-sidebar-brand">
-                                <h4 class="sidebar-title">Brand</h4>
-                                <div class="sidebar-brand">
-                                    <ul class="brand-list mb--0">
-                                        @foreach($brands as $item)
-                                            <li><a href="shop.html">{{ $item->name }} <span>({{ $item->products->count() }})</span></a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
+                        <div class="shop-sidebar-brand">
+                            <h4 class="sidebar-title">Brand</h4>
+                            <div class="sidebar-brand">
+                                <ul class="brand-list mb--0">
+                                    <li><a href="shop.html">Lakmeetao <span>(6)</span></a></li>
+                                    <li><a href="shop.html">Beautifill <span>(4)</span></a></li>
+                                    <li><a href="shop.html">Made In GD <span>(2)</span></a></li>
+                                    <li><a href="shop.html">Pecifico <span>(6)</span></a></li>
+                                    <li><a href="shop.html">Xlovgtir <span>(12)</span></a></li>
+                                </ul>
                             </div>
-                        @endif
+                        </div>
                     </div>
                 </div>
             </div>

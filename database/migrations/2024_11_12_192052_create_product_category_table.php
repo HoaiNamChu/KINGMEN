@@ -12,13 +12,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_reviews', function (Blueprint $table) {
-            $table->id();
+        Schema::create('product_category', function (Blueprint $table) {
             $table->foreignIdFor(Product::class)->constrained();
-            $table->foreignIdFor(\App\Models\User::class)->constrained();
-            $table->float('rating');
-            $table->text('comment')->nullable();
-            $table->timestamps();
+            $table->foreignIdFor(\App\Models\Category::class)->constrained();
+
+            $table->primary(['product_id', 'category_id']);
         });
     }
 
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_reviews');
+        Schema::dropIfExists('product_category');
     }
 };

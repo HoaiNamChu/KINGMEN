@@ -6,12 +6,11 @@
                     <div class="header-navigation-area position-relative">
                         <ul class="main-menu nav">
                             <li><a href="{{ route('home') }}"><span>Home</span></a></li>
-                            <li class="{{ $categories ? ' has-submenu position-static' : ' ' }}" ><a
-                                    href="{{ route('shop') }}"><span>Shop</span></a>
-                                @if($categories)
+                            <li class="{{ $categories->count() ? 'has-submenu position-static' : '' }} "><a href="{{ route('shop') }}"><span>Shop</span></a>
+                                @if($categories->count())
                                     <ul class="submenu-nav">
                                         @foreach($categories as $item)
-                                            @include('client.layouts.components.categories-nav' , ['item' => $item])
+                                            @include('client.layouts.components.main-nav-category', ['item' => $item])
                                         @endforeach
                                     </ul>
                                 @endif
