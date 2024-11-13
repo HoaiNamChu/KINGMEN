@@ -42,19 +42,19 @@
                 <div class="collapse" id="sidebarProducts">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{ route('admin.products.index') }}">List</a>
+                            <a class="sub-nav-link" href="#">List</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{ route('admin.products.create') }}">Create</a>
+                            <a class="sub-nav-link" href="#">Create</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{ route('admin.categories.index') }}">Categories</a>
+                            <a class="sub-nav-link" href="#">Categories</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{ route('admin.tags.index') }}">Tags</a>
+                            <a class="sub-nav-link" href="#">Tags</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{ route('admin.attributes.index') }}">Attributes</a>
+                            <a class="sub-nav-link" href="#">Attributes</a>
                         </li>
                     </ul>
                 </div>
@@ -71,10 +71,10 @@
                 <div class="collapse" id="sidebarBrand">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{ route('admin.brands.index') }}">List</a>
+                            <a class="sub-nav-link" href="#">List</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{ route('admin.brands.create') }}">Create</a>
+                            <a class="sub-nav-link" href="#">Create</a>
                         </li>
                     </ul>
                 </div>
@@ -114,7 +114,7 @@
                     <ul class="nav sub-navbar-nav">
 
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="orders-list.html">List</a>
+                            <a class="sub-nav-link" href="{{route('admin.orders.index')}}">List</a>
                         </li>
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="order-detail.html">Details</a>

@@ -50,7 +50,8 @@ Route::prefix('/admin')
             return view('admin.dashboard.index');
         })->name('dashboard');
 
-        Route::resource('orders', OrderController::class);
+        Route::resource('orders', OrderController::class)->middleware('checkPermission:Manage Orders');
+        Route::patch('orders/{order}/update-status', [OrderController::class, 'updateStatus'])->middleware('checkPermission:Manage Users')->name('orders.updateStatus');
         Route::resource('users', UserController::class)->middleware('checkPermission:Manage Users');
         Route::resource('roles', RoleController::class)->middleware('checkPermission:Manage Roles');
         Route::resource('brands', BrandController::class)->middleware('checkPermission:Manage Brands');
