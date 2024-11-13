@@ -27,6 +27,9 @@ class Product extends Model
         'is_hot',
         'is_sale',
         'is_home',
+        'is_new',
+        'is_featured',
+        'is_best_seller'
     ];
 
     protected $casts = [
@@ -36,6 +39,9 @@ class Product extends Model
         'is_hot' => 'boolean',
         'is_sale' => 'boolean',
         'is_home' => 'boolean',
+        'is_new' => 'boolean',
+        'is_featured' => 'boolean',
+        'is_best_seller' => 'boolean'
     ];
 
     public function categories()
@@ -60,7 +66,7 @@ class Product extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Tag::class, 'product_tags', 'product_id', 'tag_id');
     }
 
     public function orderItems()
@@ -68,8 +74,4 @@ class Product extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    public function reviews()
-    {
-        return $this->hasMany(ProductReview::class, 'product_id', 'id');
-    }
 }
