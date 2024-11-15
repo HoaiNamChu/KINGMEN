@@ -11,7 +11,7 @@ class ApiCreateProductController extends Controller
 {
     public function addAttribute(Request $request)
     {
-        $attribute = Attribute::query()->where('id', request('attribute_id'))->where('is_active', '=', 1)->with(['attributeValues' => function ($q) {
+        $attribute = Attribute::query()->where('id', request('attribute_id'))->with(['attributeValues' => function ($q) {
             $q->where('is_active', '=', 1);
         }])->first();
 //        return view('components.admin.products.product-attribute-value', compact('attribute'));
@@ -30,13 +30,13 @@ class ApiCreateProductController extends Controller
             $query->whereIn('id', $attributeValueIds);
         }])->get();
 
-        return response()->json([
-            'attributes' => $attributes,
-        ]);
+//        return response()->json([
+//            'attributes' => $attributes,
+//        ]);
 
-//        $productVariants = $this->generateVariant($attributes);
+        $productVariants = $this->generateVariant($attributes);
 
-//        return view('components.admin.products.product-variant', compact('productVariants'));
+        return view('admin.products.components.product-variant', compact('productVariants'));
     }
 
     private function generateVariant($productAttributes)

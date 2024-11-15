@@ -45,7 +45,7 @@
                         <label for="variant-quantity[{{ $attributeValueIds }}]" class="form-label">Stock</label>
                         <input type="number" id="variant-quantity[{{ $attributeValueIds }}]" name="product_variants[{{ $attributeValueIds }}][quantity]"
                                class="form-control" placeholder="Quantity">
-{{--                        <label class="form-label" for="variant-quantity[{{ $attributeValueIds }}]">Quantity</label>--}}
+                        {{--                        <label class="form-label" for="variant-quantity[{{ $attributeValueIds }}]">Quantity</label>--}}
                         {{--                        <input type="text" class="form-control" id="variant-quantity[{{ $attributeValueIds }}]"--}}
                         {{--                               placeholder="Stocks"--}}
                         {{--                               name="product_variants[{{ $attributeValueIds }}][variant_quantity]">--}}
@@ -62,14 +62,14 @@
                                    class="form-control"
                                    placeholder="000">
                         </div>
-{{--                        <label class="form-label" for="variant-price[{{ $attributeValueIds }}]">Price</label>--}}
-{{--                        <div class="input-group has-validation mb-3">--}}
-{{--                            <span class="input-group-text" id="variant-price-addon">$</span>--}}
-{{--                            <input type="text" class="form-control" id="variant-price[{{ $attributeValueIds }}]"--}}
-{{--                                   name="product_variants[{{ $attributeValueIds }}][variant_price]"--}}
-{{--                                   placeholder="Enter price" aria-label="Price"--}}
-{{--                                   aria-describedby="product-price-addon">--}}
-{{--                        </div>--}}
+                        {{--                        <label class="form-label" for="variant-price[{{ $attributeValueIds }}]">Price</label>--}}
+                        {{--                        <div class="input-group has-validation mb-3">--}}
+                        {{--                            <span class="input-group-text" id="variant-price-addon">$</span>--}}
+                        {{--                            <input type="text" class="form-control" id="variant-price[{{ $attributeValueIds }}]"--}}
+                        {{--                                   name="product_variants[{{ $attributeValueIds }}][variant_price]"--}}
+                        {{--                                   placeholder="Enter price" aria-label="Price"--}}
+                        {{--                                   aria-describedby="product-price-addon">--}}
+                        {{--                        </div>--}}
 
                     </div>
                 </div>
@@ -85,7 +85,7 @@
                                    class="form-control"
                                    placeholder="000">
                         </div>
-{{--                        <label class="form-label" for="variant-price-sale[{{ $attributeValueIds }}]">Price--}}
+                        {{--                        <label class="form-label" for="variant-price-sale[{{ $attributeValueIds }}]">Price--}}
                         {{--                            Sale</label>--}}
                         {{--                        <div class="input-group mb-3">--}}
                         {{--                                                        <span class="input-group-text"--}}

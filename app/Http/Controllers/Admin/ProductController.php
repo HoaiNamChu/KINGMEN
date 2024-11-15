@@ -11,6 +11,7 @@ use App\Models\Product;
 use App\Models\Tag;
 use App\Models\Variant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -34,12 +35,30 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $attributes = Attribute::query()->where('is_active', '=', 1)->pluck('name', 'id');
-        $tags = Tag::query()->where('is_active', '=', 1)->pluck('name', 'id');
-        $brands = Brand::query()->where('is_active', '=', 1)->pluck('name', 'id');
-        $categories = Category::query()->whereNull('parent_id')->where('is_active', '=', 1)->with(['children' => function ($q) {
-            $q->where('is_active', '=', 1);
-        }])->get();
+        $attributes = Attribute::query()
+            ->where('is_active', '=', 1)
+            ->orderBy('name', 'ASC')
+            ->pluck('name', 'id');
+
+        $tags = Tag::query()
+            ->where('is_active', '=', 1)
+            ->orderBy('name', 'ASC')
+            ->pluck('name', 'id');
+
+        $brands = Brand::query()
+            ->where('is_active', '=', 1)
+            ->orderBy('name', 'ASC')
+            ->pluck('name', 'id');
+
+        $categories = Category::query()
+            ->whereNull('parent_id')
+            ->where('is_active', '=', 1)
+            ->with(['children' => function ($q) {
+                $q->where('is_active', '=', 1)->orderBy('name', 'ASC');
+            }])
+            ->orderBy('name', 'ASC')
+            ->get();
+
         return view(self::PATH_VIEW . __FUNCTION__, compact('attributes', 'tags', 'brands', 'categories'));
     }
 
@@ -52,6 +71,7 @@ class ProductController extends Controller
             $data = [
                 'name' => request('name'),
                 'sku' => request('sku'),
+                'price_import' => request('price_import') ?? 0,
                 'price' => request('price') ?? 0,
                 'price_sale' => request('price_sale') ?? 0,
                 'description' => request('description'),
@@ -64,6 +84,7 @@ class ProductController extends Controller
                 'is_sale' => request('is_sale') ?? 0,
                 'is_hot' => request('is_hot') ?? 0,
                 'is_home' => request('is_home') ?? 0,
+                'is_best_seller' => request('is_best_seller') ?? 0,
             ];
 
             if ($request->hasFile('image')) {
@@ -101,6 +122,7 @@ class ProductController extends Controller
             $data = [
                 'name' => request('name'),
                 'sku' => request('sku'),
+                'price_import' => request('price_import') ?? 0,
                 'price' => 0,
                 'price_sale' => 0,
                 'quantity' => 0,
@@ -113,6 +135,7 @@ class ProductController extends Controller
                 'is_sale' => request('is_sale') ?? 0,
                 'is_hot' => request('is_hot') ?? 0,
                 'is_home' => request('is_home') ?? 0,
+                'is_best_seller' => request('is_best_seller') ?? 0,
             ];
 
             if ($request->hasFile('image')) {
@@ -128,7 +151,7 @@ class ProductController extends Controller
 
             $dataVariants = $request->product_variants;
 
-            dd($dataVariants);
+//            dd($dataVariants);
 
             try {
                 DB::beginTransaction();
@@ -185,15 +208,38 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $attributes = Attribute::query()->pluck('name', 'id');
-        $tags = Tag::query()->pluck('name', 'id');
-        $brands = Brand::query()->pluck('name', 'id');
-        $categories = Category::query()->whereNull('parent_id')->with('children')->get();
+//        dd($product);
+
+        $attributes = Attribute::query()
+            ->where('is_active', '=', 1)
+            ->orderBy('name', 'ASC')
+            ->pluck('name', 'id');
+
+        $tags = Tag::query()
+            ->where('is_active', '=', 1)
+            ->orderBy('name', 'ASC')
+            ->pluck('name', 'id');
+
+        $brands = Brand::query()
+            ->where('is_active', '=', 1)
+            ->orderBy('name', 'ASC')
+            ->pluck('name', 'id');
+
+        $categories = Category::query()
+            ->whereNull('parent_id')
+            ->where('is_active', '=', 1)
+            ->with(['children' => function ($q) {
+                $q->where('is_active', '=', 1)->orderBy('name', 'ASC');
+            }])
+            ->orderBy('name', 'ASC')
+            ->get();
         $product->load([
             'categories',
             'tags',
+            'variants',
+            'variants.attributeValues'
         ]);
-        return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'attributes', 'tags', 'brands', 'categories'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact(['product', 'attributes', 'tags', 'brands', 'categories']));
     }
 
     /**
@@ -206,6 +252,7 @@ class ProductController extends Controller
                 'name' => request('name'),
                 'sku' => request('sku'),
                 'slug' => Str::slug(request('slug')) ?? $product->slug,
+                'price_import' => request('price_import') ?? 0,
                 'price' => request('price') ?? 0,
                 'price_sale' => request('price_sale') ?? 0,
                 'description' => request('description'),
@@ -218,6 +265,7 @@ class ProductController extends Controller
                 'is_sale' => request('is_sale') ?? 0,
                 'is_hot' => request('is_hot') ?? 0,
                 'is_home' => request('is_home') ?? 0,
+                'is_best_seller' => request('is_best_seller') ?? 0,
             ];
 
             if ($request->hasFile('image')) {
@@ -231,6 +279,7 @@ class ProductController extends Controller
             $galleries = request('galleries');
 
             try {
+                $product->update($data);
 
                 if ($product->variants->count()) {
                     foreach ($product->variants as $variant) {
@@ -239,13 +288,13 @@ class ProductController extends Controller
 
                     $product->variants()->delete();
                 }
-                $product->update($data);
 
                 $product->tags()->sync($tags);
 
                 $product->categories()->sync($categories);
 
                 if (!empty($galleries)) {
+                    $product->galleries()->delete();
                     foreach ($galleries as $gallery) {
                         Gallery::query()->create([
                             'product_id' => $product->id,
@@ -264,6 +313,7 @@ class ProductController extends Controller
                 'name' => request('name'),
                 'sku' => request('sku'),
                 'slug' => Str::slug(request('slug')) ?? $product->slug,
+                'price_import' => 0,
                 'price' => 0,
                 'price_sale' => 0,
                 'description' => request('description'),
@@ -275,6 +325,7 @@ class ProductController extends Controller
                 'is_sale' => request('is_sale') ?? 0,
                 'is_hot' => request('is_hot') ?? 0,
                 'is_home' => request('is_home') ?? 0,
+                'is_best_seller' => request('is_best_seller') ?? 0,
             ];
 
             if ($request->hasFile('image')) {
@@ -301,9 +352,13 @@ class ProductController extends Controller
                 $product->categories()->sync($categories);
 
                 $product->tags()->sync($tags);
-
+                $unDelVariantId  = [];
                 foreach ($dataVariants as $key => $variant) {
-                    if (Variant::query()->where('id', $key)->exists()) {
+
+                    if (Variant::query()->where('id', '===', $key)->exists()) {
+
+                        $unDelVariantId[] = $key;
+
                         $item = Variant::query()->findOrFail($key);
                         if (isset($variant['image'])) {
                             $variant['image'] = Storage::put(self::PATH_UPLOAD, $variant['image']);
@@ -323,10 +378,14 @@ class ProductController extends Controller
                         }
                         $productVariant = Variant::query()->create($variant);
                         $productVariant->attributeValues()->attach($valueIds);
+
+                        $unDelVariantId[] = $productVariant->id;
                     }
+
+
                 }
 
-
+                dd($unDelVariantId);
                 if (!empty($galleries)) {
                     foreach ($product->galleries as $gallery) {
                         $gallery->delete();

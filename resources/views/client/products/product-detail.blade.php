@@ -36,7 +36,7 @@
                                         <div class="swiper-wrapper">
                                             <div class="swiper-slide" style="display: flex; justify-content: center; align-items: center;">
                                                 <a class="lightbox-image" data-fancybox="gallery"
-                                                   href="{{ Storage::url($product->image) }}">
+                                                   href="{{ Storage::url($product->image) }}" style="height: 100%; width: 100%;">
                                                     <img src="{{ Storage::url($product->image) }}" width="570px"
                                                          height="541px" alt="Image-HasTech">
                                                 </a>
@@ -45,7 +45,7 @@
                                                 @foreach($product->galleries as $item)
                                                     <div class="swiper-slide " style="display: flex; justify-content: center; align-items: center;">
                                                         <a class="lightbox-image" data-fancybox="gallery"
-                                                           href="{{ Storage::url($item->image) }}">
+                                                           href="{{ Storage::url($item->image) }}" style="height: 100%; width: 100%;">
                                                             <img src="{{ Storage::url($item->image) }}" width="570px"
                                                                  height="541px" alt="Image-HasTech">
                                                         </a>

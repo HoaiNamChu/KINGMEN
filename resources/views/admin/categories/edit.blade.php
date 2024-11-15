@@ -72,7 +72,7 @@
                                                 @php
                                                     $dash = ' ';
                                                 @endphp
-                                                @include('components.admin.categories.edit', ['item'=>$item, 'dash' => $dash, 'category' => $category])
+                                                @include('admin.categories.components.edit', ['item'=>$item, 'dash' => $dash, 'category' => $category])
                                             @endforeach
                                         </select>
                                     </div>

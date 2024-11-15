@@ -15,6 +15,7 @@ class Product extends Model
         'name',
         'slug',
         'sku',
+        'price_import',
         'price',
         'price_sale',
         'image',

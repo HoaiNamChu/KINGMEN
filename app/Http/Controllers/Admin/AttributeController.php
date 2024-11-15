@@ -20,7 +20,10 @@ class AttributeController extends Controller
 
     public function index()
     {
-        $attributes = Attribute::query()->with('attributeValues')->latest()->get();
+        $attributes = Attribute::query()
+            ->with('attributeValues')
+            ->latest()
+            ->paginate(10);
         return view(self::PATH_VIEW . __FUNCTION__, compact('attributes'));
     }
 

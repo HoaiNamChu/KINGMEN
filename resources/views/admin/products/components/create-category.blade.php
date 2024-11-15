@@ -1,5 +1,5 @@
 <div class="form-check mb-2" style="margin-left: {{ $marginLeft }}px ">
-    <input class="form-check-input" name="category_id[]" @checked(in_array($category->id, $product->categories->pluck('id')->toArray())) value="{{ $category->id }}" type="checkbox"
+    <input class="form-check-input" name="category_id[]" value="{{ $category->id }}" type="checkbox"
            id="{{ $category->id }}">
     <label class="form-check-label" for="{{ $category->id }}">
         {{ $category->name }}
@@ -10,6 +10,6 @@
         $marginLeft += 15;
     @endphp
     @foreach($category->children as $childItem)
-        @include('components.admin.products.edit-category',['category'=>$childItem, 'marginLeft' => $marginLeft, 'product' => $product])
+        @include('admin.products.components.create-category',['category'=>$childItem, 'marginLeft' => $marginLeft])
     @endforeach
 @endif

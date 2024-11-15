@@ -4,6 +4,6 @@
         $dash .= '--';
     @endphp
     @foreach($item->children as $childrenItem)
-        @include('components.admin.categories.edit', ['item'=>$childrenItem, 'dash' => $dash, 'category' => $category])
+        @include('admin.categories.components.edit', ['item'=>$childrenItem, 'dash' => $dash, 'category' => $category])
     @endforeach
 @endif

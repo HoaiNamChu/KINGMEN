@@ -91,6 +91,18 @@
                                     <div class="row pt-3 pb-3" id="general-item">
                                         <div class="col-lg-6">
                                             <div class="mb-3">
+                                                <label for="product-price-import" class="form-label">Price Import</label>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text fs-20"><i
+                                                            class="bx bx-dollar"></i></span>
+                                                    <input type="number" name="price_import" id="product-price-import"
+                                                           class="form-control"
+                                                           placeholder="000">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
                                                 <label for="product-price" class="form-label">Price</label>
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text fs-20"><i
@@ -100,6 +112,8 @@
                                                            placeholder="000">
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="col-lg-6">
                                             <div class="mb-3">
                                                 <label for="product-price-sale" class="form-label">Price Sale</label>
                                                 <div class="input-group mb-3">
@@ -172,16 +186,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="p-3 bg-light mb-3 rounded">
-                        <div class="row justify-content-end g-2">
-                            <div class="col-lg-2">
-                                <button type="submit" class="btn btn-outline-secondary w-100">Create Product</button>
-                            </div>
-                            <div class="col-lg-2">
-                                <a href="{{ route('admin.products.index') }}" class="btn btn-primary w-100">Cancel</a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="col-xl-3 col-lg-4">
@@ -214,6 +218,11 @@
                                 <input class="form-check-input" name="is_sale" value="1" type="checkbox" role="switch"
                                        id="is-sale">
                                 <label class="form-check-label" for="is-sale">Is Sale</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" name="is_best_seller" value="1" type="checkbox" role="switch"
+                                       id="is-best-seller">
+                                <label class="form-check-label" for="is-best-seller">Is Best Seller</label>
                             </div>
                             <div class="form-check form-switch">
                                 <input class="form-check-input" name="is_home" value="1" type="checkbox" role="switch"
@@ -268,7 +277,7 @@
                                     @php
                                         $marginLeft = 0;
                                     @endphp
-                                    @include('components.admin.products.create-category', ['category'=>$item, 'marginLeft'=>$marginLeft])
+                                    @include('admin.products.components.create-category', ['category'=>$item, 'marginLeft'=>$marginLeft])
                                 @endforeach
                             </div>
 
@@ -308,6 +317,16 @@
                                         @endforeach
                                     </select>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-light mb-3 rounded">
+                        <div class="row justify-content-center g-2">
+                            <div class="col-lg-7">
+                                <button type="submit" class="btn btn-outline-secondary w-100">Create Product</button>
+                            </div>
+                            <div class="col-lg-5">
+                                <a href="{{ route('admin.products.index') }}" class="btn btn-primary w-100">Cancel</a>
                             </div>
                         </div>
                     </div>
@@ -492,20 +511,22 @@
                         attributeValueIds: attributeValueIds
                     },
                     success: function (response) {
-                        var arr = [];
-                        response.attributes.forEach(function (attributes){
-                            attributes.attribute_values.forEach(function (attributeValue){
-                                arr.push(attributeValue);
-                            });
-                        });
-                        var results = [[]]
-                        response.attributes.forEach(function (value1) {
-                            arr.forEach(function (attrValue){
 
-                            });
-                        });
-                        console.log(results)
-                        // $('#variations-item').append(response);
+                        // var attributes = response.attributes
+                        //
+                        // function variants(attributes){
+                        //     for (i = 0; i < attributes.length; i++) {
+                        //         for (j = 0; j < attributes[i].attribute_values.length; j++) {
+                        //             arrs.push(attributes[i].attribute_values[j])
+                        //         }
+                        //     }
+                        // }
+                        //
+                        // var vairants1 = variants(attributes)
+                        //
+                        // console.log(vairants1)
+
+                        $('#variations-item').append(response);
                     },
                     error: function (response) {
 

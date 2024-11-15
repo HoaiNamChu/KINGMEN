@@ -26,7 +26,7 @@
             <span class="badge bg-danger rounded-pill me-1">In Active</span>
         @endif
     </td>
-    <td>{{ date_format($item->created_at ,'d/m/Y') }}</td>
+    <td>{{ isset($item->created_at) ? date_format($item->created_at ,'d/m/Y') : '' }}</td>
     <td>
         <div class="d-flex gap-2">
             <a href="#!" class="btn btn-light btn-sm">
@@ -56,6 +56,6 @@
         $dash .= '--';
     @endphp
     @foreach($item->children as $childrenItem)
-        @include('components.admin.categories.index', ['item' => $childrenItem, 'dash' => $dash])
+        @include('admin.categories.components.index', ['item' => $childrenItem, 'dash' => $dash])
     @endforeach
 @endif

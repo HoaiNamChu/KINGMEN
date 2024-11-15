@@ -10,17 +10,19 @@ class ProductController extends Controller
 {
 
     const PATH_VIEW = 'client.products.';
-    public function productDetail(Request $request){
+
+    public function productDetail(Request $request)
+    {
         $product = Product::query()
             ->where('slug', $request->slug)
             ->first();
         $relatedProducts = Product::query()
             ->where('id', '!=', $product->id)
-            ->orwhere('brand_id', $product->brand_id)
+            ->where('brand_id', $product->brand_id)
             ->where('is_active', '=', 1)
             ->latest()
             ->limit(8)
             ->get();
-        return view(self::PATH_VIEW.'product-detail', compact('product', 'relatedProducts'));
+        return view(self::PATH_VIEW . 'product-detail', compact('product', 'relatedProducts'));
     }
 }

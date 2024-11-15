@@ -19,7 +19,7 @@ class TagController extends Controller
 
     public function index()
     {
-        $tags = Tag::query()->latest()->get();
+        $tags = Tag::query()->latest()->paginate(10);
         return view(self::PATH_VIEW . __FUNCTION__, compact('tags'));
     }
 

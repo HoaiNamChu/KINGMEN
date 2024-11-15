@@ -3692,6 +3692,7 @@ table p {
     z-index: 1;
 }
 
+
 .product-item .inner-content .product-thumb img {
     border-radius: 13px;
     transition: all 0.4s ease-out;
@@ -3700,6 +3701,8 @@ table p {
     -ms-transition: all 0.4s ease-out;
     -o-transition: all 0.4s ease-out;
     width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .product-item .inner-content .product-thumb .product-flag {
@@ -4643,6 +4646,8 @@ table p {
     border-radius: 15px;
     /*border: 2px solid #e1e1e1;*/
     width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .product-single-item .product-single-thumb .single-product-nav {
@@ -4664,6 +4669,11 @@ table p {
     -moz-transition: all 0.3s ease-out;
     -ms-transition: all 0.3s ease-out;
     -o-transition: all 0.3s ease-out;
+
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
 }
 
 .product-single-item .product-single-thumb .single-product-nav .swiper-slide-thumb-active {

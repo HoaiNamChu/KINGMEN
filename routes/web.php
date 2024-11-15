@@ -60,7 +60,7 @@ Route::prefix('/admin')
 
         Route::resource('users', UserController::class)->middleware('checkPermission:Manage Users');
         Route::resource('roles', RoleController::class)->middleware('checkPermission:Manage Roles');
-        Route::resource('brands', BrandController::class)->middleware('checkPermission:Manage Brands');
+//        Route::resource('brands', BrandController::class)->middleware('checkPermission:Manage Brands');
         Route::resource('permissions', PermissionController::class)->middleware('checkPermission:Manage Permissions');
 
     });
