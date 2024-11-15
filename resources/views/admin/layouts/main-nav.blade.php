@@ -32,29 +32,29 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link menu-arrow" href="#sidebarProducts" data-bs-toggle="collapse" role="button"
-                   aria-expanded="false" aria-controls="sidebarProducts">
+                <a class="nav-link menu-arrow {{ collect(['products', 'categories', 'tags', 'attributes'])->contains(fn($keyword) => Str::contains(request()->path(),['products', 'categories', 'tags', 'attributes'])) ? 'active' : '' }}" href="#sidebarProducts" data-bs-toggle="collapse" role="button"
+                   aria-expanded="{{ collect(['products', 'categories', 'tags', 'attributes'])->contains(fn($keyword) => Str::contains(request()->path(),['products', 'categories', 'tags', 'attributes'])) ? 'true' : 'false' }}" aria-controls="sidebarProducts">
                                    <span class="nav-icon">
                                         <iconify-icon icon="solar:t-shirt-bold-duotone"></iconify-icon>
                                    </span>
                     <span class="nav-text"> Products </span>
                 </a>
-                <div class="collapse" id="sidebarProducts">
+                <div class="collapse {{ collect(['products', 'categories', 'tags', 'attributes'])->contains(fn($keyword) => Str::contains(request()->path(),['products', 'categories', 'tags', 'attributes'])) ? 'show' : '' }}" id="sidebarProducts">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="#">List</a>
+                            <a class="sub-nav-link" href="{{ route('admin.products.index') }}">List</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="#">Create</a>
+                            <a class="sub-nav-link" href="{{ route('admin.products.create') }}">Create</a>
                         </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="#">Categories</a>
+                        <li class="sub-nav-item {{ strpos(url()->current(), 'categories') ? 'active' : '' }}">
+                            <a class="sub-nav-link {{ strpos(url()->current(), 'categories') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}">Categories</a>
                         </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="#">Tags</a>
+                        <li class="sub-nav-item {{ strpos(url()->current(), 'tags') ? 'active' : '' }}">
+                            <a class="sub-nav-link {{ strpos(url()->current(), 'tags') ? 'active' : '' }}" href="{{ route('admin.tags.index') }}">Tags</a>
                         </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="#">Attributes</a>
+                        <li class="sub-nav-item {{ strpos(url()->current(), 'attributes') ? 'active' : '' }}">
+                            <a class="sub-nav-link {{ strpos(url()->current(), 'attributes') ? 'active' : '' }}" href="{{ route('admin.attributes.index') }}">Attributes</a>
                         </li>
                     </ul>
                 </div>
@@ -71,10 +71,10 @@
                 <div class="collapse" id="sidebarBrand">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="#">List</a>
+                            <a class="sub-nav-link" href="{{ route('admin.brands.index') }}">List</a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="#">Create</a>
+                            <a class="sub-nav-link" href="{{ route('admin.brands.create') }}">Create</a>
                         </li>
                     </ul>
                 </div>
@@ -115,15 +115,6 @@
 
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="{{route('admin.orders.index')}}">List</a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="order-detail.html">Details</a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="order-cart.html">Cart</a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="order-checkout.html">Check Out</a>
                         </li>
                     </ul>
                 </div>
@@ -307,7 +298,7 @@
             <li class="menu-title mt-2">Other Apps</li>
 
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="apps-chat.html">
                                    <span class="nav-icon">
                                         <iconify-icon icon="solar:chat-round-bold-duotone"></iconify-icon>
                                    </span>

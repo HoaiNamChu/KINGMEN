@@ -1,7 +1,7 @@
 <div class="product-item">
     <div class="inner-content">
         <div class="product-thumb">
-            <a href="{{ route('product.detail', $item->slug) }}">
+            <a href="{{ route('product.detail', $item->slug) }}" style="width: 100%; height: 100%">
                 <img src="{{ Storage::url($item->image) }}" width="270"
                      height="274" alt="Image-HasTech">
             </a>

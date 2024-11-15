@@ -22,7 +22,7 @@ class BrandController extends Controller
 
     public function index()
     {
-        $brands = Brand::query()->with('products')->latest()->get();
+        $brands = Brand::query()->with('products')->latest()->paginate(10);
         return view(self::PATH_VIEW . __FUNCTION__, compact('brands'));
     }
 

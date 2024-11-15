@@ -55,9 +55,9 @@
                                     <div>
                                         <label for="description" class="form-label">Description</label>
                                         <div class="mb-3">
-                                            <div id="snow-editor" style="height: 300px;">
-
-                                            </div>
+                                            <textarea id="editor" name="description">
+                                                {!! $product->description !!}
+                                            </textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -104,6 +104,22 @@
                                     <div class="row pt-3 pb-3" id="general-item">
                                         <div class="col-lg-6">
                                             <div class="mb-3">
+                                                <label for="product-price-import" class="form-label">Price Import</label>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text fs-20"><i
+                                                            class="bx bx-dollar"></i></span>
+                                                    <input type="number" name="price_import"
+                                                           @if(!$product->variants->count())
+                                                               value="{{$product->price}}"
+                                                           @endif
+                                                           id="product-price-import"
+                                                           class="form-control"
+                                                           placeholder="000">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="mb-3">
                                                 <label for="product-price" class="form-label">Price</label>
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text fs-20"><i
@@ -117,6 +133,8 @@
                                                            placeholder="000">
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="col-lg-6">
                                             <div class="mb-3">
                                                 <label for="product-price-sale" class="form-label">Price Sale</label>
                                                 <div class="input-group mb-3">
@@ -311,16 +329,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="p-3 bg-light mb-3 rounded">
-                        <div class="row justify-content-end g-2">
-                            <div class="col-lg-2">
-                                <button type="submit" class="btn btn-outline-secondary w-100">Update Product</button>
-                            </div>
-                            <div class="col-lg-2">
-                                <a href="{{ route('admin.products.index') }}" class="btn btn-primary w-100">Cancel</a>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="col-xl-3 col-lg-4">
@@ -354,6 +362,12 @@
                                        type="checkbox" role="switch"
                                        id="is-sale">
                                 <label class="form-check-label" for="is-sale">Is Sale</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" @checked($product->is_best_seller) name="is_best_seller" value="1"
+                                       type="checkbox" role="switch"
+                                       id="is-best-seller">
+                                <label class="form-check-label" for="is-best-seller">Is Best Seller</label>
                             </div>
                             <div class="form-check form-switch">
                                 <input class="form-check-input" @checked($product->is_home) name="is_home" value="1"
@@ -415,7 +429,7 @@
                                     @php
                                         $marginLeft = 0;
                                     @endphp
-                                    @include('components.admin.products.edit-category', ['category'=>$item, 'marginLeft'=>$marginLeft, 'product' => $product])
+                                    @include('admin.products.components.edit-category', ['category'=>$item, 'marginLeft'=>$marginLeft, 'product' => $product])
                                 @endforeach
                             </div>
 
@@ -460,6 +474,16 @@
                             </div>
                         </div>
                     </div>
+                    <div class="p-3 bg-light mb-3 rounded">
+                        <div class="row justify-content-center g-2">
+                            <div class="col-lg-7">
+                                <button type="submit" class="btn btn-outline-secondary w-100">Update Product</button>
+                            </div>
+                            <div class="col-lg-5">
+                                <a href="{{ route('admin.products.index') }}" class="btn btn-primary w-100">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>
@@ -473,9 +497,20 @@
     <script src="{{ asset('theme/admin/assets/js/components/form-quilljs.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="{{ asset('theme/admin/assets/vendor/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
 @endsection
 
 @section('script')
+    <script>
+        ClassicEditor
+            .create( document.querySelector( '#editor' ) )
+            .then( editor => {
+                window.editor = editor;
+            } )
+            .catch( error => {
+                console.error( 'There was a problem initializing the editor.', error );
+            } );
+    </script>
     <script>
 
 
@@ -515,15 +550,78 @@
                 // var productAttributesHtml = ``
                 if (attribute && $('#block-attribute-' + attribute).length === 0) {
                     $.ajax({
-                        url: `/api/addAttribute/${attribute}`,
-                        type: 'GET',
+                        url: `{{ route('addAttribute') }}`,
+                        type: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            attribute_id: attribute
+                        },
                         success: function (response) {
-                            $('#product-attributes').append(response);
+                            var attributeValueHtml = '';
+                            response.attribute.attribute_values.forEach(function (attributeValue) {
+                                attributeValueHtml += '<option value="' + attributeValue.id + '">' + attributeValue.name + '</option>';
+                            });
+                            var attributeHtml = `<div id="block-attribute-${response.attribute.id}" class="block-attributes">
+                                <h4 class="d-inline-block">${response.attribute.name}</h4>
+                            <button type="button" class="btn btn-sm btn-danger float-end btn-remove-attribute"
+                                    id="btn-remove-${response.attribute.id}">
+                                Remmove
+                            </button>
+                            <hr>
+                                <div>
+                                    <table style="width: 100%;">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 30%;">Name:</th>
+                                            <th style="width: 70%;">Values:</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <strong>${response.attribute.name}</strong>
+                                            </td>
+                                            <td>
+                                                <select id="select-${response.attribute.id}" style="width: 100%" multiple>
+                                                     ${attributeValueHtml}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-sm btn-primary btn-selectAll-attribute float-start"
+                                                        id="btn-selectAll-${response.attribute.id}">Select
+                                                    all
+                                                </button>
+                                                <button type="button"
+                                                        class="btn btn-sm btn-warning btn-selectNone-attribute float-start"
+                                                        id="btn-selectNone-${response.attribute.id}">Select
+                                                    none
+                                                </button>
+                                                <button type="button"
+                                                        class="btn btn-sm btn-primary btn-create-attribute float-end"
+                                                        id="btn-create-${response.attribute.id}">
+                                                    Create
+                                                    value
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <hr>
+                                </div>
+                                `;
+                            $('#product-attributes').append(attributeHtml);
                             $('#attribute-option-' + attribute).prop('selected', false).prop('disabled', true);
                         },
                         error: function (xhr, status, error) {
 
                         }
+
                     });
                 }
 

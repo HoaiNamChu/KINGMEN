@@ -9,24 +9,37 @@ use Illuminate\Http\Request;
 
 class ApiCreateProductController extends Controller
 {
-    public function addAttribute(Request $request){
-        $attribute = Attribute::query()->where('id', request('id'))->with('attributeValues')->first();
-        return view('components.admin.products.product-attribute-value', compact('attribute'));
+    public function addAttribute(Request $request)
+    {
+        $attribute = Attribute::query()->where('id', request('attribute_id'))->with(['attributeValues' => function ($q) {
+            $q->where('is_active', '=', 1);
+        }])->first();
+//        return view('components.admin.products.product-attribute-value', compact('attribute'));
+        return response()->json([
+            'attribute' => $attribute,
+        ], 200);
     }
 
-    public function addAttributeValue(Request $request){
+
+    public function addAttributeValue(Request $request)
+    {
         $attributeValueIds = request()->input('attributeValueIds');
         $attributeIds = request()->input('attributeIds');
 
-        $attributes = Attribute::query()->whereIn('id', $attributeIds)->with(['attributeValues'=>function ($query) use($attributeValueIds) {
-            $query = $query->whereIn('id', $attributeValueIds);
+        $attributes = Attribute::query()->whereIn('id', $attributeIds)->with(['attributeValues' => function ($query) use ($attributeValueIds) {
+            $query->whereIn('id', $attributeValueIds);
         }])->get();
 
-        $productVariants = $this->generateCombinations($attributes);
+//        return response()->json([
+//            'attributes' => $attributes,
+//        ]);
 
-        return view('components.admin.products.product-variant', compact( 'productVariants'));
+        $productVariants = $this->generateVariant($attributes);
+
+        return view('admin.products.components.product-variant', compact('productVariants'));
     }
-    private function generateCombinations($productAttributes)
+
+    private function generateVariant($productAttributes)
     {
         $arrays = [];
         foreach ($productAttributes as $productAttribute) {
@@ -34,7 +47,7 @@ class ApiCreateProductController extends Controller
             $arrays[] = $values;
         }
 //        unset($arrays);
-        $filteredArray = array_filter($arrays, function($collection) {
+        $filteredArray = array_filter($arrays, function ($collection) {
             return !$collection->isEmpty();
         });
         $results = [[]];
