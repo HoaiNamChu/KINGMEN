@@ -1,36 +1,13 @@
 @extends('admin.layouts.main')
 
+@section('link')
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+@endsection
+
 @section('content')
     <div class="container-xxl">
 
         <div class="row">
-            <div class="col-xl-3 col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="bg-light text-center rounded bg-light">
-                            <img src="{{ \Illuminate\Support\Facades\Storage::url($brand->image) }}" alt="image"
-                                 class="img-fluid img-thumbnail" width="200"/>
-                        </div>
-                        <div class="mt-3">
-                            <h4>{{ $brand->name }}</h4>
-                            <div class="row">
-                                <div class="col-lg-4 col-4">
-                                    <p class="mb-1 mt-2">Created At :</p>
-                                    <h5 class="mb-0">{{ $brand->created_at }}</h5>
-                                </div>
-                                <div class="col-lg-4 col-4">
-                                    <p class="mb-1 mt-2">Stock :</p>
-                                    <h5 class="mb-0">46233</h5>
-                                </div>
-                                <div class="col-lg-4 col-4">
-                                    <p class="mb-1 mt-2">ID :</p>
-                                    <h5 class="mb-0">{{ $brand->id }}</h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="col-xl-9 col-lg-8 ">
                 <form action="{{ route('admin.brands.update', $brand) }}" method="post" enctype="multipart/form-data">
                     @csrf
@@ -130,25 +107,58 @@
                     </div>
                 </form>
             </div>
+            <div class="col-xl-3 col-lg-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="bg-light text-center rounded bg-light">
+                            <img src="{{ \Illuminate\Support\Facades\Storage::url($brand->image) }}" alt="image"
+                                 class="img-fluid img-thumbnail" width="200"/>
+                        </div>
+                        <div class="mt-3">
+                            <h4>{{ $brand->name }}</h4>
+                            <div class="row">
+                                <div class="col-lg-4 col-4">
+                                    <p class="mb-1 mt-2">Created At :</p>
+                                    <h5 class="mb-0">{{ $brand->created_at }}</h5>
+                                </div>
+                                <div class="col-lg-4 col-4">
+                                    <p class="mb-1 mt-2">Stock :</p>
+                                    <h5 class="mb-0">46233</h5>
+                                </div>
+                                <div class="col-lg-4 col-4">
+                                    <p class="mb-1 mt-2">ID :</p>
+                                    <h5 class="mb-0">{{ $brand->id }}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
 @section('lib-script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 @endsection
+
 @section('script')
+
     <script>
-        @if (session('success'))
-        Swal.fire({
-            title: 'Good job!',
-            text: '{{ session('success') }}',
-            icon: 'success',
-            showCancelButton: false,
-            confirmButtonClass: 'btn btn-primary w-xs me-2 mt-2',
-            cancelButtonClass: 'btn btn-danger w-xs mt-2',
-            buttonsStyling: false,
-            showCloseButton: true
-        })
+
+        @if(session('success'))
+        Toastify({
+
+            text: "{{ session('success') }}",
+
+            duration: 3000,
+
+            gravity: top,
+
+            close: true,
+
+        }).showToast();
         @endif
+
     </script>
+
 @endsection

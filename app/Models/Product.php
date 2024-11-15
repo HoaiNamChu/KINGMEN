@@ -22,6 +22,8 @@ class Product extends Model
         'description',
         'quantity',
         'is_active',
+        'is_featured',
+        'is_new',
         'is_hot',
         'is_sale',
         'is_home',
@@ -32,6 +34,8 @@ class Product extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
+        'is_featured' => 'boolean',
+        'is_new' => 'boolean',
         'is_hot' => 'boolean',
         'is_sale' => 'boolean',
         'is_home' => 'boolean',
@@ -50,8 +54,9 @@ class Product extends Model
         return $this->belongsTo(Brand::class);
     }
 
-    public function galleries(){
-        return $this->hasMany(Gallery::class);
+    public function galleries()
+    {
+        return $this->hasMany(Gallery::class, 'product_id', 'id');
     }
 
     public function variants()
@@ -64,7 +69,8 @@ class Product extends Model
         return $this->belongsToMany(Tag::class, 'product_tags', 'product_id', 'tag_id');
     }
 
-    public function orderItems(){
+    public function orderItems()
+    {
         return $this->hasMany(OrderItem::class);
     }
 

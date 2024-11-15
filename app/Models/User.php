@@ -25,7 +25,8 @@ class User extends Authenticatable
         'phone',
         'address',
         'avatar',
-        'is_active'
+        'is_active',
+        'google_id'
     ];
 
     /**
@@ -69,7 +70,11 @@ class User extends Authenticatable
 
     public function cart()
     {
-        return $this->hasOne(Cart::class);
+        return $this->hasOne(Cart::class, 'user_id', 'id');
     }
+    public function isActive()
+{
+    return $this->is_active == 1; // Hoặc return (bool) $this->is_active;
+}
 
 }

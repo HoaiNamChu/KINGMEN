@@ -1,10 +1,25 @@
 <?php
 
+
+use App\Http\Controllers\Admin\AttributeController;
+use App\Http\Controllers\Admin\AttributeValueController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\TagController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\PermissionController;;
+use App\Http\Controllers\Client\AccountGoogleController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Client\OrderClientController;
+
+
+
 
 
 /*
@@ -30,22 +45,27 @@ Route::prefix('/')->group(function () {
     //Route product
     Route::get('/product/{slug}', [\App\Http\Controllers\Client\ProductController::class, 'productDetail'])->name('product.detail');
 
+    Route::get('/account', [AccountGoogleController::class, 'index'])->name('account.index');
+    Route::get('/order/{id}', [OrderClientController::class, 'show'])->name('order.detail')->middleware('auth');
+    Route::post('/order/{id}/cancel', [OrderClientController::class, 'cancel'])->name('order.cancel')->middleware('auth');
+
+
+
+
 });
-
-
-
-
 
 // viết các route admin vào đây
 Route::prefix('/admin')
     ->as('admin.')
-    ->middleware(['auth', 'isAdmin'])
+//    ->middleware(['auth', 'isAdmin'])
     ->group(function () {
         Route::get('/', function () {
 
             return view('admin.dashboard.index');
-        });
+        })->name('dashboard');
 
+        Route::resource('orders', OrderController::class);
+        Route::patch('orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
         Route::resource('users', UserController::class)->middleware('checkPermission:Manage Users');
         Route::resource('roles', RoleController::class)->middleware('checkPermission:Manage Roles');
         Route::resource('brands', BrandController::class)->middleware('checkPermission:Manage Brands');
