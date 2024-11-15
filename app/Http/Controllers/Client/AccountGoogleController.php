@@ -81,18 +81,19 @@ class AccountGoogleController extends Controller
 
     // View detail account
     public function index()
-    {
-        $user = Auth::user();
+{
+    $user = Auth::user();
 
-        if ($user) {
-            // Lấy dữ liệu của người dùng theo ID
-            $userData = User::find($user->id);
-        } else {
-            return redirect()->route('login'); // Redirect đến trang đăng nhập 
-        }
-
-        return view('client.account.index', compact('userData'));
+    if (!$user) {
+        return redirect()->route('login'); // Redirect đến trang đăng nhập
     }
+
+    // Lấy danh sách đơn hàng của user
+    $orders = $user->orders;
+
+    return view('client.account.index', compact('user', 'orders'));
+}
+
 
     // register
     public function create()

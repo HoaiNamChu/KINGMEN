@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\PermissionController;;
 use App\Http\Controllers\Client\AccountGoogleController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Client\OrderClientController;
+
 
 
 
@@ -45,6 +47,13 @@ Route::prefix('/')->group(function () {
     Route::get('/about', [\App\Http\Controllers\Client\AboutController::class, 'index'])->name('about');
     Route::get('/blog', [\App\Http\Controllers\Client\BlogController::class, 'index'])->name('blog');
     Route::get('/contact', [\App\Http\Controllers\Client\ContactController::class, 'index'])->name('contact');
+    Route::get('/account', [AccountGoogleController::class, 'index'])->name('account.index');
+    Route::get('/order/{id}', [OrderClientController::class, 'show'])->name('order.detail')->middleware('auth');
+    Route::post('/order/{id}/cancel', [OrderClientController::class, 'cancel'])->name('order.cancel')->middleware('auth');
+
+
+
+
 });
 
 // viết các route admin vào đây
@@ -57,7 +66,7 @@ Route::prefix('/admin')
         })->name('dashboard');
 
         Route::resource('orders', OrderController::class)->middleware('checkPermission:Manage Orders');
-        Route::patch('orders/{order}/update-status', [OrderController::class, 'updateStatus'])->middleware('checkPermission:Manage Users')->name('orders.updateStatus');
+        Route::patch('orders/{order}/update-status', [OrderController::class, 'updateStatus'])->middleware('checkPermission:Manage Orders')->name('orders.updateStatus');
         Route::resource('users', UserController::class)->middleware('checkPermission:Manage Users');
         Route::resource('roles', RoleController::class)->middleware('checkPermission:Manage Roles');
         Route::resource('brands', BrandController::class)->middleware('checkPermission:Manage Brands');

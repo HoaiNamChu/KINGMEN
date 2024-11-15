@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\OrderItem;
 use Illuminate\Validation\Rule;
-
+use App\Models\User;
 
 class OrderController extends Controller
 {
@@ -23,25 +23,16 @@ class OrderController extends Controller
     public function show($id)
 {
     // Lấy thông tin chi tiết của đơn hàng theo order_id
-    $orders = Order::where('id',$id)->get();
-    $orderItems = OrderItem::where('order_id', $id)
-        ->select(
-            'id',
-            'order_id',
-            'product_id',
-            'product_name',
-            'product_price',
-            'product_quantity',
-            'product_image',
-            'total_price',
-            'created_at',
-            'updated_at'
-        )
-        ->get();
+    $order = Order::findOrFail($id);
+    $orderItems = $order->orderItems; //lấy hết itemproduct của đơn hàng
+
+        $subtotal = $orderItems->sum('total_price'); //tính subtotal
+
+        $user = User::find($order->user_id); // Lấy thông tin người dùng dựa trên user_id từ bảng orders
+
 
     // Trả về kết quả
-
-    return view('admin.orders.detail', compact('orderItems','orders'));
+    return view('admin.orders.detail', compact('orderItems','order','subtotal', 'user'));
 
 }
 
