@@ -165,6 +165,23 @@
 
             close: true,
 
+
+        }).showToast();
+        @endif
+
+        @if(session('error'))
+        Toastify({
+
+            text: "{{ session('error') }}",
+
+            duration: 3000,
+
+            gravity: top,
+
+            close: true,
+
+            className: "bg-danger",
+
         }).showToast();
         @endif
 

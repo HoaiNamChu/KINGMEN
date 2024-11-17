@@ -24,21 +24,36 @@
             <a class="banner-link-overlay" href="shop.html"></a>
         </div>
         <div class="product-info">
-            <div class="category">
-                <ul>
-                    <li><a href="shop.html">Men</a></li>
-                    <li class="sep">/</li>
-                    <li><a href="shop.html">Women</a></li>
-                </ul>
-            </div>
+            @if($item->categories->count())
+                <div class="category">
+                    <ul>
+                        @foreach($item->categories as $cate)
+                            <li><a href="shop.html">{{ $cate->name }}</a></li>
+                            <li class="sep">/</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @else
+                <div class="category">
+                    <ul>
+                        <li><a href="shop.html">{{ 'No brand' }}</a></li>
+                    </ul>
+                </div>
+            @endif
             <h4 class="title"><a href="{{ route('product.detail', $item->slug) }}">{{ $item->name }}</a></h4>
             <div class="prices">
-                @if($item->is_sale && $item->price_sale)
-                    <span class="price-old">{{ number_format($item->price) }} VND</span>
-                    <span class="sep">-</span>
+                @if($item->variants->count())
                     <span class="price">{{ number_format($item->price_sale) }} VND</span>
-                @else
+                    <span class="sep">-</span>
                     <span class="price">{{ number_format($item->price) }} VND</span>
+                @else
+                    @if($item->is_sale && $item->price_sale)
+                        <span class="price-old">{{ number_format($item->price) }} VND</span>
+                        <span class="sep">-</span>
+                        <span class="price">{{ number_format($item->price_sale) }} VND</span>
+                    @else
+                        <span class="price">{{ number_format($item->price) }} VND</span>
+                    @endif
                 @endif
             </div>
         </div>

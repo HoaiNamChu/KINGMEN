@@ -1,5 +1,42 @@
 @extends('client.layouts.main')
 
+@section('styles')
+    <style>
+        /*.product-single-item .product-single-info .product-attribute .attribute-list {*/
+        /*    display: flex;*/
+        /*    gap: 10px;*/
+        /*}*/
+
+        /*.attribute-checkbox {*/
+        /*    position: relative;*/
+        /*    display: inline-block;*/
+        /*    cursor: pointer;*/
+        /*}*/
+
+        .attribute-checkbox input[type="checkbox"] {
+            display: none;
+        }
+
+        .attribute-checkbox span {
+            display: inline-block;
+            padding: 10px 20px;
+            border: 2px solid #000;
+            border-radius: 4px;
+            background-color: #fff;
+            text-align: center;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .attribute-checkbox input[type="checkbox"]:checked + span {
+            background-color: #000;
+            color: #fff;
+        }
+
+    </style>
+@endsection
+
 @section('content')
     <!--== Start Page Header Area Wrapper ==-->
     <div class="page-header-area" data-bg-img="assets/img/photos/bg3.webp">
@@ -34,18 +71,22 @@
                                 <div class="product-single-thumb">
                                     <div class="swiper-container single-product-thumb single-product-thumb-slider">
                                         <div class="swiper-wrapper">
-                                            <div class="swiper-slide" style="display: flex; justify-content: center; align-items: center;">
+                                            <div class="swiper-slide"
+                                                 style="display: flex; justify-content: center; align-items: center;">
                                                 <a class="lightbox-image" data-fancybox="gallery"
-                                                   href="{{ Storage::url($product->image) }}" style="height: 100%; width: 100%;">
+                                                   href="{{ Storage::url($product->image) }}"
+                                                   style="height: 100%; width: 100%;">
                                                     <img src="{{ Storage::url($product->image) }}" width="570px"
                                                          height="541px" alt="Image-HasTech">
                                                 </a>
                                             </div>
                                             @if($product->galleries->count())
                                                 @foreach($product->galleries as $item)
-                                                    <div class="swiper-slide " style="display: flex; justify-content: center; align-items: center;">
+                                                    <div class="swiper-slide "
+                                                         style="display: flex; justify-content: center; align-items: center;">
                                                         <a class="lightbox-image" data-fancybox="gallery"
-                                                           href="{{ Storage::url($item->image) }}" style="height: 100%; width: 100%;">
+                                                           href="{{ Storage::url($item->image) }}"
+                                                           style="height: 100%; width: 100%;">
                                                             <img src="{{ Storage::url($item->image) }}" width="570px"
                                                                  height="541px" alt="Image-HasTech">
                                                         </a>
@@ -80,12 +121,18 @@
                                 <div class="product-single-info">
                                     <h3 class="main-title">{{ $product->name }}</h3>
                                     <div class="prices">
-                                        @if($product->is_sale && $product->price_sale > 0)
-                                            <span class="price-old" style="text-decoration: line-through">{{ number_format($product->price) }} VND</span>
-                                            <span class="sep">-</span>
+                                        @if($product->attributes->count())
                                             <span class="price">{{ number_format($product->price_sale) }} VND</span>
-                                        @else
+                                            <span class="sep">-</span>
                                             <span class="price">{{ number_format($product->price) }} VND</span>
+                                        @else
+                                            @if($product->is_sale && $product->price_sale > 0)
+                                                <span class="price-old" style="text-decoration: line-through">{{ number_format($product->price) }} VND</span>
+                                                <span class="sep">-</span>
+                                                <span class="price">{{ number_format($product->price_sale) }} VND</span>
+                                            @else
+                                                <span class="price">{{ number_format($product->price) }} VND</span>
+                                            @endif
                                         @endif
                                     </div>
                                     <div class="rating-box-wrap">
@@ -104,24 +151,26 @@
                                         incididunt ut labore et dolore magna aliqua. Ut enim ad mill veniam, quis
                                         nostrud exercitation ullamco laboris nisi ut aliquip exet commodo consequat.
                                         Duis aute irure dolor</p>
-                                    <div class="product-color">
-                                        <h6 class="title">Color</h6>
-                                        <ul class="color-list">
-                                            <li data-bg-color="#586882"></li>
-                                            <li class="active" data-bg-color="#505050"></li>
-                                            <li data-bg-color="#73707a"></li>
-                                            <li data-bg-color="#c7bb9b"></li>
-                                        </ul>
-                                    </div>
-                                    <div class="product-size">
-                                        <h6 class="title">Size</h6>
-                                        <ul class="size-list">
-                                            <li>S</li>
-                                            <li class="active">M</li>
-                                            <li>L</li>
-                                            <li>XL</li>
-                                        </ul>
-                                    </div>
+                                    @if($product->attributes->count())
+                                        @foreach($product->attributes as $attribute)
+                                            <div class="product-attribute">
+                                                <h6 class="title">{{ $attribute->name }}</h6>
+                                                <ul class="attribute-list">
+                                                    @foreach($product->attributeValues as $value)
+                                                        @if($value->attribute_id == $attribute->id)
+                                                            <li><label for="{{ $value->id  }}"
+                                                                       class="attribute-checkbox">
+                                                                    <input type="checkbox" name="{{ $attribute->id }}"
+                                                                           id="{{ $value->id  }}"
+                                                                           value="{{ $value->id }}">
+                                                                    <span>{{ $value->name }}</span>
+                                                                </label></li>
+                                                        @endif
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endforeach
+                                    @endif
                                     <div class="product-quick-action">
                                         <div class="qty-wrap">
                                             <div class="pro-qty">
@@ -439,4 +488,72 @@
         </div>
     </section>
     <!--== End Product Area Wrapper ==-->
+@endsection
+
+@section('scripts')
+    <script>
+        $(document).ready(function () {
+            const originalContent = $(".prices").html();
+            $('input[type="checkbox"]').change(function () {
+                var valueID = [];
+                var product_id =  {{ $product->id }};
+
+                $('input[type="checkbox"]:checked').each(function () {
+                    let value = $(this).val();
+                    if (value !== 'on') {
+                        valueID.push(value);
+                    }
+                })
+
+                $.ajax({
+                    url: '{{ route('variant.information') }}',
+                    method: 'GET',
+                    data: {
+                        product_id: product_id,
+                        attributeValueID: valueID,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function (res){
+                        if(res.data.length){
+                            var price = res.data[0].price
+
+                            let formattedAmount = new Intl.NumberFormat('vi-VN').format(price);
+                            // $('.prices').html(``);
+                            $('.prices').html(`<span class="price">${formattedAmount} VND</span>`);
+
+                        }else {
+                            $('prices').html(originalContent)
+                        }
+                    },
+                    error: function (res){
+                        $('prices').html(originalContent)
+                    }
+                });
+
+            });
+        })
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const groups = document.querySelectorAll('.attribute-list');
+            groups.forEach(group => {
+                const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', function () {
+                        if (this.checked) {
+                            checkboxes.forEach(cb => {
+                                if (cb !== this) {
+                                    cb.checked = false;
+                                }
+                            });
+                        }
+                    });
+                });
+            });
+
+
+        });
+    </script>
 @endsection

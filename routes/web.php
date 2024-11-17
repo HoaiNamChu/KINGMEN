@@ -43,6 +43,7 @@ Route::prefix('/')->group(function () {
 
     //Route product
     Route::get('/product/{slug}', [\App\Http\Controllers\Client\ProductController::class, 'productDetail'])->name('product.detail');
+    Route::get('/variant-information', [\App\Http\Controllers\Client\ProductController::class, 'variantInformation'])->name('variant.information');
 
     Route::get('/account', [AccountGoogleController::class, 'index'])->name('account.index');
     Route::get('/order/{id}', [OrderClientController::class, 'show'])->name('order.detail')->middleware('auth');
