@@ -154,7 +154,6 @@ class ProductController extends Controller
 //            dd($dataVariants);
 
             try {
-                DB::beginTransaction();
 
                 $product = Product::query()->create($data);
 
@@ -162,9 +161,15 @@ class ProductController extends Controller
 
                 $product->tags()->sync($tags);
 
+                $attributeValueId = [];
+
                 foreach ($dataVariants as $key => $dataVariant) {
                     $valueIds = explode('-', $key);
+
                     array_pop($valueIds);
+                    foreach ($valueIds as $value) {
+                        $attributeValueId[] = $value;
+                    }
                     $dataVariant['product_id'] = $product->id;
                     $dataVariant['image'] ??= null;
                     $dataVariant['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))) . '-' . $dataVariant['sku'];
@@ -174,8 +179,49 @@ class ProductController extends Controller
                     $productVariant = Variant::query()->create($dataVariant);
                     $productVariant->attributeValues()->attach($valueIds);
 
+                }
+
+                $newAttributeValueId = array_unique($attributeValueId);
+
+                $attributeId = [];
+
+                $product->attributeValues()->sync($newAttributeValueId);
+
+                foreach ($product->attributeValues as $item) {
+                    $attributeId[] = $item->attribute_id;
+                }
+
+                $newAttributeId = array_unique($attributeId);
+
+                $product->attributes()->sync($newAttributeId);
+
+                $maxPrice = 0;
+
+                $minPrice = [];
+
+                foreach ($product->variants as $variant) {
+                    if ($product->is_sale) {
+                        $minPrice[] = $variant->price_sale;
+
+                        if (intval($maxPrice) < intval($variant->price_sale)) {
+                            $maxPrice = intval($variant->price_sale);
+                        }
+                    } else {
+
+                        $minPrice[] = $variant->price;
+
+                        if (intval($maxPrice) < intval($variant->price)) {
+                            $maxPrice = intval($variant->price);
+                        }
+                    }
 
                 }
+
+                $product->update([
+                    'price' => $maxPrice,
+                    'price_sale' => min($minPrice),
+                ]);
+
 
 
                 if (!empty($galleries)) {
@@ -186,7 +232,7 @@ class ProductController extends Controller
                         ]);
                     }
                 }
-                DB::commit();
+
             } catch (\Exception $exception) {
                 DB::rollBack();
                 return redirect()->route('admin.products.create')->with('error', $exception->getMessage());
@@ -313,9 +359,6 @@ class ProductController extends Controller
                 'name' => request('name'),
                 'sku' => request('sku'),
                 'slug' => Str::slug(request('slug')) ?? $product->slug,
-                'price_import' => 0,
-                'price' => 0,
-                'price_sale' => 0,
                 'description' => request('description'),
                 'short_desc' => request('short_desc'),
                 'brand_id' => request('brand_id'),
@@ -352,20 +395,23 @@ class ProductController extends Controller
                 $product->categories()->sync($categories);
 
                 $product->tags()->sync($tags);
-                $unDelVariantId  = [];
+
+                $variantID = [];
+
                 foreach ($dataVariants as $key => $variant) {
 
-                    if (Variant::query()->where('id', '===', $key)->exists()) {
-
-                        $unDelVariantId[] = $key;
+                    if (Variant::query()->where('id', '=', $key)->exists()) {
 
                         $item = Variant::query()->findOrFail($key);
+
                         if (isset($variant['image'])) {
                             $variant['image'] = Storage::put(self::PATH_UPLOAD, $variant['image']);
                         }
                         $variant['image'] ??= $item->image;
 
                         $item->update($variant);
+
+                        $variantID[] = $item->id;
 
                     } else {
                         $valueIds = explode('-', $key);
@@ -379,13 +425,68 @@ class ProductController extends Controller
                         $productVariant = Variant::query()->create($variant);
                         $productVariant->attributeValues()->attach($valueIds);
 
-                        $unDelVariantId[] = $productVariant->id;
+                        $variantID[] = $productVariant->id;
+
                     }
 
 
                 }
 
-                dd($unDelVariantId);
+                $delVariant = $product->variants()->whereNotIn('id', $variantID)->get();
+
+                foreach ($delVariant as $item)
+                {
+                    $item->attributeValues()->detach();
+                    $item->delete();
+                }
+
+                $maxPrice = 0;
+
+                $minPrice = [];
+
+                $attributeValueId = [];
+
+                foreach ($product->variants as $variant) {
+
+                    foreach ($variant->attributeValues as $attributeValue) {
+                        $attributeValueId[] = $attributeValue->id;
+                    }
+                    if ($product->is_sale) {
+                        $minPrice[] = $variant->price_sale;
+
+                        if (intval($maxPrice) < intval($variant->price_sale)) {
+                            $maxPrice = intval($variant->price_sale);
+                        }
+                    } else {
+
+                        $minPrice[] = $variant->price;
+
+                        if (intval($maxPrice) < intval($variant->price)) {
+                            $maxPrice = intval($variant->price);
+                        }
+                    }
+
+                }
+                $product->update([
+                    'price' => $maxPrice,
+                    'price_sale' => min($minPrice),
+                ]);
+
+                $newAttributeValueId = array_unique($attributeValueId);
+
+                $product->attributeValues()->sync($newAttributeValueId);
+
+                $attributeId = [];
+
+                foreach ($product->attributeValues as $item) {
+                    $attributeId[] = $item->attribute_id;
+                }
+
+                $newAttributeId = array_unique($attributeId);
+
+                $product->attributes()->sync($newAttributeId);
+
+
                 if (!empty($galleries)) {
                     foreach ($product->galleries as $gallery) {
                         $gallery->delete();
@@ -420,6 +521,10 @@ class ProductController extends Controller
 
                 $product->categories()->detach();
 
+                $product->attributeValues()->detach();
+
+                $product->attributes()->detach();
+
                 if ($product->galleries->count()) {
                     foreach ($product->galleries as $gallery) {
                         $gallery->delete();
@@ -440,8 +545,6 @@ class ProductController extends Controller
                 if (!empty($product->image) && Storage::exists($product->image)) {
                     Storage::delete($product->image);
                 }
-
-                return redirect()->route('admin.products.index')->with('success', 'Delete Product Successfully');
             } catch (\Exception $exception) {
                 DB::rollBack();
                 return redirect()->route('admin.products.index')->with('error', $exception->getMessage());
@@ -466,13 +569,12 @@ class ProductController extends Controller
                     Storage::delete($product->image);
                 }
 
-
-                return redirect()->route('admin.products.index')->with('success', 'Delete Product Successfully');
             } catch (\Exception $exception) {
                 DB::rollBack();
                 return redirect()->route('admin.products.index')->with('error', $exception->getMessage());
             }
         }
+        return redirect()->route('admin.products.index')->with('success', 'Delete Product Successfully');
 
     }
 }

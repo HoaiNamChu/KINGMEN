@@ -14,6 +14,10 @@ class ProductController extends Controller
     public function productDetail(Request $request)
     {
         $product = Product::query()
+            ->with('attributes.attributeValues')
+            ->with('attributeValues')
+            ->with('variants')
+            ->with('categories')
             ->where('slug', $request->slug)
             ->first();
         $relatedProducts = Product::query()

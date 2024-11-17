@@ -39,6 +39,10 @@
     <!--== Main Style CSS ==-->
     <link href="{{ asset('theme/client/assets/css/style.css') }}" rel="stylesheet"/>
 
+    @yield('links')
+
+    @yield('styles')
+
     <!--[if lt IE 9]>
     <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -307,9 +311,13 @@
 <script src="{{ asset('theme/client/assets/js/parallax.min.js') }}"></script>
 <!--=== jQuery Aos Min Js ===-->
 <script src="{{ asset('theme/client/assets/js/aos.min.js') }}"></script>
-
+@yield('lib-script')
 <!--=== jQuery Custom Js ===-->
 <script src="{{ asset('theme/client/assets/js/custom.js') }}"></script>
+
+
+
+@yield('scripts')
 
 </body>
 
