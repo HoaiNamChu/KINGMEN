@@ -45,6 +45,16 @@ Route::prefix('/')->group(function () {
     Route::get('/product/{slug}', [\App\Http\Controllers\Client\ProductController::class, 'productDetail'])->name('product.detail');
     Route::get('/variant-information', [\App\Http\Controllers\Client\ProductController::class, 'variantInformation'])->name('variant.information');
 
+    //Route cart
+    Route::get('/cart', [\App\Http\Controllers\Client\CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart', [\App\Http\Controllers\Client\CartController::class, 'store'])->name('cart.store');
+    Route::put('/cart/{id}', [\App\Http\Controllers\Client\CartController::class, 'update'])->name('cart.update');
+    Route::delete('/cart/clear/{id}', [\App\Http\Controllers\Client\CartController::class, 'clear'])->name('cart.clear');
+    Route::delete('/cart/{id}', [\App\Http\Controllers\Client\CartController::class, 'destroy'])->name('cart.destroy');
+
+
+
+
     Route::get('/account', [AccountGoogleController::class, 'index'])->name('account.index');
     Route::get('/order/{id}', [OrderClientController::class, 'show'])->name('order.detail')->middleware('auth');
     Route::post('/order/{id}/cancel', [OrderClientController::class, 'cancel'])->name('order.cancel')->middleware('auth');

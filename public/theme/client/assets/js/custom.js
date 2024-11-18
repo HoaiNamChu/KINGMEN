@@ -1,5 +1,5 @@
 (function($) {
-  
+
   "use strict";
 
   // Background Image Js
@@ -75,7 +75,7 @@
       else
       $(".header-navigation-area li a[href='"+curpage+"']").parents("li").addClass("active");
     }
-    
+
   // Popup Quick View JS
     var popupProduct = $(".product-quick-view-modal");
     $(".btn-product-quick-view-open").on('click', function() {
@@ -216,8 +216,8 @@
 
   // Product Quantity JS
     var proQty = $(".pro-qty");
-    proQty.append('<div class= "dec qty-btn">-</div>');
-    proQty.append('<div class="inc qty-btn">+</div>');
+    // proQty.append('<div class= "dec qty-btn">-</div>');
+    // proQty.append('<div class="inc qty-btn">+</div>');
     $('.qty-btn').on('click', function (e) {
       e.preventDefault();
       var $button = $(this);
@@ -248,7 +248,7 @@
     });
     $('.ui-slider-handle:eq(0)').html( '<span>' + '$' + $( "#price-range" ).slider( "values", 0 ) + '</span>' );
     $('.ui-slider-handle:eq(1)').html( '<span>' + '$' + $( "#price-range" ).slider( "values", 1 ) + '</span>' );
-    
+
   // Review Form JS
     $(".review-write-btn").on('click', function() {
       $(".reviews-form-area, .review-write-btn").toggleClass("show").focus();
