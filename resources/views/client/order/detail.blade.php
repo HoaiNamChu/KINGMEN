@@ -57,8 +57,8 @@
                                     <td class="product-remove">
                                     </td>
                                     <td class="product-thumb">
-                                        <a href="hien thi chi tiet san pham">
-                                            <img src="assets/img/shop/product-mini/3.webp" width="90" height="110"
+                                        <a href="{{ route('product.detail', $item->product->slug) }}">
+                                            <img src="{{ Storage::url($item->product_image) }}" width="90" height="110"
                                                 alt="Image-HasTech">
                                         </a>
                                     </td>

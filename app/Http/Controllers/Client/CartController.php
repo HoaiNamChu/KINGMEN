@@ -11,10 +11,6 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function __construct()
-    {
-        \Auth::loginUsingId(2);
-    }
 
     public function index()
     {

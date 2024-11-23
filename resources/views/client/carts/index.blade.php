@@ -264,7 +264,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <a class="btn-theme btn-flat" href="shop-checkout.html">Proceed to checkout</a>
+                        <a class="btn-theme btn-flat" href="{{ route('checkout') }}">Proceed to checkout</a>
                     </div>
                 </div>
             </div>
@@ -331,7 +331,7 @@
                         }
 
                         totalPrice = Number(totalPrice) * Number(data.quantity)
-                        let formattedAmount = new Intl.NumberFormat('vi-VN').format(totalPrice);
+                        let formattedAmount = new Intl.NumberFormat('en-US').format(totalPrice);
                         // $('.prices').html(``);
                         $(`.product-subtotal-${data.id}`).html(`<span class="price">${formattedAmount} VND</span>`);
 

@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\Order::class)->constrained();
             $table->foreignIdFor(\App\Models\Product::class)->constrained();
+            $table->foreignIdFor(\App\Models\Variant::class)->nullable()->constrained();
             $table->string('product_name');
             $table->decimal('product_price');
             $table->string('product_quantity');
             $table->string('product_image');
-            $table->decimal('discount');
+            $table->boolean('product_status')->default(0);
             $table->decimal('total_price');
             $table->timestamps();
         });
