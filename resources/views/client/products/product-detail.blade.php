@@ -177,7 +177,9 @@
                                             <input type="hidden" name="product_id" value="{{$product->id}}">
                                             <div class="qty-wrap">
                                                 <div class="pro-qty">
+                                                    <div class= "dec qty-btn">-</div>
                                                     <input type="text" title="Quantity" name="quantity" value="1">
+                                                    <div class= "inc qty-btn">+</div>
                                                 </div>
                                             </div>
                                             <button type="submit" class="btn-theme" >Add to Cart</button>
