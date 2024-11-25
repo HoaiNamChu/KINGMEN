@@ -151,34 +151,40 @@
                                         incididunt ut labore et dolore magna aliqua. Ut enim ad mill veniam, quis
                                         nostrud exercitation ullamco laboris nisi ut aliquip exet commodo consequat.
                                         Duis aute irure dolor</p>
-                                    @if($product->attributes->count())
-                                        @foreach($product->attributes as $attribute)
-                                            <div class="product-attribute">
-                                                <h6 class="title">{{ $attribute->name }}</h6>
-                                                <ul class="attribute-list">
-                                                    @foreach($product->attributeValues as $value)
-                                                        @if($value->attribute_id == $attribute->id)
-                                                            <li><label for="{{ $value->id  }}"
-                                                                       class="attribute-checkbox">
-                                                                    <input type="checkbox" name="{{ $attribute->id }}"
-                                                                           id="{{ $value->id  }}"
-                                                                           value="{{ $value->id }}">
-                                                                    <span>{{ $value->name }}</span>
-                                                                </label></li>
-                                                        @endif
-                                                    @endforeach
-                                                </ul>
+                                    <form action="{{ route('cart.store') }}" method="post">
+                                        @csrf
+                                        @if($product->attributes->count())
+                                            @foreach($product->attributes as $attribute)
+                                                <div class="product-attribute">
+                                                    <h6 class="title">{{ $attribute->name }}</h6>
+                                                    <ul class="attribute-list">
+                                                        @foreach($product->attributeValues as $value)
+                                                            @if($value->attribute_id == $attribute->id)
+                                                                <li><label for="{{ $value->id  }}"
+                                                                           class="attribute-checkbox">
+                                                                        <input type="checkbox" name="attribute[{{ $attribute->id }}]"
+                                                                               id="{{ $value->id  }}"
+                                                                               value="{{ $value->id }}">
+                                                                        <span>{{ $value->name }}</span>
+                                                                    </label></li>
+                                                            @endif
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                            @endforeach
+                                        @endif
+                                        <div class="product-quick-action">
+                                            <input type="hidden" name="product_id" value="{{$product->id}}">
+                                            <div class="qty-wrap">
+                                                <div class="pro-qty">
+                                                    <div class= "dec qty-btn">-</div>
+                                                    <input type="text" title="Quantity" name="quantity" value="1">
+                                                    <div class= "inc qty-btn">+</div>
+                                                </div>
                                             </div>
-                                        @endforeach
-                                    @endif
-                                    <div class="product-quick-action">
-                                        <div class="qty-wrap">
-                                            <div class="pro-qty">
-                                                <input type="text" title="Quantity" value="1">
-                                            </div>
+                                            <button type="submit" class="btn-theme" >Add to Cart</button>
                                         </div>
-                                        <a class="btn-theme" href="shop-cart.html">Add to Cart</a>
-                                    </div>
+                                    </form>
                                     <div class="product-wishlist-compare">
                                         <a href="shop-wishlist.html"><i class="pe-7s-like"></i>Add to Wishlist</a>
                                         <a href="shop-compare.html"><i class="pe-7s-shuffle"></i>Add to Compare</a>

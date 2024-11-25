@@ -97,4 +97,13 @@ class CartController extends Controller
 
     }
 
+
+    public function clear(Request $request)
+    {
+        $cart  = Cart::where('user_id', \Auth::id())->where('id', $request->id)->first();
+        $cart->cartItems()->delete();
+
+        return redirect()->route('cart.index')->with('success', 'Removed from cart');
+    }
+
 }
