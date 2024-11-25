@@ -6,16 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
-use App\Models\User;
+use App\Models\Variant;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
-    public function __construct(){
-        Auth::loginUsingId(1);
-    }
+
     public function index()
     {
         $cart = Cart::where('user_id', \Auth::id());

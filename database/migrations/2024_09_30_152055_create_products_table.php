@@ -24,11 +24,10 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->integer('quantity')->default(0);
             $table->boolean('is_active')->default(1);
-            $table->boolean('is_featured')->default(0);
-            $table->boolean('is_new')->default(0);
             $table->boolean('is_hot')->default(0);
             $table->boolean('is_sale')->default(0);
             $table->boolean('is_home')->default(0);
+            $table->foreignIdFor(\App\Models\Category::class)->nullable()->constrained();
             $table->timestamps();
         });
     }

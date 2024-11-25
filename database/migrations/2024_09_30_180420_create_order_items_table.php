@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('product_price');
             $table->string('product_quantity');
             $table->string('product_image');
-            $table->decimal('discount');
+            $table->boolean('product_status')->default(0);
             $table->decimal('total_price');
             $table->timestamps();
         });

@@ -42,8 +42,8 @@
                                                     aria-controls="nav-grid" aria-selected="true"><i
                                                     class="fa fa-th"></i></button>
                                             <button class="nav-link" id="nav-list-tab" data-bs-toggle="tab"
-                                                data-bs-target="#nav-list" type="button" role="tab"
-                                                aria-controls="nav-list" aria-selected="false"><i
+                                                    data-bs-target="#nav-list" type="button" role="tab"
+                                                    aria-controls="nav-list" aria-selected="false"><i
                                                     class="fa fa-list"></i></button>
                                         </div>
                                     </nav>
@@ -65,7 +65,7 @@
                         <div class="col-12">
                             <div class="tab-content" id="nav-tabContent">
                                 <div class="tab-pane fade show active" id="nav-grid" role="tabpanel"
-                                    aria-labelledby="nav-grid-tab">
+                                     aria-labelledby="nav-grid-tab">
                                     <div class="row">
                                         @if(!empty($products))
                                             @foreach($products as $item)

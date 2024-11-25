@@ -14,7 +14,6 @@ return new class extends Migration
     {
         Schema::table('order_items', function (Blueprint $table) {
             $table->foreignIdFor(\App\Models\Variant::class)->nullable()->constrained();
-            $table->dropColumn('discount');
             $table->decimal('product_price', 10, 2)->change();
         });
     }

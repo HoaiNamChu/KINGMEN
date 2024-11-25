@@ -21,14 +21,14 @@
                         <div class="d-flex align-items-center gap-2 my-2 my-lg-0">
                             <button class="btn btn-info">
                             <!-- list danh sach user co cung role tai day -->
-                            
-                                    
+
+
                                         @foreach($user->roles as $role)
                                             {{ $role->name }}
                                         @endforeach
-                                    
-                                
-                            
+
+
+
                             </button>
                             <a href="{{route('admin.users.index')}}" class="btn btn-outline-primary"></i> Cance</a>
                             <div class="dropdown">
@@ -59,44 +59,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="row mt-3 gy-2">
-                    <div class="col-lg-2 col-6">
-                        <div class="d-flex align-items-center gap-2 border-end">
-                            <div class="">
-                                <iconify-icon icon="solar:clock-circle-bold-duotone"
-                                    class="fs-28 text-primary"></iconify-icon>
-                            </div>
-                            <div>
-                                <h5 class="mb-1">3+ Years Job</h5>
-                                <p class="mb-0">Experience</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-6">
-                        <div class="d-flex align-items-center gap-2 border-end">
-                            <div class="">
-                                <iconify-icon icon="solar:cup-star-bold-duotone"
-                                    class="fs-28 text-primary"></iconify-icon>
-                            </div>
-                            <div>
-                                <h5 class="mb-1">5 Certificate</h5>
-                                <p class="mb-0">Achieved</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-6">
-                        <div class="d-flex align-items-center gap-2">
-                            <div class="">
-                                <iconify-icon icon="solar:notebook-bold-duotone"
-                                    class="fs-28 text-primary"></iconify-icon>
-                            </div>
-                            <div>
-                                <h5 class="mb-1">2 Internship</h5>
-                                <p class="mb-0">Completed</p>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
 
                 </div>
             </div>
@@ -151,9 +113,7 @@
                                 @endif
                             </p>
                         </div>
-                        <!-- <div class="mt-2">
-                            <a href="#!" class="text-primary">View More</a>
-                        </div> -->
+
                     </div>
                 </div>
             </div>
