@@ -97,6 +97,17 @@ class CartController extends Controller
 
     }
 
+    public function destroy(Request $request)
+    {
+
+        $cartItem = CartItem::find(request('id'));
+        $cartItem->delete();
+
+        return response()->json([
+           'data' => $cartItem
+        ], 200);
+    }
+
 
     public function clear(Request $request)
     {
