@@ -264,7 +264,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <a class="btn-theme btn-flat" href="{{ route('checkout') }}">Proceed to checkout</a>
+                        <a class="btn-theme btn-flat" href="">Proceed to checkout</a>
                     </div>
                 </div>
             </div>

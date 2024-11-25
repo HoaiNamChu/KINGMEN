@@ -34,8 +34,11 @@ Route::prefix('/')->group(function () {
 
     //cart routes
     Route::get('/cart', [\App\Http\Controllers\Client\CartController::class, 'index'])->name('cart.index')->middleware('auth');
+    Route::post('/cart', [\App\Http\Controllers\Client\CartController::class, 'store'])->name('cart.store')->middleware('auth');
+    Route::put('/cart/{id}', [\App\Http\Controllers\Client\CartController::class, 'update'])->name('cart.update')->middleware('auth');
+    Route::delete('/cart/clear/{id}', [\App\Http\Controllers\Client\CartController::class, 'clear'])->name('cart.clear')->middleware('auth');
+    Route::delete('/cart/{id}', [\App\Http\Controllers\Client\CartController::class, 'destroy'])->name('cart.destroy')->middleware('auth');
 
-    
     Route::prefix('/product')
         ->as('product.')
         ->group(function () {

@@ -39,5 +39,62 @@ class CartController extends Controller
 
         return view('client.carts.index', compact('cart'));
     }
+    public function store(Request $request)
+    {
+        $product = Product::where('id', $request->product_id)->with('variants')->first();
+
+        if ($product->variants->count() > 0) {
+            $attributeID = request('attribute');
+
+            if ($attributeID){
+                $variant = Variant::where('product_id', '=', $request->product_id)
+                    ->whereHas('attributeValues', function ($query) use ($attributeID) {
+                        $query->whereIn('attribute_values.id', $attributeID);
+                    }, '=', count($attributeID))
+                    ->withCount('attributeValues')
+                    ->having('attribute_values_count', '=', count($attributeID))
+                    ->first();
+
+                $data = [
+                    'product_id' => $product->id,
+                    'variant_id' => $variant->id,
+                    'quantity' => $request->quantity,
+                ];
+            }else{
+                return redirect()->back()->with('error', 'Please choose product variant first');
+            }
+        }else{
+            $data = [
+                'product_id' => $product->id,
+                'variant_id' => null,
+                'quantity' => $request->quantity,
+            ];
+        }
+
+        $cart = Cart::where('user_id', \Auth::id());
+
+        if ($cart->exists()) {
+            $data['cart_id'] = $cart->first()->id;
+            $cartItem = CartItem::where('cart_id', $cart->first()->id)
+            ->where('product_id', $data['product_id'])
+            ->where('variant_id', $data['variant_id']);
+            if ($cartItem->exists()){
+                $cartItem->update(['quantity' => intval($cartItem->first()->quantity) + intval($data['quantity'])]);
+            }else{
+                CartItem::create($data);
+            }
+        } else {
+            $cart = Cart::create([
+                'user_id' => \Auth::id(),
+            ]);
+
+            $data['cart_id'] = $cart->first()->id;
+            CartItem::create($data);
+        }
+
+
+        return redirect()->route('cart.index')->with('success', 'Added to cart');
+
+    }
 
 }
