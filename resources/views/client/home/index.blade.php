@@ -186,15 +186,15 @@
                 </div>
             </div>
             <div class="row">
-                @if($products != null)
-                    @foreach($products as $item)
-                        @if($item->is_featured)
-                            <div class="col-sm-6 col-lg-3">
-                                @include('client.components.product.product-item', ['item' => $item])
-                            </div>
-                        @endif
-                    @endforeach
-                @endif
+                @foreach($products as $item)
+                    @if($item->is_featured)
+                        <div class="col-sm-6 col-lg-3">
+                            <!--== Start Product Item ==-->
+                            @include('client.components.product-item', ['item' => $item])
+                            <!--== End prPduct Item ==-->
+                        </div>
+                    @endif
+                @endforeach
             </div>
         </div>
     </section>
@@ -239,17 +239,15 @@
                     <div class="product-slider-wrap">
                         <div class="swiper-container product-slider-col4-container">
                             <div class="swiper-wrapper">
-
-                                @if($products != null)
-                                    @foreach($products as $item)
-                                        @if($item->is_sale)
-                                            <div class="swiper-slide">
-                                                @include('client.components.product.product-item', ['item' => $item])
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                @endif
-
+                                @foreach($products as $item)
+                                    @if($item->is_best_seller)
+                                        <div class="swiper-slide">
+                                            <!--== Start Product Item ==-->
+                                            @include('client.components.product-item', ['item' => $item])
+                                            <!--== End prPduct Item ==-->
+                                        </div>
+                                    @endif
+                                @endforeach
                             </div>
                         </div>
                         <!--== Add Swiper Arrows ==-->

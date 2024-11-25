@@ -1,0 +1,72 @@
+[33mfd1495c[m[33m ([m[1;36mHEAD -> [m[1;32mtest[m[33m)[m Merge branch 'product' into test
+[33mc68ee68[m[33m ([m[1;31morigin/test[m[33m)[m khơỉ động cart
+[33mdfe785b[m xóa tickets
+[33m6c26414[m[33m ([m[1;31morigin/product[m[33m, [m[1;32mproduct[m[33m)[m feat: create attribute by modal
+[33m0d18fff[m đang làm chức năng tickets
+[33m8848938[m format controller
+[33me2018d6[m gộp chức năng đăng nhập và chức năng quản lý account có permission
+[33m5211d2b[m Merged changes from tuyenaccount into account
+[33mddfcd99[m Your commit message
+[33mb6bb3a2[m build: change relationship between product and category
+[33maa5a6b2[m test: validate category, attribute
+[33m6989d74[m[33m ([m[1;31morigin/tuyenaccount[m[33m)[m forgotpassword_and_editfile_env
+[33m489d410[m edit product
+[33m049a88d[m[33m ([m[1;31morigin/account[m[33m, [m[1;32maccount[m[33m)[m update validate 2
+[33mf21bfdf[m Cập nhật xóa ảnh khi xóa user, sửa lỗi validate update user, role
+[33mffc6a90[m create, delete product
+[33m256e605[m fix some bug
+[33mc9746e4[m update_billingaddress
+[33mc22fa72[m fix something
+[33m40d4409[m create and delete simple product
+[33m5195980[m fix interface tags, category, attribute
+[33m09ecdca[m fix interface create product
+[33m803558a[m fix interface create product
+[33mf500a61[m merge category into product
+[33m168d5d8[m merge attrubute into product
+[33m61c8572[m fix main-nav file
+[33m318ca36[m hoàn thành chức năng Permissions, cập nhật giao diện role,user,permissions, cập nhật validate
+[33m02a338b[m[33m ([m[1;31morigin/category[m[33m)[m category nested set
+[33m2422142[m confirm delete category
+[33m4ed36f1[m merge tags into product
+[33m228aefc[m[33m ([m[1;31morigin/tags[m[33m)[m validate tags
+[33m41ae0cd[m login_register_normal_and_google
+[33me1c0a77[m Merge branch 'main' of https://github.com/HoaiNamChu/KINGMEN into tuyenaccount
+[33maaef482[m giaiquyetxungdothopnhat
+[33m44b3e27[m crud tag basic
+[33mb0b3d8a[m fix interface create product
+[33m13e96c0[m add interface product
+[33m814fd0e[m chỉnh sửa giao diện web, lỗi chức năng thêm mới user
+[33m1149605[m Merge remote-tracking branch 'origin/main' into account
+[33m16d37d4[m pull from main
+[33md17a51d[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m merge brand into main
+[33mc81cf88[m fix interface admin template
+[33m744c067[m add cart table
+[33m4c6748b[m test
+[33m45b3168[m[33m ([m[1;31morigin/brand[m[33m)[m complete crud brand and not show
+[33md61a1ee[m ok
+[33m4e2f0f9[m Validate Bằng requests và hoàn thành phân quyền truy cập(fix cứng 4 quyền)
+[33mfba019a[m[33m ([m[1;31morigin/attribute[m[33m)[m doing edit attributevalue
+[33mce6d894[m doing edit attribute
+[33m9b4608f[m merge category branch
+[33m2466e1e[m CRUD Category Basic
+[33m2df6405[m merge brand branch
+[33ma81ed40[m import BrandController class
+[33mc45874e[m merge brand branch
+[33mf3b4afe[m CRUD Brand
+[33m3f14f53[m account_1
+[33m0c493e3[m hoàn thiện crud user và role
+[33m7295690[m fomat code
+[33mdefa683[m test
+[33mf9de4d1[m funtion create category
+[33mff4aee7[m Repair Conflict
+[33mdbedb3d[m PC1
+[33m6147abd[m create category
+[33mcb4f39a[m hien thi danh sach users
+[33m6344882[m fix interface category create
+[33me5d775f[m add category branch
+[33m46580d7[m tesst
+[33m99aeea9[m asdfasfd
+[33m84a7d12[m[33m ([m[1;31morigin/vinhdonhang[m[33m, [m[1;32mmain[m[33m)[m create migrate
+[33m298d3b1[m fix name file
+[33m3e4b046[m creat template client
+[33mdb93653[m create project

@@ -12,9 +12,9 @@ class HomeController extends Controller
 
     public function index(){
         $products = Product::query()
-            ->where('is_active', '=', 1)
+            ->where('is_active', '=',1)
             ->where('is_home', '=', 1)
-            ->with('categories:id,name')
+            ->with('categories', 'variants')
             ->get();
         return view(self::PATH_VIEW.__FUNCTION__, compact('products'));
     }

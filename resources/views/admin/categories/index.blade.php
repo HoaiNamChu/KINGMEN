@@ -51,7 +51,7 @@
                                                 @php
                                                     $dash = ' ';
                                                 @endphp
-                                                @include('components.admin.categories.create', ['item'=>$item, 'dash' => $dash])
+                                                @include('admin.categories.components.create', ['item'=>$item, 'dash' => $dash])
                                             @endforeach
                                         </select>
                                     </div>
@@ -151,7 +151,7 @@
                                     @php
                                         $dash = '';
                                     @endphp
-                                    @include('components.admin.categories.index', ['item' => $item, 'dash' => $dash])
+                                    @include('admin.categories.components.index', ['item' => $item, 'dash' => $dash])
                                 @endforeach
                                 </tbody>
                             </table>

@@ -18,21 +18,29 @@ class CategoryController extends Controller
      */
     const PATH_VIEW = 'admin.categories.';
     const PATH_UPLOAD = 'categories';
+
     public function index()
     {
-        $categories = Category::query()->whereNull('parent_id')->with(['children', 'products'])->latest()->get();
+        $categories = Category::query()
+            ->whereNull('parent_id')->with(['children' => function ($q) {
+            $q->orderBy('name', 'ASC');
+        }])
+            ->with('products')
+            ->latest()
+            ->orderBy('name', 'ASC')
+            ->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('categories'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        $categories = Category::query()->whereNull('parent_id')->with('children')->get();
-//        dd($categories);
-        return view(self::PATH_VIEW . __FUNCTION__, compact('categories'));
-    }
+//    public function create()
+//    {
+//        $categories = Category::query()->whereNull('parent_id')->with('children')->get();
+
+//        return view(self::PATH_VIEW . __FUNCTION__, compact('categories'));
+//    }
 
     /**
      * Store a newly created resource in storage.
@@ -54,8 +62,8 @@ class CategoryController extends Controller
         try {
             $category = Category::query()->create($data);
             return redirect()->back()->with('success', 'Add Category successfully');
-        }catch (\Exception $exception){
-            if ($data['image'] && Storage::exists($data['image'])){
+        } catch (\Exception $exception) {
+            if ($data['image'] && Storage::exists($data['image'])) {
                 Storage::delete($data['image']);
             }
             DB::rollBack();
@@ -76,7 +84,13 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $categories = Category::query()->whereNull('parent_id')->with('children')->get();
+        $categories = Category::query()
+            ->whereNull('parent_id')->with(['children' => function ($q) {
+                $q->orderBy('name', 'ASC');
+            }])
+            ->with('products')
+            ->orderBy('name', 'ASC')
+            ->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('category', 'categories'));
     }
 
@@ -102,8 +116,8 @@ class CategoryController extends Controller
             if ($data['image'] != $oldImage && $oldImage && Storage::exists($oldImage)) {
                 Storage::delete($oldImage);
             }
-            return redirect()->route('admin.categories.edit',$category)->with('success', 'Update Category successfully');
-        }catch (\Exception $exception){
+            return redirect()->route('admin.categories.edit', $category)->with('success', 'Update Category successfully');
+        } catch (\Exception $exception) {
             if ($data['image'] != $oldImage && Storage::exists($data['image'])) {
                 Storage::delete($data['image']);
             }
@@ -119,11 +133,11 @@ class CategoryController extends Controller
     {
         try {
             $category->delete();
-            if ($category->image && Storage::exists($category->image)){
+            if ($category->image && Storage::exists($category->image)) {
                 Storage::delete($category->image);
             }
             return redirect()->back()->with('success', 'Delete Category successfully');
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back();
         }

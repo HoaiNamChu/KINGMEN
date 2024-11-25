@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
+
 class BrandController extends Controller
 {
     /**
@@ -21,7 +22,7 @@ class BrandController extends Controller
 
     public function index()
     {
-        $brands = Brand::query()->with('products')->latest()->get();
+        $brands = Brand::query()->with('products')->latest()->paginate(10);
         return view(self::PATH_VIEW . __FUNCTION__, compact('brands'));
     }
 
@@ -53,9 +54,10 @@ class BrandController extends Controller
         try {
             $brand = Brand::query()->create($data);
             return redirect()->route('admin.brands.edit', $brand)->with('success', 'Created brand successfully');
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             if ($data['image'] && Storage::exists($data['image'])) {
                 Storage::delete($data['image']);
+
             }
             DB::rollBack();
             return redirect()->back()->withErrors([$exception->getMessage()]);
@@ -75,7 +77,7 @@ class BrandController extends Controller
      */
     public function edit(Brand $brand)
     {
-//        $brand = Brand::query()->findOrFail($brand);
+        //        $brand = Brand::query()->findOrFail($brand);
         return view(self::PATH_VIEW . __FUNCTION__, compact('brand'));
     }
 
@@ -84,7 +86,7 @@ class BrandController extends Controller
      */
     public function update(UpdateBrandRequest $request, Brand $brand)
     {
-//        $brand = Brand::query()->findOrFail($brand);
+        //        $brand = Brand::query()->findOrFail($brand);
         $oldImage = $brand->image;
         $data = [
             'name' => request('name'),
@@ -93,7 +95,7 @@ class BrandController extends Controller
         ];
         if (request('slug')) {
             $data['slug'] = Str::slug(request('slug'));
-        }else{
+        } else {
             $data['slug'] = Str::slug(request('name'));
         }
         if ($request->hasFile('image')) {
@@ -105,8 +107,8 @@ class BrandController extends Controller
             if ($data['image'] != $oldImage && $oldImage && Storage::exists($oldImage)) {
                 Storage::delete($oldImage);
             }
-            return redirect()->route('admin.brands.edit',$brand)->with('success', 'Updated brand successfully');
-        }catch (\Exception $exception){
+            return redirect()->route('admin.brands.edit', $brand)->with('success', 'Updated brand successfully');
+        } catch (\Exception $exception) {
             if ($data['image'] != $oldImage && Storage::exists($data['image'])) {
                 Storage::delete($data['image']);
             }
@@ -120,14 +122,14 @@ class BrandController extends Controller
      */
     public function destroy(Brand $brand)
     {
-//        $brand = Brand::query()->findOrFail($brand);
+        //        $brand = Brand::query()->findOrFail($brand);
         try {
             $brand->delete();
-            if ($brand->image && Storage::exists($brand->image)){
+            if ($brand->image && Storage::exists($brand->image)) {
                 Storage::delete($brand->image);
             }
-            return redirect()->route('admin.brands.index')->with('success', 'Deleted brand successfully');
-        }catch (\Exception $exception){
+            return redirect()->route('admin.brands.index');
+        } catch (\Exception $exception) {
             DB::rollBack();
             return redirect()->back()->withErrors([$exception->getMessage()]);
         }

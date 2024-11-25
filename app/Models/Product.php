@@ -15,6 +15,7 @@ class Product extends Model
         'name',
         'slug',
         'sku',
+        'price_import',
         'price',
         'price_sale',
         'image',
@@ -22,20 +23,22 @@ class Product extends Model
         'description',
         'quantity',
         'is_active',
-        'is_featured',
-        'is_new',
         'is_hot',
         'is_sale',
         'is_home',
+        'is_new',
+        'is_featured',
+        'is_best_seller'
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
-        'is_featured' => 'boolean',
-        'is_new' => 'boolean',
         'is_hot' => 'boolean',
         'is_sale' => 'boolean',
         'is_home' => 'boolean',
+        'is_new' => 'boolean',
+        'is_featured' => 'boolean',
+        'is_best_seller' => 'boolean'
     ];
 
     public function categories()
@@ -60,7 +63,7 @@ class Product extends Model
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Tag::class, 'product_tags', 'product_id', 'tag_id');
     }
 
     public function orderItems()
@@ -72,4 +75,15 @@ class Product extends Model
     {
         return $this->hasMany(ProductReview::class, 'product_id', 'id');
     }
+
+    public function attributes()
+    {
+        return $this->belongsToMany(Attribute::class, 'product_attribute', 'product_id', 'attribute_id');
+    }
+
+    public function attributeValues()
+    {
+        return $this->belongsToMany(AttributeValue::class, 'product_attribute_value', 'product_id', 'attribute_value_id');
+    }
+
 }

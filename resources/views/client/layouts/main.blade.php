@@ -40,6 +40,10 @@
     <!--== Main Style CSS ==-->
     <link href="{{ asset('theme/client/assets/css/style.css') }}" rel="stylesheet" />
 
+    @yield('links')
+
+    @yield('styles')
+
     <!--[if lt IE 9]>
     <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -163,7 +167,36 @@
                         width="133" height="26" alt="Has-image"></a>
             </div>
         </div>
-        <!--== End Aside Cart Menu ==-->
+        <div class="offcanvas-body">
+            <ul class="aside-cart-product-list">
+                <li class="product-list-item">
+                    <a href="#/" class="remove">×</a>
+                    <a href="single-product.html">
+                        <img src="{{ asset('theme/client/assets/img/shop/product-mini/1.webp') }}" width="90"
+                             height="110" alt="Image-HasTech">
+                        <span class="product-title">Leather Mens Slipper</span>
+                    </a>
+                    <span class="product-price">1 × £69.99</span>
+                </li>
+                <li class="product-list-item">
+                    <a href="#/" class="remove">×</a>
+                    <a href="single-product.html">
+                        <img src="{{ asset('theme/client/assets/img/shop/product-mini/2.webp') }}" width="90"
+                             height="110" alt="Image-HasTech">
+                        <span class="product-title">Quickiin Mens shoes</span>
+                    </a>
+                    <span class="product-price">1 × £20.asd0adas0</span>
+                </li>
+            </ul>
+            <p class="cart-total"><span>Subtotal:</span><span class="amount">£89.99</span></p>
+            <a class="btn-theme" data-margin-bottom="10" href="#">view cart</a>
+            <a class="btn-theme" href="shop-checkout.html">Checkout</a>
+            <a class="d-block text-end lh-1" href="shop-checkout.html"><img
+                    src="{{ asset('theme/client/assets/img/photos/paypal.webp') }}"
+                    width="133" height="26" alt="Has-image"></a>
+        </div>
+    </div>
+    <!--== End Aside Cart Menu ==-->
 
         <!--== Start Aside Search Menu ==-->
         <aside class="aside-search-box-wrapper offcanvas offcanvas-top" tabindex="-1" id="AsideOffcanvasSearch"
@@ -311,8 +344,35 @@
     <!--=== jQuery Aos Min Js ===-->
     <script src="{{ asset('theme/client/assets/js/aos.min.js') }}"></script>
 
-    <!--=== jQuery Custom Js ===-->
-    <script src="{{ asset('theme/client/assets/js/custom.js') }}"></script>
+<!--=== jQuery Modernizr Min Js ===-->
+<script src="{{ asset('theme/client/assets/js/modernizr.js') }}"></script>
+<!--=== jQuery Min Js ===-->
+<script src="{{ asset('theme/client/assets/js/jquery-main.js') }}"></script>
+<!--=== jQuery Migration Min Js ===-->
+<script src="{{ asset('theme/client/assets/js/jquery-migrate.js') }}"></script>
+<!--=== jQuery Popper Min Js ===-->
+<script src="{{ asset('theme/client/assets/js/popper.min.js') }}"></script>
+<!--=== jQuery Bootstrap Min Js ===-->
+<script src="{{ asset('theme/client/assets/js/bootstrap.min.js') }}"></script>
+<!--=== jQuery Ui Min Js ===-->
+<script src="{{ asset('theme/client/assets/js/jquery-ui.min.js') }}"></script>
+<!--=== jQuery Swiper Min Js ===-->
+<script src="{{ asset('theme/client/assets/js/swiper.min.js') }}"></script>
+<!--=== jQuery Fancybox Min Js ===-->
+<script src="{{ asset('theme/client/assets/js/fancybox.min.js') }}"></script>
+<!--=== jQuery Waypoint Js ===-->
+<script src="{{ asset('theme/client/assets/js/waypoint.js') }}"></script>
+<!--=== jQuery Parallax Min Js ===-->
+<script src="{{ asset('theme/client/assets/js/parallax.min.js') }}"></script>
+<!--=== jQuery Aos Min Js ===-->
+<script src="{{ asset('theme/client/assets/js/aos.min.js') }}"></script>
+@yield('lib-script')
+<!--=== jQuery Custom Js ===-->
+<script src="{{ asset('theme/client/assets/js/custom.js') }}"></script>
+
+
+
+@yield('scripts')
 
 </body>
 
