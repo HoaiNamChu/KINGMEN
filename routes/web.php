@@ -33,13 +33,9 @@ Route::prefix('/')->group(function () {
 
 
     //cart routes
-    Route::prefix('/cart')
-        ->as('cart.')
-        ->group(function () {
-            Route::get('/', [CartController::class, 'index'])->name('index');
-            Route::get('/clear-cart', [CartController::class, 'clearCart'])->name('clear');
-            Route::get('/add-cart/{slug}', [CartController::class, 'iconAddCart'])->name('iconAdd');
-        });
+    Route::get('/cart', [\App\Http\Controllers\Client\CartController::class, 'index'])->name('cart.index')->middleware('auth');
+
+    
     Route::prefix('/product')
         ->as('product.')
         ->group(function () {

@@ -13,77 +13,31 @@ use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
+    public function __construct(){
+        Auth::loginUsingId(1);
+    }
     public function index()
     {
-        $cart = Cart::query()->where('user_id', Auth::id())
-        ->with('cartItems')
-        ->with('cartItems.product')
-        ->with('cartItems.product.variants')
-        ->with('cartItems.product.variants.attributeValues')
-        ->with('cartItems.product.variants.attributeValues.attribute')
-        ->first();
-        return view('client.cart.index', compact('cart'));
-    }
-
-    public function addCart(Request $request) 
-    {
-
-    }
-
-    public function destroyCart($id)
-    {
-        
-    }
-
-    public function clearCart()
-    {
-        $cart = Cart::query()->where('user_id', Auth::id());
-        if($cart->exists()){
-            CartItem::query()->where('cart_id', $cart->first()->id)->delete();
-        }
-        return redirect()->route('cart.index')->with('success', 'Clear cart successfully!');
-    }
-
-    public function updateCart(Request $request)
-    {
-        $data = [
-            'quantity' => $request['quantity']
-        ];
-        DB::table('cart_items')->update($data);
-        return back();
-    }
-
-    public function iconAddCart($slug)
-    {
-        $product = Product::query()->where('slug', $slug)->first();
-
-        $cart = Cart::query()->where('user_id', Auth::id());
-
+        $cart = Cart::where('user_id', \Auth::id());
         if ($cart->exists()) {
-            $cartItem = CartItem::query()->where('cart_id', $cart->first()->id)->where('product_id', $product->id);
-            if ($cartItem->exists()) {
-                $cartItem->update([
-                    'quantity' => intval($cartItem->first()->quantity) + 1
-                ]);
-            } else {
-                CartItem::query()->create([
-                    'cart_id' => $cart->first()->id,
-                    'product_id' => $product->id,
-                    'quantity' => 1
-                ]);
-            }
+            $cart = $cart->with('cartItems')
+                ->with('cartItems.product.attributes')
+                ->with('cartItems.product.attributeValues')
+                ->with('cartItems.variant.attributeValues')
+                ->first();
         } else {
-            $cart = Cart::query()->create([
-                'user_id' => Auth::id()
+            $cart = Cart::create([
+                'user_id' => \Auth::id(),
             ]);
 
-            CartItem::query()->create([
-                'cart_id' => $cart->first()->id,
-                'product_id' => $product->id,
-                'quantity' => 1
-            ]);
+            $cart = $cart->with('cartItems')
+                ->with('cartItems.product.attributes')
+                ->with('cartItems.product.attributeValues')
+                ->with('cartItems.variant.attributeValues')
+                ->first();
         }
 
-        return redirect()->route('cart.index')->with('success', 'Add product to cart successfully!');
+        return view('client.carts.index', compact('cart'));
     }
+
 }
