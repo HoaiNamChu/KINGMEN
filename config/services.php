@@ -37,7 +37,7 @@ return [
 
         'client_secret' => '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',
 
-        'redirect' => env('APP_URL').'auth/google/callback',
+        'redirect' => env('APP_URL').'/auth/google/callback',
 
     ],
 

@@ -14,7 +14,7 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    const PATH_VIEW = 'admin.order.';
+    const PATH_VIEW = 'admin.orders.';
 
     public function index()
     {
