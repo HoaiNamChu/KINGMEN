@@ -97,6 +97,19 @@ class CartController extends Controller
 
     }
 
+    public function update(Request $request)
+    {
+        $cartItem = CartItem::where('id',request('id'))
+            ->with('product')
+            ->with('variant')
+            ->first();;
+        $cartItem->update(['quantity' => request('quantity')]);
+
+        return response()->json([
+            'data' => $cartItem
+        ], 200);
+    }
+
     public function destroy(Request $request)
     {
 
