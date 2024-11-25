@@ -41,9 +41,8 @@
                                     </th>
                                     <th>Users</th>
                                     <th>Email</th>
-                                    <th>Create by</th>
-                                    <th>ID</th>
-                                    <th>Product Stock</th>
+                                    <th>User Name</th>
+                                    <th>Phone</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -66,14 +65,31 @@
 
                                         </td>
                                         <td>{{ $item->email }}</td>
-                                        <td>Seller</td>
-                                        <td>FS16276</td>
-                                        <td>46233</td>
+                                        <td>{{$item->username}}</td>
+                                        <td>{{$item->phone}}</td>
                                         <td>
+
+                                            <script>
+                                                // Hàm để xác nhận xóa
+                                                function confirmDelete(event) {
+                                                    if (!confirm('Bạn có chắc chắn muốn xóa nguời dùng {{$item->name}}?')) {
+                                                        event.preventDefault(); // Hủy bỏ hành động xóa nếu người dùng không xác nhận
+                                                    }
+                                                }
+                                            </script>
+
                                             <div class="d-flex gap-2">
-                                                <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
-                                                <a href="#!" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
-                                                <a href="#!" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                <a href="{{route('admin.users.show', $item->id ) }}" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken" class="align-middle fs-18"></iconify-icon></a>
+                                                <a href="{{route('admin.users.edit', $item->id )}}" class="btn btn-soft-primary btn-sm"><iconify-icon icon="solar:pen-2-broken" class="align-middle fs-18"></iconify-icon></a>
+{{--                                                <a href="#!" class="btn btn-soft-danger btn-sm"><iconify-icon icon="solar:trash-bin-minimalistic-2-broken" class="align-middle fs-18"></iconify-icon></a>--}}
+                                                <form action="{{route('admin.users.destroy', $item->id)}}" method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" onclick="confirmDelete(event)"
+                                                            class="btn btn-soft-danger btn-sm"><iconify-icon
+                                                            icon="solar:trash-bin-minimalistic-2-broken"
+                                                            class="align-middle fs-18"></iconify-icon></button>
+                                                </form>
                                             </div>
                                         </td>
                                     </tr>
@@ -110,3 +126,4 @@
     <!-- Dashboard Js -->
     <script src="{{ asset('theme/admin/assets/js/pages/dashboard.js') }}"></script>
 @endsection
+

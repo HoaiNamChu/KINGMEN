@@ -21,6 +21,8 @@ use App\Http\Controllers\Client\CheckoutController;
 
 
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -109,10 +111,10 @@ Route::prefix('/admin')
         ]);
 
         Route::resource('orders', OrderController::class);
-        Route::patch('orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
-        Route::resource('users', UserController::class);
-        Route::resource('roles', RoleController::class);
-        Route::resource('brands', BrandController::class);
-        Route::resource('permissions', PermissionController::class);
+        Route::patch('orders/{order}/update-status', [OrderController::class, 'update'])->name('orders.updateStatus');
+        Route::resource('users', UserController::class)->middleware('checkPermission:Manage Users');
+        Route::resource('roles', RoleController::class)->middleware('checkPermission:Manage Roles');
+        Route::resource('brands', BrandController::class)->middleware('checkPermission:Manage Brands');
+        Route::resource('permissions', PermissionController::class)->middleware('checkPermission:Manage Permissions');
 
     });
