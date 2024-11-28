@@ -207,8 +207,10 @@
                                         <div class="product-action">
                                             <a class="btn-product-wishlist" href="shop-wishlist.html"><i
                                                     class="fa fa-heart"></i></a>
-                                            <a class="btn-product-cart" href="{{ route('order.checkout', $item->id) }}"><i
-                                                    class="fa fa-shopping-cart"></i></a>
+                                            <a
+                                            class="btn-product-cart add_to_cart" href="{{ route('addToCart',['id' => $item->id]) }}"><i
+                                                    class="fa fa-shopping-cart"></i>
+                                                </a>
                                             <button type="button" class="btn-product-quick-view-open">
                                                 <i class="fa fa-arrows"></i>
                                             </button>
@@ -223,8 +225,7 @@
                                                 <li><a href="#">{{ $item->category_id }}</a></li>
                                             </ul>
                                         </div>
-                                        {{-- <h4 class="title"><a href="single-product.html">{{ $item->name }}</a></h4> --}}
-                                        <input type="text" class="title" name="name" value="{{ $item->name }}">
+                                        <h4 class="title"><a href="single-product.html">{{ $item->name }}</a></h4>
                                         <div class="prices">
                                             <span class="price-old">{{ $item->price }}$</span>
                                             <span class="sep">-</span>
@@ -983,4 +984,14 @@
         </div>
     </section>
     <!--== End Blog Area Wrapper ==-->
+    <script>
+        function addTocart(event){
+            event.preventDefaul();
+            let url = $(this).data('url');
+            alert(url);
+        }
+        $(function (){
+            $('.add_to_cart').on('click',addTocart);
+        })
+    </script>
 @endsection

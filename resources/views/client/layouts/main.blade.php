@@ -310,7 +310,16 @@
 
 <!--=== jQuery Custom Js ===-->
 <script src="{{ asset('theme/client/assets/js/custom.js') }}"></script>
-
+<script>
+    function addTocart(event){
+        event.preventDefaul();
+        let url = $(this).data('url');
+        alert(url);
+    }
+    $(function (){
+        $('.add_to_cart').on('click',addTocart);
+    })
+</script>
 </body>
 
 

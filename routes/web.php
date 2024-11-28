@@ -54,6 +54,7 @@ Route::prefix('/admin')->group(function () {
 //Order
 Route::get('/checkout/{id}',[CheckoutController::class,'checkout'])->name('order.checkout');
 Route::post('/checkout',[CheckoutController::class,'post_checkout']);
+Route::get('/add-to-cart/{id}',[CheckoutController::class,'addToCart'])->name('addToCart');
 
 // viết các route admin vào đây
 Route::prefix('/admin')
