@@ -9,8 +9,10 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\Client\CheckoutController;
 use App\Http\Controllers\Client\AccountGoogleController;
+use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Client\OrderClientController;
 use App\Models\Product;
 
 /*
@@ -43,6 +45,23 @@ Route::prefix('/')->group(function () {
     Route::get('auth/google', [AccountGoogleController::class, 'redirectToGoogle'])->name('login-by-google');
     Route::get('auth/google/callback', [AccountGoogleController::class, 'handleGoogleCallback']);
     Route::get('/logout', [AccountGoogleController::class, 'logout'])->name('logout');
+
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index')->middleware('auth');
+    Route::post('/cart', [CartController::class, 'store'])->name('cart.store')->middleware('auth');
+    Route::put('/cart/{id}', [CartController::class, 'update'])->name('cart.update')->middleware('auth');
+    Route::delete('/cart/clear/{id}', [CartController::class, 'clear'])->name('cart.clear')->middleware('auth');
+    Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy')->middleware('auth');
+
+    Route::prefix('/checkout')
+        ->middleware('auth')
+        ->group(function () {
+            Route::get('/', [CheckoutController::class, 'index'])->name('checkout');
+            Route::post('/', [CheckoutController::class, 'order'])->name('order');
+            Route::get('/vnpay/return', [CheckoutController::class, 'vnPayReturn'])->name('vnpay.return');
+        });
+
+    Route::get('/order/{id}', [OrderClientController::class, 'show'])->name('order.detail')->middleware('auth');
+    Route::post('/order/{id}/cancel', [OrderClientController::class, 'cancel'])->name('order.cancel')->middleware('auth');
 
 
 });

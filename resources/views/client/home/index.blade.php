@@ -398,5 +398,4 @@
         </div>
     </section>
     <!--== End Blog Area Wrapper ==-->
-
 @endsection
