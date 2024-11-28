@@ -1,13 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AccountGoogleController;
 
+use App\Http\Controllers\Admin\AttributeController;
+use App\Http\Controllers\Admin\AttributeValueController;
 use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\Client\AccountGoogleController;
 use App\Models\Product;
 
 /*
@@ -51,14 +54,10 @@ Route::prefix('/admin')->group(function () {
     });
 });
 
-//Order
-Route::get('/checkout/{id}',[CheckoutController::class,'checkout'])->name('order.checkout');
-Route::post('/checkout',[CheckoutController::class,'post_checkout']);
-Route::get('/add-to-cart/{id}',[CheckoutController::class,'addToCart'])->name('addToCart');
-
 // viết các route admin vào đây
 Route::prefix('/admin')
     ->as('admin.')
+//    ->middleware(['auth', 'isAdmin'])
     ->group(function () {
     Route::get('/', function () {
 
@@ -67,6 +66,8 @@ Route::prefix('/admin')
         return view('admin.dashboard.index');
     });
 
+    Route::resource('orders', OrderController::class);
+    Route::patch('orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
     Route::resource('users', UserController::class)->middleware('checkPermission:Manage Users');
     Route::resource('roles', RoleController::class)->middleware('checkPermission:Manage Roles');
     Route::resource('brands', BrandController::class)->middleware('checkPermission:Manage Brands');

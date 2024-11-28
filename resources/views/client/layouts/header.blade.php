@@ -19,7 +19,7 @@
                                                 href="mailto://demo@example.com">demo@example.com</a></li>
 
                                             @if(Auth::check()) 
-                                                <li class="account"><i class="fa fa-user"></i><a href="/account">Account : {{ Auth::user()->name }}</a></li>
+                                                <li class="account"><i class="fa fa-user"></i><a href="{{route('account.index')}}"> Account : {{ Auth::user()->name }}</a></li>
                                                 <li class="account"><a href="/logout" style="color: brown">Logout</a></li>
                                             @else
                                                 <li class="account"><i class="fa fa-user"></i><a href="/login">Account</a></li>
@@ -92,32 +92,5 @@
             </div>
         </div>
     </div>
-    <div class="header-area header-default">
-        <div class="container">
-            <div class="row no-gutter align-items-center position-relative">
-                <div class="col-12">
-                    <div class="header-align">
-                        <div class="header-navigation-area position-relative">
-                            <ul class="main-menu nav">
-                                <li class="has-submenu"><a href="index.html"><span>Home</span></a>
-                                </li>
-                                <li><a href="about-us.html"><span>About</span></a></li>
-                                <li class="has-submenu"><a href="#/"><span>Pages</span></a>
-                                    <ul class="submenu-nav">
-                                        <li><a href="account.html"><span>Account</span></a></li>
-                                        <li><a href="account-login.html"><span>Login</span></a></li>
-                                        <li><a href="account-register.html"><span>Register</span></a></li>
-                                        <li><a href="page-not-found.html"><span>Page Not Found</span></a></li>
-                                    </ul>
-                                </li>
-                                <li class="has-submenu position-static"><a href="shop.html"><span>Shop</span></a>
-                                </li>
-                                <li><a href="contact.html"><span>Contact</span></a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+   @include('client.layouts.main-nav')
 </header>

@@ -10,7 +10,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Add Role</h4>
+                    <h4 class="card-title">Add Permission</h4>
                 </div>
 
 
