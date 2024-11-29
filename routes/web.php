@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Client\CheckoutController;
 use App\Http\Controllers\Client\AccountGoogleController;
 use App\Http\Controllers\Client\CartController;
+use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\OrderClientController;
 use App\Models\Product;
 
@@ -29,10 +30,12 @@ use App\Models\Product;
 
 // viết các route client ở đây
 Route::prefix('/')->group(function () {
-    Route::get('/', function () {
-        $prd = Product::query()->latest('id')->paginate(8);
-        return view('client.home.index',compact('prd'));
-    });
+    Route::get('/',[HomeController::class, 'index'])->name('home');
+
+    Route::get('/shop', [\App\Http\Controllers\Client\ShopController::class, 'index'])->name('shop');
+    Route::get('/about', [\App\Http\Controllers\Client\AboutController::class, 'index'])->name('about');
+    Route::get('/blog', [\App\Http\Controllers\Client\BlogController::class, 'index'])->name('blog');
+    Route::get('/contact', [\App\Http\Controllers\Client\ContactController::class, 'index'])->name('contact');
 
     Route::get('/login', [AccountGoogleController::class, 'viewLogin'])->name('login');
     Route::post('login', [AccountGoogleController::class, 'login'])->name('login.submit');
