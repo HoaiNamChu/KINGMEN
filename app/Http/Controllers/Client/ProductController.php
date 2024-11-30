@@ -22,44 +22,13 @@ class ProductController extends Controller
             ->where('slug', $request->slug)
             ->first();
 
-        $relatedProducts = '';
-
-        if ($product->categories->isEmpty() && $product->brand_id == null){
-            $relatedProducts = Product::query()
-                ->where('id', '!=', $product->id)
-                ->where('is_active', '=', 1)
-                ->latest()
-                ->limit(8)
-                ->get();
-        }elseif ($product->categories->isEmpty() && $product->brand_id != null){
-            $relatedProducts = Product::query()
-                ->where('id', '!=', $product->id)
-                ->where('brand_id', $product->brand_id)
-                ->where('is_active', '=', 1)
-                ->latest()
-                ->limit(8)
-                ->get();
-        }else{
-            $relatedProducts = Product::query()
-                ->where('id', '!=', $product->id)
-                ->where('brand_id', $product->brand_id)
-                ->where(['categories' => function ($q) use ($product){
-                    $q->whereIn('categories.id', $product->categories->pluck('id'));
-                }])
-                ->where('is_active', '=', 1)
-                ->latest()
-                ->limit(8)
-                ->get();
-        }
-
-        if ($relatedProducts->isEmpty()){
-            $relatedProducts = Product::query()
-                ->where('id', '!=', $product->id)
-                ->where('is_active', '=', 1)
-                ->latest()
-                ->limit(8)
-                ->get();
-        }
+        $relatedProducts = Product::query()
+            ->where('id', '!=', $product->id)
+            ->where('is_active', '=', 1)
+            ->where('brand_id' , '=', $product->brand_id)
+            ->latest()
+            ->limit(8)
+            ->get();
 
         return view(self::PATH_VIEW . 'product-detail', compact('product', 'relatedProducts'));
     }
