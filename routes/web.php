@@ -10,15 +10,15 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\PermissionController;;
+use App\Http\Controllers\Admin\PermissionController;
+
+;
+
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
 
 use App\Http\Controllers\Client\AccountGoogleController;
 use App\Http\Controllers\Client\OrderClientController;
-
-
-
 
 
 /*
@@ -53,6 +53,37 @@ Route::prefix('/')->group(function () {
     Route::post('/contact', [\App\Http\Controllers\Client\ContactController::class, 'store'])->name('contact.store');
 
 
+    //tuyen
+
+    // view account
+    Route::get('/account', [AccountGoogleController::class, 'index'])->name('account.index');
+
+    // login
+    Route::get('/login', [AccountGoogleController::class, 'viewLogin'])->name('login');
+    Route::post('login', [AccountGoogleController::class, 'login'])->name('login.submit');
+
+    // register
+    Route::get('/register', [AccountGoogleController::class, 'create'])->name('account.register');
+    Route::post('/register', [AccountGoogleController::class, 'store'])->name('store');
+
+    // login by google
+    Route::get('auth/google', [AccountGoogleController::class, 'redirectToGoogle'])->name('login-by-google');
+    Route::get('auth/google/callback', [AccountGoogleController::class, 'handleGoogleCallback']);
+
+    // logout account
+    Route::get('/logout', [AccountGoogleController::class, 'logout'])->name('logout');
+
+    // update billing address
+    Route::post('/update-billing-address', [AccountGoogleController::class, 'updateBillingAddress']);
+
+    // forget password
+    Route::get('/forget-password', [AccountGoogleController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+
+    Route::post('/forget-password', [AccountGoogleController::class, 'sendEmailForgetPasswordForm'])->name('forget.password.post');
+
+    Route::get('reset-password/{token}', [AccountGoogleController::class, 'showResetPasswordForm'])->name('reset.password.get');
+
+    Route::post('reset-password', [AccountGoogleController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
 
 });

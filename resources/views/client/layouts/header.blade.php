@@ -21,7 +21,7 @@
                                         @if(Auth::check())
                                             <li class="account"><i class="fa fa-user"></i><a
                                                     href="{{route('account.index')}}"> Account
-                                                    : {{ Auth::user()->name }}</a></li>
+                                                    : {{ Auth::user()->username }}</a></li>
                                             <li class="account"><a href="/logout" style="color: brown">Logout</a></li>
                                         @else
                                             <li class="account"><i class="fa fa-user"></i><a href="/login">Account</a>
