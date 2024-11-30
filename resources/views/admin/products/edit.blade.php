@@ -4,6 +4,13 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 @endsection
 
+@section('styles')
+    <style>
+        .variant-data{
+            display: none;
+        }
+    </style>
+@endsection
 
 @section('content')
     <div class="container-xxl">
@@ -194,7 +201,7 @@
                                     <div class="row pt-3 pb-3" id="variations-item">
                                         @foreach($product->variants as $productVariant)
                                             <div class="pe-4" id="variant-{{ $productVariant->id }}">
-                                                <div class="align-items-center">
+                                                <div class="align-items-center variant-zone" id="variant-zone-{{ $productVariant->id }}">
                                                     @foreach($productVariant->attributeValues as $item)
                                                         <h5 class="d-inline-block mb-0 me-3">{{ $item->name }}</h5>
                                                     @endforeach
@@ -204,7 +211,7 @@
                                                     </button>
                                                     <hr>
                                                 </div>
-                                                <div>
+                                                <div  class="variant-data" id="variant-data-{{ $productVariant->id }}">
                                                     <div class="row">
                                                         <div class="col-lg-6">
                                                             <div class="mb-3">
@@ -417,11 +424,6 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title d-inline-block">Product Categories</h4>
-                            <a
-                                data-bs-toggle="modal"
-                                data-bs-target="#modalCreateCategory"
-                                class="float-end text-decoration-underline">Add
-                                New</a>
                         </div>
                         <div class="card-body">
                             <div class="border" style="padding: 5px 10px; max-height: 200px; overflow: scroll;">
@@ -686,6 +688,16 @@
             var attributeId = btnId[2]
             console.log(attributeId);
             $('#select-' + attributeId + ' option').prop('selected', false);
+        });
+
+        $(document).on('click', '.variant-zone', function () {
+            var variantID = $(this).attr('id').split('variant-zone-');
+            var isHidden = $('#variant-data-'+ variantID[1]).is(":hidden");
+            if (isHidden) {
+                $('#variant-data-'+ variantID[1]).show();
+            } else {
+                $('#variant-data-'+ variantID[1]).hide();
+            }
         });
 
         @if(session('success'))

@@ -4,6 +4,14 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 @endsection
 
+@section('styles')
+    <style>
+        .variant-data{
+            display: none;
+        }
+    </style>
+@endsection
+
 
 @section('content')
     <div class="container-xxl">
@@ -264,11 +272,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title d-inline-block">Product Categories</h4><a href=""
-                                                                                            data-bs-toggle="modal"
-                                                                                            data-bs-target="#modalCreateCategory"
-                                                                                            class="float-end text-decoration-underline">Add
-                                New</a>
+                            <h4 class="card-title d-inline-block">Product Categories</h4>
                         </div>
                         <div class="card-body">
                             <p class="text-muted mb-2">Select product category</p>
@@ -526,7 +530,9 @@
                         //
                         // console.log(vairants1)
 
+
                         $('#variations-item').append(response);
+
                     },
                     error: function (response) {
 
@@ -561,6 +567,17 @@
             var attributeId = btnId[2]
             console.log(attributeId);
             $('#select-' + attributeId + ' option').prop('selected', false);
+        });
+
+
+        $(document).on('click', '.variant-zone', function () {
+            var variantID = $(this).attr('id').split('variant-zone-');
+            var isHidden = $('#variant-data-'+ variantID[1]).is(":hidden");
+            if (isHidden) {
+                $('#variant-data-'+ variantID[1]).show();
+            } else {
+                $('#variant-data-'+ variantID[1]).hide();
+            }
         });
 
         @if(session('success'))

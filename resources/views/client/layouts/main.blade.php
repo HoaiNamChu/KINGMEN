@@ -316,7 +316,6 @@
 <script src="{{ asset('theme/client/assets/js/custom.js') }}"></script>
 
 
-
 @yield('scripts')
 
 </body>

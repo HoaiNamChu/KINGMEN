@@ -50,6 +50,9 @@ Route::prefix('/')->group(function () {
     Route::post('/order/{id}/cancel', [OrderClientController::class, 'cancel'])->name('order.cancel')->middleware('auth');
 
 
+    Route::post('/contact', [\App\Http\Controllers\Client\ContactController::class, 'store'])->name('contact.store');
+
+
 
 
 });

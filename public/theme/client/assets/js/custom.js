@@ -1,5 +1,5 @@
 (function($) {
-  
+
   "use strict";
 
   // Background Image Js
@@ -75,7 +75,7 @@
       else
       $(".header-navigation-area li a[href='"+curpage+"']").parents("li").addClass("active");
     }
-    
+
   // Popup Quick View JS
     var popupProduct = $(".product-quick-view-modal");
     $(".btn-product-quick-view-open").on('click', function() {
@@ -248,7 +248,7 @@
     });
     $('.ui-slider-handle:eq(0)').html( '<span>' + '$' + $( "#price-range" ).slider( "values", 0 ) + '</span>' );
     $('.ui-slider-handle:eq(1)').html( '<span>' + '$' + $( "#price-range" ).slider( "values", 1 ) + '</span>' );
-    
+
   // Review Form JS
     $(".review-write-btn").on('click', function() {
       $(".reviews-form-area, .review-write-btn").toggleClass("show").focus();
@@ -258,38 +258,38 @@
     var form = $('#contact-form');
     var formMessages = $('.form-message');
 
-    $(form).submit(function(e) {
-      e.preventDefault();
-      var formData = form.serialize();
-      $.ajax({
-        type: 'POST',
-        url: form.attr('action'),
-        data: formData
-      }).done(function(response) {
-        // Make sure that the formMessages div has the 'success' class.
-        $(formMessages).removeClass('alert alert-danger');
-        $(formMessages).addClass('alert alert-success fade show');
-
-        // Set the message text.
-        formMessages.html("<button type='button' class='btn-close' data-bs-dismiss='alert'>&times;</button>");
-        formMessages.append(response);
-
-        // Clear the form.
-        $('#contact-form input,#contact-form textarea').val('');
-      }).fail(function(data) {
-        // Make sure that the formMessages div has the 'error' class.
-        $(formMessages).removeClass('alert alert-success');
-        $(formMessages).addClass('alert alert-danger fade show');
-
-        // Set the message text.
-        if (data.responseText === '') {
-          formMessages.html("<button type='button' class='btn-close' data-bs-dismiss='alert'>&times;</button>");
-          formMessages.append(data.responseText);
-        } else {
-          $(formMessages).text('Oops! An error occurred and your message could not be sent.');
-        }
-      });
-    });
+    // $(form).submit(function(e) {
+    //   e.preventDefault();
+    //   var formData = form.serialize();
+    //   $.ajax({
+    //     type: 'POST',
+    //     url: form.attr('action'),
+    //     data: formData
+    //   }).done(function(response) {
+    //     // Make sure that the formMessages div has the 'success' class.
+    //     $(formMessages).removeClass('alert alert-danger');
+    //     $(formMessages).addClass('alert alert-success fade show');
+    //
+    //     // Set the message text.
+    //     formMessages.html("<button type='button' class='btn-close' data-bs-dismiss='alert'>&times;</button>");
+    //     formMessages.append(response);
+    //
+    //     // Clear the form.
+    //     $('#contact-form input,#contact-form textarea').val('');
+    //   }).fail(function(data) {
+    //     // Make sure that the formMessages div has the 'error' class.
+    //     $(formMessages).removeClass('alert alert-success');
+    //     $(formMessages).addClass('alert alert-danger fade show');
+    //
+    //     // Set the message text.
+    //     if (data.responseText === '') {
+    //       formMessages.html("<button type='button' class='btn-close' data-bs-dismiss='alert'>&times;</button>");
+    //       formMessages.append(data.responseText);
+    //     } else {
+    //       $(formMessages).text('Oops! An error occurred and your message could not be sent.');
+    //     }
+    //   });
+    // });
 
   // scrollToTop Js
     function scrollToTop() {
