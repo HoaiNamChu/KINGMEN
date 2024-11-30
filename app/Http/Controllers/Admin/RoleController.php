@@ -38,7 +38,7 @@ public function create()
     //
     $permissions = Permission::all();
     return view('admin.roles.add', compact('permissions'));
-    
+
 }
 
 /**
@@ -98,10 +98,10 @@ public function update(UpdateRoleRequest $request, Role $role)
  */
 public function destroy(Role $role)
 {
-        // Gỡ role khỏi tất cả người dùng trước khi xóa
-        $role->users()->detach();
+    // Gỡ role khỏi tất cả người dùng trước khi xóa bằng cách truy cập bảng role_users
+    DB::table('role_users')->where('role_id', $role->id)->delete();
 
-        // Sau đó xóa role
+    // Sau đó xóa role
     $role->delete();
 
     // Chuyển hướng về trang danh sách roles với thông báo thành công

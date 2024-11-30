@@ -22,6 +22,6 @@ class IsAdmin
             return $next($request);
         }
 
-        return response()->abort(403, 'You are not allowed to access this page');
+        return redirect()->route('home')->with('error', 'You are not authorized to access this page.');
     }
 }
