@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Http\Controllers\Client;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -47,7 +49,7 @@ class AccountGoogleController extends Controller
                     'username' => $user->name,
                     'google_id' => $user->id,
                     'password' => encrypt('12345678'),  // Mật khẩu mặc định
-                    'avatar'=>$user->avatar,
+                    'avatar' => $user->avatar,
                 ]);
 
 
@@ -81,18 +83,13 @@ class AccountGoogleController extends Controller
 
     // View detail account
     public function index()
-{
-    $user = Auth::user();
+    {
+        $userData = User::where('id', Auth::id())
+            ->with('orders')
+            ->first();
 
-    if (!$user) {
-        return redirect()->route('login'); // Redirect đến trang đăng nhập
+        return view('client.account.index', compact('userData'));
     }
-
-    // Lấy danh sách đơn hàng của user
-    $orders = $user->orders;
-
-    return view('client.account.index', compact('user', 'orders'));
-}
 
 
     // register

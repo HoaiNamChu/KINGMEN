@@ -21,13 +21,46 @@ class ProductController extends Controller
             ->with('categories')
             ->where('slug', $request->slug)
             ->first();
-        $relatedProducts = Product::query()
-            ->where('id', '!=', $product->id)
-            ->where('brand_id', $product->brand_id)
-            ->where('is_active', '=', 1)
-            ->latest()
-            ->limit(8)
-            ->get();
+
+        $relatedProducts = '';
+
+        if ($product->categories->isEmpty() && $product->brand_id == null){
+            $relatedProducts = Product::query()
+                ->where('id', '!=', $product->id)
+                ->where('is_active', '=', 1)
+                ->latest()
+                ->limit(8)
+                ->get();
+        }elseif ($product->categories->isEmpty() && $product->brand_id != null){
+            $relatedProducts = Product::query()
+                ->where('id', '!=', $product->id)
+                ->where('brand_id', $product->brand_id)
+                ->where('is_active', '=', 1)
+                ->latest()
+                ->limit(8)
+                ->get();
+        }else{
+            $relatedProducts = Product::query()
+                ->where('id', '!=', $product->id)
+                ->where('brand_id', $product->brand_id)
+                ->where(['categories' => function ($q) use ($product){
+                    $q->whereIn('categories.id', $product->categories->pluck('id'));
+                }])
+                ->where('is_active', '=', 1)
+                ->latest()
+                ->limit(8)
+                ->get();
+        }
+
+        if ($relatedProducts->isEmpty()){
+            $relatedProducts = Product::query()
+                ->where('id', '!=', $product->id)
+                ->where('is_active', '=', 1)
+                ->latest()
+                ->limit(8)
+                ->get();
+        }
+
         return view(self::PATH_VIEW . 'product-detail', compact('product', 'relatedProducts'));
     }
 
@@ -38,8 +71,8 @@ class ProductController extends Controller
 
         $variant = Variant::where('product_id', '=', $request->product_id)
             ->whereHas('attributeValues', function ($query) use ($attributeID) {
-            $query->whereIn('attribute_values.id', $attributeID);
-        }, '=', count($attributeID))
+                $query->whereIn('attribute_values.id', $attributeID);
+            }, '=', count($attributeID))
             ->withCount('attributeValues')
             ->having('attribute_values_count', '=', count($attributeID))
             ->get();

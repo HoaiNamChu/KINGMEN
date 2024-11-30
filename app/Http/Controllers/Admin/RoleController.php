@@ -30,6 +30,7 @@ public function index()
     return view('admin.roles.index', compact('roles'));
 }
 
+<<<<<<< HEAD
     /**
      * Show the form for creating a new resource.
      */
@@ -40,6 +41,18 @@ public function index()
         return view('admin.roles.add', compact('permissions'));
 
     }
+=======
+/**
+ * Show the form for creating a new resource.
+ */
+public function create()
+{
+    //
+    $permissions = Permission::all();
+    return view('admin.roles.add', compact('permissions'));
+
+}
+>>>>>>> 6b33c4a3f8e9d5aa48ea3805d1cab068879286ec
 
 /**
  * Store a newly created resource in storage.
@@ -98,10 +111,10 @@ public function update(UpdateRoleRequest $request, Role $role)
  */
 public function destroy(Role $role)
 {
-        // Gỡ role khỏi tất cả người dùng trước khi xóa
-        $role->users()->detach();
+    // Gỡ role khỏi tất cả người dùng trước khi xóa bằng cách truy cập bảng role_users
+    DB::table('role_users')->where('role_id', $role->id)->delete();
 
-        // Sau đó xóa role
+    // Sau đó xóa role
     $role->delete();
 
     // Chuyển hướng về trang danh sách roles với thông báo thành công
