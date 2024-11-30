@@ -8,13 +8,14 @@ use App\Models\CartItem;
 use App\Models\Product;
 use App\Models\Variant;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
 
     public function index()
     {
-        $cart = Cart::where('user_id', \Auth::id());
+        $cart = Cart::where('user_id', Auth::id());
         if ($cart->exists()) {
             $cart = $cart->with('cartItems')
                 ->with('cartItems.product.attributes')
@@ -23,7 +24,7 @@ class CartController extends Controller
                 ->first();
         } else {
             $cart = Cart::create([
-                'user_id' => \Auth::id(),
+                'user_id' => Auth::id(),
             ]);
 
             $cart = $cart->with('cartItems')
@@ -67,7 +68,7 @@ class CartController extends Controller
             ];
         }
 
-        $cart = Cart::where('user_id', \Auth::id());
+        $cart = Cart::where('user_id', Auth::id());
 
         if ($cart->exists()) {
             $data['cart_id'] = $cart->first()->id;
@@ -81,7 +82,7 @@ class CartController extends Controller
             }
         } else {
             $cart = Cart::create([
-                'user_id' => \Auth::id(),
+                'user_id' => Auth::id(),
             ]);
 
             $data['cart_id'] = $cart->first()->id;
@@ -120,7 +121,7 @@ class CartController extends Controller
 
     public function clear(Request $request)
     {
-        $cart  = Cart::where('user_id', \Auth::id())->where('id', $request->id)->first();
+        $cart  = Cart::where('user_id', Auth::id())->where('id', $request->id)->first();
         $cart->cartItems()->delete();
 
         return redirect()->route('cart.index')->with('success', 'Removed from cart');

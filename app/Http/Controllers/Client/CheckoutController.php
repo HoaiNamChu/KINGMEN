@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
-use App\Models\CartItem;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CheckoutController extends Controller
 {
@@ -24,12 +25,15 @@ class CheckoutController extends Controller
             return redirect()->back()->with('error', 'Your cart is empty');
         }
         return view(self::PATH_VIEW . __FUNCTION__, compact('cart'));
+
     }
 
     public function order(Request $request)
     {
         $dataOrder = [
+
             'user_id' => \Auth::id(),
+
             'name' => $request->name,
             'phone' => $request->phone,
             'address' => $request->house_number . ' - ' . $request->ward . ' - ' . $request->district . ' - ' . $request->province,
@@ -44,15 +48,23 @@ class CheckoutController extends Controller
         } else if ($request->payment_method == 'vnpay_payment') {
             $dataOrder['payment_method'] = 'VN PAY';
         }
+
+
+
 //        dd($dataOrder);
+
         if ($request->payment_method == 'cash_payment') {
             $this->cashPayment($dataOrder);
         }
 
         if ($request->payment_method == 'vnpay_payment') {
 
+            $this->vnPayPayment($dataOrder);
+
+
 
             $this->vnPayPayment($dataOrder);
+
 
 
         }
@@ -62,7 +74,9 @@ class CheckoutController extends Controller
 
     public function cashPayment($dataOrder)
     {
+
         $cart = Cart::query()->where('user_id', \Auth::id())
+
             ->with('cartItems')
             ->with('cartItems.product')
             ->with('cartItems.variant')
@@ -98,11 +112,8 @@ class CheckoutController extends Controller
 
             $cart->cartItems()->delete();
 
-
         } catch (\Exception $exception) {
             \DB::rollBack();
-
-            dd($exception->getMessage());
             return redirect()->back()->with('error', $exception->getMessage());
         }
     }
@@ -111,7 +122,9 @@ class CheckoutController extends Controller
     {
 
         try {
+
             $cart = Cart::query()->where('user_id', \Auth::id())
+
                 ->with('cartItems')
                 ->with('cartItems.product')
                 ->with('cartItems.variant')

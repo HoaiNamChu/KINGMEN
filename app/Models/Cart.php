@@ -11,9 +11,7 @@ class Cart extends Model
 
     protected $table = 'carts';
 
-    protected $fillable = [
-        'user_id'
-    ];
+    protected $fillable = ['user_id'];
 
     public function cartItems(){
         return $this->hasMany(CartItem::class, 'cart_id', 'id');
