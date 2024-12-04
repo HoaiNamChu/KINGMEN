@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Exception;
 use App\Models\User;
+use App\Models\Address;
 use Illuminate\Console\View\Components\Alert;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -87,10 +88,11 @@ class AccountGoogleController extends Controller
         } else {
             return redirect()->route('login'); // Redirect đến trang đăng nhập 
         }
-
-        return view('client.account.index', compact('userData'));
+        $addresses = Address::where('user_id', $user->id)->get();
+        return view('client.account.index', compact('userData', 'addresses'));
     }
 
+    
     // register
     public function create()
     {
@@ -156,46 +158,64 @@ class AccountGoogleController extends Controller
         return redirect()->back()->withErrors(['login_error' => 'The provided user are incorrect.'])->withInput();
     }
 
-
-    // edit Billing Address (acc detail)
-    public function updateBillingAddress(Request $request)
+    // Update address default
+    public function setDefault($id)
     {
-        try {
-            // Xác thực dữ liệu đầu vào
-            $validatedData = $request->validate([
-                'name' => 'required|string|max:255',
-                'address' => 'required|string|max:255',
-                'phone' => 'required|string|max:10',
-            ]);
+        $user = auth()->user();
 
-            // Lấy thông tin người dùng hiện tại
-            $user = Auth::user();
+        // Cập nhật địa chỉ mặc định
+        Address::where('user_id', $user->id)->update(['is_default' => false]); // Gỡ mặc định các địa chỉ khác
+        Address::where('id', $id)->where('user_id', $user->id)->update(['is_default' => true]);
 
-            // Kiểm tra xem số điện thoại đã tồn tại cho người dùng khác chưa
-            $existingUser = User::where('phone', $validatedData['phone'])->where('id', '!=', $user->id)->first();
+        return redirect()->back()->with('success', 'The default address has been changed!');
+    }
 
-            if ($existingUser) {
-                // Nếu có người dùng khác đã sử dụng số điện thoại này, trả về lỗi
-                return redirect()->back()
-                    ->withErrors(['phone' => 'This phone number is already taken.'])
-                    ->withInput(); // Giữ lại các giá trị đã nhập
-            }
 
-            // Cập nhật thông tin người dùng nếu không có trùng lặp
-            $user->name = $validatedData['name'];
-            $user->address = $validatedData['address'];
-            $user->phone = $validatedData['phone'];
-            $user->save();
+    public function storeAddress(Request $request)
+    {
+        // Validate dữ liệu
+        $request->validate([
+            'city' => 'required|string|max:255',
+            'district' => 'required|string|max:255',
+            'ward' => 'required|string|max:255',
+            'detailed_address' => 'required|string|max:500',
+            'phone' => 'required|string|max:15',
+            'is_default' => 'nullable|boolean',
+        ]);
 
-            // Chuyển hướng với thông báo thành công
-            return redirect()->back()->with('success', 'Billing Address updated successfully!');
+        $user = auth()->user();
 
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Xử lý khi xác thực thất bại
-            return redirect()->back()
-                ->withErrors($e->validator)
-                ->withInput(); // Giữ lại các giá trị đã nhập
+        // Nếu là địa chỉ mặc định, bỏ mặc định các địa chỉ khác
+        if ($request->is_default) {
+            Address::where('user_id', $user->id)->update(['is_default' => false]);
         }
+
+        // Tạo địa chỉ mới
+        Address::create([
+            'user_id' => $user->id,
+            'city' => $request->city,
+            'district' => $request->district,
+            'ward' => $request->ward,
+            'detailed_address' => $request->detailed_address,
+            'phone' => $request->phone,
+            'is_default' => $request->is_default ?? false,
+        ]);
+        return redirect()->back()->with('success', 'New address added successfully!');
+    }
+
+    // delete address
+    public function deleteAddress($id)
+    {
+        // Tìm địa chỉ theo id
+        $address = Address::find($id);
+
+        if (!$address) {
+            return response()->json(['error' => 'Địa chỉ không tồn tại'], 404); // Trả về lỗi nếu không tìm thấy địa chỉ
+        }
+
+        // Xóa địa chỉ
+        $address->delete();
+        return redirect()->back()->with('success', 'Address deleted successfully!');
     }
 
     // Forget password

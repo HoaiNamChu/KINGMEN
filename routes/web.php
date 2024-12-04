@@ -41,16 +41,16 @@ Route::prefix('/')->group(function () {
     // logout account
     Route::get('/logout', [AccountGoogleController::class, 'logout'])->name('logout');
 
-    // update billing address
-    Route::post('/update-billing-address', [AccountGoogleController::class, 'updateBillingAddress']);
+    // detail address
+    Route::post('/account', [AccountGoogleController::class, 'storeAddress'])->name('account.add_address');
+    Route::delete('/addresses/{id}', [AccountGoogleController::class, 'deleteAddress'])->name('account.delete_address');
+    Route::patch('/account/{id}/set-default', [AccountGoogleController::class, 'setDefault'])->name('account.set_default');
+
 
     // forget password
     Route::get('/forget-password', [AccountGoogleController::class, 'showForgetPasswordForm'])->name('forget.password.get');
-
     Route::post('/forget-password', [AccountGoogleController::class, 'sendEmailForgetPasswordForm'])->name('forget.password.post'); 
-
     Route::get('reset-password/{token}', [AccountGoogleController::class, 'showResetPasswordForm'])->name('reset.password.get');
-
     Route::post('reset-password', [AccountGoogleController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 });
 
