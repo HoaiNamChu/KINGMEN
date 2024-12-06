@@ -22,7 +22,7 @@
                                                         <p class="desc">{{ $item->content }}</p>
                                                     </div>
                                                     <div class="btn-box">
-                                                        <a class="btn-slider" href="shop.html">More</a>
+                                                        <a class="btn-slider" href="{{$item->link}}">More</a>
                                                     </div>
                                                 </div>
                                             </div>
