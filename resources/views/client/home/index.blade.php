@@ -5,98 +5,54 @@
     <section class="home-slider-area">
         <div class="swiper-container home-slider-container default-slider-container">
             <div class="swiper-wrapper home-slider-wrapper slider-default">
-                <div class="swiper-slide">
-                    <div class="slider-content-area"
-                         data-bg-img="{{ asset('theme/client/assets/img/shape/1.webp') }}">
-                        <div class="container">
-                            <div class="slider-container">
-                                <div class="row justify-content-between align-items-center">
-                                    <div class="col-sm-6 col-md-5">
-                                        <div class="slider-content">
-                                            <div class="content">
-                                                <div class="title-box">
-                                                    <h2 class="title">Exclusive New Shoes</h2>
-                                                </div>
-                                                <div class="desc-box">
-                                                    <p class="desc">Up To 30% Off All Shoes & Products</p>
-                                                </div>
-                                                <div class="btn-box">
-                                                    <a class="btn-slider" href="shop.html">Shop Now</a>
+                @foreach($sliders as $item)
+                    <div class="swiper-slide">
+                        <div class="slider-content-area"
+                             data-bg-img="{{ asset('theme/client/assets/img/shape/1.webp') }}">
+                            <div class="container">
+                                <div class="slider-container">
+                                    <div class="row justify-content-between align-items-center">
+                                        <div class="col-sm-6 col-md-5">
+                                            <div class="slider-content">
+                                                <div class="content">
+                                                    <div class="title-box">
+                                                        <h2 class="title">{{ $item->title }}</h2>
+                                                    </div>
+                                                    <div class="desc-box">
+                                                        <p class="desc">{{ $item->content }}</p>
+                                                    </div>
+                                                    <div class="btn-box">
+                                                        <a class="btn-slider" href="shop.html">More</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-6">
-                                        <div class="slider-thumb">
-                                            <div class="thumb scene">
+                                        <div class="col-sm-6 col-md-6">
+                                            <div class="slider-thumb">
+                                                <div class="thumb scene">
                                                     <span class="scene-layer" data-depth=".3"><img
-                                                            src="{{ asset('theme/client/assets/img/slider/slider-01.webp') }}"
+                                                            src="{{ Storage::url($item->image) }}"
                                                             width="461"
                                                             height="489" alt="Image-HasTech"></span>
-                                            </div>
-                                            <div class="shape-group mousemove">
-                                                <div class="shape-group-one mousemove-layer" data-speed=".8"
-                                                     data-bg-img="{{ asset('theme/client/assets/img/shape/2.webp') }}"></div>
-                                                <div class="shape-group-two scene"><span class="scene-layer"
-                                                                                         data-depth=".6"><img
-                                                            src="{{ asset('theme/client/assets/img/shape/3.webp') }}"
-                                                            width="471" height="462"
-                                                            alt="Image-HasTech"></span></div>
+                                                </div>
+                                                <div class="shape-group mousemove">
+                                                    <div class="shape-group-one mousemove-layer" data-speed=".8"
+                                                         data-bg-img="{{ asset('theme/client/assets/img/shape/2.webp') }}"></div>
+                                                    <div class="shape-group-two scene"><span class="scene-layer"
+                                                                                             data-depth=".6"><img
+                                                                src="{{ asset('theme/client/assets/img/shape/3.webp') }}"
+                                                                width="471" height="462"
+                                                                alt="Image-HasTech"></span></div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+{{--                            <h2 class="slider-text-shape">NEW 2021</h2>--}}
                         </div>
-                        <h2 class="slider-text-shape">NEW 2021</h2>
                     </div>
-                </div>
-                <div class="swiper-slide">
-                    <div class="slider-content-area"
-                         data-bg-img="{{ asset('theme/client/assets/img/shape/1.webp') }}">
-                        <div class="container">
-                            <div class="slider-container">
-                                <div class="row justify-content-between align-items-center">
-                                    <div class="col-sm-6 col-md-5">
-                                        <div class="slider-content">
-                                            <div class="content">
-                                                <div class="title-box">
-                                                    <h2 class="title">Exclusive New Shoes</h2>
-                                                </div>
-                                                <div class="desc-box">
-                                                    <p class="desc">Up To 30% Off All Shoes & Products</p>
-                                                </div>
-                                                <div class="btn-box">
-                                                    <a class="btn-slider" href="shop.html">Shop Now</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-6">
-                                        <div class="slider-thumb">
-                                            <div class="thumb scene">
-                                                    <span class="scene-layer" data-depth=".3"><img
-                                                            src="{{ asset('theme/client/assets/img/slider/slider-03.webp') }}"
-                                                            width="548"
-                                                            height="649" alt="Image-HasTech"></span>
-                                            </div>
-                                            <div class="shape-group mousemove">
-                                                <div class="shape-group-one mousemove-layer" data-speed=".8"
-                                                     data-bg-img="{{ asset('theme/client/assets/img/shape/2.webp') }}"></div>
-                                                <div class="shape-group-two scene"><span class="scene-layer"
-                                                                                         data-depth=".6"><img
-                                                            src="{{ asset('theme/client/assets/img/shape/3.webp') }}"
-                                                            width="471" height="462"
-                                                            alt="Image-HasTech"></span></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <h2 class="slider-text-shape">NEW 2022</h2>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
             <!--== Add Swiper Arrows ==-->

@@ -29,32 +29,29 @@ class AccountGoogleController extends Controller
         try {
             // Lấy thông tin người dùng từ Google thông qua Socialite
             $user = Socialite::driver('google')->user();
+
             // Tìm người dùng trong cơ sở dữ liệu dựa trên email của họ
             $finduser = User::where('email', $user->email)->first();
 
             // Nếu người dùng đã tồn tại và google_id của họ không rỗng
-            if ($finduser && !empty($finduser->google_id)) {
+            if($finduser && !empty($finduser->google_id)){
                 // Đăng nhập người dùng
                 Auth::login($finduser);
                 return redirect()->intended('/');  // Chuyển hướng đến trang chủ (hoặc trang mong muốn)
-            } else if ($finduser && empty($finduser->google_id)) {
+            } else if($finduser && empty($finduser->google_id)){
                 // Nếu google_id rỗng, không đăng nhập
                 return redirect()->back()->with('error', 'This account is not linked with Google. Please use another login method.');
             } else {
                 // Nếu người dùng chưa tồn tại, tạo người dùng mới với thông tin từ Google
-                $newUser = User::updateOrCreate([
-                    'email' => $user->email,
-                    'username' => $user->name,
-                    'google_id' => $user->id,
-                    'password' => encrypt('12345678'),  // Mật khẩu mặc định
-                    'avatar'=>$user->avatar,
+                $newUser = User::updateOrCreate(['email' => $user->email], [
+                    'name' => $user->name,
+                    'google_id'=> $user->id,
+                    'password' => encrypt('12345678')  // Mật khẩu mặc định
                 ]);
-
-                
 
                 // Đăng nhập người dùng mới
                 Auth::login($newUser);
-                return redirect()->intended('http://127.0.0.1:8000');
+                return redirect()->intended('/');
             }
         } catch (Exception $e) {
             // Nếu xảy ra lỗi, hiển thị thông báo lỗi (debugging)
@@ -81,19 +78,12 @@ class AccountGoogleController extends Controller
 
     // View detail account
     public function index()
-{
-    $user = Auth::user();
+    {
+        $user = User::where('id', Auth::id())->with('orders')->first();
 
-    if (!$user) {
-        return redirect()->route('login'); // Redirect đến trang đăng nhập
+
+        return view('client.account.index', compact('user'));
     }
-
-    // Lấy danh sách đơn hàng của user
-    $orders = $user->orders;
-
-    return view('client.account.index', compact('user', 'orders'));
-}
-
 
     // register
     public function create()
@@ -116,7 +106,7 @@ class AccountGoogleController extends Controller
 
         // Tạo người dùng mới
         $user = User::create([
-            'name' => $request->username,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password), // Mã hóa mật khẩu
         ]);
@@ -226,7 +216,7 @@ class AccountGoogleController extends Controller
             ]);
 
             // Send email
-            Mail::send('client.email.forgetPassword', ['token' => $token], function ($message) use ($request) {
+            Mail::send('client.email.forgetPassword', ['token' => $token], function($message) use($request){
                 $message->to($request->email);
                 $message->subject('Reset Password');
             });
@@ -238,8 +228,7 @@ class AccountGoogleController extends Controller
     }
 
 
-    public function showResetPasswordForm($token)
-    {
+    public function showResetPasswordForm($token) {
         return view('client.account.formResetPassword', ['token' => $token]);
     }
 
@@ -266,7 +255,7 @@ class AccountGoogleController extends Controller
         User::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
 
         // xóa token khi password được cập nhật
-        DB::table('password_reset_tokens')->where(['email' => $request->email])->delete();
+        DB::table('password_reset_tokens')->where(['email'=> $request->email])->delete();
 
         // SAu khi Update password tự động login
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {

@@ -36,7 +36,7 @@
                         {{ session('success') }}
                     </div>
                   @endif
-                  
+
                   @if($errors->any())
                       <div class="alert alert-danger">
                           <ul>
@@ -46,7 +46,7 @@
                           </ul>
                       </div>
                   @endif
-                  
+
                   <div class="tab-pane fade show active" id="dashboad" role="tabpanel" aria-labelledby="dashboad-tab">
                     <div class="myaccount-content">
                       <h3>Dashboard</h3>
@@ -72,7 +72,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            @foreach ($orders as $order )
+                            @foreach ($user->orders as $order )
                             <tr>
                               <td>{{$order->id}}</td>
                               <td>{{$order->created_at}}</td>
@@ -136,17 +136,17 @@
                                 <label for="name">Name:</label>
                                 <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}">
                             </div>
-                
+
                             <div class="form-group">
                                 <label for="address">Address:</label>
                                 <input type="text" class="form-control" id="address" name="address" value="{{ $user->address }}">
                             </div>
-                
+
                             <div class="form-group">
                                 <label for="phone">Mobile:</label>
                                 <input type="text" class="form-control" id="phone" name="phone" value="{{ $user->phone }}"><hr>
                             </div>
-                
+
                             <button type="submit" class="btn btn-success" style="background-color: #eb3e32; border-color: #eb3e32;">Update</button>
                         </form>
                         @else
@@ -168,17 +168,17 @@
                                   <label for="display-name" class="required">Display Name</label>
                                   <input type="text" id="display-name" value="{{ Auth::user()->name }}" readonly /> <!-- Hiển thị tên hiển thị -->
                               </div>
-                      
+
                               <div class="single-input-item">
                                   <label for="email" class="required">Email Address</label>
                                   <input type="email" id="email" value="{{ Auth::user()->email }}" readonly /> <!-- Hiển thị email người dùng -->
                               </div>
-                      
+
                               @php
                                   // Kiểm tra người dùng đã đăng nhập bằng Google hay không
                                   $finduser = Auth::user();
                               @endphp
-                      
+
                               @if(!empty($finduser->google_id)) <!-- Kiểm tra nếu người dùng đăng nhập bằng Google -->
                                 <div class="text-center">
                                   <div class="col-md-12">
@@ -196,13 +196,13 @@
                                     </div>
                                   </form>
                               @endif
-                      
-                              
+
+
                           @else
                               <p>Bạn cần đăng nhập để xem thông tin tài khoản.</p> <!-- Thông báo nếu chưa đăng nhập -->
                           @endif
                       </form>
-                      
+
                       </div>
                     </div>
                   </div>

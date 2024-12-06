@@ -45,11 +45,9 @@
                                     </th>
                                     <th>Product Name & Size</th>
                                     <th>Price</th>
-                                    <th>Price Sale</th>
                                     <th>Stock</th>
                                     <th>Brand</th>
                                     <th>Category</th>
-                                    <th>Rating</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -66,51 +64,65 @@
                                             <div class="d-flex align-items-center gap-2">
                                                 <div
                                                     class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}"
-                                                         alt="" class="avatar-md">
+                                                    <img
+                                                        src="{{ \Illuminate\Support\Facades\Storage::url($item->image) }}"
+                                                        alt="" class="avatar-md">
                                                 </div>
                                                 <div>
-                                                    <a href="{{ route('admin.products.edit', $item) }}" class="text-dark fw-medium fs-15">{{ $item->name }}</a>
-{{--                                                    <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S , M , L--}}
-{{--                                                        , Xl </p>--}}
+                                                    <a href="{{ route('admin.products.edit', $item) }}"
+                                                       class="text-dark fw-medium fs-15">{{ $item->name }}</a>
+                                                    {{--                                                    <p class="text-muted mb-0 mt-1 fs-13"><span>Size : </span>S , M , L--}}
+                                                    {{--                                                        , Xl </p>--}}
                                                 </div>
                                             </div>
 
                                         </td>
-                                        <td>${{ number_format($item->price) }}</td>
-                                        <td>${{ number_format($item->price_sale) }}</td>
                                         <td>
-                                            <p class="mb-1 text-muted"><span class="text-dark fw-medium">{{ $item->quantity }} Item</span>
-                                                Left</p>
-                                            <p class="mb-0 text-muted">155 Sold</p>
+                                            @if($item->variants->isEmpty())
+                                                @if($item->is_sale)
+                                                    <span class="text-decoration-line-through">{{ number_format($item->price) }} VND</span>
+                                                    <span>-</span>
+                                                    <span>{{ number_format($item->price_sale) }} VND</span>
+                                                @else
+                                                    <span>{{ number_format($item->price) }} VND</span>
+                                                @endif
+                                            @else
+                                                <span>{{ number_format($item->price_sale) }} VND</span>
+                                                <span>-</span>
+                                                <span>{{ number_format($item->price) }} VND</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ $item->quantity }}
                                         </td>
                                         <td> {{ $item->brand ? $item->brand->name : "No brand" }}</td>
                                         <td> @if($item->categories->count())
-                                                 @foreach($item->categories as $cate)
-                                                     <a href="{{ route('admin.categories.show', $cate) }}">{{ $cate->name }}</a>,
-                                                 @endforeach
+                                                @foreach($item->categories as $cate)
+                                                    <a href="{{ route('admin.categories.show', $cate) }}">{{ $cate->name }}</a>
+                                                    ,
+                                                @endforeach
                                             @else
-                                                 {{ "No category" }}
+                                                {{ "No category" }}
                                             @endif
-                                        </td>
-                                        <td><span class="badge p-1 bg-light text-dark fs-12 me-1"><i
-                                                    class="bx bxs-star align-text-top fs-14 text-warning me-1"></i> 4.5</span>
-                                            {{ $item->reviews->count() }} Review
                                         </td>
                                         <td>
                                             <div class="d-flex gap-2">
-                                                <a href="{{ route('admin.products.show', $item) }}" class="btn btn-light btn-sm">
+                                                <a href="{{ route('admin.products.show', $item) }}"
+                                                   class="btn btn-light btn-sm">
                                                     <iconify-icon icon="solar:eye-broken"
                                                                   class="align-middle fs-18"></iconify-icon>
                                                 </a>
-                                                <a href="{{ route('admin.products.edit', $item) }}" class="btn btn-soft-primary btn-sm">
+                                                <a href="{{ route('admin.products.edit', $item) }}"
+                                                   class="btn btn-soft-primary btn-sm">
                                                     <iconify-icon icon="solar:pen-2-broken"
                                                                   class="align-middle fs-18"></iconify-icon>
                                                 </a>
-                                                <form action="{{ route('admin.products.destroy', $item) }}" method="post">
+                                                <form action="{{ route('admin.products.destroy', $item) }}"
+                                                      method="post">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-soft-danger btn-sm">
+                                                    <button type="submit" onclick="return confirm('Are you sure?')"
+                                                            class="btn btn-soft-danger btn-sm">
                                                         <iconify-icon icon="solar:trash-bin-minimalistic-2-broken"
                                                                       class="align-middle fs-18"></iconify-icon>
                                                     </button>
@@ -128,13 +140,13 @@
                         <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-end mb-0">
                                 {{ $products->links() }}
-{{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a>--}}
-{{--                                </li>--}}
-{{--                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a>--}}
-{{--                                </li>--}}
-{{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>--}}
-{{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>--}}
-{{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>--}}
+                                {{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a>--}}
+                                {{--                                </li>--}}
+                                {{--                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a>--}}
+                                {{--                                </li>--}}
+                                {{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>--}}
+                                {{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>--}}
+                                {{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>--}}
                             </ul>
                         </nav>
                     </div>
