@@ -48,7 +48,7 @@
                                                 @php
                                                     $dash = ' ';
                                                 @endphp
-                                                @include('components.admin.categories.create', ['item'=>$item, 'dash' => $dash])
+                                                @include('admin.categories.components.create', ['item'=>$item, 'dash' => $dash])
                                             @endforeach
                                         </select>
                                     </div>
