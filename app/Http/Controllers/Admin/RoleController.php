@@ -30,18 +30,6 @@ public function index()
     return view('admin.roles.index', compact('roles'));
 }
 
-<<<<<<< HEAD
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-        $permissions = Permission::all();
-        return view('admin.roles.add', compact('permissions'));
-
-    }
-=======
 /**
  * Show the form for creating a new resource.
  */
@@ -52,7 +40,6 @@ public function create()
     return view('admin.roles.add', compact('permissions'));
 
 }
->>>>>>> 6b33c4a3f8e9d5aa48ea3805d1cab068879286ec
 
 /**
  * Store a newly created resource in storage.
