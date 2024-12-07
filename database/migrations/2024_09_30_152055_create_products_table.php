@@ -28,7 +28,6 @@ return new class extends Migration
             $table->boolean('is_hot')->default(0);
             $table->boolean('is_sale')->default(0);
             $table->boolean('is_home')->default(0);
-            $table->foreignIdFor(\App\Models\Category::class)->nullable()->constrained();
             $table->timestamps();
         });
     }
