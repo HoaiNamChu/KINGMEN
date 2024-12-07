@@ -14,7 +14,6 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PermissionController;
 
-;
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
@@ -142,20 +141,25 @@ Route::prefix('/admin')
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::resources([
-            'categories' => CategoryController::class,
-            'brands' => BrandController::class,
-            'attributes' => AttributeController::class,
-            'attributeValues' => AttributeValueController::class,
-            'products' => ProductController::class,
-            'tags' => TagController::class,
-        ]);
-
-        Route::resource('orders', OrderController::class);
+        // Route::resources([
+        //     'categories' => CategoryController::class,
+        //     'brands' => BrandController::class,
+        //     'attributes' => AttributeController::class,
+        //     'attributeValues' => AttributeValueController::class,
+        //     'products' => ProductController::class,
+        //     'tags' => TagController::class,
+        // ]);
+        route::resource( 'categories', CategoryController::class)->middleware('checkPermission:Manager Categories');
+        route::resource( 'brands', BrandController::class)->middleware('checkPermission:Manager Brands');
+        route::resource( 'attributes', AttributeController::class)->middleware('checkPermission:Manager Attributes');
+        route::resource( 'attributeValues', AttributeValueController::class)->middleware('checkPermission:Manager Attribute Values');
+        route::resource( 'products', ProductController::class)->middleware('checkPermission:Manager Products');
+        route::resource( 'tags', TagController::class)->middleware('checkPermission:Manager Tags');
+        Route::resource('orders', OrderController::class)->middleware('checkPermission:Manager Orders');
         Route::patch('orders/{order}/update-status', [OrderController::class, 'update'])->name('orders.updateStatus');
-        Route::resource('users', UserController::class)->middleware('checkPermission:Manage Users');
-        Route::resource('roles', RoleController::class)->middleware('checkPermission:Manage Roles');
-        Route::resource('brands', BrandController::class)->middleware('checkPermission:Manage Brands');
-        Route::resource('permissions', PermissionController::class)->middleware('checkPermission:Manage Permissions');
+        Route::resource('users', UserController::class)->middleware('checkPermission:Manager Users');
+        Route::resource('roles', RoleController::class)->middleware('checkPermission:Manager Roles');
+        Route::resource('brands', BrandController::class)->middleware('checkPermission:Manager Brands');
+        Route::resource('permissions', PermissionController::class)->middleware('checkPermission:Manager Permissions');
 
     });

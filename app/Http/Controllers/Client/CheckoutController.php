@@ -61,12 +61,6 @@ class CheckoutController extends Controller
 
             $this->vnPayPayment($dataOrder);
 
-
-
-            $this->vnPayPayment($dataOrder);
-
-
-
         }
 
         return redirect()->route('vnpay.return')->with('success', 'Order created!');
