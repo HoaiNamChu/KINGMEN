@@ -1,47 +1,48 @@
 @extends('client.layouts.main')
 
 @section('content')
-<div class="page-header-area" data-bg-img="assets/img/photos/bg3.webp"
-    style="background-image: url(&quot;assets/img/photos/bg3.webp&quot;);">
-    <div class="container pt--0 pb--0">
-        <div class="row">
-            <div class="col-12">
-                <div class="page-header-content">
-                    <h2 class="title aos-init aos-animate" data-aos="fade-down" data-aos-duration="1000">Shopping Cart
-                    </h2>
-                    <nav class="breadcrumb-area aos-init aos-animate" data-aos="fade-down" data-aos-duration="1200">
-                        <ul class="breadcrumb">
-                            <li><a href="{{route('account.index')}}">Orders</a></li>
-                            <li class="breadcrumb-sep">//</li>
+    <div class="page-header-area" data-bg-img="assets/img/photos/bg3.webp"
+         style="background-image: url(&quot;assets/img/photos/bg3.webp&quot;);">
+        <div class="container pt--0 pb--0">
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-header-content">
+                        <h2 class="title aos-init aos-animate" data-aos="fade-down" data-aos-duration="1000">Shopping
+                            Cart
+                        </h2>
+                        <nav class="breadcrumb-area aos-init aos-animate" data-aos="fade-down" data-aos-duration="1200">
+                            <ul class="breadcrumb">
+                                <li><a href="{{route('account.index')}}">Orders</a></li>
+                                <li class="breadcrumb-sep">//</li>
 
-                            <li>My Order</li>
-                        </ul>
-                    </nav>
+                                <li>My Order</li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<section class="shopping-cart-area">
-    <div class="container">
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        @endif
+    <section class="shopping-cart-area">
+        <div class="container">
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
 
-        @if (session('error'))
-            <div class="alert alert-danger">
-                {{ session('error') }}
-            </div>
-        @endif
+            @if (session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+            @endif
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="shopping-cart-form table-responsive">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="shopping-cart-form table-responsive">
 
-                    <table class="table text-center">
-                        <thead>
+                        <table class="table text-center">
+                            <thead>
                             <tr>
                                 <th class="product-remove">&nbsp;</th>
                                 <th class="product-thumb">&nbsp;</th>
@@ -50,8 +51,8 @@
                                 <th class="product-quantity">Quantity</th>
                                 <th class="product-subtotal">Total</th>
                             </tr>
-                        </thead>
-                        <tbody>
+                            </thead>
+                            <tbody>
                             @foreach($order->orderItems as $item)
                                 <tr class="cart-product-item">
                                     <td class="product-remove">
@@ -59,7 +60,7 @@
                                     <td class="product-thumb">
                                         <a href="{{ route('product.detail', $item->product->slug) }}">
                                             <img src="{{ Storage::url($item->product_image) }}" width="90" height="110"
-                                                alt="Image-HasTech">
+                                                 alt="Image-HasTech">
                                         </a>
                                     </td>
                                     <td class="product-name">
@@ -74,113 +75,114 @@
                                         <span class="price">{{$item->product_quantity}}</span>
                                     </td>
                                     <td class="product-subtotal">
-                                        <span class="price">{{ number_format($item->total_price, 0, ',', '.') }} VND</span>
+                                        <span
+                                            class="price">{{ number_format($item->total_price, 0, ',', '.') }} VND</span>
                                     </td>
                                 </tr>
 
                             @endforeach
 
-                            <!-- <tr class="actions">
-                      <td class="border-0" colspan="6">
-                        <a href="{{route('order.cancel',$item->id)}}"><button class="update-cart" disabled="">Hủy đơn</button></a>
-                      </td>
-                    </tr> -->
+{{--                            <tr class="actions">--}}
+{{--                      <td class="border-0" colspan="6">--}}
+{{--                        <a href="{{route('order.cancel',$item->id)}}"><button class="update-cart" disabled="">Hủy đơn</button></a>--}}
+{{--                      </td>--}}
+{{--                    </tr> --}}
 
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row row-gutter-50">
+            <div class="row row-gutter-50">
 
-            <div class="col-md-6 col-lg-4">
-                <div id="CategoriesAccordion" class="shipping-form-calculate">
-                    <div class="section-title-cart">
-                        <h5 class="title">Address Information</h5>
-                        <div class="desc">
-                            <p>Shipping fee: {{$order->shipping_fee}}</p>
+                <div class="col-md-6 col-lg-4">
+                    <div id="CategoriesAccordion" class="shipping-form-calculate">
+                        <div class="section-title-cart">
+                            <h5 class="title">Address Information</h5>
+                            <div class="desc">
+                                <p>Shipping fee: {{$order->shipping_fee}}</p>
+                            </div>
                         </div>
-                    </div>
-                    <span data-bs-toggle="collapse" data-bs-target="#CategoriesTwo" aria-expanded="true"
-                        role="button">Your shipping address</span>
-                    <div id="CategoriesTwo" class="collapse show" data-bs-parent="#CategoriesAccordion">
-                        <!-- <form action="#" method="post">
-                  <div class="row row-gutter-50">
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label class="visually-hidden" for="FormCountry">State</label>
-                        <select id="FormCountry" class="form-control">
-                          <option selected="">Select a country…</option>
-                          <option>...</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label for="stateCounty" class="visually-hidden">State / County</label>
-                        <input type="text" id="stateCounty" class="form-control" placeholder="State / County">
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label for="townCity" class="visually-hidden">Town / City</label>
-                        <input type="text" id="townCity" class="form-control" placeholder="Town / City">
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <label for="postcodeZip" class="visually-hidden">Postcode / ZIP</label>
-                        <input type="text" id="postcodeZip" class="form-control" placeholder="Postcode / ZIP">
-                      </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="form-group">
-                        <button type="submit" class="update-totals">Update totals</button>
-                      </div>
-                    </div>
-                  </div>
-                </form> -->
-
+                        <span data-bs-toggle="collapse" data-bs-target="#CategoriesTwo" aria-expanded="true"
+                              role="button">Your shipping address</span>
+                        <div id="CategoriesTwo" class="collapse show" data-bs-parent="#CategoriesAccordion">
+                            <!-- <form action="#" method="post">
+                      <div class="row row-gutter-50">
                         <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="stateCounty" class="visually-hidden"></label>
-                                <input type="text" id="stateCounty" class="form-control" disabled
-                                    placeholder="{{$order->address}}">
+                          <div class="form-group">
+                            <label class="visually-hidden" for="FormCountry">State</label>
+                            <select id="FormCountry" class="form-control">
+                              <option selected="">Select a country…</option>
+                              <option>...</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label for="stateCounty" class="visually-hidden">State / County</label>
+                            <input type="text" id="stateCounty" class="form-control" placeholder="State / County">
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label for="townCity" class="visually-hidden">Town / City</label>
+                            <input type="text" id="townCity" class="form-control" placeholder="Town / City">
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <label for="postcodeZip" class="visually-hidden">Postcode / ZIP</label>
+                            <input type="text" id="postcodeZip" class="form-control" placeholder="Postcode / ZIP">
+                          </div>
+                        </div>
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <button type="submit" class="update-totals">Update totals</button>
+                          </div>
+                        </div>
+                      </div>
+                    </form> -->
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="stateCounty" class="visually-hidden"></label>
+                                    <input type="text" id="stateCounty" class="form-control" disabled
+                                           placeholder="{{$order->address}}">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="shipping-form-coupon">
-                    <div class="section-title-cart">
-                        <h5 class="title">Coupon Code</h5>
-                        <div class="desc">
-                            <p>Amount Saved</p>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="couponCode" class="visually-hidden">Coupon Code</label>
-                                <input type="text" id="couponCode" class="form-control" disabled
-                                    placeholder="{{$order->discount}}">
+                <div class="col-md-6 col-lg-4">
+                    <div class="shipping-form-coupon">
+                        <div class="section-title-cart">
+                            <h5 class="title">Coupon Code</h5>
+                            <div class="desc">
+                                <p>Amount Saved</p>
                             </div>
                         </div>
 
-                    </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="couponCode" class="visually-hidden">Coupon Code</label>
+                                    <input type="text" id="couponCode" class="form-control" disabled
+                                           placeholder="{{$order->discount}}">
+                                </div>
+                            </div>
 
-                </div>
-            </div>
-            <div class="col-md-12 col-lg-4">
-                <div class="shipping-form-cart-totals">
-                    <div class="section-title-cart">
-                        <h5 class="title">Cart totals</h5>
+                        </div>
+
                     </div>
-                    <div class="cart-total-table">
-                        <table class="table">
-                            <tbody>
+                </div>
+                <div class="col-md-12 col-lg-4">
+                    <div class="shipping-form-cart-totals">
+                        <div class="section-title-cart">
+                            <h5 class="title">Cart totals</h5>
+                        </div>
+                        <div class="cart-total-table">
+                            <table class="table">
+                                <tbody>
                                 <tr class="cart-subtotal">
                                     <td>
                                         <p class="value">Sub Total:</p>
@@ -215,21 +217,23 @@
                                         <p class="price">{{ number_format($order->total, 0, ',', '.') }} VND</p>
                                     </td>
                                 </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div style="display: flex; gap: 65px;">
-                    <form action="{{ route('order.cancel', $order->id) }}" method="POST">
-                        @csrf
-                        @method('POST') <!-- Đảm bảo form gửi theo phương thức POST -->
-                        <button type="submit" class="btn-theme btn-flat">Hủy đơn</button>
-                    </form>
-                    <a href="{{route('account.index')}}"><button class="btn-theme btn-flat"> Cancel</button></a>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="display: flex; gap: 65px;">
+                            <form action="{{ route('order.cancel', $order->id) }}" method="POST">
+                                @csrf
+                                @method('POST') <!-- Đảm bảo form gửi theo phương thức POST -->
+                                <button type="submit" class="btn-theme btn-flat">Hủy đơn</button>
+                            </form>
+                            <a href="{{route('account.index')}}">
+                                <button class="btn-theme btn-flat"> Cancel</button>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 @endsection
