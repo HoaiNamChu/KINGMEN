@@ -44,7 +44,7 @@ class AccountGoogleController extends Controller
             } else {
                 // Nếu người dùng chưa tồn tại, tạo người dùng mới với thông tin từ Google
                 $newUser = User::updateOrCreate(['email' => $user->email], [
-                    'name' => $user->name,
+                    'username' => $user->name,
                     'google_id'=> $user->id,
                     'password' => encrypt('12345678')  // Mật khẩu mặc định
                 ]);

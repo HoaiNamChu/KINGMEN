@@ -16,13 +16,13 @@ class OrderClientController extends Controller
     public function show($id)
     {
      // Lấy đơn hàng của người dùng hiện tại, bao gồm các sản phẩm trong bảng order_items
-<<<<<<< HEAD
+
      $order = Order::where('id', $id)->with('orderItems.product')->first();// Lấy đơn hàng cùng với các item    $orders = $user->orders;
-=======
+
     $order = Order::where('id', $id)
         ->with('orderItems.product')
         ->first();// Lấy đơn hàng cùng với các item    $orders = $user->orders;
->>>>>>> 6b33c4a3f8e9d5aa48ea3805d1cab068879286ec
+
 
     $subtotal = $order->orderItems->sum('total_price'); // Lấy tổng giá trị 'total' của tất cả các mục
 
