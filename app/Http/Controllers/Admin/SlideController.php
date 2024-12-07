@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Slide;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SlideController extends Controller
 {
@@ -32,10 +33,15 @@ class SlideController extends Controller
     {
         $request->validate([
             'title' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpg,jpeg,png',
+            'image' => 'image|mimes:jpg,jpeg,png',
+            'content' => 'max:100',
+            'link' => 'max:100',
         ]);
 
-        $imagePath = $request->file('image')->store('slides', 'public');
+        // Xử lý lưu ảnh nếu có
+        $imagePath = $request->hasFile('image')
+            ? $request->file('image')->store('slides', 'public')
+            : null; // Nếu không có ảnh, đặt giá trị là null
 
         Slide::create([
             'title' => $request->title,
@@ -76,8 +82,12 @@ class SlideController extends Controller
         ]);
 
         $imagePath = $slide->image;
+        // Nếu có ảnh mới, xóa ảnh cũ và lưu ảnh mới
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('slides', 'public');
+            if ($imagePath) {
+                Storage::disk('public')->delete($imagePath); // Xóa ảnh cũ
+            }
+            $imagePath = $request->file('image')->store('slides', 'public'); // Lưu ảnh mới
         }
 
         $slide->update([
