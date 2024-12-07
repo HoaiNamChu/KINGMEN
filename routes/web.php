@@ -164,5 +164,4 @@ Route::prefix('/admin')
         Route::resource('brands', BrandController::class)->middleware('checkPermission:Manager Brands');
         Route::resource('permissions', PermissionController::class)->middleware('checkPermission:Manager Permissions');
 
-
     });
