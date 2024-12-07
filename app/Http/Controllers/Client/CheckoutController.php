@@ -104,7 +104,6 @@ class CheckoutController extends Controller
                     'variant_id' => $cartItem->variant_id,
                     'product_name' => $cartItem->product->name,
                     'product_price' => $price,
-                    'product_image' => $cartItem->product->image,
                     'product_quantity' => $cartItem->quantity,
                     'total_price' => intval($price) * intval($cartItem->quantity),
                 ]);
@@ -152,7 +151,6 @@ class CheckoutController extends Controller
                     'variant_id' => $cartItem->variant_id,
                     'product_name' => $cartItem->product->name,
                     'product_price' => $price,
-                    'product_image' => $cartItem->product->image,
                     'product_quantity' => $cartItem->quantity,
                     'total_price' => intval($price) * intval($cartItem->quantity),
                 ]);
