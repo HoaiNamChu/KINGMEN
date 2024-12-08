@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PostController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -149,6 +150,7 @@ Route::prefix('/admin')
             'attributeValues' => AttributeValueController::class,
             'products' => ProductController::class,
             'tags' => TagController::class,
+            'posts' => PostController::class,
         ]);
 
         Route::resource('orders', OrderController::class);
