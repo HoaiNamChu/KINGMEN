@@ -76,6 +76,10 @@ Route::prefix('/')->group(function () {
 
     Route::post('/contact', [\App\Http\Controllers\Client\ContactController::class, 'store'])->name('contact.store');
 
+    //post route
+
+    Route::get('/posts/{slug}', [\App\Http\Controllers\Client\PostController::class, 'detail'])->name('client.posts.detail');
+
 
     //tuyen
 
