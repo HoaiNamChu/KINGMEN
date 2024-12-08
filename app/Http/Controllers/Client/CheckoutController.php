@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\Checkouts\CheckoutRequest;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -21,24 +22,26 @@ class CheckoutController extends Controller
             ->with('cartItems.product')
             ->with('cartItems.variant.attributeValues')
             ->first();
-        if (!$cart->cartItems->count()){
+        if (!$cart->cartItems->count()) {
             return redirect()->back()->with('error', 'Your cart is empty');
         }
         return view(self::PATH_VIEW . __FUNCTION__, compact('cart'));
 
     }
 
-    public function order(Request $request)
+    public function order(CheckoutRequest $request)
     {
+
+//        dd(request()->all());
+
         $dataOrder = [
 
             'user_id' => \Auth::id(),
-
             'name' => $request->name,
             'phone' => $request->phone,
             'address' => $request->house_number . ' - ' . $request->ward . ' - ' . $request->district . ' - ' . $request->province,
             'status' => 'Đang chờ xác nhận',
-            'discount' => 0,
+            'discount' => $request->discount,
             'shipping_fee' => $request->shipping_fee,
             'total' => $request->order_total,
             'payment_status' => 'Chưa thanh toán',
@@ -49,122 +52,90 @@ class CheckoutController extends Controller
             $dataOrder['payment_method'] = 'VN PAY';
         }
 
-
-
-//        dd($dataOrder);
+        $dataOrderItems = $request->orderItems;
 
         if ($request->payment_method == 'cash_payment') {
-            $this->cashPayment($dataOrder);
+//            $this->cashPayment($dataOrder, $dataOrderItems);
+            try {
+                $order = Order::query()->create($dataOrder);
+                foreach ($dataOrderItems as $orderItem) {
+                    OrderItem::query()->create([
+                        'order_id' => $order->id,
+                        'product_id' => $orderItem['product_id'],
+                        'variant_id' => $orderItem['variant_id'],
+                        'product_name' => $orderItem['product_name'],
+                        'product_price' => $orderItem['product_price'],
+                        'product_quantity' => $orderItem['product_quantity'],
+                        'total_price' => $orderItem['total_price'],
+                    ]);
+                }
+                $cart = Cart::query()->where('user_id', \Auth::id())->first();
+                $cart->cartItems()->delete();
+            } catch (\Exception $exception) {
+                \DB::rollBack();
+                return redirect()->back()->with('error', $exception->getMessage());
+            }
         }
 
         if ($request->payment_method == 'vnpay_payment') {
 
-            $this->vnPayPayment($dataOrder);
-
-
-
-            $this->vnPayPayment($dataOrder);
-
-
+            $this->vnPayPayment($dataOrder, $dataOrderItems);
 
         }
 
         return redirect()->route('vnpay.return')->with('success', 'Order created!');
     }
 
-    public function cashPayment($dataOrder)
+    public function cashPayment($dataOrder, $dataOrderItems)
     {
-
-        $cart = Cart::query()->where('user_id', \Auth::id())
-
-            ->with('cartItems')
-            ->with('cartItems.product')
-            ->with('cartItems.variant')
-            ->first();
         try {
             $order = Order::query()->create($dataOrder);
 
-            foreach ($cart->cartItems as $cartItem) {
-                if ($cartItem->variant) {
-                    if ($cartItem->variant->price_sale > 0 && $cartItem->product->is_sale) {
-                        $price = $cartItem->variant->price_sale;
-                    } else {
-                        $price = $cartItem->variant->price;
-                    }
-                } else {
-                    if ($cartItem->product->price_sale > 0 && $cartItem->product->is_sale) {
-                        $price = $cartItem->product->price_sale;
-                    } else {
-                        $price = $cartItem->product->price;
-                    }
-                }
+            foreach ($dataOrderItems as $orderItem) {
                 OrderItem::query()->create([
                     'order_id' => $order->id,
-                    'product_id' => $cartItem->product_id,
-                    'variant_id' => $cartItem->variant_id,
-                    'product_name' => $cartItem->product->name,
-                    'product_price' => $price,
-                    'product_quantity' => $cartItem->quantity,
-                    'total_price' => intval($price) * intval($cartItem->quantity),
+                    'product_id' => $orderItem->product_id,
+                    'variant_id' => $orderItem->variant_id,
+                    'product_name' => $orderItem->product_name,
+                    'product_price' => $orderItem->product_price,
+                    'product_quantity' => $orderItem->quantity,
+                    'total_price' => $orderItem->total_price,
                 ]);
             }
-
+            $cart = Cart::query()->where('user_id', \Auth::id())->first();
             $cart->cartItems()->delete();
-
+            return true;
         } catch (\Exception $exception) {
             \DB::rollBack();
             return redirect()->back()->with('error', $exception->getMessage());
         }
     }
 
-    public function vnPayPayment($dataOrder)
+    public function vnPayPayment($dataOrder, $dataOrderItems)
     {
 
         try {
-
-            $cart = Cart::query()->where('user_id', \Auth::id())
-
-                ->with('cartItems')
-                ->with('cartItems.product')
-                ->with('cartItems.variant')
-                ->first();
-
             $order = Order::query()->create($dataOrder);
-
-            foreach ($cart->cartItems as $cartItem) {
-                if ($cartItem->variant) {
-                    if ($cartItem->variant->price_sale > 0 && $cartItem->product->is_sale) {
-                        $price = $cartItem->variant->price_sale;
-                    } else {
-                        $price = $cartItem->variant->price;
-                    }
-                } else {
-                    if ($cartItem->product->price_sale > 0 && $cartItem->product->is_sale) {
-                        $price = $cartItem->product->price_sale;
-                    } else {
-                        $price = $cartItem->product->price;
-                    }
-                }
+            foreach ($dataOrderItems as $orderItem) {
                 OrderItem::query()->create([
                     'order_id' => $order->id,
-                    'product_id' => $cartItem->product_id,
-                    'variant_id' => $cartItem->variant_id,
-                    'product_name' => $cartItem->product->name,
-                    'product_price' => $price,
-                    'product_quantity' => $cartItem->quantity,
-                    'total_price' => intval($price) * intval($cartItem->quantity),
+                    'product_id' => $orderItem['product_id'],
+                    'variant_id' => $orderItem['variant_id'],
+                    'product_name' => $orderItem['product_name'],
+                    'product_price' => $orderItem['product_price'],
+                    'product_quantity' => $orderItem['product_quantity'],
+                    'total_price' => $orderItem['total_price'],
                 ]);
             }
-
+            $cart = Cart::query()->where('user_id', \Auth::id())->first();
             $cart->cartItems()->delete();
-
-
         } catch (\Exception $exception) {
-            dd($exception->getMessage());
+            \DB::rollBack();
+            return redirect()->back()->with('error', $exception->getMessage());
         }
 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = 'http://kingmen.test/checkout/vnpay/return';
+        $vnp_Returnurl = env('APP_URL').'/checkout/vnpay/return';
         $vnp_TmnCode = "VE6K2G0A";//Mã website tại VNPAY
         $vnp_HashSecret = "2YZEFBP627O8ZXMP8H5XH0YWF19QXCV1"; //Chuỗi bí mật
 
@@ -225,7 +196,7 @@ class CheckoutController extends Controller
             Order::query()->where('id', $request->vnp_TxnRef)->update([
                 'payment_status' => 'Đã thanh toán',
             ]);
-        }else{
+        } else {
             Order::query()->where('id', $request->vnp_TxnRef)->update([
                 'payment_status' => 'Chưa thanh toán',
             ]);
