@@ -491,15 +491,22 @@
                           <option value="">--Select Ward/Commune--</option>
                       </select>
                   </div>
+                  <div class="mb-3 form-check">
+                      <!-- Hidden input để đảm bảo giá trị 'false' được gửi nếu checkbox không được chọn -->
+                      <input type="hidden" name="is_default" value="false">
+                      <input type="checkbox" class="form-check-input" id="is_default" name="is_default" value="true">
+                      <label class="form-check-label" for="is_default">Set as Default Address</label>
+                  </div>
               </div>
               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                  <button type="submit" class="btn btn-primary">Lưu</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Save</button>
               </div>
           </form>
       </div>
   </div>
 </div>
+
 
 
 {{-- Script lấy api --}}

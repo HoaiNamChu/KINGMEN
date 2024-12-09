@@ -89,7 +89,7 @@ class AccountGoogleController extends Controller
             return redirect()->route('login'); // Redirect đến trang đăng nhập 
         }
         $addresses = Address::where('user_id', $user->id)->get();
-        return view('client.account.index', compact('userData', 'addresses'));
+        return view('client.account.index', compact('userData', 'addresses', 'user'));
     }
 
     
@@ -173,24 +173,25 @@ class AccountGoogleController extends Controller
 
     public function storeAddress(Request $request)
     {
-        // Validate dữ liệu
         $request->validate([
             'city' => 'required|string|max:255',
             'district' => 'required|string|max:255',
             'ward' => 'required|string|max:255',
             'detailed_address' => 'required|string|max:500',
             'phone' => 'required|string|max:15',
-            'is_default' => 'nullable|boolean',
+            'is_default' => 'nullable|in:true,false,1,0',
         ]);
-
+    
         $user = auth()->user();
-
+    
+        // CHưa có địa chỉ láy địa chỉ đầu làm mặc đinh
+        $isFirstAddress = Address::where('user_id', $user->id)->doesntExist();
+    
         // Nếu là địa chỉ mặc định, bỏ mặc định các địa chỉ khác
-        if ($request->is_default) {
+        if ($request->boolean('is_default') || $isFirstAddress) {
             Address::where('user_id', $user->id)->update(['is_default' => false]);
         }
-
-        // Tạo địa chỉ mới
+    
         Address::create([
             'user_id' => $user->id,
             'city' => $request->city,
@@ -198,10 +199,13 @@ class AccountGoogleController extends Controller
             'ward' => $request->ward,
             'detailed_address' => $request->detailed_address,
             'phone' => $request->phone,
-            'is_default' => $request->is_default ?? false,
+            'is_default' => $request->boolean('is_default', false) || $isFirstAddress,
         ]);
+    
         return redirect()->back()->with('success', 'New address added successfully!');
     }
+    
+    
 
     // delete address
     public function deleteAddress($id)
