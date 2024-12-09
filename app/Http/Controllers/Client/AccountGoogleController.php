@@ -206,17 +206,21 @@ class AccountGoogleController extends Controller
     // delete address
     public function deleteAddress($id)
     {
-        // Tìm địa chỉ theo id
         $address = Address::find($id);
-
+    
         if (!$address) {
-            return response()->json(['error' => 'Địa chỉ không tồn tại'], 404); // Trả về lỗi nếu không tìm thấy địa chỉ
+            return response()->json(['error' => 'Địa chỉ không tồn tại'], 404); 
         }
-
+    
+        if ($address->is_default) {
+            return redirect()->back()->with('error', 'Default address could not delete!');
+        }
+    
         // Xóa địa chỉ
         $address->delete();
         return redirect()->back()->with('success', 'Address deleted successfully!');
     }
+    
 
     // Forget password
     public function showForgetPasswordForm()
@@ -285,7 +289,7 @@ class AccountGoogleController extends Controller
 
         // SAu khi Update password tự động login
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect()->intended('/')->with('message', 'Your password has been reset and you are now logged in!');
+            return redirect()->intended('/')->with('message', 'Password updated successfully');
         }
 
         return redirect('/login')->with('error', 'There was an issue logging in. Please try logging in manually.');
