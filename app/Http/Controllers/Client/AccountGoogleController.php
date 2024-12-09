@@ -12,7 +12,7 @@ use Illuminate\Console\View\Components\Alert;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon; 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 use function Laravel\Prompts\alert;
@@ -29,7 +29,7 @@ class AccountGoogleController extends Controller
     {
         try {
             // Lấy thông tin người dùng từ Google thông qua Socialite
-            $user = Socialite::driver('google')->user();     
+            $user = Socialite::driver('google')->user();
 
             // Tìm người dùng trong cơ sở dữ liệu dựa trên email của họ
             $finduser = User::where('email', $user->email)->first();
@@ -45,7 +45,7 @@ class AccountGoogleController extends Controller
             } else {
                 // Nếu người dùng chưa tồn tại, tạo người dùng mới với thông tin từ Google
                 $newUser = User::updateOrCreate(['email' => $user->email], [
-                    'name' => $user->name,
+                    'username' => $user->name,
                     'google_id'=> $user->id,
                     'password' => encrypt('12345678')  // Mật khẩu mặc định
                 ]);
@@ -53,7 +53,7 @@ class AccountGoogleController extends Controller
                 // Đăng nhập người dùng mới
                 Auth::login($newUser);
                 return redirect()->intended('/');
-            }        
+            }
         } catch (Exception $e) {
             // Nếu xảy ra lỗi, hiển thị thông báo lỗi (debugging)
             dd($e->getMessage());
@@ -114,7 +114,7 @@ class AccountGoogleController extends Controller
 
         // Tạo người dùng mới
         $user = User::create([
-            'name' => $request->username,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password), // Mã hóa mật khẩu
         ]);
@@ -129,7 +129,7 @@ class AccountGoogleController extends Controller
     // view login
     public function viewLogin()
     {
-        return view('client.account.login'); 
+        return view('client.account.login');
     }
 
     public function login(Request $request)
@@ -240,8 +240,8 @@ class AccountGoogleController extends Controller
 
             // Insert token vào bảng password_reset_tokens
             DB::table('password_reset_tokens')->insert([
-                'email' => $request->email, 
-                'token' => $token, 
+                'email' => $request->email,
+                'token' => $token,
                 'created_at' => Carbon::now()
             ]);
 
@@ -258,21 +258,21 @@ class AccountGoogleController extends Controller
     }
 
 
-    public function showResetPasswordForm($token) { 
+    public function showResetPasswordForm($token) {
         return view('client.account.formResetPassword', ['token' => $token]);
     }
 
     public function submitResetPasswordForm(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users,email', 
-            'password' => 'required|string|min:8|confirmed', 
-            'password_confirmation' => 'required' 
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|string|min:8|confirmed',
+            'password_confirmation' => 'required'
         ]);
 
         // Check token đã được tạo chưa
         $updatePassword = DB::table('password_reset_tokens')->where([
-            'email' => $request->email, 
+            'email' => $request->email,
             'token' => $request->token
         ])->first();
 
@@ -283,7 +283,7 @@ class AccountGoogleController extends Controller
 
         // Update password
         User::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
-        
+
         // xóa token khi password được cập nhật
         DB::table('password_reset_tokens')->where(['email'=> $request->email])->delete();
 

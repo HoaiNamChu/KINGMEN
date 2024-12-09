@@ -52,7 +52,7 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, 'role_users', 'user_id', 'role_id');
     }
 
     public function orders(){
@@ -70,7 +70,11 @@ class User extends Authenticatable
 
     public function cart()
     {
-        return $this->hasOne(Cart::class);
+        return $this->hasOne(Cart::class, 'user_id', 'id');
     }
+    public function isActive()
+{
+    return $this->is_active == 1; // Hoặc return (bool) $this->is_active;
+}
 
 }

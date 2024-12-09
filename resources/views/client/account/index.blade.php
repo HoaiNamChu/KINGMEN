@@ -43,6 +43,7 @@
                   @endif
 
                   
+
                   @if($errors->any())
                       <div class="alert alert-danger">
                           <ul>
@@ -52,12 +53,13 @@
                           </ul>
                       </div>
                   @endif
-                  
+
                   <div class="tab-pane fade show active" id="dashboad" role="tabpanel" aria-labelledby="dashboad-tab">
                     <div class="myaccount-content">
                       <h3>Dashboard</h3>
                       <div class="welcome">
-                        <p>Hello, <strong>{{$userData->name}}</strong> (If Not <strong>{{$userData->name}} !</strong><a href="/logout" class="logout"> Logout</a>)</p>
+                        <p>Hello, <strong>{{$user->name}}</strong> (If Not <strong>{{$user->name}} !</strong><a href="/logout" class="logout"> Logout</a>)</p>
+                        <p> <strong>{{$user->name}}</strong> (If you are an administrator click here to access the</strong><a href="/admin" class="logout"> Admin Page</a> !)</p>
                       </div>
                       <p>From your account dashboard. you can easily check & view your recent orders, manage your shipping and billing addresses and edit your password and account details.</p>
                     </div>
@@ -77,27 +79,16 @@
                             </tr>
                           </thead>
                           <tbody>
+                            @foreach ($user->orders as $order )
                             <tr>
-                              <td>1</td>
-                              <td>Aug 22, 2022</td>
-                              <td>Pending</td>
-                              <td>$3000</td>
-                              <td><a href="shop-cart.html" class="check-btn sqr-btn ">View</a></td>
+                              <td>{{$order->id}}</td>
+                              <td>{{$order->created_at}}</td>
+                              <td>{{$order->status}}</td>
+                              <td>{{$order->total}}</td>
+                              <td><a href="{{route('order.detail',$order->id)}}" class="check-btn sqr-btn ">View</a></td>
                             </tr>
-                            <tr>
-                              <td>2</td>
-                              <td>July 22, 2022</td>
-                              <td>Approved</td>
-                              <td>$200</td>
-                              <td><a href="shop-cart.html" class="check-btn sqr-btn ">View</a></td>
-                            </tr>
-                            <tr>
-                              <td>3</td>
-                              <td>June 12, 2022</td>
-                              <td>On Hold</td>
-                              <td>$990</td>
-                              <td><a href="shop-cart.html" class="check-btn sqr-btn ">View</a></td>
-                            </tr>
+                            @endforeach
+
                           </tbody>
                         </table>
                       </div>
@@ -216,17 +207,17 @@
                                   <label for="display-name" class="required">Display Name</label>
                                   <input type="text" id="display-name" value="{{ Auth::user()->name }}" readonly /> <!-- Hiển thị tên hiển thị -->
                               </div>
-                      
+
                               <div class="single-input-item">
                                   <label for="email" class="required">Email Address</label>
                                   <input type="email" id="email" value="{{ Auth::user()->email }}" readonly /> <!-- Hiển thị email người dùng -->
                               </div>
-                      
+
                               @php
                                   // Kiểm tra người dùng đã đăng nhập bằng Google hay không
                                   $finduser = Auth::user();
                               @endphp
-                      
+
                               @if(!empty($finduser->google_id)) <!-- Kiểm tra nếu người dùng đăng nhập bằng Google -->
                                 <div class="text-center">
                                   <div class="col-md-12">
@@ -242,7 +233,7 @@
                               <p>Bạn cần đăng nhập để xem thông tin tài khoản.</p> <!-- Thông báo nếu chưa đăng nhập -->
                           @endif
                       </form>
-                      
+
                       </div>
                     </div>
                   </div>

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('address');
             $table->string('email');
+
             $table->string('status');
             $table->string('payment_method');
             $table->string('payment_status');

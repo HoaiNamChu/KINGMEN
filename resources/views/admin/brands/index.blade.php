@@ -1,60 +1,11 @@
 @extends('admin.layouts.main')
 
+@section('link')
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+@endsection
+
 @section('content')
     <div class="container-xxl">
-
-        <div class="row">
-            <div class="col-md-6 col-xl-3">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div
-                            class="rounded bg-secondary-subtle d-flex align-items-center justify-content-center mx-auto">
-                            <img src="{{ asset('theme/admin/assets/images/product/p-1.png') }}" alt=""
-                                 class="avatar-xl">
-                        </div>
-                        <h4 class="mt-3 mb-0">Fashion Categories</h4>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-xl-3">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div
-                            class="rounded bg-primary-subtle d-flex align-items-center justify-content-center mx-auto">
-                            <img src="{{ asset('theme/admin/assets/images/product/p-6.png') }}" alt=""
-                                 class="avatar-xl">
-                        </div>
-                        <h4 class="mt-3 mb-0">Electronics Headphone</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-xl-3">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div
-                            class="rounded bg-warning-subtle d-flex align-items-center justify-content-center mx-auto">
-                            <img src="{{ asset('theme/admin/assets/images/product/p-7.png') }}" alt=""
-                                 class="avatar-xl">
-                        </div>
-                        <h4 class="mt-3 mb-0">Foot Wares</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-xl-3">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div
-                            class="rounded bg-info-subtle d-flex align-items-center justify-content-center mx-auto">
-                            <img src="{{ asset('theme/admin/assets/images/product/p-9.png') }}" alt=""
-                                 class="avatar-xl">
-                        </div>
-                        <h4 class="mt-3 mb-0">Eye Ware & Sunglass</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <div class="row">
             <div class="col-xl-12">
@@ -62,7 +13,7 @@
                     <div class="card-header d-flex justify-content-between align-items-center gap-1">
                         <h4 class="card-title flex-grow-1">All Categories List</h4>
 
-                        <a href="{{ route('admin.brands.index') }}" class="btn btn-sm btn-primary">
+                        <a href="{{ route('admin.brands.create') }}" class="btn btn-sm btn-primary">
                             Add Brand
                         </a>
 
@@ -115,8 +66,9 @@
                                             <div class="d-flex align-items-center gap-2">
                                                 <div
                                                     class="rounded bg-light avatar-md d-flex align-items-center justify-content-center">
-                                                    <img src="{{\Illuminate\Support\Facades\Storage::url($item->image)}}"
-                                                         alt="" class="avatar-md">
+                                                    <img
+                                                        src="{{\Illuminate\Support\Facades\Storage::url($item->image)}}"
+                                                        alt="" class="avatar-md">
                                                 </div>
                                                 <p class="text-dark fw-medium fs-15 mb-0">{{ $item->name }}</p>
                                             </div>
@@ -135,18 +87,21 @@
                                         <td>{{ $item->created_at }}</td>
                                         <td>
                                             <div class="d-flex gap-2">
-                                                <a href="{{ route('admin.brands.show', $item) }}" class="btn btn-light btn-sm">
+                                                <a href="{{ route('admin.brands.show', $item) }}"
+                                                   class="btn btn-light btn-sm">
                                                     <iconify-icon icon="solar:eye-broken"
                                                                   class="align-middle fs-18"></iconify-icon>
                                                 </a>
-                                                <a href="{{ route('admin.brands.edit', $item) }}" class="btn btn-soft-primary btn-sm">
+                                                <a href="{{ route('admin.brands.edit', $item) }}"
+                                                   class="btn btn-soft-primary btn-sm">
                                                     <iconify-icon icon="solar:pen-2-broken"
                                                                   class="align-middle fs-18"></iconify-icon>
                                                 </a>
                                                 <form action="{{ route('admin.brands.destroy', $item) }}" method="post">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" onclick="return confirm('Are you sure?')" class="btn btn-soft-danger btn-sm">
+                                                    <button type="submit" onclick="return confirm('Are you sure?')"
+                                                            class="btn btn-soft-danger btn-sm">
                                                         <iconify-icon icon="solar:trash-bin-minimalistic-2-broken"
                                                                       class="align-middle fs-18"></iconify-icon>
                                                     </button>
@@ -164,13 +119,14 @@
                     <div class="card-footer border-top">
                         <nav aria-label="Page navigation example">
                             <ul class="pagination justify-content-end mb-0">
-                                <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
+                                {{ $brands->links() }}
+{{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a>--}}
+{{--                                </li>--}}
+{{--                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a>--}}
+{{--                                </li>--}}
+{{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>--}}
+{{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>--}}
+{{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>--}}
                             </ul>
                         </nav>
                     </div>
@@ -180,3 +136,30 @@
 
     </div>
 @endsection
+
+@section('lib-script')
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+@endsection
+
+@section('script')
+
+    <script>
+
+        @if(session('success'))
+        Toastify({
+
+            text: "{{ session('success') }}",
+
+            duration: 3000,
+
+            gravity: top,
+
+            close: true,
+
+        }).showToast();
+        @endif
+
+    </script>
+
+@endsection
+
