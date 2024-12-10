@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\SlideController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,13 +15,13 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PermissionController;
 
-
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
 
 use App\Http\Controllers\Client\AccountGoogleController;
 use App\Http\Controllers\Client\OrderClientController;
 use App\Http\Controllers\Client\CheckoutController;
+
 
 
 /*
@@ -149,6 +150,7 @@ Route::prefix('/admin')
         //     'products' => ProductController::class,
         //     'tags' => TagController::class,
         // ]);
+        Route::resource('slides', SlideController::class);
         route::resource( 'categories', CategoryController::class)->middleware('checkPermission:Manager Categories');
         route::resource( 'brands', BrandController::class)->middleware('checkPermission:Manager Brands');
         route::resource( 'attributes', AttributeController::class)->middleware('checkPermission:Manager Attributes');
@@ -161,5 +163,6 @@ Route::prefix('/admin')
         Route::resource('roles', RoleController::class)->middleware('checkPermission:Manager Roles');
         Route::resource('brands', BrandController::class)->middleware('checkPermission:Manager Brands');
         Route::resource('permissions', PermissionController::class)->middleware('checkPermission:Manager Permissions');
+
 
     });

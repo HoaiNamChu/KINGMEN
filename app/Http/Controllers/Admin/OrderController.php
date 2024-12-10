@@ -104,7 +104,7 @@ class OrderController extends Controller
         $order->save();
         //nếu trạng thái đơn hàng == hoàn thành thì đổi trạng thái thanh toán thành 'đã thanh toán'
         if($order->status == 'Hoàn thành'){
-            $order->update(['paymemnt_status'=>'Đã thanh toán']);
+            $order->update(['payment_status'=>'Đã thanh toán']);
         }
 
         return redirect()->route('admin.orders.show', $id)
