@@ -79,7 +79,7 @@ class CheckoutController extends Controller
 
         if ($request->payment_method == 'vnpay_payment') {
 
-            $this->vnPayPayment($dataOrder);
+            $this->vnPayPayment($dataOrder, $dataOrderItems);
 
         }
 
