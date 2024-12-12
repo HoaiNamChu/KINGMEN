@@ -72,7 +72,7 @@
                                     </button>
                                 </div>
                                 <div class="shopping-wishlist">
-                                    <a class="shopping-wishlist-btn" href="shop-wishlist.html">
+                                    <a class="shopping-wishlist-btn" href="{{route('wishlist.index')}}">
                                         <i class="pe-7s-like icon"></i>
                                     </a>
                                 </div>

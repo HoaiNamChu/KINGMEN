@@ -76,5 +76,9 @@ class User extends Authenticatable
 {
     return $this->is_active == 1; // Hoặc return (bool) $this->is_active;
 }
+public function wishlist()
+    {
+    return $this->hasMany(Wishlist::class);
+    }
 
 }

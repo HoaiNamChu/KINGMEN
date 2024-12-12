@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Client\WishlistController;
 use App\Http\Controllers\Admin\SlideController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -69,6 +70,7 @@ Route::prefix('/')->group(function () {
             Route::get('/vnpay/return', [CheckoutController::class, 'vnPayReturn'])->name('vnpay.return');
         });
 
+    Route::resource('wishlist', WishlistController::class)->middleware('auth');
     Route::get('/order/{id}', [OrderClientController::class, 'show'])->name('order.detail')->middleware('auth');
     Route::post('/order/{id}/cancel', [OrderClientController::class, 'cancel'])->name('order.cancel')->middleware('auth');
 
