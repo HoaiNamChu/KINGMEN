@@ -42,8 +42,17 @@
               @foreach ($wishlists as $wishlist)
 
           <tr class="cart-wishlist-item">
+          <script>
+            function confirmDelete() {
+            return confirm("Bạn có chắc chắn muốn xóa sản phẩm này khỏi wishlist?");
+            }
+          </script>
           <td class="product-remove">
-            <a href="#/"><i class="fa fa-trash-o"></i></a>
+            <form action="{{route('wishlist.destroy', $wishlist)}}" method="post">
+            @csrf
+            @method('DELETE')
+            <button type="submit" onclick="return confirmDelete()" ><i class="fa fa-trash-o"></i></button>
+            </form>
           </td>
           <td class="product-thumb">
             <a href="{{route('product.detail', $wishlist->product->slug)}}">
@@ -57,10 +66,10 @@
           </td>
           <td class="product-stock-status">
             @if($wishlist->product->quantity > 5)
-              <span class="stock">In Stock</span>
-            @else
-              <span class="out-of-stock">Out of Stock</span>
-            @endif
+        <span class="stock">In Stock</span>
+      @else
+    <span class="out-of-stock">Out of Stock</span>
+  @endif
           </td>
           <td class="product-price">
             <span class="price">{{$wishlist->product->price}}</span>
