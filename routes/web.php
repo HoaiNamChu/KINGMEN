@@ -151,6 +151,8 @@ Route::prefix('/admin')
             'tags' => TagController::class,
         ]);
 
+        Route::post('/ckeditor/image_upload', [ProductController::class, 'ckeditorUpload'])->name('ckeditor.uploads');
+
         Route::resource('orders', OrderController::class);
         Route::patch('orders/{order}/update-status', [OrderController::class, 'update'])->name('orders.updateStatus');
         Route::resource('users', UserController::class)->middleware('checkPermission:Manage Users');

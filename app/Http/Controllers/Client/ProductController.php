@@ -16,9 +16,9 @@ class ProductController extends Controller
     {
         $product = Product::query()
             ->with('attributes.attributeValues')
-            ->with('attributeValues')
-            ->with('variants.attributeValues')
+//            ->with('variants')
             ->with('categories')
+            ->with('brand')
             ->where('slug', $request->slug)
             ->first();
 

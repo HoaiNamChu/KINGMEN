@@ -147,10 +147,7 @@
                                             <a href="javascript:void(0)">(5 Customer Review)</a>
                                         </div>
                                     </div>
-                                    <p>Lorem ipsum dolor sit amet, consecte adipisicing elit, sed do eiusmll tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad mill veniam, quis
-                                        nostrud exercitation ullamco laboris nisi ut aliquip exet commodo consequat.
-                                        Duis aute irure dolor</p>
+                                    <p>{{ $product->short_desc }}</p>
                                     <form action="{{ route('cart.store') }}" method="post">
                                         @csrf
                                         @if($product->attributes->count())
@@ -162,7 +159,8 @@
                                                             @if($value->attribute_id == $attribute->id)
                                                                 <li><label for="{{ $value->id  }}"
                                                                            class="attribute-checkbox">
-                                                                        <input type="checkbox" name="attribute[{{ $attribute->id }}]"
+                                                                        <input type="checkbox"
+                                                                               name="attribute[{{ $attribute->id }}]"
                                                                                id="{{ $value->id  }}"
                                                                                value="{{ $value->id }}">
                                                                         <span>{{ $value->name }}</span>
@@ -177,14 +175,17 @@
                                             <input type="hidden" name="product_id" value="{{$product->id}}">
                                             <div class="qty-wrap">
                                                 <div class="pro-qty">
-                                                    <div class= "dec qty-btn">-</div>
+                                                    <div class="dec qty-btn">-</div>
                                                     <input type="text" title="Quantity" name="quantity" value="1">
-                                                    <div class= "inc qty-btn">+</div>
+                                                    <div class="inc qty-btn">+</div>
                                                 </div>
                                             </div>
-                                            <button type="submit" class="btn-theme" >Add to Cart</button>
+                                            <button type="submit" class="btn-theme">Add to Cart</button>
                                         </div>
                                     </form>
+                                    <div>
+                                        <p class="product-in-stock">Stocks: {{ $product->quantity }}</p>
+                                    </div>
                                     <div class="product-wishlist-compare">
                                         <a href="shop-wishlist.html"><i class="pe-7s-like"></i>Add to Wishlist</a>
                                         <a href="shop-compare.html"><i class="pe-7s-shuffle"></i>Add to Compare</a>
@@ -243,17 +244,7 @@
                             <div class="tab-pane fade" id="description" role="tabpanel"
                                  aria-labelledby="description-tab">
                                 <div class="product-description">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim adlo minim
-                                        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                                        commodo consequat. Duis aute irure dolor in tun tuni reprehenderit in
-                                        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                                        occaecat cupidatat non proident, sunt in culpa qui officia deserun mollit
-                                        anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit
-                                        voluptatem accusantium doloremque laudantium, totam rel aperiam, eaque ipsa
-                                        quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                                        explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit
-                                        aut fugit, sed quia consequuntur.</p>
+                                    {!! $product->description !!}
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
@@ -355,82 +346,6 @@
                                         </div>
                                         <!--== End Reviews Content Item ==-->
 
-                                        <!--== Start Reviews Content Item ==-->
-                                        <div class="review-item">
-                                            <ul class="review-rating">
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star-o"></li>
-                                                <li class="fa fa-star-o"></li>
-                                                <li class="fa fa-star-o"></li>
-                                                <li class="fa fa-star-o"></li>
-                                            </ul>
-                                            <h3 class="title">Low Quality</h3>
-                                            <h5 class="sub-title"><span>Oliv hala</span> no
-                                                <span>Sep 30, 2022</span></h5>
-                                            <p>My Favorite White Sneakers From Splurge To Save the 1500s is
-                                                reproduced below for those interested. Sections 1.10.32 and 1.10.33
-                                                from "de Finibus Bonorum et Malorum" by Cicero are also reproduced
-                                                in their exact original form, accompanied by English versions from
-                                                the 1914 translation by H. Rackham.</p>
-                                            <a href="#/">Report as Inappropriate</a>
-                                        </div>
-                                        <!--== End Reviews Content Item ==-->
-
-                                        <!--== Start Reviews Content Item ==-->
-                                        <div class="review-item">
-                                            <ul class="review-rating">
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                            </ul>
-                                            <h3 class="title">Excellent services!</h3>
-                                            <h5 class="sub-title"><span>Halk Marron</span> no
-                                                <span>Sep 30, 2022</span></h5>
-                                            <p>The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes
-                                                from a line in section 1.10.32.</p>
-                                            <a href="#/">Report as Inappropriate</a>
-                                        </div>
-                                        <!--== End Reviews Content Item ==-->
-
-                                        <!--== Start Reviews Content Item ==-->
-                                        <div class="review-item">
-                                            <ul class="review-rating">
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star-o"></li>
-                                                <li class="fa fa-star-o"></li>
-                                            </ul>
-                                            <h3 class="title">Price is very high</h3>
-                                            <h5 class="sub-title"><span>Musa</span> no <span>Sep 30, 2022</span>
-                                            </h5>
-                                            <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It
-                                                has roots in a piece of classical Latin literature from 45 BC,
-                                                making it over 2000 years old.</p>
-                                            <a href="#/">Report as Inappropriate</a>
-                                        </div>
-                                        <!--== End Reviews Content Item ==-->
-
-                                        <!--== Start Reviews Content Item ==-->
-                                        <div class="review-item">
-                                            <ul class="review-rating">
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star"></li>
-                                                <li class="fa fa-star-o"></li>
-                                            </ul>
-                                            <h3 class="title">Normal</h3>
-                                            <h5 class="sub-title"><span>Muhammad</span> no <span>Sep 30, 2022</span>
-                                            </h5>
-                                            <p>There are many variations of passages of Lorem Ipsum available, but
-                                                the majority have suffered alteration in some form, by injected
-                                                humour</p>
-                                            <a href="#/">Report as Inappropriate</a>
-                                        </div>
-                                        <!--== End Reviews Content Item ==-->
                                     </div>
 
                                     <!--== Start Reviews Pagination Item ==-->
@@ -499,10 +414,11 @@
 @section('scripts')
     <script>
         $(document).ready(function () {
-            const originalContent = $(".prices").html();
+            var originalContent = $(".prices").html();
+            var stockAll = $('.product-in-stock').html();
             $('input[type="checkbox"]').change(function () {
                 var valueID = [];
-                var product_id =  {{ $product->id }};
+                var product_id = {{ $product->id }};
 
                 $('input[type="checkbox"]:checked').each(function () {
                     let value = $(this).val();
@@ -519,20 +435,26 @@
                         attributeValueID: valueID,
                         _token: '{{ csrf_token() }}'
                     },
-                    success: function (res){
-                        if(res.data.length){
-                            var price = res.data[0].price
-
+                    success: function (res) {
+                        if (res.data.length) {
+                            var price = res.data[0].price;
+                            let stock = res.data[0].quantity;
+                            if (stock == null){
+                                stock = 0;
+                            }
                             let formattedAmount = new Intl.NumberFormat('vi-VN').format(price);
                             // $('.prices').html(``);
                             $('.prices').html(`<span class="price">${formattedAmount} VND</span>`);
+                            $('.product-in-stock').html(`<p class="product-in-stock">Stocks: ${stock}</p>`);
 
-                        }else {
+                        } else {
                             $('prices').html(originalContent)
+                            $('.product-in-stock').html(stockAll);
                         }
                     },
-                    error: function (res){
+                    error: function (res) {
                         $('prices').html(originalContent)
+                        $('.product-in-stock').html(stockAll);
                     }
                 });
 

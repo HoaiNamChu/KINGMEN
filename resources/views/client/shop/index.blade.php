@@ -110,14 +110,16 @@
                                                                 </div>
                                                                 <div class="product-action">
                                                                     <a class="btn-product-wishlist"
-                                                                       href="shop-wishlist.html"><i class="fa fa-heart"></i></a>
+                                                                       href="shop-wishlist.html"><i
+                                                                            class="fa fa-heart"></i></a>
                                                                     <a class="btn-product-cart" href="shop-cart.html"><i
                                                                             class="fa fa-shopping-cart"></i></a>
                                                                     <button type="button"
                                                                             class="btn-product-quick-view-open">
                                                                         <i class="fa fa-arrows"></i>
                                                                     </button>
-                                                                    <a class="btn-product-compare" href="shop-compare.html"><i
+                                                                    <a class="btn-product-compare"
+                                                                       href="shop-compare.html"><i
                                                                             class="fa fa-random"></i></a>
                                                                 </div>
                                                                 <a class="banner-link-overlay" href="shop.html"></a>
@@ -130,7 +132,9 @@
                                                                         <li><a href="shop.html">Women</a></li>
                                                                     </ul>
                                                                 </div>
-                                                                <h4 class="title"><a href="single-product.html">{{ $item->name }}</a></h4>
+                                                                <h4 class="title"><a
+                                                                        href="single-product.html">{{ $item->name }}</a>
+                                                                </h4>
                                                                 <div class="prices">
                                                                     @if($item->is_sale && $item->price_sale)
                                                                         <span class="price-old">{{ number_format($item->price) }} VND</span>
@@ -140,8 +144,10 @@
                                                                         <span class="price">{{ number_format($item->price) }} VND</span>
                                                                     @endif
                                                                 </div>
-                                                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                                                                    Voluptatem quo, rerum rem soluta quisquam, repellat is
+                                                                <p>Lorem ipsum dolor sit amet consectetur, adipisicing
+                                                                    elit.
+                                                                    Voluptatem quo, rerum rem soluta quisquam, repellat
+                                                                    is
                                                                     deleniti omnis culpa ea quis provident dolore esse,
                                                                     offici modi dolorem nam cum eligendi enim!</p>
                                                                 <a class="btn-theme btn-sm" href="shop-cart.html">Add To
@@ -171,20 +177,33 @@
                 </div>
                 <div class="col-xl-3">
                     <div class="shop-sidebar">
-                        <div class="shop-sidebar-category">
-                            <h4 class="sidebar-title">Top Categories</h4>
-                            <div class="sidebar-category">
-                                <ul class="category-list mb--0">
-                                    <li><a href="shop.html">Shoes <span>(6)</span></a></li>
-                                    <li><a href="shop.html">Computer <span>(4)</span></a></li>
-                                    <li><a href="shop.html">Covid-19 <span>(2)</span></a></li>
-                                    <li><a href="shop.html">Electronics <span>(6)</span></a></li>
-                                    <li><a href="shop.html">Frame Sunglasses <span>(12)</span></a></li>
-                                    <li><a href="shop.html">Furniture <span>(7)</span></a></li>
-                                    <li><a href="shop.html">Genuine Leather <span>(9)</span></a></li>
-                                </ul>
+                        @if($categories)
+                            <div class="shop-sidebar-category">
+                                <h4 class="sidebar-title">Top Categories</h4>
+                                <div class="sidebar-category">
+                                    <ul class="category-list mb--0">
+                                        @foreach($categories as $item)
+                                            <li><a href="{{ $item->slug }}">{{ $item->name }} <span>({{ $item->products_count }})</span></a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+                        @endif
+
+                        @if($brands)
+                            <div class="shop-sidebar-brand">
+                                <h4 class="sidebar-title">Brand</h4>
+                                <div class="sidebar-brand">
+                                    <ul class="brand-list mb--0">
+                                        @foreach($brands as $item)
+                                            <li><a href="{{ $item->slug }}">{{ $item->name }} <span>({{ $item->products_count }})</span></a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        @endif
 
                         <div class="shop-sidebar-price-range">
                             <h4 class="sidebar-title">Price Filter</h4>
@@ -228,22 +247,17 @@
                             </div>
                         </div>
 
-                        <div class="shop-sidebar-brand">
-                            <h4 class="sidebar-title">Brand</h4>
-                            <div class="sidebar-brand">
-                                <ul class="brand-list mb--0">
-                                    <li><a href="shop.html">Lakmeetao <span>(6)</span></a></li>
-                                    <li><a href="shop.html">Beautifill <span>(4)</span></a></li>
-                                    <li><a href="shop.html">Made In GD <span>(2)</span></a></li>
-                                    <li><a href="shop.html">Pecifico <span>(6)</span></a></li>
-                                    <li><a href="shop.html">Xlovgtir <span>(12)</span></a></li>
-                                </ul>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <!--== End Product Area Wrapper ==-->
+@endsection
+
+@section('scripts')
+    <script>
+        var products = @json($products);
+        console.log(products)
+    </script>
 @endsection

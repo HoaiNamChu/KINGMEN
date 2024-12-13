@@ -293,7 +293,7 @@
                         }
                     },
                     error: function (res) {
-                        console.log(res.responseJSON.message)
+
                     }
                 });
             });
