@@ -1,13 +1,17 @@
 @extends('admin.layouts.main')
 
-@section('link')
+@section('links')
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 @endsection
 
 @section('styles')
     <style>
-        .variant-data{
+        .variant-data {
             display: none;
+        }
+
+        .ck-editor__editable_inline {
+            height: 300px;
         }
     </style>
 @endsection
@@ -111,7 +115,8 @@
                                     <div class="row pt-3 pb-3" id="general-item">
                                         <div class="col-lg-6">
                                             <div class="mb-3">
-                                                <label for="product-price-import" class="form-label">Price Import</label>
+                                                <label for="product-price-import" class="form-label">Price
+                                                    Import</label>
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text fs-20"><i
                                                             class="bx bx-dollar"></i></span>
@@ -201,7 +206,8 @@
                                     <div class="row pt-3 pb-3" id="variations-item">
                                         @foreach($product->variants as $productVariant)
                                             <div class="pe-4" id="variant-{{ $productVariant->id }}">
-                                                <div class="align-items-center variant-zone" id="variant-zone-{{ $productVariant->id }}">
+                                                <div class="align-items-center variant-zone"
+                                                     id="variant-zone-{{ $productVariant->id }}">
                                                     @foreach($productVariant->attributeValues as $item)
                                                         <h5 class="d-inline-block mb-0 me-3">{{ $item->name }}</h5>
                                                     @endforeach
@@ -211,7 +217,7 @@
                                                     </button>
                                                     <hr>
                                                 </div>
-                                                <div  class="variant-data" id="variant-data-{{ $productVariant->id }}">
+                                                <div class="variant-data" id="variant-data-{{ $productVariant->id }}">
                                                     <div class="row">
                                                         <div class="col-lg-6">
                                                             <div class="mb-3">
@@ -233,7 +239,10 @@
                                                                        id="variant-image[{{ $productVariant->id }}]"
                                                                        placeholder="Enter manufacturer brand">
                                                                 @if($productVariant->image)
-                                                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($productVariant->image) }}" alt="image" class="img-fluid avatar-xl rounded" />
+                                                                    <img
+                                                                        src="{{ \Illuminate\Support\Facades\Storage::url($productVariant->image) }}"
+                                                                        alt="image"
+                                                                        class="img-fluid avatar-xl rounded"/>
                                                                 @endif
                                                             </div>
                                                         </div>
@@ -248,7 +257,9 @@
                                                                 <input type="number"
                                                                        id="variant-quantity[{{ $productVariant->id }}]"
                                                                        name="product_variants[{{ $productVariant->id }}][quantity]"
-                                                                       class="form-control" value="{{ $productVariant->quantity }}" placeholder="Quantity">
+                                                                       class="form-control"
+                                                                       value="{{ $productVariant->quantity }}"
+                                                                       placeholder="Quantity">
                                                                 {{--                        <label class="form-label" for="variant-quantity[{{ $productVariant->id }}]">Quantity</label>--}}
                                                                 {{--                        <input type="text" class="form-control" id="variant-quantity[{{ $productVariant->id }}]"--}}
                                                                 {{--                               placeholder="Stocks"--}}
@@ -371,7 +382,8 @@
                                 <label class="form-check-label" for="is-sale">Is Sale</label>
                             </div>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" @checked($product->is_best_seller) name="is_best_seller" value="1"
+                                <input class="form-check-input" @checked($product->is_best_seller) name="is_best_seller"
+                                       value="1"
                                        type="checkbox" role="switch"
                                        id="is-best-seller">
                                 <label class="form-check-label" for="is-best-seller">Is Best Seller</label>
@@ -394,7 +406,8 @@
                                     <div>
                                         <input type="file" name="image" id="product-image" class="form-control">
                                     </div>
-                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($product->image) }}" alt="image" class="img-fluid avatar-xl rounded" />
+                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($product->image) }}"
+                                         alt="image" class="img-fluid avatar-xl rounded"/>
                                 </div>
                             </div>
 
@@ -413,7 +426,8 @@
                                     </div>
                                     @if($product->galleries->count())
                                         @foreach($product->galleries as $gallery)
-                                            <img src="{{ \Illuminate\Support\Facades\Storage::url($gallery->image) }}" alt="image" class="img-fluid avatar-xl rounded" />
+                                            <img src="{{ \Illuminate\Support\Facades\Storage::url($gallery->image) }}"
+                                                 alt="image" class="img-fluid avatar-xl rounded"/>
                                         @endforeach
                                     @endif
                                 </div>
@@ -500,18 +514,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="{{ asset('theme/admin/assets/vendor/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
+
 @endsection
 
 @section('script')
     <script>
+
         ClassicEditor
-            .create( document.querySelector( '#editor' ) )
-            .then( editor => {
-                window.editor = editor;
-            } )
-            .catch( error => {
-                console.error( 'There was a problem initializing the editor.', error );
-            } );
+            .create(document.querySelector('#editor'), {
+                ckfinder: {
+                    uploadUrl: '{{route('admin.ckeditor.uploads',['_token'=>csrf_token()])}}'
+                }
+            })
+            .catch(error => {
+                console.error('There was a problem initializing the editor.', error);
+            });
     </script>
     <script>
 
@@ -692,11 +709,11 @@
 
         $(document).on('click', '.variant-zone', function () {
             var variantID = $(this).attr('id').split('variant-zone-');
-            var isHidden = $('#variant-data-'+ variantID[1]).is(":hidden");
+            var isHidden = $('#variant-data-' + variantID[1]).is(":hidden");
             if (isHidden) {
-                $('#variant-data-'+ variantID[1]).show();
+                $('#variant-data-' + variantID[1]).show();
             } else {
-                $('#variant-data-'+ variantID[1]).hide();
+                $('#variant-data-' + variantID[1]).hide();
             }
         });
 
@@ -710,6 +727,8 @@
             gravity: top,
 
             close: true,
+
+            className: "bg-success",
 
         }).showToast();
         @endif

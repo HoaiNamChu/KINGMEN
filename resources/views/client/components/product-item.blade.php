@@ -33,7 +33,7 @@
                 <div class="category">
                     <ul>
                         @foreach($item->categories as $cate)
-                            <li><a href="shop.html">{{ $cate->name }}</a></li>
+                            <li><a href="{{ $cate->slug }}">{{ $cate->name }}</a></li>
                             <li class="sep">/</li>
                         @endforeach
                     </ul>
@@ -41,7 +41,7 @@
             @else
                 <div class="category">
                     <ul>
-                        <li><a href="shop.html">{{ 'No brand' }}</a></li>
+                        <li>{{ 'No Category' }}</li>
                     </ul>
                 </div>
             @endif

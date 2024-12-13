@@ -28,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
             {
                 $q->where('is_active', '=', 1);
             }])->orderBy('name','ASC')->get();
+
             return $view->with(['categories' => $categories]);
         });
     }

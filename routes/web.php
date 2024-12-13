@@ -16,13 +16,14 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PermissionController;
 
+;
+
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
 
 use App\Http\Controllers\Client\AccountGoogleController;
 use App\Http\Controllers\Client\OrderClientController;
 use App\Http\Controllers\Client\CheckoutController;
-
 
 
 /*
@@ -69,7 +70,6 @@ Route::prefix('/')->group(function () {
             Route::post('/', [CheckoutController::class, 'order'])->name('order');
             Route::get('/vnpay/return', [CheckoutController::class, 'vnPayReturn'])->name('vnpay.return');
         });
-
     Route::resource('wishlist', WishlistController::class)->middleware('auth');
     Route::get('/order/{id}', [OrderClientController::class, 'show'])->name('order.detail')->middleware('auth');
     Route::post('/order/{id}/cancel', [OrderClientController::class, 'cancel'])->name('order.cancel')->middleware('auth');
@@ -106,7 +106,30 @@ Route::prefix('/')->group(function () {
 
     // forget password
     Route::get('/forget-password', [AccountGoogleController::class, 'showForgetPasswordForm'])->name('forget.password.get');
-    Route::post('/forget-password', [AccountGoogleController::class, 'sendEmailForgetPasswordForm'])->name('forget.password.post'); 
+    Route::post('/forget-password', [AccountGoogleController::class, 'sendEmailForgetPasswordForm'])->name('forget.password.post');
+
+    Route::get('reset-password/{token}', [AccountGoogleController::class, 'showResetPasswordForm'])->name('reset.password.get');
+
+    Route::post('reset-password', [AccountGoogleController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+
+
+    // view account
+    Route::get('/account', [AccountGoogleController::class, 'index'])->name('account.index');
+    // login
+    Route::get('/login', [AccountGoogleController::class, 'viewLogin'])->name('login');
+    Route::post('login', [AccountGoogleController::class, 'login'])->name('login.submit');
+    // register
+    Route::get('/register', [AccountGoogleController::class, 'create'])->name('account.register');
+    Route::post('/register', [AccountGoogleController::class, 'store'])->name('store');
+    // login by google
+    Route::get('auth/google', [AccountGoogleController::class, 'redirectToGoogle'])->name('login-by-google');
+    Route::get('auth/google/callback', [AccountGoogleController::class, 'handleGoogleCallback']);
+    // logout account
+    Route::get('/logout', [AccountGoogleController::class, 'logout'])->name('logout');
+    // update billing address
+    Route::post('/update-billing-address', [AccountGoogleController::class, 'updateBillingAddress']);
+    // forget password
+    Route::get('/forget-password', [AccountGoogleController::class, 'showForgetPasswordForm'])->name('forget.password.get');
 
     Route::post('/forget-password', [AccountGoogleController::class, 'sendEmailForgetPasswordForm'])->name('forget.password.post');
 
@@ -123,22 +146,26 @@ Route::prefix('/admin')
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-        // Route::resources([
-        //     'categories' => CategoryController::class,
-        //     'brands' => BrandController::class,
-        //     'attributes' => AttributeController::class,
-        //     'attributeValues' => AttributeValueController::class,
-        //     'products' => ProductController::class,
-        //     'tags' => TagController::class,
-        // ]);
         Route::resource('slides', SlideController::class);
-        route::resource( 'categories', CategoryController::class)->middleware('checkPermission:Manager Categories');
-        route::resource( 'brands', BrandController::class)->middleware('checkPermission:Manager Brands');
-        route::resource( 'attributes', AttributeController::class)->middleware('checkPermission:Manager Attributes');
-        route::resource( 'attributeValues', AttributeValueController::class)->middleware('checkPermission:Manager Attribute Values');
-        route::resource( 'products', ProductController::class)->middleware('checkPermission:Manager Products');
-        route::resource( 'tags', TagController::class)->middleware('checkPermission:Manager Tags');
+//        route::resource( 'categories', CategoryController::class)->middleware('checkPermission:Manager Categories');
+//        route::resource( 'brands', BrandController::class)->middleware('checkPermission:Manager Brands');
+//        route::resource( 'attributes', AttributeController::class)->middleware('checkPermission:Manager Attributes');
+//        route::resource( 'attributeValues', AttributeValueController::class)->middleware('checkPermission:Manager Attribute Values');
+//        route::resource( 'products', ProductController::class)->middleware('checkPermission:Manager Products');
+//        route::resource( 'tags', TagController::class)->middleware('checkPermission:Manager Tags');
         Route::resource('orders', OrderController::class)->middleware('checkPermission:Manager Orders');
+        Route::resources([
+            'categories' => CategoryController::class,
+            'brands' => BrandController::class,
+            'attributes' => AttributeController::class,
+            'attributeValues' => AttributeValueController::class,
+            'products' => ProductController::class,
+            'tags' => TagController::class,
+        ]);
+
+        Route::post('/ckeditor/image_upload', [ProductController::class, 'ckeditorUpload'])->name('ckeditor.uploads');
+
+        Route::resource('orders', OrderController::class);
         Route::patch('orders/{order}/update-status', [OrderController::class, 'update'])->name('orders.updateStatus');
         Route::resource('users', UserController::class)->middleware('checkPermission:Manager Users');
         Route::resource('roles', RoleController::class)->middleware('checkPermission:Manager Roles');
