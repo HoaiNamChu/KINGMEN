@@ -1,3 +1,32 @@
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
+    <!-- Hiển thị thông báo thành công -->
+    @if(session('message'))
+        <div id="toastSuccess" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    {{ session('message') }}
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    @endif
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var toastSuccess = document.getElementById('toastSuccess');
+        if (toastSuccess) {
+            var bsToastSuccess = new bootstrap.Toast(toastSuccess);
+            bsToastSuccess.show();
+        }
+
+        var toastError = document.getElementById('toastError');
+        if (toastError) {
+            var bsToastError = new bootstrap.Toast(toastError);
+            bsToastError.show();
+        }
+    });
+</script>
+
 <header class="main-header-wrapper position-relative">
     <div class="header-top">
         <div class="container pt--0 pb--0">
