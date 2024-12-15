@@ -1,6 +1,6 @@
 @extends('admin.layouts.main')
 
-@section('link')
+@section('links')
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 @endsection
 
@@ -8,6 +8,9 @@
     <style>
         .variant-data {
             display: none;
+        }
+        .ck-editor__editable_inline {
+            height: 300px;
         }
     </style>
 @endsection

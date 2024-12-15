@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Client\Contacts\StoreContactRequest;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class ContactController extends Controller
         return view(self::PATH_VIEW.__FUNCTION__);
     }
 
-    public function store(Request $request){
+    public function store(StoreContactRequest $request){
         $data = [
             'name' => $request->name,
             'email' => $request->email,

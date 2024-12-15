@@ -82,7 +82,7 @@
                                             <label for="name">Name <abbr class="required"
                                                                          title="required">*</abbr></label>
                                             <input id="name"
-                                                   value="{{ Auth::user()->name ? Auth::user()->name : Auth::user()->username }}"
+                                                   value="{{ $data->name ? $data->name : $data->username }}"
                                                    name="name" type="text"
                                                    class="form-control @error('name') border-danger @enderror">
                                             <span class="error-notification">
@@ -96,7 +96,8 @@
                                         <div class="form-group">
                                             <label for="phone"> Phone <abbr class="required"
                                                                             title="required">*</abbr></label>
-                                            <input id="phone" value="{{ Auth::user()->phone }}" name="phone" type="text"
+                                            <input id="phone" value="{{ $data->addresses[0]->phone }}" name="phone"
+                                                   type="text"
                                                    class="form-control  @error('phone') border-danger @enderror">
                                             <span class="error-notification">
                                                 @error('phone')
@@ -109,7 +110,8 @@
                                         <div class="form-group">
                                             <label for="city">Province <abbr class="required"
                                                                              title="required">*</abbr></label>
-                                            <select id="city" name="province" class="form-control  @error('province') border-danger @enderror">
+                                            <select id="city" name="province"
+                                                    class="form-control  @error('province') border-danger @enderror">
                                                 <option value="0">Choose your province</option>
                                             </select>
                                             <span class="error-notification">
@@ -123,7 +125,8 @@
                                         <div class="form-group">
                                             <label for="district">District <abbr class="required"
                                                                                  title="required">*</abbr></label>
-                                            <select id="district" name="district" class="form-control  @error('district') border-danger @enderror">
+                                            <select id="district" name="district"
+                                                    class="form-control  @error('district') border-danger @enderror">
 
                                             </select>
                                             <span class="error-notification">
@@ -137,7 +140,8 @@
                                         <div class="form-group">
                                             <label for="ward">Ward <abbr class="required"
                                                                          title="required">*</abbr></label>
-                                            <select id="ward" name="ward" class="form-control  @error('ward') border-danger @enderror">
+                                            <select id="ward" name="ward"
+                                                    class="form-control  @error('ward') border-danger @enderror">
 
                                             </select>
                                             <span class="error-notification">
@@ -152,6 +156,7 @@
                                             <label for="street-address">Street address <abbr
                                                     class="required" title="required">*</abbr></label>
                                             <input id="street-address" name="house_number" type="text"
+                                                   value="{{ $data->addresses[0]->detailed_address }}"
                                                    class="form-control  @error('house_number') border-danger @enderror"
                                                    placeholder="House number and street name">
                                             <span class="error-notification">
@@ -197,7 +202,7 @@
                                     @php
                                         $cartTotal = 0;
                                     @endphp
-                                    @foreach($cart->cartItems as $item)
+                                    @foreach($data->cart->cartItems as $item)
                                         <tr class="cart-item">
                                             <input type="hidden" name="orderItems[{{ $item->id }}][product_id]"
                                                    value="{{$item->product_id}}">
@@ -395,8 +400,13 @@
                     'token': 'f3dc65c5-96db-11ef-97be-1ef9613dbf99'
                 },
                 success: function (data_city) {
+                    let userCity = '{{ $data->addresses[0]->city }}';
+                    let selected = '';
                     $.each(data_city.data, function (key_tinh, val_tinh) {
-                        $("#city").append('<option value="' + val_tinh.ProvinceName + '" id="' + val_tinh.ProvinceID + '">' + val_tinh.ProvinceName + '</option>');
+                        if (val_tinh.ProvinceName == userCity) {
+                            selected = 'selected'
+                        }
+                        $("#city").append('<option value="' + val_tinh.ProvinceName + '" id="' + val_tinh.ProvinceID + '" ' + selected + '>' + val_tinh.ProvinceName + '</option>');
                     });
                     $("#city").change(function (e) {
                         var idCity = $("#city option:selected").attr('id');
@@ -412,10 +422,18 @@
                                 'token': 'f3dc65c5-96db-11ef-97be-1ef9613dbf99'
                             },
                             success: function (data_district) {
+                                let userDistrict = '{{ $data->addresses[0]->district }}';
+                                let selected = '';
                                 $("#district").html('<option value="0">District</option>');
                                 $("#ward").html('<option value="0">Ward</option>');
                                 $.each(data_district.data, function (key_quan, val_quan) {
-                                    $("#district").append('<option value="' + val_quan.DistrictName + '" id="' + val_quan.DistrictID + '">' + val_quan.DistrictName + '</option>');
+                                    console.log(val_quan.DistrictName)
+                                    if (val_quan.DistrictName.toLowerCase() === userDistrict.toLowerCase()) {
+                                        selected = 'selected';
+                                    }else {
+                                        selected = '';
+                                    }
+                                    $("#district").append('<option value="' + val_quan.DistrictName + '" id="' + val_quan.DistrictID + '" '+selected+'>' + val_quan.DistrictName + '</option>');
                                 });
                                 //Lấy phường xã
                                 $("#district").change(function (e) {

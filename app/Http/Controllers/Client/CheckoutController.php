@@ -18,14 +18,23 @@ class CheckoutController extends Controller
 
     public function index()
     {
-        $cart = Cart::query()->where('user_id', \Auth::id())
-            ->with('cartItems.product')
-            ->with('cartItems.variant.attributeValues')
-            ->first();
-        if (!$cart->cartItems->count()) {
+//        $cart = Cart::query()->where('user_id', \Auth::id())
+//            ->with('cartItems.product')
+//            ->with('cartItems.variant.attributeValues')
+//            ->first();
+
+        $data = Auth::user()->load([
+            'addresses' => function ($query) {
+                $query->where('is_default', 1);
+            },
+            'cart.cartItems.product',
+            'cart.cartItems.variant.attributeValues'
+        ]);
+//        dd($data);
+        if (!$data->cart->cartItems->count()) {
             return redirect()->back()->with('error', 'Your cart is empty');
         }
-        return view(self::PATH_VIEW . __FUNCTION__, compact('cart'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact( 'data'));
 
     }
 

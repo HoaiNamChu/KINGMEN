@@ -80,19 +80,20 @@ class AccountGoogleController extends Controller
     // View detail account
     public function index()
     {
-        $user = Auth::user(); 
+        $user = Auth::user()->load([
+                'orders' => function ($query) {
+                    $query->orderBy('created_at', 'desc');
+                },
+                'addresses',
+        ]);
 
-        if ($user) {
-            // Lấy dữ liệu của người dùng theo ID
-            $userData = User::find($user->id);
-        } else {
-            return redirect()->route('login'); // Redirect đến trang đăng nhập 
+        if (!$user) {
+            return redirect()->route('login');
         }
-        $addresses = Address::where('user_id', $user->id)->get();
-        return view('client.account.index', compact('userData', 'addresses', 'user'));
+        return view('client.account.index', compact('user'));
     }
 
-    
+
     // register
     public function create()
     {
@@ -181,17 +182,17 @@ class AccountGoogleController extends Controller
             'phone' => 'required|string|max:15',
             'is_default' => 'nullable|in:true,false,1,0',
         ]);
-    
+
         $user = auth()->user();
-    
+
         // CHưa có địa chỉ láy địa chỉ đầu làm mặc đinh
         $isFirstAddress = Address::where('user_id', $user->id)->doesntExist();
-    
+
         // Nếu là địa chỉ mặc định, bỏ mặc định các địa chỉ khác
         if ($request->boolean('is_default') || $isFirstAddress) {
             Address::where('user_id', $user->id)->update(['is_default' => false]);
         }
-    
+
         Address::create([
             'user_id' => $user->id,
             'city' => $request->city,
@@ -201,30 +202,30 @@ class AccountGoogleController extends Controller
             'phone' => $request->phone,
             'is_default' => $request->boolean('is_default', false) || $isFirstAddress,
         ]);
-    
+
         return redirect()->back()->with('success', 'New address added successfully!');
     }
-    
-    
+
+
 
     // delete address
     public function deleteAddress($id)
     {
         $address = Address::find($id);
-    
+
         if (!$address) {
-            return response()->json(['error' => 'Địa chỉ không tồn tại'], 404); 
+            return response()->json(['error' => 'Địa chỉ không tồn tại'], 404);
         }
-    
+
         if ($address->is_default) {
             return redirect()->back()->with('error', 'Default address could not delete!');
         }
-    
+
         // Xóa địa chỉ
         $address->delete();
         return redirect()->back()->with('success', 'Address deleted successfully!');
     }
-    
+
 
     // Forget password
     public function showForgetPasswordForm()

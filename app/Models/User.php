@@ -55,7 +55,8 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class, 'role_users', 'user_id', 'role_id');
     }
 
-    public function orders(){
+    public function orders()
+    {
         return $this->hasMany(Order::class);
     }
 
@@ -63,6 +64,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(ProductComment::class);
     }
+
     public function productRatings()
     {
         return $this->hasMany(ProductRating::class);
@@ -72,13 +74,20 @@ class User extends Authenticatable
     {
         return $this->hasOne(Cart::class, 'user_id', 'id');
     }
+
     public function isActive()
-{
-    return $this->is_active == 1; // Hoặc return (bool) $this->is_active;
-}
-public function wishlist()
     {
-    return $this->hasMany(Wishlist::class);
+        return $this->is_active == 1; // Hoặc return (bool) $this->is_active;
+    }
+
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
     }
 
 }

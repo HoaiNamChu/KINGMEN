@@ -56,8 +56,7 @@
           </td>
           <td class="product-thumb">
             <a href="{{route('product.detail', $wishlist->product->slug)}}">
-            <img src="{{ Storage::url($wishlist->product->image) }}" width="90" height="110"
-              alt="{{$wishlist->product->image}}">
+            <img src="{{ Storage::url($wishlist->product->image) }}" width="90" height="110" alt="">
             </a>
           </td>
           <td class="product-name">

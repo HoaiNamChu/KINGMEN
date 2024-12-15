@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Client\WishlistController;
 use App\Http\Controllers\Admin\SlideController;
 use Illuminate\Support\Facades\Route;
@@ -77,6 +78,10 @@ Route::prefix('/')->group(function () {
 
     Route::post('/contact', [\App\Http\Controllers\Client\ContactController::class, 'store'])->name('contact.store');
 
+    //post route
+
+    Route::get('/posts/{slug}', [\App\Http\Controllers\Client\PostController::class, 'detail'])->name('client.posts.detail');
+
 
     //tuyen
 
@@ -146,14 +151,6 @@ Route::prefix('/admin')
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::resource('slides', SlideController::class);
-//        route::resource( 'categories', CategoryController::class)->middleware('checkPermission:Manager Categories');
-//        route::resource( 'brands', BrandController::class)->middleware('checkPermission:Manager Brands');
-//        route::resource( 'attributes', AttributeController::class)->middleware('checkPermission:Manager Attributes');
-//        route::resource( 'attributeValues', AttributeValueController::class)->middleware('checkPermission:Manager Attribute Values');
-//        route::resource( 'products', ProductController::class)->middleware('checkPermission:Manager Products');
-//        route::resource( 'tags', TagController::class)->middleware('checkPermission:Manager Tags');
-        Route::resource('orders', OrderController::class)->middleware('checkPermission:Manager Orders');
         Route::resources([
             'categories' => CategoryController::class,
             'brands' => BrandController::class,
@@ -161,11 +158,13 @@ Route::prefix('/admin')
             'attributeValues' => AttributeValueController::class,
             'products' => ProductController::class,
             'tags' => TagController::class,
+            'posts' => PostController::class,
         ]);
 
         Route::post('/ckeditor/image_upload', [ProductController::class, 'ckeditorUpload'])->name('ckeditor.uploads');
 
         Route::resource('orders', OrderController::class);
+        Route::resource('slides', SlideController::class);
         Route::patch('orders/{order}/update-status', [OrderController::class, 'update'])->name('orders.updateStatus');
         Route::resource('users', UserController::class)->middleware('checkPermission:Manager Users');
         Route::resource('roles', RoleController::class)->middleware('checkPermission:Manager Roles');

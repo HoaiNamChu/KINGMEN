@@ -68,7 +68,7 @@
                                                 {{$item->product_name}}</a></h4>
                                     </td>
                                     <td class="product-price">
-                                        <span class="price">{{ number_format($item->product_price, 0, ',', '.') }}
+                                        <span class="price">{{ number_format($item->product_price) }}
                                             VND</span>
                                     </td>
                                     <td class="product-quantity">
@@ -76,17 +76,11 @@
                                     </td>
                                     <td class="product-subtotal">
                                         <span
-                                            class="price">{{ number_format($item->total_price, 0, ',', '.') }} VND</span>
+                                            class="price">{{ number_format($item->total_price) }} VND</span>
                                     </td>
                                 </tr>
 
                             @endforeach
-
-{{--                            <tr class="actions">--}}
-{{--                      <td class="border-0" colspan="6">--}}
-{{--                        <a href="{{route('order.cancel',$item->id)}}"><button class="update-cart" disabled="">Hủy đơn</button></a>--}}
-{{--                      </td>--}}
-{{--                    </tr> --}}
 
                             </tbody>
                         </table>
@@ -99,57 +93,19 @@
                     <div id="CategoriesAccordion" class="shipping-form-calculate">
                         <div class="section-title-cart">
                             <h5 class="title">Address Information</h5>
-                            <div class="desc">
-                                <p>Shipping fee: {{$order->shipping_fee}}</p>
-                            </div>
                         </div>
                         <span data-bs-toggle="collapse" data-bs-target="#CategoriesTwo" aria-expanded="true"
                               role="button">Your shipping address</span>
                         <div id="CategoriesTwo" class="collapse show" data-bs-parent="#CategoriesAccordion">
-                            <!-- <form action="#" method="post">
-                      <div class="row row-gutter-50">
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <label class="visually-hidden" for="FormCountry">State</label>
-                            <select id="FormCountry" class="form-control">
-                              <option selected="">Select a country…</option>
-                              <option>...</option>
-                            </select>
-                          </div>
-                        </div>
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <label for="stateCounty" class="visually-hidden">State / County</label>
-                            <input type="text" id="stateCounty" class="form-control" placeholder="State / County">
-                          </div>
-                        </div>
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <label for="townCity" class="visually-hidden">Town / City</label>
-                            <input type="text" id="townCity" class="form-control" placeholder="Town / City">
-                          </div>
-                        </div>
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <label for="postcodeZip" class="visually-hidden">Postcode / ZIP</label>
-                            <input type="text" id="postcodeZip" class="form-control" placeholder="Postcode / ZIP">
-                          </div>
-                        </div>
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <button type="submit" class="update-totals">Update totals</button>
-                          </div>
-                        </div>
-                      </div>
-                    </form> -->
-
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="stateCounty" class="visually-hidden"></label>
-                                    <input type="text" id="stateCounty" class="form-control" disabled
-                                           placeholder="{{$order->address}}">
-                                </div>
-                            </div>
+                           <div class="row row-gutter-50">
+                               <div class="col-md-12">
+                                   <div class="form-group">
+                                       <label for="stateCounty" class="visually-hidden"></label>
+                                       <input type="text" id="stateCounty" class="form-control" disabled
+                                              value="{{$order->address}}">
+                                   </div>
+                               </div>
+                           </div>
                         </div>
                     </div>
                 </div>
@@ -167,7 +123,7 @@
                                 <div class="form-group">
                                     <label for="couponCode" class="visually-hidden">Coupon Code</label>
                                     <input type="text" id="couponCode" class="form-control" disabled
-                                           placeholder="{{$order->discount}}">
+                                           value="{{$order->discount}}">
                                 </div>
                             </div>
 
@@ -178,17 +134,17 @@
                 <div class="col-md-12 col-lg-4">
                     <div class="shipping-form-cart-totals">
                         <div class="section-title-cart">
-                            <h5 class="title">Cart totals</h5>
+                            <h5 class="title">Order totals</h5>
                         </div>
                         <div class="cart-total-table">
                             <table class="table">
                                 <tbody>
                                 <tr class="cart-subtotal">
                                     <td>
-                                        <p class="value">Sub Total:</p>
+                                        <p class="value">Shipping fee:</p>
                                     </td>
                                     <td>
-                                        <p class="price">{{ number_format($subtotal, 0, ',', '.') }} VND</p>
+                                        <p class="price">{{ number_format($order->shipping_fee) }}VND</p>
                                     </td>
                                 </tr>
                                 <tr class="shipping">
@@ -214,7 +170,7 @@
                                         <p class="value">Total</p>
                                     </td>
                                     <td>
-                                        <p class="price">{{ number_format($order->total, 0, ',', '.') }} VND</p>
+                                        <p class="price">{{ number_format($order->total) }} VND</p>
                                     </td>
                                 </tr>
                                 </tbody>
