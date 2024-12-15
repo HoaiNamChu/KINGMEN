@@ -58,7 +58,7 @@
                                     <td class="product-remove">
                                     </td>
                                     <td class="product-thumb">
-                                        <a href="{{ route('product.detail', $item->product->slug) }}">
+                                        <a href="{{ route('product.detail', $item) }}">
                                             <img src="{{ Storage::url($item->product_image) }}" width="90" height="110"
                                                  alt="Image-HasTech">
                                         </a>

@@ -43,7 +43,7 @@ class WishlistController extends Controller
 
         if ($exists) {
             // Nếu tồn tại, hiển thị thông báo
-            return redirect()->back()->with('warning', 'Product is already in your wishlist!');
+            return redirect()->back()->with('error', 'Product is already in your wishlist!');
         }
         
         // Nếu chưa tồn tại, thêm sản phẩm vào wishlist
