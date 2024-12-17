@@ -36,7 +36,6 @@ class CartController extends Controller
 
         return view('client.carts.index', compact('cart'));
     }
-
     public function store(Request $request)
     {
         $product = Product::where('id', $request->product_id)->with('variants')->first();
@@ -95,7 +94,6 @@ class CartController extends Controller
 
     }
 
-
     public function update(Request $request)
     {
         $cartItem = CartItem::where('id',request('id'))
@@ -109,7 +107,6 @@ class CartController extends Controller
         ], 200);
     }
 
-
     public function destroy(Request $request)
     {
 
@@ -121,6 +118,7 @@ class CartController extends Controller
         ], 200);
     }
 
+
     public function clear(Request $request)
     {
         $cart  = Cart::where('user_id', Auth::id())->where('id', $request->id)->first();
@@ -128,4 +126,5 @@ class CartController extends Controller
 
         return redirect()->route('cart.index')->with('success', 'Removed from cart');
     }
+
 }

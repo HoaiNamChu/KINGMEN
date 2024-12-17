@@ -8,7 +8,7 @@
         @endphp
     @endforeach
     <div class="pe-4" id="variant-{{ $attributeValueIds }}">
-        <div class="align-items-center">
+        <div class="align-items-center variant-zone" id="variant-zone-{{ $attributeValueIds }}">
             @foreach($productVariant as $item)
                 <h5 class="d-inline-block mb-0 me-3">{{ $item->name }}</h5>
             @endforeach
@@ -17,7 +17,7 @@
             </button>
             <hr>
         </div>
-        <div>
+        <div class="variant-data" id="variant-data-{{ $attributeValueIds }}">
             <div class="row">
                 <div class="col-lg-6">
                     <div class="mb-3">

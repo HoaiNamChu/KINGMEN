@@ -20,7 +20,7 @@ return new class extends Migration
 
         Schema::table('products', function (Blueprint $table) {
             $table->foreignIdFor(Brand::class)->nullable()->constrained();
-            $table->dropConstrainedForeignIdFor(Category::class);
+//            $table->dropConstrainedForeignIdFor(Category::class);
             $table->decimal('price', 10, 2)->nullable()->change();
             $table->decimal('price_sale', 10, 2)->nullable()->change();
             $table->decimal('price_import', 10, 2)->nullable();

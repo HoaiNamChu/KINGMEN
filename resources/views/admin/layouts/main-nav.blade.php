@@ -167,6 +167,26 @@
             </li>
 
             <li class="nav-item">
+                <a class="nav-link menu-arrow {{ strpos(url()->current(), 'posts') ? 'active' : '' }}" href="#sidebarPost" data-bs-toggle="collapse" role="button"
+                   aria-expanded="{{ strpos(url()->current(), 'posts') ? 'true' : 'false' }}" aria-controls="sidebarPost">
+                                   <span class="nav-icon">
+                                        <iconify-icon icon="solar:bill-list-bold-duotone"></iconify-icon>
+                                   </span>
+                    <span class="nav-text"> Posts </span>
+                </a>
+                <div class="collapse {{ strpos(url()->current(), 'posts') ? 'show' : '' }}" id="sidebarPost">
+                    <ul class="nav sub-navbar-nav">
+                        <li class="sub-nav-item">
+                            <a class="sub-nav-link" href="{{ route('admin.posts.index') }}">List</a>
+                        </li>
+                        <li class="sub-nav-item">
+                            <a class="sub-nav-link " href="{{ route('admin.posts.create') }}">Create</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link" href="settings.html">
                                    <span class="nav-icon">
                                         <iconify-icon icon="solar:settings-bold-duotone"></iconify-icon>
@@ -265,6 +285,16 @@
             </li>
 
             <li class="menu-title mt-2">Other</li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{route('admin.slides.index')}}">
+                                     <span class="nav-icon">
+                                        <iconify-icon icon="solar:streets-map-point-bold-duotone"></iconify-icon>
+                                     </span>
+                    <span class="nav-text"> Sliders </span>
+                </a>
+            </li>
+
 
             <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarCoupons" data-bs-toggle="collapse" role="button"

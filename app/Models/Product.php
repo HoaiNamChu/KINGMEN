@@ -85,5 +85,10 @@ class Product extends Model
     {
         return $this->belongsToMany(AttributeValue::class, 'product_attribute_value', 'product_id', 'attribute_value_id');
     }
+    public function wishlist()
+    {
+    return $this->hasMany(Wishlist::class);
+    }
+
 
 }

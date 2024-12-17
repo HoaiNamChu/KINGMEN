@@ -35,12 +35,12 @@ class CategoryController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-//    public function create()
-//    {
-//        $categories = Category::query()->whereNull('parent_id')->with('children')->get();
+    public function create()
+    {
+        $categories = Category::query()->whereNull('parent_id')->with('children')->get();
 
-//        return view(self::PATH_VIEW . __FUNCTION__, compact('categories'));
-//    }
+        return view(self::PATH_VIEW . __FUNCTION__, compact('categories'));
+    }
 
     /**
      * Store a newly created resource in storage.

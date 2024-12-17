@@ -1,3 +1,32 @@
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
+    <!-- Hiển thị thông báo thành công -->
+    @if(session('message'))
+        <div id="toastSuccess" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    {{ session('message') }}
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    @endif
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var toastSuccess = document.getElementById('toastSuccess');
+        if (toastSuccess) {
+            var bsToastSuccess = new bootstrap.Toast(toastSuccess);
+            bsToastSuccess.show();
+        }
+
+        var toastError = document.getElementById('toastError');
+        if (toastError) {
+            var bsToastError = new bootstrap.Toast(toastError);
+            bsToastError.show();
+        }
+    });
+</script>
+
 <header class="main-header-wrapper position-relative">
     <div class="header-top">
         <div class="container pt--0 pb--0">
@@ -18,12 +47,15 @@
                                         <li class="email"><i class="fa fa-envelope"></i><a
                                                 href="mailto://demo@example.com">demo@example.com</a></li>
 
-                                            @if(Auth::check())
-                                                <li class="account"><i class="fa fa-user"></i><a href="{{ route('account.index') }}"> Account : {{ Auth::user()->username }}</a></li>
-                                                <li class="account"><a href="/logout" style="color: brown">Logout</a></li>
-                                            @else
-                                                <li class="account"><i class="fa fa-user"></i><a href="/login">Account</a></li>
-                                            @endif
+                                        @if(Auth::check())
+                                            <li class="account"><i class="fa fa-user"></i><a
+                                                    href="{{route('account.index')}}"> Account
+                                                    : {{ Auth::user()->username }}</a></li>
+                                            <li class="account"><a href="/logout" style="color: brown">Logout</a></li>
+                                        @else
+                                            <li class="account"><i class="fa fa-user"></i><a href="/login">Account</a>
+                                            </li>
+                                        @endif
 
                                     </ul>
                                 </div>
@@ -69,7 +101,7 @@
                                     </button>
                                 </div>
                                 <div class="shopping-wishlist">
-                                    <a class="shopping-wishlist-btn" href="shop-wishlist.html">
+                                    <a class="shopping-wishlist-btn" href="{{route('wishlist.index')}}">
                                         <i class="pe-7s-like icon"></i>
                                     </a>
                                 </div>
@@ -92,5 +124,5 @@
             </div>
         </div>
     </div>
-   @include('client.layouts.main-nav')
+    @include('client.layouts.main-nav')
 </header>

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Products\StoraProductRequest;
+use App\Http\Requests\Admin\Products\StoreProductRequest;
+use App\Http\Requests\Admin\Products\UpdateProductRequest;
 use App\Models\Attribute;
 use App\Models\Brand;
 use App\Models\Category;
@@ -26,7 +29,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::query()->with('categories', 'brand', 'reviews')->latest()->paginate(10);
+        $products = Product::query()->with('categories', 'brand', 'reviews', 'variants')->paginate(10);
         return view(self::PATH_VIEW . __FUNCTION__, compact('products'));
     }
 
@@ -65,7 +68,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
         if (request('product_type') === 'simple') {
             $data = [
@@ -223,7 +226,6 @@ class ProductController extends Controller
                 ]);
 
 
-
                 if (!empty($galleries)) {
                     foreach ($galleries as $gallery) {
                         Gallery::query()->create([
@@ -291,7 +293,7 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(UpdateProductRequest $request, Product $product)
     {
         if (request('product_type') === 'simple') {
             $data = [
@@ -434,8 +436,7 @@ class ProductController extends Controller
 
                 $delVariant = $product->variants()->whereNotIn('id', $variantID)->get();
 
-                foreach ($delVariant as $item)
-                {
+                foreach ($delVariant as $item) {
                     $item->attributeValues()->detach();
                     $item->delete();
                 }
@@ -507,6 +508,24 @@ class ProductController extends Controller
             }
         }
         return redirect()->back()->with('success', 'Update Product Successfully');
+    }
+
+
+    public function ckeditorUpload(Request $request)
+    {
+        if ($request->hasFile('upload')) {
+            $originName = $request->file('upload')->getClientOriginalName();
+            $fileName = pathinfo($originName, PATHINFO_FILENAME);
+            $extension = $request->file('upload')->getClientOriginalExtension();
+            $fileName = $fileName . '.' . $extension;
+
+            $imageUrl = Storage::put('ckeditor/uploads', request()->file('upload'));
+
+            $url = Storage::url($imageUrl);
+
+            return response()->json(['url' => $url, 'fileName' => $fileName, 'uploaded' => 1]);
+
+        }
     }
 
     /**

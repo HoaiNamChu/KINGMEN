@@ -51,6 +51,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <input class="form-control" type="text"
+                                                                   name="discount"
                                                                    placeholder="Coupon code">
                                                         </div>
                                                     </div>
@@ -80,43 +81,74 @@
                                         <div class="form-group">
                                             <label for="name">Name <abbr class="required"
                                                                          title="required">*</abbr></label>
-                                            <input id="name" value="{{ Auth::user()->name }}" name="name" type="text"
-                                                   class="form-control">
+                                            <input id="name"
+                                                   value="{{ $data->name ? $data->name : $data->username }}"
+                                                   name="name" type="text"
+                                                   class="form-control @error('name') border-danger @enderror">
+                                            <span class="error-notification">
+                                                @error('name')
+                                                {{ $message }}
+                                                @enderror
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="phone"> Phone <abbr class="required"
                                                                             title="required">*</abbr></label>
-                                            <input id="phone" value="{{ Auth::user()->phone }}" name="phone" type="text"
-                                                   class="form-control">
+                                            <input id="phone" value="{{ $data->addresses[0]->phone }}" name="phone"
+                                                   type="text"
+                                                   class="form-control  @error('phone') border-danger @enderror">
+                                            <span class="error-notification">
+                                                @error('phone')
+                                                {{ $message }}
+                                                @enderror
+                                            </span>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="city">Province <abbr class="required"
                                                                              title="required">*</abbr></label>
-                                            <select id="city" name="province" class="form-control">
+                                            <select id="city" name="province"
+                                                    class="form-control  @error('province') border-danger @enderror">
                                                 <option value="0">Choose your province</option>
                                             </select>
+                                            <span class="error-notification">
+                                                @error('province')
+                                                {{ $message }}
+                                                @enderror
+                                            </span>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="district">District <abbr class="required"
                                                                                  title="required">*</abbr></label>
-                                            <select id="district" name="district" class="form-control">
+                                            <select id="district" name="district"
+                                                    class="form-control  @error('district') border-danger @enderror">
 
                                             </select>
+                                            <span class="error-notification">
+                                                @error('district')
+                                                {{ $message }}
+                                                @enderror
+                                            </span>
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="ward">Ward <abbr class="required"
                                                                          title="required">*</abbr></label>
-                                            <select id="ward" name="ward" class="form-control">
+                                            <select id="ward" name="ward"
+                                                    class="form-control  @error('ward') border-danger @enderror">
 
                                             </select>
+                                            <span class="error-notification">
+                                                @error('ward')
+                                                {{ $message }}
+                                                @enderror
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="col-md-12">
@@ -124,15 +156,26 @@
                                             <label for="street-address">Street address <abbr
                                                     class="required" title="required">*</abbr></label>
                                             <input id="street-address" name="house_number" type="text"
-                                                   class="form-control"
+                                                   value="{{ $data->addresses[0]->detailed_address }}"
+                                                   class="form-control  @error('house_number') border-danger @enderror"
                                                    placeholder="House number and street name">
+                                            <span class="error-notification">
+                                                @error('house_number')
+                                                {{ $message }}
+                                                @enderror
+                                            </span>
                                         </div>
                                     </div>
 
                                     <div class="col-md-12">
                                         <div class="form-group mb--0">
                                             <label for="order-notes">Order notes (optional)</label>
-                                            <textarea id="order-notes" name="note" class="form-control"
+                                            <span class="error-notification">
+                                                @error('note')
+                                                {{ $message }}
+                                                @enderror
+                                            </span>
+                                            <textarea id="order-notes" name="note" rows="10" class="form-control"
                                                       placeholder="Notes about your order, e.g. special notes for delivery."></textarea>
                                         </div>
                                     </div>
@@ -159,8 +202,16 @@
                                     @php
                                         $cartTotal = 0;
                                     @endphp
-                                    @foreach($cart->cartItems as $item)
+                                    @foreach($data->cart->cartItems as $item)
                                         <tr class="cart-item">
+                                            <input type="hidden" name="orderItems[{{ $item->id }}][product_id]"
+                                                   value="{{$item->product_id}}">
+                                            <input type="hidden" name="orderItems[{{ $item->id }}][variant_id]"
+                                                   value="{{$item->variant_id}}">
+                                            <input type="hidden" name="orderItems[{{ $item->id }}][product_name]"
+                                                   value="{{$item->product->name}}">
+                                            <input type="hidden" name="orderItems[{{ $item->id }}][product_quantity]"
+                                                   value="{{$item->quantity}}">
                                             <td class="product-name">{{ $item->product->name }}<span
                                                     class="product-quantity"> × {{ $item->quantity }}</span>
                                             </td>
@@ -176,7 +227,13 @@
                                                     </td>
                                                     <td
                                                         class="product-total">{{ number_format(intval($item->variant->price_sale) * $item->quantity) }}
-                                                        VND VND
+                                                        VND
+                                                        <input type="hidden"
+                                                               name="orderItems[{{ $item->id }}][product_price]"
+                                                               value="{{$item->variant->price_sale}}">
+                                                        <input type="hidden"
+                                                               name="orderItems[{{ $item->id }}][total_price]"
+                                                               value="{{intval($item->variant->price_sale) * intval($item->quantity)}}">
                                                     </td>
                                                 @else
                                                     @php
@@ -187,9 +244,20 @@
                                                             {{ $attrVal->name }},
                                                         @endforeach
                                                     </td>
+                                                    <td>
+                                                        @foreach($item->variant->attributeValues as $attrVal)
+                                                            {{ $attrVal->name }},
+                                                        @endforeach
+                                                    </td>
                                                     <td
                                                         class="product-total">{{ number_format(intval($item->variant->price) * $item->quantity) }}
-                                                        VND VND
+                                                        VND
+                                                        <input type="hidden"
+                                                               name="orderItems[{{ $item->id }}][product_price]"
+                                                               value="{{$item->variant->price}}">
+                                                        <input type="hidden"
+                                                               name="orderItems[{{ $item->id }}][total_price]"
+                                                               value="{{intval($item->variant->price) * intval($item->quantity)}}">
                                                     </td>
                                                 @endif
                                             @else
@@ -197,18 +265,31 @@
                                                     @php
                                                         $cartTotal += intval($item->product->price_sale) * $item->quantity;
                                                     @endphp
-                                                <td></td>
+                                                    <td></td>
                                                     <td
                                                         class="product-total">{{ number_format(intval($item->product->price_sale) * $item->quantity) }}
                                                         VND
+                                                        <input type="hidden"
+                                                               name="orderItems[{{ $item->id }}][product_price]"
+                                                               value="{{$item->product->price_sale}}">
+                                                        <input type="hidden"
+                                                               name="orderItems[{{ $item->id }}][total_price]"
+                                                               value="{{intval($item->product->price_sale) * intval($item->quantity)}}">
                                                     </td>
                                                 @else
                                                     @php
                                                         $cartTotal += intval($item->product->price) * $item->quantity;
                                                     @endphp
-                                                    <td
-                                                        class="product-total">{{ number_format(intval($item->product->price) * $item->quantity) }}
-                                                        VND VND
+                                                    <td></td>
+                                                    <td class="product-total">
+                                                        {{ number_format(intval($item->product->price) * $item->quantity) }}
+                                                        VND
+                                                        <input type="hidden"
+                                                               name="orderItems[{{ $item->id }}][total_price]"
+                                                               value="{{intval($item->product->price) * intval($item->quantity)}}">
+                                                        <input type="hidden"
+                                                               name="orderItems[{{ $item->id }}][product_price]"
+                                                               value="{{$item->product->price}}">
                                                     </td>
                                                 @endif
                                             @endif
@@ -231,7 +312,8 @@
                                         <th>Total</th>
                                         <td></td>
                                         <td id="order-total">{{ number_format($cartTotal) }} VND</td>
-                                        <input type="hidden" id="order_total" name="order_total" value="{{$cartTotal }}">
+                                        <input type="hidden" id="order_total" name="order_total"
+                                               value="{{$cartTotal }}">
                                     </tr>
                                     </tfoot>
                                 </table>
@@ -266,20 +348,6 @@
                                                 </div>
                                             </div>
                                         </div>
-{{--                                                                            <div class="card">--}}
-{{--                                                                                <div class="card-header" id="check_payments4">--}}
-{{--                                                                                    <h5 class="title" data-bs-toggle="collapse" data-bs-target="#itemFour"--}}
-{{--                                                                                        aria-controls="itemTwo" aria-expanded="false">VNPAY <img src="assets/img/photos/paypal2.webp" width="40"--}}
-{{--                                                                                                      height="26" alt="Image-HasTech"></h5>--}}
-{{--                                                                                </div>--}}
-{{--                                                                                <div id="itemFour" class="collapse" aria-labelledby="check_payments4"--}}
-{{--                                                                                     data-bs-parent="#PaymentMethodAccordion">--}}
-{{--                                                                                    <div class="card-body">--}}
-{{--                                                                                        <p>Pay via PayPal; you can pay with your credit card if you don’t--}}
-{{--                                                                                            have a PayPal account.</p>--}}
-{{--                                                                                    </div>--}}
-{{--                                                                                </div>--}}
-{{--                                                                            </div>--}}
                                     </div>
                                     <p class="p-text">Your personal data will be used to process your order, support
                                         your experience throughout this website, and for other purposes described in our
@@ -287,9 +355,16 @@
                                     <div class="agree-policy">
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" id="privacy"
-                                                   class="custom-control-input visually-hidden">
+                                                   name="confirm_checkout"
+                                                   value="1"
+                                                   class="custom-control-input visually-hidden  @error('confirm_checkout') border-danger @enderror">
                                             <label for="privacy" class="custom-control-label">I have read and agree to
                                                 the website terms and conditions <span class="required">*</span></label>
+                                            <span class="error-notification">
+                                                @error('confirm_checkout')
+                                                {{ $message }}
+                                                @enderror
+                                            </span>
                                         </div>
                                     </div>
                                     <button type="submit" class="btn-theme col-lg-12">Place order</button>
@@ -306,7 +381,7 @@
     <!--== End Shopping Checkout Area Wrapper ==-->
 @endsection
 
-@section('script')
+@section('scripts')
     <script>
         $(document).ready(function () {
             var orderTotal = {{$cartTotal}}
@@ -325,8 +400,13 @@
                     'token': 'f3dc65c5-96db-11ef-97be-1ef9613dbf99'
                 },
                 success: function (data_city) {
+                    let userCity = '{{ $data->addresses[0]->city }}';
+                    let selected = '';
                     $.each(data_city.data, function (key_tinh, val_tinh) {
-                        $("#city").append('<option value="' + val_tinh.ProvinceName + '" id="' + val_tinh.ProvinceID + '">' + val_tinh.ProvinceName + '</option>');
+                        if (val_tinh.ProvinceName == userCity) {
+                            selected = 'selected'
+                        }
+                        $("#city").append('<option value="' + val_tinh.ProvinceName + '" id="' + val_tinh.ProvinceID + '" ' + selected + '>' + val_tinh.ProvinceName + '</option>');
                     });
                     $("#city").change(function (e) {
                         var idCity = $("#city option:selected").attr('id');
@@ -342,10 +422,18 @@
                                 'token': 'f3dc65c5-96db-11ef-97be-1ef9613dbf99'
                             },
                             success: function (data_district) {
+                                let userDistrict = '{{ $data->addresses[0]->district }}';
+                                let selected = '';
                                 $("#district").html('<option value="0">District</option>');
                                 $("#ward").html('<option value="0">Ward</option>');
                                 $.each(data_district.data, function (key_quan, val_quan) {
-                                    $("#district").append('<option value="' + val_quan.DistrictName + '" id="' + val_quan.DistrictID + '">' + val_quan.DistrictName + '</option>');
+                                    console.log(val_quan.DistrictName)
+                                    if (val_quan.DistrictName.toLowerCase() === userDistrict.toLowerCase()) {
+                                        selected = 'selected';
+                                    }else {
+                                        selected = '';
+                                    }
+                                    $("#district").append('<option value="' + val_quan.DistrictName + '" id="' + val_quan.DistrictID + '" '+selected+'>' + val_quan.DistrictName + '</option>');
                                 });
                                 //Lấy phường xã
                                 $("#district").change(function (e) {

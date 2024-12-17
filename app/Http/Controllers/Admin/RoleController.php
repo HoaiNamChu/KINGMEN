@@ -31,16 +31,16 @@ public function index()
     return view('admin.roles.index', compact('roles'));
 }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-        $permissions = Permission::all();
-        return view('admin.roles.add', compact('permissions'));
+/**
+ * Show the form for creating a new resource.
+ */
+public function create()
+{
+    //
+    $permissions = Permission::all();
+    return view('admin.roles.add', compact('permissions'));
 
-    }
+}
 
 /**
  * Store a newly created resource in storage.

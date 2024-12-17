@@ -33,30 +33,57 @@
                         </div>
                         <!--== Start Contact Form ==-->
                         <div class="contact-form">
-                            <form id="contact-form" action="https://whizthemes.com/mail-php/raju/arden/mail.php"
+                            <form id="contact-form" action="{{ route('contact.store') }}"
                                   method="POST">
+                                @csrf
                                 <div class="row row-gutter-20">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input class="form-control" type="text" name="con_name"
+                                            <input class="form-control @error('name') border-danger @enderror" type="text" name="name"
+                                                   value="{{ old('name') }}"
                                                    placeholder="Name *">
+                                            <span class="error-notification">
+                                                @error('name')
+                                                {{ $message }}
+                                                @enderror
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input class="form-control" type="email" name="con_email"
+                                            <input class="form-control @error('email') border-danger @enderror" type="email" name="email"
+                                                   value="{{ old('email') }}"
                                                    placeholder="Email *">
+                                            <span class="error-notification">
+                                                @error('email')
+                                                {{ $message }}
+                                                @enderror
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <input class="form-control" type="text" placeholder="Subject (Optinal)">
+                                            <input class="form-control @error('phone') border-danger @enderror" name="phone" type="text"
+                                                   value="{{ old('phone') }}"
+                                                   placeholder="Phone">
+                                            <span class="error-notification">
+                                                @error('phone')
+                                                {{ $message }}
+                                                @enderror
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group mb--0">
-                                                <textarea class="form-control" name="con_message"
-                                                          placeholder="Message"></textarea>
+                                                <textarea class="form-control @error('message') border-danger @enderror" name="message"
+                                                          placeholder="Message">
+                                                    {!! old('message') !!}
+                                                </textarea>
+                                            <span class="error-notification">
+                                                @error('message')
+                                                {{ $message }}
+                                                @enderror
+                                            </span>
                                         </div>
                                     </div>
                                     <div class="col-12">
@@ -72,14 +99,18 @@
                         <!--== Message Notification ==-->
                         <div class="form-message"></div>
                         <div class="shape-group-style2">
-                            <div class="shape-group-one"><img src="{{ asset('theme/client/assets/img/shape/13.webp') }}" width="193"
+                            <div class="shape-group-one"><img src="{{ asset('theme/client/assets/img/shape/13.webp') }}"
+                                                              width="193"
                                                               height="168" alt="Image-HasTech"></div>
-                            <div class="shape-group-two"><img src="{{ asset('theme/client/assets/img/shape/15.webp') }}" width="221"
+                            <div class="shape-group-two"><img src="{{ asset('theme/client/assets/img/shape/15.webp') }}"
+                                                              width="221"
                                                               height="113" alt="Image-HasTech"></div>
-                            <div class="shape-group-three"><img src="{{ asset('theme/client/assets/img/shape/16.webp') }}" width="129"
-                                                                height="147" alt="Image-HasTech"></div>
-                            <div class="shape-group-four"><img src="{{ asset('theme/client/assets/img/shape/17.webp') }}" width="493"
-                                                               height="340" alt="Image-HasTech"></div>
+                            <div class="shape-group-three"><img
+                                    src="{{ asset('theme/client/assets/img/shape/16.webp') }}" width="129"
+                                    height="147" alt="Image-HasTech"></div>
+                            <div class="shape-group-four"><img
+                                    src="{{ asset('theme/client/assets/img/shape/17.webp') }}" width="493"
+                                    height="340" alt="Image-HasTech"></div>
                         </div>
                     </div>
                 </div>
@@ -90,7 +121,8 @@
                                 <div class="col-lg-4 col-xl-12">
                                     <div class="info-item" data-aos="fade-left">
                                         <div class="icon">
-                                            <img src="{{ asset('theme/client/assets/img/icons/c1.webp') }}" width="69" height="65"
+                                            <img src="{{ asset('theme/client/assets/img/icons/c1.webp') }}" width="69"
+                                                 height="65"
                                                  alt="Image-HasTech">
                                         </div>
                                         <div class="info">
@@ -102,7 +134,8 @@
                                 <div class="col-lg-4 col-xl-12">
                                     <div class="info-item" data-aos="fade-left" data-aos-delay="60">
                                         <div class="icon">
-                                            <img src="{{ asset('theme/client/assets/img/icons/c2.webp') }}" width="65" height="65"
+                                            <img src="{{ asset('theme/client/assets/img/icons/c2.webp') }}" width="65"
+                                                 height="65"
                                                  alt="Image-HasTech">
                                         </div>
                                         <div class="info">
@@ -117,7 +150,8 @@
                                 <div class="col-lg-4 col-xl-12">
                                     <div class="info-item" data-aos="fade-left" data-aos-delay="120">
                                         <div class="icon">
-                                            <img src="{{ asset('theme/client/assets/img/icons/c3.webp') }}" width="65" height="65"
+                                            <img src="{{ asset('theme/client/assets/img/icons/c3.webp') }}" width="65"
+                                                 height="65"
                                                  alt="Image-HasTech">
                                         </div>
                                         <div class="info">

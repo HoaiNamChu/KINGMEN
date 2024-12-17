@@ -1,7 +1,18 @@
 @extends('admin.layouts.main')
 
-@section('link')
+@section('links')
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+@endsection
+
+@section('styles')
+    <style>
+        .variant-data {
+            display: none;
+        }
+        .ck-editor__editable_inline {
+            height: 300px;
+        }
+    </style>
 @endsection
 
 
@@ -21,8 +32,15 @@
                                 <div class="col-lg-12">
                                     <div class="mb-3">
                                         <label for="product-name" class="form-label">Product Name</label>
-                                        <input type="text" id="product-name" name="name" class="form-control"
+                                        <input type="text" id="product-name" name="name"
+                                               class="form-control @error('name') border-danger @enderror"
+                                               value="{{ old('name') }}"
                                                placeholder="Items Name">
+                                        <span class="error-notification">
+                                        @error('name')
+                                        {{ $message }}
+                                        @enderror
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -32,8 +50,13 @@
                                         <label for="product-sku" class="form-label">Product SKU</label>
                                         <input type="text" id="product-sku" name="sku"
                                                value="{{ \Illuminate\Support\Str::random(8) }}"
-                                               class="form-control"
+                                               class="form-control @error('sku') border-danger @enderror"
                                                placeholder="SKU">
+                                        <span class="error-notification">
+                                        @error('sku')
+                                        {{ $message }}
+                                        @enderror
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -43,9 +66,13 @@
                                         <label for="description" class="form-label">Description</label>
                                         <div class="mb-3">
                                             <textarea id="editor" name="description">
-
+                                                {!! old('description') !!}
                                             </textarea>
-
+                                            <span class="error-notification">
+                                            @error('description')
+                                            {{ $message }}
+                                            @enderror
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
@@ -91,10 +118,11 @@
                                     <div class="row pt-3 pb-3" id="general-item">
                                         <div class="col-lg-6">
                                             <div class="mb-3">
-                                                <label for="product-price-import" class="form-label">Price Import</label>
+                                                <label for="product-price-import" class="form-label">Price
+                                                    Import</label>
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text fs-20"><i
-                                                            class="bx bx-dollar"></i></span>
+                                                                class="bx bx-dollar"></i></span>
                                                     <input type="number" name="price_import" id="product-price-import"
                                                            class="form-control"
                                                            placeholder="000">
@@ -106,7 +134,7 @@
                                                 <label for="product-price" class="form-label">Price</label>
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text fs-20"><i
-                                                            class="bx bx-dollar"></i></span>
+                                                                class="bx bx-dollar"></i></span>
                                                     <input type="number" name="price" id="product-price"
                                                            class="form-control"
                                                            placeholder="000">
@@ -118,7 +146,7 @@
                                                 <label for="product-price-sale" class="form-label">Price Sale</label>
                                                 <div class="input-group mb-3">
                                                     <span class="input-group-text fs-20"><i
-                                                            class="bx bx-dollar"></i></span>
+                                                                class="bx bx-dollar"></i></span>
                                                     <input type="number" name="price_sale" id="product-price-sale"
                                                            class="form-control"
                                                            placeholder="000">
@@ -180,7 +208,14 @@
                                     <div>
                                     <textarea class="form-control bg-light-subtle" name="short_desc"
                                               id="short-description" rows="7"
-                                              placeholder="Short description about the product"></textarea>
+                                              placeholder="Short description about the product">
+                                        {!! old('short_desc') !!}
+                                    </textarea>
+                                        <span class="error-notification">
+                                        @error('short_desc')
+                                        {{ $message }}
+                                        @enderror
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -220,7 +255,8 @@
                                 <label class="form-check-label" for="is-sale">Is Sale</label>
                             </div>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" name="is_best_seller" value="1" type="checkbox" role="switch"
+                                <input class="form-check-input" name="is_best_seller" value="1" type="checkbox"
+                                       role="switch"
                                        id="is-best-seller">
                                 <label class="form-check-label" for="is-best-seller">Is Best Seller</label>
                             </div>
@@ -239,7 +275,12 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div>
-                                        <input type="file" name="image" id="product-image" class="form-control">
+                                        <input type="file" name="image" id="product-image" class="form-control @error('image') border-danger @enderror">
+                                        <span class="error-notification">
+                                        @error('image')
+                                        {{ $message }}
+                                        @enderror
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -264,11 +305,7 @@
                     </div>
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title d-inline-block">Product Categories</h4><a href=""
-                                                                                            data-bs-toggle="modal"
-                                                                                            data-bs-target="#modalCreateCategory"
-                                                                                            class="float-end text-decoration-underline">Add
-                                New</a>
+                            <h4 class="card-title d-inline-block">Product Categories</h4>
                         </div>
                         <div class="card-body">
                             <p class="text-muted mb-2">Select product category</p>
@@ -349,9 +386,10 @@
 @section('script')
     <script>
         ClassicEditor
-            .create(document.querySelector('#editor'))
-            .then(editor => {
-                window.editor = editor;
+            .create(document.querySelector('#editor'), {
+                ckfinder: {
+                    uploadUrl: '{{route('admin.ckeditor.uploads',['_token'=>csrf_token()])}}'
+                }
             })
             .catch(error => {
                 console.error('There was a problem initializing the editor.', error);
@@ -526,7 +564,9 @@
                         //
                         // console.log(vairants1)
 
+
                         $('#variations-item').append(response);
+
                     },
                     error: function (response) {
 
@@ -561,6 +601,17 @@
             var attributeId = btnId[2]
             console.log(attributeId);
             $('#select-' + attributeId + ' option').prop('selected', false);
+        });
+
+
+        $(document).on('click', '.variant-zone', function () {
+            var variantID = $(this).attr('id').split('variant-zone-');
+            var isHidden = $('#variant-data-' + variantID[1]).is(":hidden");
+            if (isHidden) {
+                $('#variant-data-' + variantID[1]).show();
+            } else {
+                $('#variant-data-' + variantID[1]).hide();
+            }
         });
 
         @if(session('success'))

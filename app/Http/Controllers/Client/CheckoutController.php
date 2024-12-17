@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
-<<<<<<< HEAD
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
@@ -25,38 +24,15 @@ class CheckoutController extends Controller
             return redirect()->back()->with('error', 'Your cart is empty');
         }
         return view('client.checkout.index', compact('cart'));
-=======
-use App\Models\CartItem;
-use App\Models\Order;
-use App\Models\OrderItem;
-use Illuminate\Http\Request;
-
-class CheckoutController extends Controller
-{
-    const PATH_VIEW = 'client.checkout.';
-
-
-    public function index()
-    {
-        $cart = Cart::query()->where('user_id', \Auth::id())
-            ->with('cartItems.product')
-            ->with('cartItems.variant.attributeValues')
-            ->first();
-        if (!$cart->cartItems->count()){
-            return redirect()->back()->with('error', 'Your cart is empty');
-        }
-        return view(self::PATH_VIEW . __FUNCTION__, compact('cart'));
->>>>>>> 6b33c4a3f8e9d5aa48ea3805d1cab068879286ec
     }
 
     public function order(Request $request)
     {
+
+//        dd(request()->all());
+
         $dataOrder = [
-<<<<<<< HEAD
             'user_id' => Auth::id(),
-=======
-            'user_id' => \Auth::id(),
->>>>>>> 6b33c4a3f8e9d5aa48ea3805d1cab068879286ec
             'name' => $request->name,
             'phone' => $request->phone,
             'address' => $request->house_number . ' - ' . $request->ward . ' - ' . $request->district . ' - ' . $request->province,
@@ -71,25 +47,17 @@ class CheckoutController extends Controller
         } else if ($request->payment_method == 'vnpay_payment') {
             $dataOrder['payment_method'] = 'VN PAY';
         }
-<<<<<<< HEAD
-
-=======
 //        dd($dataOrder);
->>>>>>> 6b33c4a3f8e9d5aa48ea3805d1cab068879286ec
         if ($request->payment_method == 'cash_payment') {
             $this->cashPayment($dataOrder);
         }
 
         if ($request->payment_method == 'vnpay_payment') {
-<<<<<<< HEAD
-            $this->vnPayPayment($dataOrder);
-=======
 
 
             $this->vnPayPayment($dataOrder);
 
 
->>>>>>> 6b33c4a3f8e9d5aa48ea3805d1cab068879286ec
         }
 
         return redirect()->route('vnpay.return')->with('success', 'Order created!');
@@ -97,11 +65,7 @@ class CheckoutController extends Controller
 
     public function cashPayment($dataOrder)
     {
-<<<<<<< HEAD
         $cart = Cart::query()->where('user_id', Auth::id())
-=======
-        $cart = Cart::query()->where('user_id', \Auth::id())
->>>>>>> 6b33c4a3f8e9d5aa48ea3805d1cab068879286ec
             ->with('cartItems')
             ->with('cartItems.product')
             ->with('cartItems.variant')
@@ -136,15 +100,10 @@ class CheckoutController extends Controller
             }
 
             $cart->cartItems()->delete();
-<<<<<<< HEAD
+
+
         } catch (\Exception $exception) {
             DB::rollBack();
-=======
-
-
-        } catch (\Exception $exception) {
-            \DB::rollBack();
->>>>>>> 6b33c4a3f8e9d5aa48ea3805d1cab068879286ec
 
             dd($exception->getMessage());
             return redirect()->back()->with('error', $exception->getMessage());
@@ -155,11 +114,7 @@ class CheckoutController extends Controller
     {
 
         try {
-<<<<<<< HEAD
             $cart = Cart::query()->where('user_id', Auth::id())
-=======
-            $cart = Cart::query()->where('user_id', \Auth::id())
->>>>>>> 6b33c4a3f8e9d5aa48ea3805d1cab068879286ec
                 ->with('cartItems')
                 ->with('cartItems.product')
                 ->with('cartItems.variant')
