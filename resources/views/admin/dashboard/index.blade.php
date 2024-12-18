@@ -38,7 +38,7 @@
                                     <span class="text-success"> <i class="bx bxs-up-arrow fs-12"></i> 2.3%</span>
                                     <span class="text-muted ms-1 fs-12">Last Week</span>
                                 </div>
-                                <a href="#!" class="text-reset fw-semibold fs-12">View More</a>
+                                <a href=" {{ route('admin.orders.statistics')}} " class="text-reset fw-semibold fs-12">View More</a>
                             </div>
                         </div> <!-- end card body -->
                     </div> <!-- end card -->
