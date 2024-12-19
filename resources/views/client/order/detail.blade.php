@@ -58,14 +58,14 @@
                                     <td class="product-remove">
                                     </td>
                                     <td class="product-thumb">
-                                        <a href="{{ route('product.detail', $item->product->slug) }}">
+                                        
                                             <img src="{{ Storage::url($item->product_image) }}" width="90" height="110"
                                                  alt="Image-HasTech">
-                                        </a>
+                                        
                                     </td>
                                     <td class="product-name">
-                                        <h4 class="title"><a href="hien thi chi tiet san pham">
-                                                {{$item->product_name}}</a></h4>
+                                        <h4 class="title">
+                                                {{$item->product_name}}</h4>
                                     </td>
                                     <td class="product-price">
                                         <span class="price">{{ number_format($item->product_price) }}
@@ -176,12 +176,37 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div style="display: flex; gap: 65px;">
+                        <div style="display: flex; gap: 5px;" >
+                             <!-- Nút hủy đơn hàng nếu status = 'Chờ xác nhận' -->
+                        @if($order->status === 'Đang chờ xác nhận')
                             <form action="{{ route('order.cancel', $order->id) }}" method="POST">
                                 @csrf
-                                @method('POST') <!-- Đảm bảo form gửi theo phương thức POST -->
                                 <button type="submit" class="btn-theme btn-flat">Hủy đơn</button>
                             </form>
+                        @endif
+
+                        <!-- Nút đã nhận được hàng nếu status không phải là 'Chờ xác nhận', 'Hoàn trả', hoặc 'Đã hủy' -->
+                        @if(!in_array($order->status, ['Đang chờ xác nhận', 'Hoàn trả', 'Đã hủy', 'Hoàn thành', 'Đơn yêu cầu hoàn trả', 'Không giao được']))
+                            <form action="{{ route('order.access', $order->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn-theme btn-flat">Đã nhận được hàng</button>
+                            </form>
+                        @endif
+
+                        @if($order->status === 'Đơn yêu cầu hoàn trả')
+                            <form action="{{ route('order.access', $order->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn-theme btn-flat">Hủy yêu cầu hoàn trả đơn</button>
+                            </form>
+                        @endif
+
+                        <!-- Nút hoàn trả nếu status = 'Hoàn thành' -->
+                        @if($order->status === 'Hoàn thành')
+                            <form action="{{ route('order.return', $order->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn-theme btn-flat">Hoàn trả đơn</button>
+                            </form>
+                        @endif
                             <a href="{{route('account.index')}}">
                                 <button class="btn-theme btn-flat"> Cancel</button>
                             </a>

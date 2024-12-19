@@ -35,14 +35,13 @@
                                         <h4 class="fw-medium text-dark">Status</h4>
                                         <br>
                                         <select class="form-control" data-choices name="status">
-                                            <option value="{{$order->status}} selected ">{{$order->status}}</option>
-                                            <option value="Đang chờ xác nhận">Đang chờ xác nhận</option>
-                                            <option value="Đã xác nhận">Đã xác nhận</option>
-                                            <option value="Đang giao hàng">Đang giao hàng</option>
-                                            <option value="Hoàn thành">Hoàn thành</option>
-                                            <option value="Đã hủy">Đã hủy</option>
-                                            <option value="Hoàn đơn">Hoàn đơn</option>
-                                            <option value="Không giao được">Không giao được</option>
+                                            <option value="Đang chờ xác nhận" @selected($order->status == 'Đang chờ xác nhận')>Đang chờ xác nhận</option>
+                                            <option value="Đã xác nhận" @selected($order->status == 'Đã xác nhận')>Đã xác nhận</option>
+                                            <option value="Đang giao hàng" @selected($order->status == 'Đang giao hàng')>Đang giao hàng</option>
+                                            <option value="Hoàn thành" @selected($order->status == 'Hoàn thành')>Hoàn thành</option>
+                                            <option value="Đã hủy" @selected($order->status == 'Đã hủy')>Đã hủy</option>
+                                            <option value="Hoàn đơn" @selected($order->status == 'Hoàn đơn')>Hoàn đơn</option>
+                                            <option value="Không giao được" @selected($order->status == 'Không giao được')>Không giao được</option>
                                         </select>
                                     </div>
                                     <!-- <div class="row row-cols-xxl-5 row-cols-md-2 row-cols-1">
@@ -276,21 +275,21 @@
                         <img src="{{ Storage::url($user->avatar) }}" alt="{{$user->avatar}}"
                             class="avatar rounded-3 border border-light border-3">
                         <div>
-                            <p class="mb-1">{{$user->name}}</p>
+                            <p class="mb-1">{{$order->name}}</p>
                             <a href="#!" class="link-primary fw-medium">{{$user->email}}</a>
                         </div>
                     </div>
                     <div class="d-flex justify-content-between mt-3">
                         <h5 class="">Contact Number</h5>
                     </div>
-                    <p class="mb-1">{{$user->phone}}</p>
+                    <p class="mb-1">{{$order->phone}}</p>
 
                     <div class="d-flex justify-content-between mt-3">
                         <h5 class="">Shipping Address</h5>
                     </div>
 
                     <div>
-                        <p class="mb-1">{{$user->address}}</p>
+                        <p class="mb-1">{{$order->address}}</p>
                     </div>
 
                 </div>

@@ -49,4 +49,46 @@ class OrderClientController extends Controller
     }
 
 
+    // cái này là hoàn đơn này ... loạn hết cả rồi @@
+    public function returnorder($id)
+    {
+        // Lấy đơn hàng của người dùng với id được chỉ định
+        $order = auth()->user()->orders()->findOrFail($id);
+        
+        if ($order->status == 'Hoàn thành') {
+    
+            $order->status = 'Đơn yêu cầu hoàn trả';
+            $order->save(); // Lưu lại thay đổi vào cơ sở dữ liệu
+
+            // Trả về thông báo thành công
+            return redirect()->route('account.index')->with('success', 'Đơn hàng đã được hoàn trả hãy chờ liên hệ của nhân viên.');
+        }
+
+        // Nếu đơn hàng không thể hủy, trả về thông báo lỗi
+        return redirect()->route('order.detail', $id)->with('error', 'Không thể hoàn trả đơn hàng này.');
+    }
+
+
+    // cái này là đã nhận được hàng này @@
+    public function access($id)
+    {
+        // Lấy đơn hàng của người dùng với id được chỉ định
+        $order = auth()->user()->orders()->findOrFail($id);
+
+        if (!in_array($order->status, ['Chờ xác nhận', 'Hoàn trả', 'Đã hủy'])) {
+            $order->status = 'Hoàn thành'; // Cập nhật trạng thái thành 'Hoàn thành'
+            $order->save(); // Lưu lại thay đổi vào cơ sở dữ liệu
+    
+            // Trả về thông báo thành công
+            return redirect()->route('account.index')
+                ->with('success', 'Đơn hàng đã được cập nhật trạng thái thành Hoàn thành.');
+        }
+    
+
+        // Nếu đơn hàng không thể hủy, trả về thông báo lỗi
+        return redirect()->route('order.detail', $id)->with('error', 'Không thể hoàn trả đơn hàng này.');
+    }
+
+
+
 }

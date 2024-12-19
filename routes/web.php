@@ -74,6 +74,9 @@ Route::prefix('/')->group(function () {
     Route::resource('wishlist', WishlistController::class)->middleware('auth');
     Route::get('/order/{id}', [OrderClientController::class, 'show'])->name('order.detail')->middleware('auth');
     Route::post('/order/{id}/cancel', [OrderClientController::class, 'cancel'])->name('order.cancel')->middleware('auth');
+    Route::post('/order/{id}/returnorder', [OrderClientController::class, 'returnorder'])->name('order.return')->middleware('auth');
+    Route::post('/order/{id}/access', [OrderClientController::class, 'access'])->name('order.access')->middleware('auth');
+
 
 
     Route::post('/contact', [\App\Http\Controllers\Client\ContactController::class, 'store'])->name('contact.store');
