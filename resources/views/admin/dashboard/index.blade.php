@@ -130,7 +130,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">Revenue statistics</h4>
+                        <h4 class="card-title">Revenue </h4>
                         <div class="d-flex gap-2">
                             <!-- Ngày bat daudau -->
                             <input type="date" id="start-date" class="form-control form-control-sm" />
@@ -138,13 +138,13 @@
                             <input type="date" id="end-date" class="form-control form-control-sm" />
 
                             <!-- LLọc theo tuần này -->
-                            <button type="button" class="btn btn-sm btn-info" onclick="filterWeek()">Tuần này</button>
+                            <button type="button" class="btn btn-sm btn-info" onclick="filterWeek()">Tuần</button>
 
                             <!-- LLọc theo tháng này -->
-                            <button type="button" class="btn btn-sm btn-info" onclick="filterMonth()">Tháng này</button>
+                            <button type="button" class="btn btn-sm btn-info" onclick="filterMonth()">Tháng</button>
                             
                             <!-- LLọc theo năm nay -->
-                            <button type="button" class="btn btn-sm btn-info" onclick="filterYear()">Năm nay</button>
+                            <button type="button" class="btn btn-sm btn-info" onclick="filterYear()">Năm</button>
 
                             <button type="button" class="btn btn-sm btn-primary" onclick="filterChart()">Lọc</button>
                         </div>
@@ -160,126 +160,9 @@
                 </div> <!-- end card body -->
             </div> <!-- end card -->
         </div> <!-- end col -->
-        
-        
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-            const chartOptions = {
-                chart: {
-                    type: 'area',
-                    height: 350,
-                },
-                series: [
-                    {
-                        name: 'Revenue',
-                        data: []
-                    }
-                ],
-                xaxis: {
-                    categories: []
-                },
-                title: {
-                    text: 'Revenue statistics',
-                    align: 'left'
-                },
-                yaxis: {
-                    title: {
-                        text: 'Revenue (VNĐ)'
-                    }
-                }
-            };
-
-            const revenueChart = new ApexCharts(document.querySelector("#revenue-chart"), chartOptions);
-            revenueChart.render();
-
-            const filterChart = async () => {
-                const startDate = document.getElementById("start-date").value;
-                const endDate = document.getElementById("end-date").value;
-
-                if (!startDate || !endDate) {
-                    alert("Vui lòng chọn đầy đủ ngày bắt đầu và ngày kết thúc.");
-                    return;
-                }
-
-                if (new Date(startDate) > new Date(endDate)) {
-                    alert("Ngày bắt đầu không được lớn hơn ngày kết thúc.");
-                    return;
-                }
-
-                try {
-                    // Gọi API để lấy dữ liệu
-                    const response = await fetch('/admin/api/orders/revenue');
-
-                    if (!response.ok) {
-                        throw new Error("Failed to fetch data");
-                    }
-
-                    const data = await response.json();
-                    console.log("Fetched Data:", data);
-
-                    // Lọc dữ liệu theo ngày
-                    const filteredData = data.filter(item => 
-                        item.date >= startDate && item.date <= endDate
-                    );
-
-                    const newCategories = filteredData.map(item => item.date);
-                    const newData = filteredData.map(item => parseFloat(item.revenue));
-
-                    // Tính tổng doanh thu
-                    const totalRevenue = newData.reduce((acc, curr) => acc + curr, 0);
-
-                    // Cập nhật tổng doanh thu trong giao diện
-                    document.getElementById("total-revenue").textContent = totalRevenue.toLocaleString("vi-VN", { minimumFractionDigits: 2 });
-
-                    // Cập nhật biểu đồ
-                    revenueChart.updateOptions({
-                        series: [
-                            {
-                                name: 'Revenue',
-                                data: newData
-                            }
-                        ],
-                        xaxis: {
-                            categories: newCategories
-                        }
-                    });
-                } catch (error) {
-                    console.error("Error fetching data:", error);
-                    alert("Có lỗi xảy ra khi lấy dữ liệu.");
-                }
-            };
-
-            const filterMonth = async () => {
-                const today = new Date();
-                const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-                const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
-
-                const startDate = startOfMonth.toISOString().split('T')[0];
-                const endDate = endOfMonth.toISOString().split('T')[0];
-
-                document.getElementById("start-date").value = startDate;
-                document.getElementById("end-date").value = endDate;
-
-                filterChart();
-            };
-
-            // Gọi filterMonth ngay khi trang được tải để lọc doanh thu tháng này mặc định
-            filterMonth();
-
-            window.filterChart = filterChart;
-            window.filterMonth = filterMonth;
-        });
-
-
-        </script>
-        
-
-        
-
-
-
     </div> <!-- end row -->
 
+    
     <div class="row">
         <div class="col-lg-4">
             <div class="card">
