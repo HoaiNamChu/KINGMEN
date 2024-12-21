@@ -72,7 +72,7 @@
             </div>
 
             <!-- Form lọc theo ngày -->
-            <form action="{{ route('admin.orders.statistics') }}" method="GET">
+            <form action="{{ route('admin.statistics.orders') }}" method="GET">
                 <div class="row mb-4">
                     <div class="col-md-4">
                         <label for="start_date" class="form-label">Ngày bắt đầu</label>
