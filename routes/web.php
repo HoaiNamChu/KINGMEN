@@ -22,10 +22,10 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\StatisticOrderController;
+use App\Http\Controllers\Admin\StatisticUserController;
 use App\Http\Controllers\Client\AccountGoogleController;
 use App\Http\Controllers\Client\OrderClientController;
 use App\Http\Controllers\Client\CheckoutController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -171,4 +171,5 @@ Route::prefix('/admin')
         Route::resource('brands', BrandController::class)->middleware('checkPermission:Manager Brands');
         Route::resource('permissions', PermissionController::class)->middleware('checkPermission:Manager Permissions');
         Route::get('statistics/order', [StatisticOrderController::class, 'statistics'])->name('statistics.orders');
+        Route::get('statistics/user', [StatisticUserController::class, 'showStatisticsPage'])->name('statistics.users');
     });

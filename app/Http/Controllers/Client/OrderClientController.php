@@ -15,6 +15,8 @@ class OrderClientController extends Controller
 
     public function show($id)
     {
+        // Lấy đơn hàng của người dùng hiện tại, bao gồm các sản phẩm trong bảng order_items
+
         $order = Order::where('id', $id)
             ->with([
                 'orderItems.product',

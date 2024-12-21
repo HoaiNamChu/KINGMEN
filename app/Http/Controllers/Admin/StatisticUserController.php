@@ -1,10 +1,37 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StatisticUserController extends Controller
 {
     //
+    public function showStatisticsPage(Request $request)
+    {
+        $search = $request->input('search');
+
+        $users = User::when($search, function ($query, $search) {
+            $query->where('name', 'like', "%$search%")
+                ->orWhere('username', 'like', "%$search%");
+        })->orderBy('username', 'asc')->paginate(10);
+
+        $totalUsers = User::count();
+        $activeUsers = User::where('is_active', 1)->count();
+        $unverifiedEmails = User::whereNull('email_verified_at')->count();
+        $userStatus = User::select('is_active', DB::raw('count(*) as total'))
+            ->groupBy('is_active')
+            ->get();
+        $userStatusChartData = [
+            'labels' => $userStatus->pluck('is_active')->map(function ($isActive) {
+                return $isActive ? 'Active' : 'Inactive';
+            }),
+            'data' => $userStatus->pluck('total'),
+        ];
+
+        return view('admin.dashboard.statisticUser', compact('totalUsers', 'activeUsers', 'unverifiedEmails', 'userStatus', 'search', 'users','userStatusChartData'));
+    }
 }

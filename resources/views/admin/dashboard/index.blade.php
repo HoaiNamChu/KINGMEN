@@ -64,7 +64,7 @@
                                     <span class="text-success"> <i class="bx bxs-up-arrow fs-12"></i> 8.1%</span>
                                     <span class="text-muted ms-1 fs-12">Last Month</span>
                                 </div>
-                                <a href="#!" class="text-reset fw-semibold fs-12">View More</a>
+                                <a href="{{ route('admin.statistics.users')}}" class="text-reset fw-semibold fs-12">View More</a>
                             </div>
                         </div> <!-- end card body -->
                     </div> <!-- end card -->
