@@ -49,6 +49,18 @@
                         <th>Name</th>
                         <th>Username</th>
                         <th>Email</th>
+                        <th>
+                            Total Orders
+                            <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'orders_count', 'sort_order' => request('sort_order') == 'asc' ? 'desc' : 'asc']) }}" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-sort"></i>
+                            </a>
+                        </th>
+                        <th>
+                            Total Amount Spent
+                            <a href="{{ request()->fullUrlWithQuery(['sort_by' => 'orders_sum_total', 'sort_order' => request('sort_order') == 'asc' ? 'desc' : 'asc']) }}" class="btn btn-sm btn-outline-secondary">
+                                <i class="bi bi-sort"></i>
+                            </a>
+                        </th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -59,6 +71,8 @@
                             <td>{{ $user->name ?? 'N/A' }}</td>
                             <td>{{ $user->username }}</td>
                             <td>{{ $user->email }}</td>
+                            <td>{{ $user->orders_count }}</td>
+                            <td>{{ number_format($user->orders_sum_total, 2) }} VND</td>
                             <td>{{ $user->is_active ? 'Active' : 'Inactive' }}</td>
                         </tr>
                     @endforeach

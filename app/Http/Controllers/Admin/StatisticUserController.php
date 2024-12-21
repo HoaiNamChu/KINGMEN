@@ -14,10 +14,24 @@ class StatisticUserController extends Controller
     {
         $search = $request->input('search');
 
+        // $users = User::when($search, function ($query, $search) {
+        //     $query->where('name', 'like', "%$search%")
+        //         ->orWhere('username', 'like', "%$search%");
+        // })->orderBy('username', 'asc')->paginate(10);
+        // // Lấy danh sách người dùng kèm thống kê số đơn hàng và tổng tiền đã mua
+        // $userOrderStats = User::select('users.id', 'users.name', 'users.email')
+        //     ->withCount('orders')
+        //     ->withSum('orders', 'total')
+        //     ->get();
         $users = User::when($search, function ($query, $search) {
             $query->where('name', 'like', "%$search%")
                 ->orWhere('username', 'like', "%$search%");
-        })->orderBy('username', 'asc')->paginate(10);
+        })
+        ->select('users.id', 'users.name', 'users.email')
+        ->withCount('orders')
+        ->withSum('orders', 'total')
+        ->orderBy(request('sort_by', 'username'), request('sort_order', 'asc'))
+        ->paginate(10);
 
         $totalUsers = User::count();
         $activeUsers = User::where('is_active', 1)->count();
@@ -32,6 +46,6 @@ class StatisticUserController extends Controller
             'data' => $userStatus->pluck('total'),
         ];
 
-        return view('admin.dashboard.statisticUser', compact('totalUsers', 'activeUsers', 'unverifiedEmails', 'userStatus', 'search', 'users','userStatusChartData'));
+        return view('admin.dashboard.statisticUser', compact('totalUsers', 'activeUsers', 'unverifiedEmails', 'userStatus', 'search', 'users', 'userStatusChartData'));
     }
 }
