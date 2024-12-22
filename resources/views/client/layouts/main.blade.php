@@ -66,6 +66,12 @@
     @include('client.layouts.footer')
     <!--== End Footer Area Wrapper ==-->
 
+    {{--    Chat box area--}}
+
+    @include('client.layouts.components.chat-box')
+
+    {{--    Chat box area--}}
+
     <!--== Scroll Top Button ==-->
     <div id="scroll-to-top" class="scroll-to-top"><span class="fa fa-angle-up"></span></div>
 
@@ -276,12 +282,61 @@
 <script src="{{ asset('theme/client/assets/js/parallax.min.js') }}"></script>
 <!--=== jQuery Aos Min Js ===-->
 <script src="{{ asset('theme/client/assets/js/aos.min.js') }}"></script>
-@yield('lib-script')
-<!--=== jQuery Custom Js ===-->
+
 <script src="{{ asset('theme/client/assets/js/custom.js') }}"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+@yield('lib-script')
+<!--=== jQuery Custom Js ===-->
+
+
+@vite('resources/js/app.js')
 
 @yield('scripts')
+
+<script type="module">
+    $('.btn-send').click(function () {
+        let message = $('.message').val();
+        axios.post('{{ route('chat.store') }}', {
+            'message': message
+        })
+            .then((data) => {
+                console.log(data)
+            })
+    });
+
+    @if(\Illuminate\Support\Facades\Auth::check())
+
+    let chatRoomId = {{ \Illuminate\Support\Facades\Auth::user()->chatRoomCustomer()->first() ? \Illuminate\Support\Facades\Auth::user()->chatRoomCustomer()->first()->id :  'null' }};
+    if (chatRoomId != null) {
+        Echo.private(`chat-support-${chatRoomId}`)
+            .listen('SendMessage', e => {
+                if ({{ \Illuminate\Support\Facades\Auth::id() }} == e.sender.id) {
+                    $('.chat-box-list').append(createHTMLMessageFromMe(e.message.message));
+                    $('.message').val('');
+                } else {
+                    $('.chat-box-list').append(createHTMLMessageFromOther(e.message.message));
+
+                }
+            });
+    }
+    @endif
+
+    function createHTMLMessageFromMe(message) {
+        const today = new Date();
+        const time = today.getHours() + ":" + today.getMinutes() + " " + (today.getHours() > 11 ? "pm" : "am");
+        return '<li class="clearfix odd">\n' + '    <div class="chat-conversation-text ms-0">\n' + '        <div class="d-flex justify-content-end">\n' + '            <div class="chat-ctext-wrap">\n' + '                <p>' + message + '</p>\n' + '            </div>\n' + '        </div>\n' + '        <p class="text-muted fs-12 mb-0 mt-1 d-flex justify-content-end">' + time + '<i class="bx bx-check-double ms-1 text-primary"></i></p>\n' + '    </div>\n' + '</li>\n';
+    }
+
+    function createHTMLMessageFromOther(message) {
+        const today = new Date();
+        const time = today.getHours() + ":" + today.getMinutes() + " " + (today.getHours() > 11 ? "pm" : "am");
+        return '<li class="clearfix">\n' + '    <div class="chat-conversation-text">\n' + '        <div class="d-flex">\n' + '            <div class="chat-ctext-wrap">\n' + '                <p>' + message + '</p>\n' + '            </div>\n' + '        </div>\n' + '        <p class="text-muted fs-12 mb-0 mt-1 ms-2">' + time + '</p>\n' + '    </div>\n' + '</li>';
+    }
+
+
+</script>
 
 </body>
 

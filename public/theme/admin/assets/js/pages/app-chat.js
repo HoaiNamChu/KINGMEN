@@ -12,7 +12,7 @@ class Chat {
             pagination: '.swiper-pagination',
             paginationClickable: true,
             slidesPerView: 'auto',
-            spaceBetween : 8,
+            spaceBetween: 8,
             autoHeight: true,
         });
     }
@@ -32,8 +32,15 @@ class Chat {
             e.preventDefault();
             const message = messageInput.value;
             if (message.trim().length > 0) {
-                messageInput.value = "";
-                self.sendMessage(message);
+
+                axios.put(`${route}`, {
+                    'message': message,
+                }).then((data) => {
+                    messageInput.value = "";
+                    self.sendMessage(data.data.message.message);
+                });
+
+
             }
 
         });
@@ -43,19 +50,29 @@ class Chat {
                 self.scrollPosition = e.target.scrollTop;
             }
         }
+
+        Echo.private(`chat-support-${chatRoomId}`)
+            .listen('SendMessage', e => {
+                let senderId = e.sender.id;
+                if (authId != senderId) {
+                    self.receiveMessage(e.message.message);
+                } else {
+
+                }
+            });
     }
 
     sendMessage(message) {
+
         const self = this;
         const messageNode = this.toNodes(this.createHTMLMessageFromMe(message));
         if (this.simplebar.getContentElement()) {
             this.simplebar.getContentElement().appendChild(messageNode);
             this.simplebar.recalculate();
             this.scrollToBottom();
-            setTimeout(function () {
-                self.receiveMessage("Server is not connected 😔");
-            }, 1000);
         }
+
+
     }
 
     receiveMessage(message) {
@@ -104,4 +121,6 @@ class Chat {
 
 document.addEventListener('DOMContentLoaded', function (e) {
     new Chat().init();
+
+
 });

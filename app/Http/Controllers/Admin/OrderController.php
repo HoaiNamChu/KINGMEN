@@ -29,7 +29,7 @@ class OrderController extends Controller
         //     'user',
         //     'orderItems'
         // ])->latest()->paginate(10);
-        $orders = $query->paginate(10);
+        $orders = $query->latest('id')->paginate(10);
         return view(self::PATH_VIEW . __FUNCTION__, compact('orders'));
     }
 

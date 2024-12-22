@@ -23,7 +23,7 @@
 
     <!-- App css (Require in all Page) -->
     <link href="{{ asset('theme/admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css"/>
-{{--    để thêm link của trang đó hoặc là thêm nếu cần--}}
+    {{--    để thêm link của trang đó hoặc là thêm nếu cần--}}
 
     <!-- Theme Config js (Require in all Page) -->
     <script src="{{ asset('theme/admin/assets/js/config.js') }}"></script>
@@ -78,11 +78,36 @@
 <!-- App Javascript (Require in all Page) -->
 <script src="{{ asset('theme/admin/assets/js/app.js') }}"></script>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 {{--// js dành cho trang dó thôi--}}
 @yield('lib-script')
+@vite('resources/js/app.js')
 {{--// js tự viết hoặc thêm (nếu có)--}}
 @yield('script')
+
+
+
+<script type="module">
+    Echo.join('staff-support')
+        .here(users => {
+            console.log("Users here: ",users)
+        })
+        .joining(user => {
+            console.log("Users joining: ",user)
+        })
+        .leaving(user => {
+            console.log("Users leaving: ",user)
+        })
+        .listen('AdminLogin', e => {
+            console.log(e);
+        })
+    Echo.private('staff-private-channel-{{Auth::id()}}')
+        .listen('StaffPrivateChannel', e => {
+            console.log(e);
+        });
+
+</script>
+
 
 </body>
 

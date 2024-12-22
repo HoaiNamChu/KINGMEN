@@ -6,7 +6,7 @@
 
 //
 // Conversions
-// 
+//
 var options = {
     chart: {
         height: 292,
@@ -269,9 +269,10 @@ class VectorMap {
 
 document.addEventListener('DOMContentLoaded', function (e) {
     new VectorMap().init();
+
 });
 
-// thống kê doanh thu 
+// thống kê doanh thu
 document.addEventListener("DOMContentLoaded", function () {
     const chartOptions = {
         chart: {
@@ -327,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("Fetched Data:", data);
 
             // Lọc dữ liệu theo ngày
-            const filteredData = data.filter(item => 
+            const filteredData = data.filter(item =>
                 item.date >= startDate && item.date <= endDate
             );
 

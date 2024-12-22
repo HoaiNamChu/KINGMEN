@@ -24,14 +24,14 @@ class CheckoutController extends Controller
 //            ->with('cartItems.variant.attributeValues')
 //            ->first();
 
-        $data = User::where('id',Auth::id())->with([
+        $data = Auth::user()->load([
             'addresses' => function ($query) {
                 $query->where('is_default', 1);
             },
             'cart.cartItems.product',
             'cart.cartItems.variant.attributeValues'
-        ])->first();
-    //    dd($data);
+        ]);
+//        dd($data);
         if (!$data->cart->cartItems->count()) {
             return redirect()->back()->with('error', 'Your cart is empty');
         }

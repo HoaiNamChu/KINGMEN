@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Client\WishlistController;
 use App\Http\Controllers\Admin\SlideController;
@@ -71,6 +72,10 @@ Route::prefix('/')->group(function () {
             Route::post('/', [CheckoutController::class, 'order'])->name('order');
             Route::get('/vnpay/return', [CheckoutController::class, 'vnPayReturn'])->name('vnpay.return');
         });
+    // Route chat
+    Route::get('/chat', [\App\Http\Controllers\Client\ChatController::class, 'index'])->name('chat.index');
+    Route::post('/chat', [\App\Http\Controllers\Client\ChatController::class, 'store'])->name('chat.store');
+
     Route::resource('wishlist', WishlistController::class)->middleware('auth');
     Route::get('/order/{id}', [OrderClientController::class, 'show'])->name('order.detail')->middleware('auth');
     Route::post('/order/{id}/cancel', [OrderClientController::class, 'cancel'])->name('order.cancel')->middleware('auth');
@@ -164,6 +169,8 @@ Route::prefix('/admin')
             'tags' => TagController::class,
             'posts' => PostController::class,
         ]);
+
+        Route::resource('chats', ChatController::class);
 
         Route::post('/ckeditor/image_upload', [ProductController::class, 'ckeditorUpload'])->name('ckeditor.uploads');
 
