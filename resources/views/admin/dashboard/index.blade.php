@@ -378,7 +378,7 @@
                                 </td>
                                 <td>29 April 2024</td>
                                 <td>
-                                    <img src="assets/images/products/product-1(1).png" alt="product-1(1)"
+                                    <img src="{{ asset('theme/admin/assets/images/products/product-1(1).png') }}" alt="product-1(1)"
                                         class="img-fluid avatar-sm">
                                 </td>
                                 <td>
@@ -398,7 +398,7 @@
                                 </td>
                                 <td>25 April 2024</td>
                                 <td>
-                                    <img src="assets/images/products/product-4.png" alt="product-4"
+                                    <img src="{{ asset('theme/admin/assets/images/products/product-4.png') }}" alt="product-4"
                                         class="img-fluid avatar-sm">
                                 </td>
                                 <td>
@@ -418,7 +418,7 @@
                                 </td>
                                 <td>25 April 2024</td>
                                 <td>
-                                    <img src="assets/images/products/product-5.png" alt="product-5"
+                                    <img src="{{ asset('theme/admin/assets/images/products/product-5.png') }}" alt="product-5"
                                         class="img-fluid avatar-sm">
                                 </td>
                                 <td>
@@ -438,7 +438,7 @@
                                 </td>
                                 <td>21 April 2024</td>
                                 <td>
-                                    <img src="assets/images/products/product-6.png" alt="product-6"
+                                    <img src="{{ asset('theme/admin/assets/images/products/product-6.png') }}" alt="product-6"
                                         class="img-fluid avatar-sm">
                                 </td>
                                 <td>
@@ -460,7 +460,7 @@
                                 </td>
                                 <td>18 April 2024</td>
                                 <td>
-                                    <img src="assets/images/products/product-1(2).png" alt="product-1(2)"
+                                    <img src="{{ asset('theme/admin/assets/images/products/product-1(2).png') }}" alt="product-1(2)"
                                         class="img-fluid avatar-sm">
                                 </td>
                                 <td>

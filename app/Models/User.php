@@ -90,4 +90,14 @@ class User extends Authenticatable
         return $this->hasMany(Address::class);
     }
 
+    public function chatRooms()
+    {
+        return $this->hasMany(ChatRoom::class, 'staff_id', 'id');
+    }
+
+    public function chatRoomCustomer()
+    {
+        return $this->hasone(ChatRoom::class, 'customer_id', 'id');
+    }
+
 }

@@ -316,4 +316,21 @@
     }
     scrollToTop();
 
+    // custom
+
+    document.querySelector('.toggle-chat-btn').addEventListener('click', function () {
+        const chatBody = document.querySelector('.chat-body');
+        const chatFooter = document.querySelector('.chat-footer');
+        chatBody.classList.toggle('d-none');
+        chatFooter.classList.toggle('d-none');
+
+        // Đổi biểu tượng giữa − và +
+        if (this.textContent === '−') {
+            this.textContent = '+';
+        } else {
+            this.textContent = '−';
+        }
+    });
+
+
 })(window.jQuery);

@@ -89,7 +89,7 @@
                         <div class="mb-4">
                                 <span
                                     class="position-absolute start-0 translate-middle-x bg-success bg-gradient d-inline-flex align-items-center justify-content-center rounded-circle text-light fs-20"><img
-                                        src="assets/images/users/avatar-7.jpg" alt="avatar-5"
+                                        src="{{ asset('theme/admin/assets/images/users/avatar-7.jpg') }}" alt="avatar-5"
                                         class="avatar-sm rounded-circle"></span>
                             <div class="ms-2">
                                 <h5 class="mb-0 text-dark fw-semibold fs-15 lh-base">Alex Smith Attached Photos
@@ -97,19 +97,19 @@
                                 <div class="row g-2 mt-2">
                                     <div class="col-lg-4">
                                         <a href="#!">
-                                            <img src="assets/images/small/img-6.jpg" alt=""
+                                            <img src="{{ asset('theme/admin/assets/images/small/img-6.jpg') }}" alt=""
                                                  class="img-fluid rounded">
                                         </a>
                                     </div>
                                     <div class="col-lg-4">
                                         <a href="#!">
-                                            <img src="assets/images/small/img-3.jpg" alt=""
+                                            <img src="{{ asset('theme/admin/assets/images/small/img-3.jpg') }}" alt=""
                                                  class="img-fluid rounded">
                                         </a>
                                     </div>
                                     <div class="col-lg-4">
                                         <a href="#!">
-                                            <img src="assets/images/small/img-4.jpg" alt=""
+                                            <img src="{{ asset('theme/admin/assets/images/small/img-4.jpg') }}" alt=""
                                                  class="img-fluid rounded">
                                         </a>
                                     </div>
@@ -122,7 +122,7 @@
                         <div class="mb-4">
                                 <span
                                     class="position-absolute start-0 translate-middle-x bg-success bg-gradient d-inline-flex align-items-center justify-content-center rounded-circle text-light fs-20"><img
-                                        src="assets/images/users/avatar-6.jpg" alt="avatar-5"
+                                        src="{{ asset('theme/admin/assets/images/users/avatar-6.jpg') }}" alt="avatar-5"
                                         class="avatar-sm rounded-circle"></span>
                             <div class="ms-2">
                                 <h5 class="mb-0 text-dark fw-semibold fs-15 lh-base">Rebecca J. added a new team
