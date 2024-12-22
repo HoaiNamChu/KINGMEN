@@ -178,7 +178,7 @@ class AccountGoogleController extends Controller
             'district' => 'required|string|max:255',
             'ward' => 'required|string|max:255',
             'detailed_address' => 'required|string|max:500',
-            'phone' => 'required|string|max:15',
+            'phone' => 'required|regex:/^\d{10}$/',
             'is_default' => 'nullable|in:true,false,1,0',
         ]);
     
