@@ -124,26 +124,41 @@
             </div> <!-- end row -->
         </div> <!-- end col -->
 
-        <div class="col-xxl-7">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">Performance</h4>
-                        <div>
-                            <button type="button" class="btn btn-sm btn-outline-light">ALL</button>
-                            <button type="button" class="btn btn-sm btn-outline-light">1M</button>
-                            <button type="button" class="btn btn-sm btn-outline-light">6M</button>
-                            <button type="button" class="btn btn-sm btn-outline-light active">1Y</button>
-                        </div>
-                    </div> <!-- end card-title-->
 
-                    <div dir="ltr">
-                        <div id="dash-performance-chart" class="apex-charts"></div>
+    {{-- THỐNG KÊ DOANH THU --}}
+    <div class="col-xxl-7">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="card-title">Revenue statistics</h4>
+                    <div class="d-flex gap-2">
+                        <!-- nngày bắt đầu -->
+                        <input type="date" id="start-date" class="form-control form-control-sm" />
+                        <!-- nngày kết thúc -->
+                        <input type="date" id="end-date" class="form-control form-control-sm" />
+                        <!-- llọc theo tuần -->
+                        <button type="button" class="btn btn-sm btn-info" onclick="filterWeek()">Tuần</button>
+                        <!-- Theo tháng  -->
+                        <button type="button" class="btn btn-sm btn-info" onclick="filterMonth()">Tháng</button>
+                        <!-- lọc theo năm -->
+                        <button type="button" class="btn btn-sm btn-info" onclick="filterYear()">Năm</button>
+
+                        <button type="button" class="btn btn-sm btn-primary" onclick="filterChart()">Lọc</button>
                     </div>
-                </div> <!-- end card body -->
-            </div> <!-- end card -->
-        </div> <!-- end col -->
-    </div> <!-- end row -->
+                </div><!-- end card-title-->
+        
+                <div dir="ltr">
+                    <div id="revenue-chart" class="apex-charts"></div>
+                </div>
+        
+                <div class="mt-3">
+                    <h5>Total revenue: <span id="total-revenue"></span> VNĐ</h5>
+                </div>
+            </div> <!-- end card body -->
+        </div> <!-- end card -->
+    </div> <!-- end col -->
+    
+
 
     <div class="row">
         <div class="col-lg-4">

@@ -150,7 +150,8 @@ Route::prefix('/admin')
     ->middleware(['auth', 'isAdmin'])
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-
+        Route::get('/api/orders/revenue', [DashboardController::class, 'getRevenueData']);
+        
         Route::resources([
             'categories' => CategoryController::class,
             'brands' => BrandController::class,
