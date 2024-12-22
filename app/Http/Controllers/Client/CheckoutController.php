@@ -7,6 +7,7 @@ use App\Http\Requests\Client\Checkouts\CheckoutRequest;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -23,14 +24,14 @@ class CheckoutController extends Controller
 //            ->with('cartItems.variant.attributeValues')
 //            ->first();
 
-        $data = Auth::user()->load([
+        $data = User::where('id',Auth::id())->with([
             'addresses' => function ($query) {
                 $query->where('is_default', 1);
             },
             'cart.cartItems.product',
             'cart.cartItems.variant.attributeValues'
-        ]);
-//        dd($data);
+        ])->first();
+    //    dd($data);
         if (!$data->cart->cartItems->count()) {
             return redirect()->back()->with('error', 'Your cart is empty');
         }
@@ -45,7 +46,7 @@ class CheckoutController extends Controller
 
         $dataOrder = [
 
-            'user_id' => \Auth::id(),
+            'user_id' => Auth::id(),
             'name' => $request->name,
             'phone' => $request->phone,
             'address' => $request->house_number . ' - ' . $request->ward . ' - ' . $request->district . ' - ' . $request->province,

@@ -21,9 +21,9 @@ class OrderClientController extends Controller
             ->with([
                 'orderItems.product',
                 'orderItems.variant'
-            ])->first();// Lấy đơn hàng cùng với các item    $orders = $user->orders;
+            ])->first(); // Lấy đơn hàng cùng với các item    $orders = $user->orders;
 
-//        $subtotal = $order->orderItems->sum('total_price'); // Lấy tổng giá trị 'total' của tất cả các mục
+        //        $subtotal = $order->orderItems->sum('total_price'); // Lấy tổng giá trị 'total' của tất cả các mục
 
         // Trả về view chi tiết đơn hàng với thông tin đơn hàng và các items
         return view('client.order.detail', compact('order'));
@@ -47,6 +47,4 @@ class OrderClientController extends Controller
         // Nếu đơn hàng không thể hủy, trả về thông báo lỗi
         return redirect()->route('order.detail', $id)->with('error', 'Không thể hủy đơn hàng này.');
     }
-
-
 }

@@ -16,12 +16,20 @@ class OrderController extends Controller
      */
     const PATH_VIEW = 'admin.orders.';
 
-    public function index()
+    public function index(Request $request)
     {
-        $orders = Order::query()->with([
-            'user',
-            'orderItems'
-        ])->latest()->paginate(10);
+        // Khởi tạo query
+        $query = Order::query();
+
+        // Lọc theo status nếu có tham số truyền vào
+        if ($request->has('status') && $request->status != '') {
+            $query->where('status', $request->status);
+        }
+        // $orders = Order::query()->with([
+        //     'user',
+        //     'orderItems'
+        // ])->latest()->paginate(10);
+        $orders = $query->paginate(10);
         return view(self::PATH_VIEW . __FUNCTION__, compact('orders'));
     }
 
@@ -57,7 +65,7 @@ class OrderController extends Controller
 
 
         // Trả về kết quả
-        return view('admin.orders.detail', compact('orderItems','order','subtotal', 'user'));
+        return view('admin.orders.detail', compact('orderItems', 'order', 'subtotal', 'user'));
     }
 
     /**
@@ -79,9 +87,9 @@ class OrderController extends Controller
 
         // Các quy tắc chuyển đổi trạng thái
         $validTransitions = [
-            'Đang chờ xác nhận' => ['Đã xác nhận', 'Đã hủy', 'Hoàn thành','Đang giao hàng', 'Hoàn đơn', 'Không giao được'],
-            'Đã xác nhận' => ['Chờ xác nhận', 'Đã hủy', 'Hoàn thành','Đang giao hàng', 'Hoàn đơn', 'Không giao được'],
-            'Đang giao hàng' => ['Đã xác nhận', 'Đã hủy', 'Hoàn thành','Đã xác nhận', 'Hoàn đơn', 'Không giao được'],
+            'Đang chờ xác nhận' => ['Đã xác nhận', 'Đã hủy', 'Hoàn thành', 'Đang giao hàng', 'Hoàn đơn', 'Không giao được'],
+            'Đã xác nhận' => ['Chờ xác nhận', 'Đã hủy', 'Hoàn thành', 'Đang giao hàng', 'Hoàn đơn', 'Không giao được'],
+            'Đang giao hàng' => ['Đã xác nhận', 'Đã hủy', 'Hoàn thành', 'Đã xác nhận', 'Hoàn đơn', 'Không giao được'],
             'Hoàn thành' => [], // Không cho phép thay đổi nếu đã hoàn thành
             'Đã hủy' => [], // Không cho phép thay đổi nếu đã hủy
             'Hoàn đơn' => [], // Không cho phép thay đổi nếu đã hoàn đơn
@@ -103,8 +111,8 @@ class OrderController extends Controller
 
         $order->save();
         //nếu trạng thái đơn hàng == hoàn thành thì đổi trạng thái thanh toán thành 'đã thanh toán'
-        if($order->status == 'Hoàn thành'){
-            $order->update(['payment_status'=>'Đã thanh toán']);
+        if ($order->status == 'Hoàn thành') {
+            $order->update(['payment_status' => 'Đã thanh toán']);
         }
 
         return redirect()->route('admin.orders.show', $id)
