@@ -26,15 +26,6 @@
                                                         data-bs-target="#orders" type="button" role="tab"
                                                         aria-controls="orders" aria-selected="false"> Orders
                                                 </button>
-{{--                                                <button class="nav-link" id="download-tab" data-bs-toggle="tab"--}}
-{{--                                                        data-bs-target="#download" type="button" role="tab"--}}
-{{--                                                        aria-controls="download" aria-selected="false">Download--}}
-{{--                                                </button>--}}
-{{--                                                <button class="nav-link" id="payment-method-tab" data-bs-toggle="tab"--}}
-{{--                                                        data-bs-target="#payment-method" type="button" role="tab"--}}
-{{--                                                        aria-controls="payment-method" aria-selected="false">Payment--}}
-{{--                                                    Method--}}
-{{--                                                </button>--}}
                                                 <button class="nav-link" id="address-edit-tab" data-bs-toggle="tab"
                                                         data-bs-target="#address-edit" type="button" role="tab"
                                                         aria-controls="address-edit" aria-selected="false">address
@@ -127,51 +118,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-{{--                                            <div class="tab-pane fade" id="download" role="tabpanel"--}}
-{{--                                                 aria-labelledby="download-tab">--}}
-{{--                                                <div class="myaccount-content">--}}
-{{--                                                    <h3>Downloads</h3>--}}
-{{--                                                    <div class="myaccount-table table-responsive text-center">--}}
-{{--                                                        <table class="table table-bordered">--}}
-{{--                                                            <thead class="thead-light">--}}
-{{--                                                            <tr>--}}
-{{--                                                                <th>Product</th>--}}
-{{--                                                                <th>Date</th>--}}
-{{--                                                                <th>Expire</th>--}}
-{{--                                                                <th>Download</th>--}}
-{{--                                                            </tr>--}}
-{{--                                                            </thead>--}}
-{{--                                                            <tbody>--}}
-{{--                                                            <tr>--}}
-{{--                                                                <td>Haven - Free Real Estate PSD Template</td>--}}
-{{--                                                                <td>Aug 22, 2022</td>--}}
-{{--                                                                <td>Yes</td>--}}
-{{--                                                                <td><a href="#/" class="check-btn sqr-btn"><i--}}
-{{--                                                                            class="fa fa-cloud-download"></i> Download--}}
-{{--                                                                        File</a></td>--}}
-{{--                                                            </tr>--}}
-{{--                                                            <tr>--}}
-{{--                                                                <td>HasTech - Profolio Business Template</td>--}}
-{{--                                                                <td>Sep 12, 2022</td>--}}
-{{--                                                                <td>Never</td>--}}
-{{--                                                                <td><a href="#/" class="check-btn sqr-btn"><i--}}
-{{--                                                                            class="fa fa-cloud-download"></i> Download--}}
-{{--                                                                        File</a></td>--}}
-{{--                                                            </tr>--}}
-{{--                                                            </tbody>--}}
-{{--                                                        </table>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="tab-pane fade" id="payment-method" role="tabpanel"--}}
-{{--                                                 aria-labelledby="payment-method-tab">--}}
-{{--                                                <div class="myaccount-content">--}}
-{{--                                                    <h3>Payment Method</h3>--}}
-{{--                                                    <p class="saved-message">You Can't Saved Your Payment Method--}}
-{{--                                                        yet.</p>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-
                                             {{-- Update billing address --}}
                                             <div class="tab-pane fade" id="address-edit" role="tabpanel"
                                                  aria-labelledby="address-edit-tab">
