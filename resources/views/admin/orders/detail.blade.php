@@ -11,139 +11,79 @@
 
                 <div class="col-lg-12">
                     <div class="card">
-                        
-
-                            <div class="card-body">
-                                <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
-                                    <div>
-                                        <h4 class="fw-medium text-dark d-flex align-items-center gap-2">#{{ $order->id }}
-                                            <span
-                                                class="badge bg-success-subtle text-success  px-2 py-1 fs-13">{{$order->payment_status}}</span><span
-                                                class="border border-warning text-warning fs-13 px-2 py-1 rounded">{{$order->status}}</span>
-                                        </h4>
-                                        <p class="mb-0">Order / Order Details / {{ $order->id }} - {{ $order->created_at}}
-                                        </p>
-                                    </div>
-                                   
-
-                                </div>
-
-                                <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST">
-                                    @csrf
-                                    @method('PATCH') <!-- Để sử dụng phương thức PATCH -->
-                                    <div class="mt-4">
-                                        <h4 class="fw-medium text-dark">Status</h4>
-                                        <br>
-                                        <select class="form-control" data-choices name="status">
-                                            <option value="Đang chờ xác nhận" @selected($order->status == 'Đang chờ xác nhận')>Đang chờ xác nhận</option>
-                                            <option value="Đã xác nhận" @selected($order->status == 'Đã xác nhận')>Đã xác nhận</option>
-                                            <option value="Đang giao hàng" @selected($order->status == 'Đang giao hàng')>Đang giao hàng</option>
-                                            <option value="Hoàn thành" @selected($order->status == 'Hoàn thành')>Hoàn thành</option>
-                                            <option value="Đã hủy" @selected($order->status == 'Đã hủy')>Đã hủy</option>
-                                            <option value="Hoàn đơn" @selected($order->status == 'Hoàn đơn')>Hoàn đơn</option>
-                                            <option value="Không giao được" @selected($order->status == 'Không giao được')>Không giao được</option>
-                                        </select>
-                                    </div>
-                                    <!-- <div class="row row-cols-xxl-5 row-cols-md-2 row-cols-1">
-                                                <div class="col">
-                                                    <div class="progress mt-3" style="height: 10px;">
-                                                        <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-success"
-                                                            role="progressbar" style="width: 100%" aria-valuenow="70" aria-valuemin="0"
-                                                            aria-valuemax="70">
-                                                        </div>
-                                                    </div>
-                                                    <p class="mb-0 mt-2">Chờ Xác Nhận</p>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress mt-3" style="height: 10px;">
-                                                        <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-success"
-                                                            role="progressbar" style="width: 100%" aria-valuenow="70" aria-valuemin="0"
-                                                            aria-valuemax="70">
-                                                        </div>
-                                                    </div>
-                                                    <p class="mb-0 mt-2">Đã Xác Nhận</p>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress mt-3" style="height: 10px;">
-                                                        <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-success"
-                                                            role="progressbar" style="width: 100%" aria-valuenow="70" aria-valuemin="0"
-                                                            aria-valuemax="70">
-                                                        </div>
-                                                    </div>
-                                                    <p class="mb-0 mt-2">Đang Giao Hàng</p>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress mt-3" style="height: 10px;">
-                                                        <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-warning"
-                                                            role="progressbar" style="width: 60%" aria-valuenow="70" aria-valuemin="0"
-                                                            aria-valuemax="70">
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex align-items-center gap-2 mt-2">
-                                                        <p class="mb-0">Hoàn Thành</p>
-                                                        <div class="spinner-border spinner-border-sm text-warning" role="status">
-                                                            <span class="visually-hidden">Loading...</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress mt-3" style="height: 10px;">
-                                                        <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-primary"
-                                                            role="progressbar" style="width: 0%" aria-valuenow="70" aria-valuemin="0"
-                                                            aria-valuemax="70">
-                                                        </div>
-                                                    </div>
-                                                    <p class="mb-0 mt-2">Đã hủy</p>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="progress mt-3" style="height: 10px;">
-                                                        <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-primary"
-                                                            role="progressbar" style="width: 0%" aria-valuenow="70" aria-valuemin="0"
-                                                            aria-valuemax="70">
-                                                        </div>
-                                                    </div>
-                                                    <p class="mb-0 mt-2">Hoàn Đơn</p>
-                                                </div>
-
-                                                <div class="col">
-                                                    <div class="progress mt-3" style="height: 10px;">
-                                                        <div class="progress-bar progress-bar  progress-bar-striped progress-bar-animated bg-primary"
-                                                            role="progressbar" style="width: 0%" aria-valuenow="70" aria-valuemin="0"
-                                                            aria-valuemax="70">
-                                                        </div>
-                                                    </div>
-                                                    <p class="mb-0 mt-2">Không Giao Được</p>
-                                                </div>
-
-                                            </div> -->
-
-                            </div>
 
 
-
-                            <div
-                                class="card-footer d-flex flex-wrap align-items-center justify-content-between bg-light-subtle gap-2">
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between gap-2">
                                 <div>
-                                    <button type="submit" class="btn btn-primary">Cập nhật trạng thái đơn</button>
+                                    <h4 class="fw-medium text-dark d-flex align-items-center gap-2">#{{ $order->id }}
+                                        <span
+                                            class="badge bg-success-subtle text-success  px-2 py-1 fs-13">{{$order->payment_status}}</span><span
+                                            class="border border-warning text-warning fs-13 px-2 py-1 rounded">{{$order->status}}</span>
+                                    </h4>
+                                    <p class="mb-0">Order / Order Details / {{ $order->id }} - {{ $order->created_at}}
+                                    </p>
                                 </div>
+
+
                             </div>
 
-                            <!-- Hiển thị thông báo lỗi nếu có -->
-                            @error('status')
-                                <div class="alert alert-danger mt-1">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                            <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST">
+                                @csrf
+                                @method('PATCH') <!-- Để sử dụng phương thức PATCH -->
+                                <div class="mt-4">
+                                    <h4 class="fw-medium text-dark">Status</h4>
+                                    <br>
+                                    <select class="form-control" data-choices name="status">
+                                        <option value="Đang chờ xác nhận" @selected($order->status == 'Đang chờ xác nhận')>Đang chờ xác nhận</option>
+                                        <option value="Đã xác nhận" @selected($order->status == 'Đã xác nhận')>Đã xác nhận
+                                        </option>
+                                        <option value="Đang giao hàng" @selected($order->status == 'Đang giao hàng')>Đang
+                                            giao hàng</option>
+                                        <option value="Hoàn thành" @selected($order->status == 'Hoàn thành')>Hoàn thành
+                                        </option>
+                                        <option value="Đã hủy" @selected($order->status == 'Đã hủy')>Đã hủy</option>
+                                        <option value="Hoàn đơn" @selected($order->status == 'Hoàn đơn')>Hoàn đơn</option>
+                                        <option value="Không giao được" @selected($order->status == 'Không giao được')>
+                                            Không giao được</option>
+                                        <option value="Đơn yêu cầu hoàn trả" @selected($order->status == 'Đơn yêu cầu hoàn trả')>Đơn yêu cầu hoàn trả</option>
+                                    </select>
 
-                            <!-- Hiển thị thông báo thành công nếu có -->
-                            @if (session('success'))
-                                <div class="alert alert-success mt-2">
-                                    {{ session('success') }}
-                                </div>
-                            @endif
+                                    @if(!empty($order->return_reason))
+                                        <div class="d-flex justify-content-between mt-3">
+                                            <h5 class="">Lý do hoàn trả</h5>
+                                        </div>
 
-                            
-                            </form>
+                                        <div>
+                                            <p class="mb-1">{{ $order->return_reason }}</p>
+                                        </div>
+                                    @endif
+
+                                </div>
+                        </div>
+                        <div
+                            class="card-footer d-flex flex-wrap align-items-center justify-content-between bg-light-subtle gap-2">
+                            <div>
+                                <button type="submit" class="btn btn-primary">Cập nhật trạng thái đơn</button>
+                            </div>
+                        </div>
+
+                        <!-- Hiển thị thông báo lỗi nếu có -->
+                        @error('status')
+                            <div class="alert alert-danger mt-1">
+                                {{ $message }}
+                            </div>
+                        @enderror
+
+                        <!-- Hiển thị thông báo thành công nếu có -->
+                        @if (session('success'))
+                            <div class="alert alert-success mt-2">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
+
+                        </form>
 
                     </div>
                     <div class="card">
@@ -181,7 +121,7 @@
                                                 </td>
                                                 <td>{{$item->product_quantity}}</td>
                                                 <td>{{ number_format($item->product_price, 0, ',', '.') }} VND</td>
-                                              
+
                                                 <td>{{ number_format($item->total_price, 0, ',', '.') }} VND</td>
                                             </tr>
                                         @endforeach
@@ -204,43 +144,49 @@
                     <div class="table-responsive">
                         <table class="table mb-0">
                             <tbody>
-                                                    <tr>
-                                                        <td class="px-0">
-                                                            <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon
-                                                                    icon="solar:clipboard-text-broken"></iconify-icon> Sub Total : </p>
-                                                        </td>
-                                                        <td class="text-end text-dark fw-medium px-0">{{ number_format($subtotal, 0, ',', '.') }} VND</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="px-0">
-                                                            <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon
-                                                                    icon="solar:ticket-broken" class="align-middle"></iconify-icon> Discount
-                                                                : </p>
-                                                        </td>
-                                                        <td class="text-end text-dark fw-medium px-0">- {{ number_format($order->discount, 0, ',', '.') }} VND</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="px-0">
-                                                            <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon
-                                                                    icon="solar:kick-scooter-broken" class="align-middle"></iconify-icon>
-                                                                Shipping Fee : </p>
-                                                        </td>
-                                                        <td class="text-end text-dark fw-medium px-0">{{ number_format($order->shipping_fee, 0, ',', '.') }} VND</td>
-                                                    </tr>
+                                <tr>
+                                    <td class="px-0">
+                                        <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon
+                                                icon="solar:clipboard-text-broken"></iconify-icon> Sub Total : </p>
+                                    </td>
+                                    <td class="text-end text-dark fw-medium px-0">
+                                        {{ number_format($subtotal, 0, ',', '.') }} VND
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-0">
+                                        <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon
+                                                icon="solar:ticket-broken" class="align-middle"></iconify-icon> Discount
+                                            : </p>
+                                    </td>
+                                    <td class="text-end text-dark fw-medium px-0">-
+                                        {{ number_format($order->discount, 0, ',', '.') }} VND
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="px-0">
+                                        <p class="d-flex mb-0 align-items-center gap-1"><iconify-icon
+                                                icon="solar:kick-scooter-broken" class="align-middle"></iconify-icon>
+                                            Shipping Fee : </p>
+                                    </td>
+                                    <td class="text-end text-dark fw-medium px-0">
+                                        {{ number_format($order->shipping_fee, 0, ',', '.') }} VND
+                                    </td>
+                                </tr>
 
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer d-flex align-items-center justify-content-between bg-light-subtle">
-                                        <div>
-                                            <p class="fw-medium text-dark mb-0">Total Amount</p>
-                                        </div>
-                                        <div>
-                                            <p class="fw-medium text-dark mb-0">{{ number_format($order->total, 0, ',', '.') }} VND</p>
-                                        </div>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer d-flex align-items-center justify-content-between bg-light-subtle">
+                    <div>
+                        <p class="fw-medium text-dark mb-0">Total Amount</p>
+                    </div>
+                    <div>
+                        <p class="fw-medium text-dark mb-0">{{ number_format($order->total, 0, ',', '.') }} VND</p>
+                    </div>
 
-                                    </div>
+                </div>
             </div>
             <!-- <div class="card">
                 <div class="card-header">

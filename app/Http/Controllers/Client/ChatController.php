@@ -20,6 +20,11 @@ class ChatController extends Controller
      */
     public function index()
     {
+        // $staffOnline = $this->getOnlineStaff();
+        // $staffOnlineLeastChatRoom = $this->getStaffOnlineAndLeastChatRoom();
+
+        // dd($staffOnline);
+        // dd($staffOnlineLeastChatRoom->id);
 
     }
 
@@ -73,6 +78,7 @@ class ChatController extends Controller
                     'customer_name' => $user->username ?? 'client',
                     'customer_email' => $user->email,
                     'customer_phone' => $user->phone ?? '0123456789',
+                    'staff_id' => $staffOnlineLeastChatRoom->id,
                 ]);
                 $message = Message::create([
                     'chat_room_id' => $chatRoom->id,
@@ -87,6 +93,7 @@ class ChatController extends Controller
 
             return response()->json([
                 'success' => true,
+                'staff_id' => $this->$staffOnlineLeastChatRoom->id,
                 'chat_room_id' => $chatRoom->id,
             ]);
         } catch (\Exception $exception) {

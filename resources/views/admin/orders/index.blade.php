@@ -13,6 +13,8 @@
                             <div class="input-group">
                                 <select name="status" class="form-select" onchange="this.form.submit()">
                                     <option value="">Lọc theo trạng thái</option>
+                                    <option value="Đang chờ xác nhận" {{ request('status') == 'Đang chờ xác nhận' ? 'selected' : '' }}>
+                                        Đang chờ xác nhận</option>
                                     <option value="Đã xác nhận" {{ request('status') == 'Đã xác nhận' ? 'selected' : '' }}>
                                         Đã xác nhận</option>
                                     <option value="Đã hủy" {{ request('status') == 'Đã hủy' ? 'selected' : '' }}>Đã hủy
@@ -26,6 +28,9 @@
                                         đơn</option>
                                     <option value="Không giao được"
                                         {{ request('status') == 'Không giao được' ? 'selected' : '' }}>Không giao được
+                                    </option>
+                                    <option value="Đơn yêu cầu hoàn trả"
+                                        {{ request('status') == 'Đơn yêu cầu hoàn trả' ? 'selected' : '' }}>Đơn yêu cầu hoàn trả
                                     </option>
                                 </select>
                                 <button type="submit" class="btn btn-outline-primary">Lọc</button>

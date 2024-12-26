@@ -94,6 +94,7 @@ class OrderController extends Controller
             'Đã hủy' => [], // Không cho phép thay đổi nếu đã hủy
             'Hoàn đơn' => [], // Không cho phép thay đổi nếu đã hoàn đơn
             'Không giao được' => [], // Không cho phép thay đổi nếu không giao được
+            'Đơn yêu cầu hoàn trả' =>  ['Hoàn đơn', 'Hoàn thành'],
         ];
 
         // Validate trạng thái mới
