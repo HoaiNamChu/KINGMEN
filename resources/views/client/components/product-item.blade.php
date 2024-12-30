@@ -4,27 +4,22 @@
             <a href="{{ route('product.detail', $item->slug) }}" style="width: 100%; height: 100%">
                 <img src="{{ Storage::url($item->image) }}" width="270" height="274" alt="Image-HasTech">
             </a>
-            <div class="product-flag">
-                <ul>
-                    <li class="discount">-10%</li>
-                </ul>
-            </div>
+            @if($item->is_sale)
+                <div class="product-flag">
+                    <ul>
+                        <li class="discount">Sale</li>
+                    </ul>
+                </div>
+            @endif
             <div class="product-action">
 
-                <form action="{{ route('wishlist.store') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="product_id" value="{{ $item->id }}">
-                    <button type="submit" class="btn-product-wishlist"><i
-                    class="fa fa-heart"></i></button>
-                </form>
 
-                <!-- <a class="btn-product-wishlist" href="{{route('wishlist.store', $item)}}"><i
-                        class="fa fa-heart"></i></a> -->
-                <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>
-                <button type="button" class="btn-product-quick-view-open">
-                    <i class="fa fa-arrows"></i>
-                </button>
-                <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>
+                <button type="button" class="btn-product-wishlist" data-route="{{ route('wishlist.store') }}" data-product-id="{{ $item->id }}"><i class="fa fa-heart"></i></button>
+{{--                <a class="btn-product-cart" href="shop-cart.html"><i class="fa fa-shopping-cart"></i></a>--}}
+{{--                <button type="button" data-route="{{ route('product.show', $item->id) }}" class="btn-product-quick-view-open">--}}
+{{--                    <i class="fa fa-arrows"></i>--}}
+{{--                </button>--}}
+{{--                <a class="btn-product-compare" href="shop-compare.html"><i class="fa fa-random"></i></a>--}}
             </div>
             <a class="banner-link-overlay" href="shop.html"></a>
         </div>

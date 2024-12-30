@@ -25,6 +25,8 @@
     <link href="{{ asset('theme/admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css"/>
     {{--    để thêm link của trang đó hoặc là thêm nếu cần--}}
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
     <!-- Theme Config js (Require in all Page) -->
     <script src="{{ asset('theme/admin/assets/js/config.js') }}"></script>
 
@@ -75,34 +77,71 @@
 <!-- Vendor Javascript (Require in all Page) -->
 <script src="{{ asset('theme/admin/assets/js/vendor.js') }}"></script>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+@yield('lib-script')
+
 <!-- App Javascript (Require in all Page) -->
 <script src="{{ asset('theme/admin/assets/js/app.js') }}"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 {{--// js dành cho trang dó thôi--}}
-@yield('lib-script')
+
 @vite('resources/js/app.js')
 {{--// js tự viết hoặc thêm (nếu có)--}}
 @yield('script')
 
+<script>
+    @if(session('success'))
+    Toastify({
 
+        text: "{{ session('success') }}",
+
+        duration: 3000,
+
+        gravity: top,
+
+        close: true,
+
+        style: {background: 'green'},
+
+    }).showToast();
+    @endif
+
+    @if(session('error'))
+    Toastify({
+
+        text: "{{ session('error') }}",
+
+        duration: 3000,
+
+        gravity: top,
+
+        close: true,
+
+        style: {background: 'red'},
+
+    }).showToast();
+    @endif
+</script>
 
 <script type="module">
     Echo.join('staff-support')
         .here(users => {
-            console.log("Users here: ",users)
+            console.log("Users here: ", users)
         })
         .joining(user => {
-            console.log("Users joining: ",user)
+            console.log("Users joining: ", user)
         })
         .leaving(user => {
-            console.log("Users leaving: ",user)
+            console.log("Users leaving: ", user)
         })
         .listen('AdminLogin', e => {
             console.log(e);
         })
     Echo.private('staff-private-channel-{{Auth::id()}}')
         .listen('StaffPrivateChannel', e => {
+            alert(e);
             console.log(e);
         });
 

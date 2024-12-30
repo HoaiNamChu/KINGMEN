@@ -1,14 +1,11 @@
 @extends('admin.layouts.main')
 
-@section('links')
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-@endsection
-
 @section('styles')
     <style>
         .variant-data {
             display: none;
         }
+
         .ck-editor__editable_inline {
             height: 300px;
         }
@@ -22,7 +19,9 @@
         <form action="{{ route('admin.products.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="row">
+
                 <div class="col-xl-9 col-lg-8 ">
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Product Information</h4>
@@ -38,8 +37,8 @@
                                                placeholder="Items Name">
                                         <span class="error-notification">
                                         @error('name')
-                                        {{ $message }}
-                                        @enderror
+                                            {{ $message }}
+                                            @enderror
                                         </span>
                                     </div>
                                 </div>
@@ -54,8 +53,8 @@
                                                placeholder="SKU">
                                         <span class="error-notification">
                                         @error('sku')
-                                        {{ $message }}
-                                        @enderror
+                                            {{ $message }}
+                                            @enderror
                                         </span>
                                     </div>
                                 </div>
@@ -70,8 +69,8 @@
                                             </textarea>
                                             <span class="error-notification">
                                             @error('description')
-                                            {{ $message }}
-                                            @enderror
+                                                {{ $message }}
+                                                @enderror
                                             </span>
                                         </div>
                                     </div>
@@ -79,7 +78,9 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="card">
+
                         <div class="card-header">
                             <h4 class="card-title mb-0">Product data
                                 <span>
@@ -95,74 +96,81 @@
                                 </span>
                             </h4>
                         </div>
-                        <div class="card-body p-0">
+
+                        <div class="card-body">
+
+                            <div class="row" id="general-item">
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="product-price-import" class="form-label">Price
+                                            Import</label>
+                                        <div class="input-group mb-3">
+                                                    <span class="input-group-text fs-20"><i
+                                                            class="bx bx-dollar"></i></span>
+                                            <input type="number" name="price_import" id="product-price-import"
+                                                   class="form-control"
+                                                   placeholder="000">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="product-price" class="form-label">Price</label>
+                                        <div class="input-group mb-3">
+                                                    <span class="input-group-text fs-20"><i
+                                                            class="bx bx-dollar"></i></span>
+                                            <input type="number" name="price" id="product-price"
+                                                   class="form-control"
+                                                   placeholder="000">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="product-price-sale" class="form-label">Price Sale</label>
+                                        <div class="input-group mb-3">
+                                                    <span class="input-group-text fs-20"><i
+                                                            class="bx bx-dollar"></i></span>
+                                            <input type="number" name="price_sale" id="product-price-sale"
+                                                   class="form-control"
+                                                   placeholder="000">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="product-stock" class="form-label">Stock</label>
+                                        <input type="number" id="product-stock" name="quantity"
+                                               class="form-control" placeholder="Quantity">
+                                    </div>
+                                </div>
+
+                            </div>
+
                             <div class="row">
+
                                 <div class="col-lg-3">
+
                                     <ul class="list-group list-group-flush ">
-                                        <li class="list-group-item product-option" data-bs-toggle="pill" id="general">
-                                            General
-                                        </li>
-                                        <li class="list-group-item product-option" data-bs-toggle="pill" id="inventory">
-                                            Inventory
-                                        </li>
+
                                         <li class="list-group-item product-option" data-bs-toggle="pill"
                                             id="attributes">Attributes
                                         </li>
+
                                         <li class="list-group-item product-option" data-bs-toggle="pill"
                                             id="variations">Variations
                                         </li>
+
                                     </ul>
+
                                 </div>
-                                <!-- end col -->
+
                                 <div class="col-lg-9">
-                                    <div class="row pt-3 pb-3" id="general-item">
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label for="product-price-import" class="form-label">Price
-                                                    Import</label>
-                                                <div class="input-group mb-3">
-                                                    <span class="input-group-text fs-20"><i
-                                                                class="bx bx-dollar"></i></span>
-                                                    <input type="number" name="price_import" id="product-price-import"
-                                                           class="form-control"
-                                                           placeholder="000">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label for="product-price" class="form-label">Price</label>
-                                                <div class="input-group mb-3">
-                                                    <span class="input-group-text fs-20"><i
-                                                                class="bx bx-dollar"></i></span>
-                                                    <input type="number" name="price" id="product-price"
-                                                           class="form-control"
-                                                           placeholder="000">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label for="product-price-sale" class="form-label">Price Sale</label>
-                                                <div class="input-group mb-3">
-                                                    <span class="input-group-text fs-20"><i
-                                                                class="bx bx-dollar"></i></span>
-                                                    <input type="number" name="price_sale" id="product-price-sale"
-                                                           class="form-control"
-                                                           placeholder="000">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row pt-3 pb-3" id="inventory-item">
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label for="product-stock" class="form-label">Stock</label>
-                                                <input type="number" id="product-stock" name="quantity"
-                                                       class="form-control" placeholder="Quantity">
-                                            </div>
-                                        </div>
-                                    </div>
+
                                     <div class="row pt-3 pb-3" id="attributes-item">
                                         <div>
                                             <div class="col-lg-6 mb-3 d-inline-block">
@@ -196,8 +204,10 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Short Description</h4>
@@ -213,17 +223,19 @@
                                     </textarea>
                                         <span class="error-notification">
                                         @error('short_desc')
-                                        {{ $message }}
-                                        @enderror
+                                            {{ $message }}
+                                            @enderror
                                         </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
                 <div class="col-xl-3 col-lg-4">
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Publish</h4>
@@ -267,6 +279,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Product Image</h4>
@@ -275,11 +288,12 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div>
-                                        <input type="file" name="image" id="product-image" class="form-control @error('image') border-danger @enderror">
+                                        <input type="file" name="image" id="product-image"
+                                               class="form-control @error('image') border-danger @enderror">
                                         <span class="error-notification">
                                         @error('image')
-                                        {{ $message }}
-                                        @enderror
+                                            {{ $message }}
+                                            @enderror
                                         </span>
                                     </div>
                                 </div>
@@ -287,6 +301,7 @@
 
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Product Gallery</h4>
@@ -303,6 +318,7 @@
 
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title d-inline-block">Product Categories</h4>
@@ -320,6 +336,7 @@
 
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title d-inline-block">Product Brands</h4>
@@ -340,6 +357,7 @@
 
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title d-inline-block">Tags</h4>
@@ -357,6 +375,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="p-3 bg-light mb-3 rounded">
                         <div class="row justify-content-center g-2">
                             <div class="col-lg-7">
@@ -367,6 +386,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </form>
@@ -379,7 +399,6 @@
 @section('lib-script')
     {{--    <script src="{{ asset('theme/admin/assets/js/components/form-quilljs.js') }}"></script>--}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="{{ asset('theme/admin/assets/vendor/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
 @endsection
 
@@ -550,21 +569,6 @@
                     },
                     success: function (response) {
 
-                        // var attributes = response.attributes
-                        //
-                        // function variants(attributes){
-                        //     for (i = 0; i < attributes.length; i++) {
-                        //         for (j = 0; j < attributes[i].attribute_values.length; j++) {
-                        //             arrs.push(attributes[i].attribute_values[j])
-                        //         }
-                        //     }
-                        // }
-                        //
-                        // var vairants1 = variants(attributes)
-                        //
-                        // console.log(vairants1)
-
-
                         $('#variations-item').append(response);
 
                     },
@@ -614,18 +618,5 @@
             }
         });
 
-        @if(session('success'))
-        Toastify({
-
-            text: "{{ session('success') }}",
-
-            duration: 3000,
-
-            gravity: top,
-
-            close: true,
-
-        }).showToast();
-        @endif
     </script>
 @endsection

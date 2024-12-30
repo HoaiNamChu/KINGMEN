@@ -6,7 +6,8 @@
                     <div class="header-navigation-area position-relative">
                         <ul class="main-menu nav">
                             <li><a href="{{ route('home') }}"><span>Home</span></a></li>
-                            <li class="{{ !empty($categories) ? 'has-submenu position-static' : '' }} "><a href="{{ route('shop') }}"><span>Shop</span></a>
+                            <li class="{{ !empty($categories) ? 'has-submenu position-static' : '' }} "><a
+                                    href="{{ route('shop') }}"><span>Shop</span></a>
                                 @if(!empty($categories))
                                     <ul class="submenu-nav">
                                         @foreach($categories as $item)

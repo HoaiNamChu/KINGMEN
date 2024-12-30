@@ -26,18 +26,22 @@ Broadcast::channel('staff-support', function ($user) {
 });
 
 Broadcast::channel('staff-private-channel-{staffId}', function ($user, $staffId) {
-    if ($user != null && (int)$user->id === (int)$staffId) {
-        return true;
-    }
-    return false;
+
+    return true;
+
 });
 
 Broadcast::channel('chat-support-{chatRoomId}', function ($user, $chatRoomId) {
     $chatRoom = ChatRoom::find($chatRoomId);
-    if ($user != null && ( (int)$user->id == (int)$chatRoom->staff_id || (int)$user->id == (int)$chatRoom->customer_id ) ) {
+    $token = request()->cookie('guest_id');
+    if (Auth::check() && ((int)$user->id == (int)$chatRoom->staff_id || (int)$user->id == (int)$chatRoom->customer_id)) {
         return true;
+    } elseif (!Auth::check() && $token == $chatRoom->chat_session_id) {
+        return true;
+    } else {
+        return false;
     }
-    return false;
+
 });
 
 

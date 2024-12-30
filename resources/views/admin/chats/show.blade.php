@@ -135,7 +135,7 @@
                                                 </div>
                                                 <div class="flex-grow-1 overflow-hidden">
                                                     <h5 class="my-0">
-                                                        {{ $item->customer->username }}
+                                                        {{ $item->customer->username ?? 'Client' }}
                                                     </h5>
                                                     <p class="mt-1 mb-0 fs-13 text-muted d-flex align-items-end justify-content-between">
                                                         <span class="w-75"></span>
@@ -530,7 +530,7 @@
                             <div class="d-none d-md-flex flex-column">
                                 <h5 class="my-0 fs-16 fw-semibold">
                                     <a data-bs-toggle="offcanvas" href="#user-profile" class="text-dark">
-                                        {{ $chatRoom->customer->username }}
+                                        {{ $chatRoom->customer->username ?? 'Client' }}
                                     </a>
                                 </h5>
                                 <p class="mb-0 text-success fw-semibold fst-italic">typing...</p>

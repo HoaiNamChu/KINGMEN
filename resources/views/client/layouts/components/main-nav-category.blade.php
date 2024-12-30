@@ -1,4 +1,4 @@
-<li class="{{ $item->children->count() ? 'has-submenu' : '' }}"><a href=""><span>{{ $item->name }}</span></a>
+<li class="{{ $item->children->count() ? 'has-submenu' : '' }}"><a href="{{ route('category.filter', $item->slug) }}"><span>{{ $item->name }}</span></a>
     @if($item->children->count())
         <ul class="submenu-nav">
             @foreach($item->children as $itemChild)

@@ -1,8 +1,11 @@
 @extends('client.layouts.main')
 
+@section('styles')
+@endsection
+
 @section('content')
     <!--== Start Page Header Area Wrapper ==-->
-    <div class="page-header-area" data-bg-img="assets/img/photos/bg3.webp">
+    <div class="page-header-area" data-bg-img="{{ asset('theme/client/assets/img/photos/bg3.webp') }}">
         <div class="container pt--0 pb--0">
             <div class="row">
                 <div class="col-12">
@@ -26,30 +29,25 @@
     <section class="shopping-cart-area">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12 col-lg-8">
                     <div class="shopping-cart-form table-responsive">
 
                         <table class="table text-center">
                             <thead>
                             <tr>
-                                <th class="product-remove">&nbsp;</th>
                                 <th class="product-thumb">&nbsp;</th>
                                 <th class="product-name">Product</th>
                                 <th></th>
                                 <th class="product-price">Price</th>
                                 <th class="product-quantity">Quantity</th>
                                 <th class="product-subtotal">Total</th>
+                                <th class="product-remove">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
                             @if($cart->cartItems->count())
                                 @foreach($cart->cartItems as $item)
                                     <tr class="cart-product-item cart-item-{{ $item->id }}">
-                                        <td class="product-remove">
-                                            <button type="button" class="border-0 btn-delete-cart"
-                                                    data-item-id="{{ $item->id }}"><i class="fa fa-trash-o"></i>
-                                            </button>
-                                        </td>
                                         <td class="product-thumb">
                                             <a href="{{ route('product.detail', $item->product->slug) }}">
                                                 <img src="{{ Storage::url($item->product->image) }}" width="90"
@@ -91,27 +89,32 @@
                                         </td>
                                         <td class="product-quantity">
                                             <div class="pro-qty">
-                                                <div class="dec qty-btn" data-qty-btn-id="{{ $item->id }}">-</div>
+                                                <button class="dec qty-btn" data-qty-btn-id="{{ $item->id }}">-</button>
                                                 <input type="text" class="quantity" name="quantity-{{ $item->id }}"
                                                        data-qty-id="{{ $item->id }}" title="Quantity"
                                                        value="{{ $item->quantity }}">
-                                                <div class="inc qty-btn" data-qty-btn-id="{{ $item->id }}">+</div>
+                                                <button class="inc qty-btn" data-qty-btn-id="{{ $item->id }}">+</button>
                                             </div>
                                         </td>
                                         <td class="product-subtotal product-subtotal-{{ $item->id }}">
                                             @if($item->variant_id)
                                                 @if($item->product->is_sale && $item->variant->price_sale)
-                                                    <span class="price">{{ number_format(intval($item->variant->price_sale) * intval($item->quantity)) }} VND</span>
+                                                    <span class="price" style="color: #eb3e32;">{{ number_format(intval($item->variant->price_sale) * intval($item->quantity)) }} VND</span>
                                                 @else
-                                                    <span class="price">{{ number_format(intval($item->variant->price) * intval($item->quantity)) }} VND</span>
+                                                    <span class="price" style="color: #eb3e32;">{{ number_format(intval($item->variant->price) * intval($item->quantity)) }} VND</span>
                                                 @endif
                                             @else
                                                 @if($item->product->is_sale && $item->product->price_sale)
-                                                    <span class="price">{{ number_format(intval($item->product->price_sale) * intval($item->quantity)) }} VND</span>
+                                                    <span class="price" style="color: #eb3e32;">{{ number_format(intval($item->product->price_sale) * intval($item->quantity)) }} VND</span>
                                                 @else
-                                                    <span class="price">{{ number_format(intval($item->product->price) * intval($item->quantity)) }} VND</span>
+                                                    <span class="price" style="color: #eb3e32;">{{ number_format(intval($item->product->price) * intval($item->quantity)) }} VND</span>
                                                 @endif
                                             @endif
+                                        </td>
+                                        <td class="product-remove text-center">
+                                            <button type="button" class="border-0 btn-delete-cart"
+                                                    data-item-id="{{ $item->id }}"><i class="fa fa-trash-o"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -135,8 +138,38 @@
                         </table>
                     </div>
                 </div>
+                <div class="col-md-12 col-lg-4">
+                    <div class="shipping-form-cart-totals" style="background-color: #f7f7f7;">
+                        <div class="section-title-cart">
+                            <h5 class="title">Cart totals</h5>
+                        </div>
+                        <div class="cart-total-table">
+                            <table class="table">
+                                <tbody>
+                                <tr class="cart-subtotal">
+                                    <td>
+                                        <p class="value">Subtotal</p>
+                                    </td>
+                                    <td>
+                                        <p class="price">£128.00</p>
+                                    </td>
+                                </tr>
+                                <tr class="order-total">
+                                    <td>
+                                        <p class="value">Total</p>
+                                    </td>
+                                    <td>
+                                        <p class="price">£128.00</p>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <a class="btn-theme btn-flat" href="{{ route('checkout') }}">Proceed to checkout</a>
+                    </div>
+                </div>
             </div>
-            <div class="row row-gutter-50">
+            <div class="row row-gutter-50 d-none">
                 <div class="col-md-6 col-lg-4">
                     <div id="CategoriesAccordion" class="shipping-form-calculate">
                         <div class="section-title-cart">
@@ -264,13 +297,12 @@
                                 </tbody>
                             </table>
                         </div>
-                        <a class="btn-theme btn-flat" href="{{ route('checkout') }}">Proceed to checkout</a>
+                        <a class="btn-theme btn-flat" href="shop-checkout.html">Proceed to checkout</a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!--== End Blog Area Wrapper ==-->
 
 @endsection
 
@@ -278,24 +310,42 @@
 
     <script>
         $(document).ready(function () {
-            $('.btn-delete-cart').click(function () {
-                var cartItemID = $(this).attr('data-item-id');
-                var itemCart = $(`.item-cart-${cartItemID}`)
-                $.ajax({
-                    url: `/cart/${cartItemID}`,
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    success: function (res) {
-                        if (res.data) {
-                            $(`.cart-item-${res.data.id}`).remove()
-                        }
-                    },
-                    error: function (res) {
 
-                    }
-                });
+
+            $('.btn-delete-cart').click(function () {
+
+                if (confirm('Are you sure?')) {
+                    var cartItemID = $(this).attr('data-item-id');
+                    var itemCart = $(`.item-cart-${cartItemID}`)
+                    $.ajax({
+                        url: `/cart/${cartItemID}`,
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        success: function (res) {
+                            if (res.data) {
+                                $(`.cart-item-${res.data.id}`).remove()
+                                Toastify({
+
+                                    text: `${res.message}`,
+
+                                    duration: 3000,
+
+                                    gravity: top,
+
+                                    close: true,
+
+                                    style: {background: 'red'},
+
+                                }).showToast();
+                            }
+                        },
+                        error: function (res) {
+
+                        }
+                    });
+                }
             });
 
             $('.qty-btn').on('click', function (e) {
@@ -333,12 +383,7 @@
                         totalPrice = Number(totalPrice) * Number(data.quantity)
                         let formattedAmount = new Intl.NumberFormat('en-US').format(totalPrice);
                         // $('.prices').html(``);
-                        $(`.product-subtotal-${data.id}`).html(`<span class="price">${formattedAmount} VND</span>`);
-
-
-                    },
-                    error: function (res) {
-
+                        $(`.product-subtotal-${data.id}`).html(`<span class="price" style="color: #eb3e32;">${formattedAmount} VND</span>`);
                     }
                 });
             });

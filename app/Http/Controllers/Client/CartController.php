@@ -17,25 +17,24 @@ class CartController extends Controller
     {
         $cart = Cart::where('user_id', Auth::id());
         if ($cart->exists()) {
-            $cart = $cart->with('cartItems')
-                ->with('cartItems.product.attributes')
-                ->with('cartItems.product.attributeValues')
-                ->with('cartItems.variant.attributeValues')
-                ->first();
+            $cart = $cart->with([
+                'cartItems.product',
+                'cartItems.variant.attributeValues'
+            ])->first();
         } else {
             $cart = Cart::create([
                 'user_id' => Auth::id(),
             ]);
 
-            $cart = $cart->with('cartItems')
-                ->with('cartItems.product.attributes')
-                ->with('cartItems.product.attributeValues')
-                ->with('cartItems.variant.attributeValues')
-                ->first();
+            $cart = $cart->with([
+                'cartItems.product',
+                'cartItems.variant.attributeValues'
+            ])->first();
         }
 
         return view('client.carts.index', compact('cart'));
     }
+
     public function store(Request $request)
     {
         $product = Product::where('id', $request->product_id)->with('variants')->first();
@@ -43,7 +42,7 @@ class CartController extends Controller
         if ($product->variants->count() > 0) {
             $attributeID = request('attribute');
 
-            if ($attributeID){
+            if ($attributeID) {
                 $variant = Variant::where('product_id', '=', $request->product_id)
                     ->whereHas('attributeValues', function ($query) use ($attributeID) {
                         $query->whereIn('attribute_values.id', $attributeID);
@@ -57,10 +56,10 @@ class CartController extends Controller
                     'variant_id' => $variant->id,
                     'quantity' => $request->quantity,
                 ];
-            }else{
+            } else {
                 return redirect()->back()->with('error', 'Please choose product variant first');
             }
-        }else{
+        } else {
             $data = [
                 'product_id' => $product->id,
                 'variant_id' => null,
@@ -73,11 +72,11 @@ class CartController extends Controller
         if ($cart->exists()) {
             $data['cart_id'] = $cart->first()->id;
             $cartItem = CartItem::where('cart_id', $cart->first()->id)
-            ->where('product_id', $data['product_id'])
-            ->where('variant_id', $data['variant_id']);
-            if ($cartItem->exists()){
+                ->where('product_id', $data['product_id'])
+                ->where('variant_id', $data['variant_id']);
+            if ($cartItem->exists()) {
                 $cartItem->update(['quantity' => intval($cartItem->first()->quantity) + intval($data['quantity'])]);
-            }else{
+            } else {
                 CartItem::create($data);
             }
         } else {
@@ -96,7 +95,7 @@ class CartController extends Controller
 
     public function update(Request $request)
     {
-        $cartItem = CartItem::where('id',request('id'))
+        $cartItem = CartItem::where('id', request('id'))
             ->with('product')
             ->with('variant')
             ->first();;
@@ -110,21 +109,22 @@ class CartController extends Controller
     public function destroy(Request $request)
     {
 
-        $cartItem = CartItem::find(request('id'));
+        $cartItem = CartItem::find($request->id);
         $cartItem->delete();
-
         return response()->json([
-           'data' => $cartItem
-        ], 200);
+            'data' => $cartItem,
+            'success' => true,
+            'message' => 'Item successfully removed'
+        ]);
     }
 
 
     public function clear(Request $request)
     {
-        $cart  = Cart::where('user_id', Auth::id())->where('id', $request->id)->first();
+        $cart = Cart::where('user_id', Auth::id())->where('id', $request->id)->first();
         $cart->cartItems()->delete();
 
-        return redirect()->route('cart.index')->with('success', 'Removed from cart');
+        return redirect()->route('cart.index')->with('success', 'Clear from cart');
     }
 
 }

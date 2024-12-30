@@ -39,7 +39,7 @@
 
 @section('content')
     <!--== Start Page Header Area Wrapper ==-->
-    <div class="page-header-area" data-bg-img="assets/img/photos/bg3.webp">
+    <div class="page-header-area" data-bg-img="{{ asset('theme/client/assets/img/photos/bg3.webp') }}">
         <div class="container pt--0 pb--0">
             <div class="row">
                 <div class="col-12">
@@ -121,7 +121,7 @@
                                 <div class="product-single-info">
                                     <h3 class="main-title">{{ $product->name }}</h3>
                                     <div class="prices">
-                                        @if($product->attributes->count())
+                                        @if($product->variants->count())
                                             <span class="price">{{ number_format($product->price_sale) }} VND</span>
                                             <span class="sep">-</span>
                                             <span class="price">{{ number_format($product->price) }} VND</span>
@@ -150,12 +150,12 @@
                                     <p>{{ $product->short_desc }}</p>
                                     <form action="{{ route('cart.store') }}" method="post">
                                         @csrf
-                                        @if($product->attributes->count())
-                                            @foreach($product->attributes as $attribute)
+                                        @if($productAttributes != null)
+                                            @foreach($productAttributes as $attribute)
                                                 <div class="product-attribute">
                                                     <h6 class="title">{{ $attribute->name }}</h6>
                                                     <ul class="attribute-list">
-                                                        @foreach($product->attributeValues as $value)
+                                                        @foreach($productAttributeValues as $value)
                                                             @if($value->attribute_id == $attribute->id)
                                                                 <li><label for="{{ $value->id  }}"
                                                                            class="attribute-checkbox">
@@ -187,7 +187,9 @@
                                         <p class="product-in-stock">Stocks: {{ $product->quantity }}</p>
                                     </div>
                                     <div class="product-wishlist-compare">
-                                        <a href="shop-wishlist.html"><i class="pe-7s-like"></i>Add to Wishlist</a>
+                                        <a class="btn-product-wishlist" data-route="{{ route('wishlist.store') }}"
+                                           data-product-id="{{ $product->id }}"><i class="pe-7s-like"></i>Add to
+                                            Wishlist</a>
                                         <a href="shop-compare.html"><i class="pe-7s-shuffle"></i>Add to Compare</a>
                                     </div>
                                     <div class="product-info-footer">
@@ -439,7 +441,7 @@
                         if (res.data.length) {
                             var price = res.data[0].price;
                             let stock = res.data[0].quantity;
-                            if (stock == null){
+                            if (stock == null) {
                                 stock = 0;
                             }
                             let formattedAmount = new Intl.NumberFormat('vi-VN').format(price);
@@ -453,7 +455,7 @@
                         }
                     },
                     error: function (res) {
-                        $('prices').html(originalContent)
+                        $('.prices').html(originalContent);
                         $('.product-in-stock').html(stockAll);
                     }
                 });

@@ -19,11 +19,6 @@ class CheckoutController extends Controller
 
     public function index()
     {
-//        $cart = Cart::query()->where('user_id', \Auth::id())
-//            ->with('cartItems.product')
-//            ->with('cartItems.variant.attributeValues')
-//            ->first();
-
         $data = Auth::user()->load([
             'addresses' => function ($query) {
                 $query->where('is_default', 1);
@@ -31,18 +26,16 @@ class CheckoutController extends Controller
             'cart.cartItems.product',
             'cart.cartItems.variant.attributeValues'
         ]);
-//        dd($data);
         if (!$data->cart->cartItems->count()) {
             return redirect()->back()->with('error', 'Your cart is empty');
         }
-        return view(self::PATH_VIEW . __FUNCTION__, compact( 'data'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('data'));
 
     }
 
     public function order(CheckoutRequest $request)
     {
 
-//        dd(request()->all());
 
         $dataOrder = [
 
@@ -145,7 +138,7 @@ class CheckoutController extends Controller
         }
 
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = env('APP_URL').'/checkout/vnpay/return';
+        $vnp_Returnurl = env('APP_URL') . '/checkout/vnpay/return';
         $vnp_TmnCode = "VE6K2G0A";//Mã website tại VNPAY
         $vnp_HashSecret = "2YZEFBP627O8ZXMP8H5XH0YWF19QXCV1"; //Chuỗi bí mật
 

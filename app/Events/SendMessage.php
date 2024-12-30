@@ -20,13 +20,13 @@ class SendMessage implements ShouldBroadcast
     public $message;
     public $chatRoomId;
 
-    public $sender;
+    public $senderId;
 
-    public function __construct(ChatRoom $chatRoom, User $sender, Message $message)
+    public function __construct(ChatRoom $chatRoom, $senderId, Message $message)
     {
         $this->message = $message;
         $this->chatRoomId = $chatRoom->id;
-        $this->sender = $sender;
+        $this->senderId = $senderId;
     }
 
     public function broadcastOn(): PrivateChannel
@@ -39,7 +39,7 @@ class SendMessage implements ShouldBroadcast
         return [
             'message' => $this->message,
             'chatRoomId' => $this->chatRoomId,
-            'sender' => $this->sender,
+            'senderId' => $this->senderId,
         ];
     }
 }

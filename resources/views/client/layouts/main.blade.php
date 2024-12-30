@@ -10,6 +10,7 @@
     <meta name="description" content="Shome - Shoes eCommerce Website Template"/>
     <meta name="keywords" content="footwear, shoes, modern, shop, store, ecommerce, responsive, e-commerce"/>
     <meta name="author" content="codecarnival"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Shome - Shoes eCommerce Website Template</title>
 
@@ -36,10 +37,13 @@
     <!--== Aos Min CSS ==-->
     <link href="{{ asset('theme/client/assets/css/aos.min.css') }}" rel="stylesheet"/>
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+    @yield('links')
     <!--== Main Style CSS ==-->
     <link href="{{ asset('theme/client/assets/css/style.css') }}" rel="stylesheet"/>
 
-    @yield('links')
+
 
     @yield('styles')
 
@@ -76,67 +80,11 @@
     <div id="scroll-to-top" class="scroll-to-top"><span class="fa fa-angle-up"></span></div>
 
     <!--== Start Quick View Menu ==-->
-    <aside class="product-quick-view-modal">
-        <div class="product-quick-view-inner">
-            <div class="product-quick-view-content">
-                <button type="button" class="btn-close">
-                    <span class="close-icon"><i class="fa fa-close"></i></span>
-                </button>
-                <div class="row align-items-center">
-                    <div class="col-lg-6 col-md-6 col-12">
-                        <div class="thumb">
-                            <img src="{{ asset('theme/client/assets/img/shop/product-single/1.webp') }}" width="570"
-                                 height="541" alt="Alan-Shop">
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-12">
-                        <div class="content">
-                            <h4 class="title">Space X Bag For Office</h4>
-                            <div class="prices">
-                                <del class="price-old">$85.00</del>
-                                <span class="price">$70.00</span>
-                            </div>
-                            <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a
-                                piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard
-                                McClintock, a Latin professor at Hampden-Sydney College in Virginia,</p>
-                            <div class="quick-view-select">
-                                <div class="quick-view-select-item">
-                                    <label for="forSize" class="form-label">Size:</label>
-                                    <select class="form-select" id="forSize" required>
-                                        <option selected value="">s</option>
-                                        <option>m</option>
-                                        <option>l</option>
-                                        <option>xl</option>
-                                    </select>
-                                </div>
-                                <div class="quick-view-select-item">
-                                    <label for="forColor" class="form-label">Color:</label>
-                                    <select class="form-select" id="forColor" required>
-                                        <option selected value="">red</option>
-                                        <option>green</option>
-                                        <option>blue</option>
-                                        <option>yellow</option>
-                                        <option>white</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="action-top">
-                                <div class="pro-qty">
-                                    <input type="text" id="quantity20" title="Quantity" value="1"/>
-                                </div>
-                                <button class="btn btn-black">Add to cart</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="canvas-overlay"></div>
-    </aside>
+{{--    @include('client.layouts.product-quick-view-modal')--}}
     <!--== End Quick View Menu ==-->
 
     <!--== Start Aside Cart Menu ==-->
-    @include('client.layouts.aside-cart-menu')
+{{--    @include('client.layouts.aside-cart-menu')--}}
     <!--== End Aside Cart Menu ==-->
 
     <!--== Start Aside Search Menu ==-->
@@ -283,6 +231,8 @@
 <!--=== jQuery Aos Min Js ===-->
 <script src="{{ asset('theme/client/assets/js/aos.min.js') }}"></script>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 <script src="{{ asset('theme/client/assets/js/custom.js') }}"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -295,33 +245,75 @@
 
 @yield('scripts')
 
+<script>
+    @if(session('success'))
+    Toastify({
+
+        text: "{{ session('success') }}",
+
+        duration: 3000,
+
+        gravity: top,
+
+        close: true,
+
+        style: {background: 'green'},
+
+    }).showToast();
+    @endif
+
+    @if(session('error'))
+    Toastify({
+
+        text: "{{ session('error') }}",
+
+        duration: 3000,
+
+        gravity: top,
+
+        close: true,
+
+        style: {background: 'red'},
+
+    }).showToast();
+    @endif
+</script>
+
 <script type="module">
-    $('.btn-send').click(function () {
-        let message = $('.message').val();
-        axios.post('{{ route('chat.store') }}', {
-            'message': message
-        })
-            .then((data) => {
-                console.log(data)
-            })
-    });
+    let chatRoomId;
 
-    @if(\Illuminate\Support\Facades\Auth::check())
+    async function fetchData() {
 
-    let chatRoomId = {{ \Illuminate\Support\Facades\Auth::user()->chatRoomCustomer()->first() ? \Illuminate\Support\Facades\Auth::user()->chatRoomCustomer()->first()->id :  'null' }};
-    if (chatRoomId != null) {
+
+        const response = await axios.get('{{ route('chat.index') }}');
+
+        chatRoomId = response.data.chat_room.id;
+
         Echo.private(`chat-support-${chatRoomId}`)
             .listen('SendMessage', e => {
-                if ({{ \Illuminate\Support\Facades\Auth::id() }} == e.sender.id) {
-                    $('.chat-box-list').append(createHTMLMessageFromMe(e.message.message));
-                    $('.message').val('');
+                if ('{{ request()->cookie('guest_id') }}' == e.senderId) {
+
                 } else {
                     $('.chat-box-list').append(createHTMLMessageFromOther(e.message.message));
 
                 }
             });
     }
-    @endif
+
+    fetchData();
+
+
+    $('.btn-send').click(function () {
+        let message = $('.message').val();
+        axios.post('{{ route('chat.store') }}', {
+            'message': message
+        })
+            .then((data) => {
+                // console.log(data)
+                $('.chat-box-list').append(createHTMLMessageFromMe(data.data.message.message));
+                $('.message').val('');
+            })
+    });
 
     function createHTMLMessageFromMe(message) {
         const today = new Date();

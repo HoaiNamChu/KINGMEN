@@ -39,7 +39,8 @@
                                 <div class="row row-gutter-20">
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input class="form-control @error('name') border-danger @enderror" type="text" name="name"
+                                            <input class="form-control @error('name') border-danger @enderror"
+                                                   type="text" name="name"
                                                    value="{{ old('name') }}"
                                                    placeholder="Name *">
                                             <span class="error-notification">
@@ -51,7 +52,8 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input class="form-control @error('email') border-danger @enderror" type="email" name="email"
+                                            <input class="form-control @error('email') border-danger @enderror"
+                                                   type="email" name="email"
                                                    value="{{ old('email') }}"
                                                    placeholder="Email *">
                                             <span class="error-notification">
@@ -63,7 +65,8 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group">
-                                            <input class="form-control @error('phone') border-danger @enderror" name="phone" type="text"
+                                            <input class="form-control @error('phone') border-danger @enderror"
+                                                   name="phone" type="text"
                                                    value="{{ old('phone') }}"
                                                    placeholder="Phone">
                                             <span class="error-notification">
@@ -75,7 +78,8 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="form-group mb--0">
-                                                <textarea class="form-control @error('message') border-danger @enderror" name="message"
+                                                <textarea class="form-control @error('message') border-danger @enderror"
+                                                          name="message"
                                                           placeholder="Message">
                                                     {!! old('message') !!}
                                                 </textarea>

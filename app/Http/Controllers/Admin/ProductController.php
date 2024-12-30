@@ -29,7 +29,10 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::query()->with('categories', 'brand', 'reviews', 'variants')->paginate(10);
+        $products = Product::query()
+            ->with('categories', 'brand', 'reviews', 'variants')
+            ->latest()
+            ->paginate(10);
         return view(self::PATH_VIEW . __FUNCTION__, compact('products'));
     }
 
@@ -154,7 +157,11 @@ class ProductController extends Controller
 
             $dataVariants = $request->product_variants;
 
-//            dd($dataVariants);
+            $data['quantity'] ??= 0;
+            foreach ($dataVariants as $variant) {
+                $data['quantity'] += $variant['quantity'];
+            }
+
 
             try {
 
@@ -164,15 +171,13 @@ class ProductController extends Controller
 
                 $product->tags()->sync($tags);
 
-                $attributeValueId = [];
 
                 foreach ($dataVariants as $key => $dataVariant) {
+
                     $valueIds = explode('-', $key);
 
                     array_pop($valueIds);
-                    foreach ($valueIds as $value) {
-                        $attributeValueId[] = $value;
-                    }
+
                     $dataVariant['product_id'] = $product->id;
                     $dataVariant['image'] ??= null;
                     $dataVariant['slug'] = Str::slug(preg_replace('/[^A-Za-z0-9\s]/', '-', request('name'))) . '-' . $dataVariant['sku'];
@@ -184,19 +189,6 @@ class ProductController extends Controller
 
                 }
 
-                $newAttributeValueId = array_unique($attributeValueId);
-
-                $attributeId = [];
-
-                $product->attributeValues()->sync($newAttributeValueId);
-
-                foreach ($product->attributeValues as $item) {
-                    $attributeId[] = $item->attribute_id;
-                }
-
-                $newAttributeId = array_unique($attributeId);
-
-                $product->attributes()->sync($newAttributeId);
 
                 $maxPrice = 0;
 
@@ -356,6 +348,8 @@ class ProductController extends Controller
                 return redirect()->back()->with('error', $exception->getMessage());
             }
         }
+
+
         if (request('product_type') === 'variable') {
             $data = [
                 'name' => request('name'),
@@ -473,21 +467,6 @@ class ProductController extends Controller
                     'price_sale' => min($minPrice),
                 ]);
 
-                $newAttributeValueId = array_unique($attributeValueId);
-
-                $product->attributeValues()->sync($newAttributeValueId);
-
-                $attributeId = [];
-
-                foreach ($product->attributeValues as $item) {
-                    $attributeId[] = $item->attribute_id;
-                }
-
-                $newAttributeId = array_unique($attributeId);
-
-                $product->attributes()->sync($newAttributeId);
-
-
                 if (!empty($galleries)) {
                     foreach ($product->galleries as $gallery) {
                         $gallery->delete();
@@ -540,9 +519,6 @@ class ProductController extends Controller
 
                 $product->categories()->detach();
 
-                $product->attributeValues()->detach();
-
-                $product->attributes()->detach();
 
                 if ($product->galleries->count()) {
                     foreach ($product->galleries as $gallery) {

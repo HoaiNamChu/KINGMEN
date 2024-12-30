@@ -38,7 +38,7 @@
                                                 </div>
                                                 <div class="flex-grow-1 overflow-hidden">
                                                     <h5 class="my-0">
-                                                        {{ $item->customer->username }}
+                                                        {{ $item->customer->username ?? 'Client' }}
                                                     </h5>
                                                     <p class="mt-1 mb-0 fs-13 text-muted d-flex align-items-end justify-content-between">
                                                         <span class="w-75">How are you today?</span>

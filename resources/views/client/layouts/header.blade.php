@@ -1,31 +1,3 @@
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1050">
-    <!-- Hiển thị thông báo thành công -->
-    @if(session('message'))
-        <div id="toastSuccess" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex">
-                <div class="toast-body">
-                    {{ session('message') }}
-                </div>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-        </div>
-    @endif
-</div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var toastSuccess = document.getElementById('toastSuccess');
-        if (toastSuccess) {
-            var bsToastSuccess = new bootstrap.Toast(toastSuccess);
-            bsToastSuccess.show();
-        }
-
-        var toastError = document.getElementById('toastError');
-        if (toastError) {
-            var bsToastError = new bootstrap.Toast(toastError);
-            bsToastError.show();
-        }
-    });
-</script>
 
 <header class="main-header-wrapper position-relative">
     <div class="header-top">
@@ -86,8 +58,8 @@
                         </div>
                         <div class="header-middle-align-center">
                             <div class="header-search-area">
-                                <form class="header-searchbox">
-                                    <input type="search" class="form-control" placeholder="Search">
+                                <form action="{{ route('search') }}" class="header-searchbox" method="GET">
+                                    <input type="search" name="q" value="{{ request('q') }}" class="form-control" placeholder="Search">
                                     <button class="btn-submit" type="submit"><i class="pe-7s-search"></i></button>
                                 </form>
                             </div>
@@ -106,12 +78,13 @@
                                     </a>
                                 </div>
                                 <div class="shopping-cart">
-                                    <button class="shopping-cart-btn" type="button" data-bs-toggle="offcanvas"
-                                            data-bs-target="#AsideOffcanvasCart"
-                                            aria-controls="offcanvasRightLabel">
-                                        <i class="pe-7s-shopbag icon"></i>
-                                        <sup class="shop-count">02</sup>
-                                    </button>
+                                    <a href="{{ route('cart.index') }}">
+                                        <button class="shopping-cart-btn" type="button" data-bs-toggle="offcanvas"
+                                                data-bs-target="#AsideOffcanvasCart"
+                                                aria-controls="offcanvasRightLabel">
+                                            <i class="pe-7s-shopbag icon"></i>
+                                        </button>
+                                    </a>
                                 </div>
                                 <button class="btn-menu" type="button" data-bs-toggle="offcanvas"
                                         data-bs-target="#AsideOffcanvasMenu" aria-controls="AsideOffcanvasMenu">

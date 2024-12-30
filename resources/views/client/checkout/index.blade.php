@@ -3,7 +3,7 @@
 
 @section('content')
     <!--== Start Page Header Area Wrapper ==-->
-    <div class="page-header-area" data-bg-img="assets/img/photos/bg3.webp">
+    <div class="page-header-area" data-bg-img="{{ asset('theme/client/assets/img/photos/bg3.webp') }}">
         <div class="container pt--0 pb--0">
             <div class="row">
                 <div class="col-12">
@@ -244,11 +244,6 @@
                                                             {{ $attrVal->name }},
                                                         @endforeach
                                                     </td>
-                                                    <td>
-                                                        @foreach($item->variant->attributeValues as $attrVal)
-                                                            {{ $attrVal->name }},
-                                                        @endforeach
-                                                    </td>
                                                     <td
                                                         class="product-total">{{ number_format(intval($item->variant->price) * $item->quantity) }}
                                                         VND
@@ -392,10 +387,10 @@
 
             $('#order_total').val(orderTotal);
 
+            @if($data->addresses[0] != null)
             $.ajax({
                 url: 'https://online-gateway.ghn.vn/shiip/public-api/master-data/province',
                 type: 'GET',
-                dataType: "json",
                 headers: {
                     'token': 'f3dc65c5-96db-11ef-97be-1ef9613dbf99'
                 },
@@ -403,125 +398,252 @@
                     let userCity = '{{ $data->addresses[0]->city }}';
                     let selected = '';
                     $.each(data_city.data, function (key_tinh, val_tinh) {
-                        if (val_tinh.ProvinceName == userCity) {
+                        if (val_tinh.NameExtension.includes(userCity)) {
                             selected = 'selected'
+                        } else {
+                            selected = '';
                         }
                         $("#city").append('<option value="' + val_tinh.ProvinceName + '" id="' + val_tinh.ProvinceID + '" ' + selected + '>' + val_tinh.ProvinceName + '</option>');
                     });
-                    $("#city").change(function (e) {
-                        var idCity = $("#city option:selected").attr('id');
-                        //Lấy quận huyện
-                        $.ajax({
-                            url: 'https://online-gateway.ghn.vn/shiip/public-api/master-data/district',
-                            type: 'GET',
-                            dataType: "json",
-                            data: {
-                                'province_id': idCity
-                            },
-                            headers: {
-                                'token': 'f3dc65c5-96db-11ef-97be-1ef9613dbf99'
-                            },
-                            success: function (data_district) {
-                                let userDistrict = '{{ $data->addresses[0]->district }}';
-                                let selected = '';
-                                $("#district").html('<option value="0">District</option>');
-                                $("#ward").html('<option value="0">Ward</option>');
-                                $.each(data_district.data, function (key_quan, val_quan) {
-                                    console.log(val_quan.DistrictName)
-                                    if (val_quan.DistrictName.toLowerCase() === userDistrict.toLowerCase()) {
-                                        selected = 'selected';
-                                    }else {
-                                        selected = '';
-                                    }
-                                    $("#district").append('<option value="' + val_quan.DistrictName + '" id="' + val_quan.DistrictID + '" '+selected+'>' + val_quan.DistrictName + '</option>');
-                                });
-                                //Lấy phường xã
-                                $("#district").change(function (e) {
-                                    var idDistrict = $("#district option:selected").attr('id');
+                    var idCity = $("#city option:selected").attr('id');
+                    //Lấy quận huyện
+                    $.ajax({
+                        url: 'https://online-gateway.ghn.vn/shiip/public-api/master-data/district',
+                        type: 'GET',
+                        data: {
+                            'province_id': idCity
+                        },
+                        headers: {
+                            'token': 'f3dc65c5-96db-11ef-97be-1ef9613dbf99'
+                        },
+                        success: function (data_district) {
+                            let userDistrict = '{{ $data->addresses[0]->district }}';
+                            let selected = '';
+
+                            $("#district").html('<option value="0">District</option>');
+                            $("#ward").html('<option value="0">Ward</option>');
+
+                            $.each(data_district.data, function (key_quan, val_quan) {
+                                if (val_quan.NameExtension.includes(userDistrict)) {
+                                    selected = 'selected';
+                                } else {
+                                    selected = '';
+                                }
+                                $("#district").append('<option value="' + val_quan.DistrictName + '" id="' + val_quan.DistrictID + '" ' + selected + '>' + val_quan.DistrictName + '</option>');
+                            });
+                            var idDistrict = $("#district option:selected").attr('id');
+
+                            $.ajax({
+                                url: 'https://online-gateway.ghn.vn/shiip/public-api/master-data/ward',
+                                type: 'GET',
+                                data: {
+                                    'district_id': idDistrict
+                                },
+                                headers: {
+                                    'token': 'f3dc65c5-96db-11ef-97be-1ef9613dbf99'
+                                },
+                                success: function (data_ward) {
+
+                                    let userWard = '{{ $data->addresses[0]->ward }}';
+                                    let selected = '';
+
+                                    $("#ward").html('<option value="0">Ward</option>');
+
+                                    $.each(data_ward.data, function (key_phuong, val_phuong) {
+                                        if (val_phuong.NameExtension.includes(userWard)) {
+                                            selected = 'selected';
+                                        } else {
+                                            selected = '';
+                                        }
+                                        $("#ward").append('<option value="' + val_phuong.WardName + '" id="' + val_phuong.WardCode + '" ' + selected + '>' + val_phuong.WardName + '</option>');
+                                    });
+
+                                    var idWard = $("#ward option:selected").attr('id');
+
                                     $.ajax({
-                                        url: 'https://online-gateway.ghn.vn/shiip/public-api/master-data/ward',
+                                        url: 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee',
                                         type: 'GET',
-                                        dataType: "json",
                                         data: {
-                                            'district_id': idDistrict
+                                            "service_id": 53321,
+                                            "insurance_value": {{ $cartTotal }},
+                                            "coupon": null,
+                                            "from_district_id": 1805,
+                                            "to_district_id": idDistrict,
+                                            "to_ward_code": idWard,
+                                            "height": 1,
+                                            "length": 60,
+                                            "weight": 1,
+                                            "width": 30
                                         },
                                         headers: {
-                                            'token': 'f3dc65c5-96db-11ef-97be-1ef9613dbf99'
+                                            'token': 'f3dc65c5-96db-11ef-97be-1ef9613dbf99',
+                                            'shop_id': '5424556'
                                         },
-                                        success: function (data_ward) {
-                                            $("#ward").html('<option value="0">Ward</option>');
-                                            $.each(data_ward.data, function (key_phuong, val_phuong) {
-                                                $("#ward").append('<option value="' + val_phuong.WardName + '" id="' + val_phuong.WardCode + '">' + val_phuong.WardName + '</option>');
-                                            });
-                                            $("#ward").change(function (e) {
-                                                var idWard = $("#ward option:selected").attr('id');
-                                                $.ajax({
-                                                    url: 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee',
-                                                    type: 'GET',
-                                                    dataType: "json",
-                                                    data: {
-                                                        "service_id": 53321,
-                                                        "insurance_value": {{ $cartTotal }},
-                                                        "coupon": null,
-                                                        "from_district_id": 1805,
-                                                        "to_district_id": idDistrict,
-                                                        "to_ward_code": idWard,
-                                                        "height": 1,
-                                                        "length": 60,
-                                                        "weight": 1,
-                                                        "width": 30
-                                                    },
-                                                    headers: {
-                                                        'token': 'f3dc65c5-96db-11ef-97be-1ef9613dbf99',
-                                                        'shop_id': '5424556'
-                                                    },
-                                                    success: function (data) {
-                                                        var total = data.data.total;
+                                        success: function (data) {
+                                            var total = data.data.total;
 
-                                                        var orderTotal1 = Number(orderTotal) + Number(total);
+                                            var orderTotal1 = Number(orderTotal) + Number(total);
 
-                                                        $('#shipping-fee').text(total.toLocaleString('en-US', {
-                                                            minimumFractionDigits: 0,
-                                                            maximumFractionDigits: 2
-                                                        }) + ' VND');
+                                            $('#shipping-fee').text(total.toLocaleString('en-US', {
+                                                minimumFractionDigits: 0,
+                                                maximumFractionDigits: 2
+                                            }) + ' VND');
 
-                                                        $('#shipping_fee').val(total);
+                                            $('#shipping_fee').val(total);
 
-                                                        $('#order-total').text(orderTotal1.toLocaleString('en-US', {
-                                                            minimumFractionDigits: 0,
-                                                            maximumFractionDigits: 2
-                                                        }) + ' VND');
+                                            $('#order-total').text(orderTotal1.toLocaleString('en-US', {
+                                                minimumFractionDigits: 0,
+                                                maximumFractionDigits: 2
+                                            }) + ' VND');
 
-                                                        $("#order_total").val(orderTotal1)
-                                                    },
-                                                    error: function (err) {
+                                            $("#order_total").val(orderTotal1)
+                                        },
+                                        error: function (err) {
 
-                                                        total = 75000;
+                                            total = 75000;
 
-                                                        orderTotal1 = Number(orderTotal) + 75000;
+                                            orderTotal1 = Number(orderTotal) + 75000;
 
-                                                        $('#shipping-fee').text('75,000 VND');
+                                            $('#shipping-fee').text('75,000 VND');
 
-                                                        $('#shipping_fee').val(total);
+                                            $('#shipping_fee').val(total);
 
-                                                        $('#order-total').text(orderTotal1.toLocaleString('en-US', {
-                                                            minimumFractionDigits: 0,
-                                                            maximumFractionDigits: 2
-                                                        }) + ' VND');
+                                            $('#order-total').text(orderTotal1.toLocaleString('en-US', {
+                                                minimumFractionDigits: 0,
+                                                maximumFractionDigits: 2
+                                            }) + ' VND');
 
-                                                        $("#order_total").val(orderTotal1)
-                                                    }
-
-                                                });
-                                            });
+                                            $("#order_total").val(orderTotal1)
                                         }
+
                                     });
-                                });
-                            }
-                        });
+                                }
+                            });
+                        }
                     });
                 }
             });
+            @else
+            $.ajax({
+                url: 'https://online-gateway.ghn.vn/shiip/public-api/master-data/province',
+                type: 'GET',
+                headers: {
+                    'token': 'f3dc65c5-96db-11ef-97be-1ef9613dbf99'
+                },
+                success: function (data_city) {
+                    $.each(data_city.data, function (key_tinh, val_tinh) {
+                        $("#city").append('<option value="' + val_tinh.ProvinceName + '" id="' + val_tinh.ProvinceID + '">' + val_tinh.ProvinceName + '</option>');
+                    });
+                }
+            });
+
+            $("#city").change(function (e) {
+                var idCity = $("#city option:selected").attr('id');
+                //Lấy quận huyện
+                $.ajax({
+                    url: 'https://online-gateway.ghn.vn/shiip/public-api/master-data/district',
+                    type: 'GET',
+                    data: {
+                        'province_id': idCity
+                    },
+                    headers: {
+                        'token': 'f3dc65c5-96db-11ef-97be-1ef9613dbf99'
+                    },
+                    success: function (data_district) {
+
+                        $("#district").html('<option value="0">District</option>');
+                        $("#ward").html('<option value="0">Ward</option>');
+
+                        $.each(data_district.data, function (key_quan, val_quan) {
+
+                            $("#district").append('<option value="' + val_quan.DistrictName + '" id="' + val_quan.DistrictID + '">' + val_quan.DistrictName + '</option>');
+                        });
+                    }
+                });
+            });
+
+            $("#district").change(function (e) {
+                var idDistrict = $("#district option:selected").attr('id');
+                $.ajax({
+                    url: 'https://online-gateway.ghn.vn/shiip/public-api/master-data/ward',
+                    type: 'GET',
+                    data: {
+                        'district_id': idDistrict
+                    },
+                    headers: {
+                        'token': 'f3dc65c5-96db-11ef-97be-1ef9613dbf99'
+                    },
+                    success: function (data_ward) {
+
+                        $("#ward").html('<option value="0">Ward</option>');
+
+                        $.each(data_ward.data, function (key_phuong, val_phuong) {
+                            $("#ward").append('<option value="' + val_phuong.WardName + '" id="' + val_phuong.WardCode + '" >' + val_phuong.WardName + '</option>');
+                        });
+                        $("#ward").change(function (e) {
+                            var idWard = $("#ward option:selected").attr('id');
+                            $.ajax({
+                                url: 'https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee',
+                                type: 'GET',
+                                data: {
+                                    "service_id": 53321,
+                                    "insurance_value": {{ $cartTotal }},
+                                    "coupon": null,
+                                    "from_district_id": 1805,
+                                    "to_district_id": idDistrict,
+                                    "to_ward_code": idWard,
+                                    "height": 1,
+                                    "length": 60,
+                                    "weight": 1,
+                                    "width": 30
+                                },
+                                headers: {
+                                    'token': 'f3dc65c5-96db-11ef-97be-1ef9613dbf99',
+                                    'shop_id': '5424556'
+                                },
+                                success: function (data) {
+                                    var total = data.data.total;
+
+                                    var orderTotal1 = Number(orderTotal) + Number(total);
+
+                                    $('#shipping-fee').text(total.toLocaleString('en-US', {
+                                        minimumFractionDigits: 0,
+                                        maximumFractionDigits: 2
+                                    }) + ' VND');
+
+                                    $('#shipping_fee').val(total);
+
+                                    $('#order-total').text(orderTotal1.toLocaleString('en-US', {
+                                        minimumFractionDigits: 0,
+                                        maximumFractionDigits: 2
+                                    }) + ' VND');
+
+                                    $("#order_total").val(orderTotal1)
+                                },
+                                error: function (err) {
+
+                                    total = 75000;
+
+                                    orderTotal1 = Number(orderTotal) + 75000;
+
+                                    $('#shipping-fee').text('75,000 VND');
+
+                                    $('#shipping_fee').val(total);
+
+                                    $('#order-total').text(orderTotal1.toLocaleString('en-US', {
+                                        minimumFractionDigits: 0,
+                                        maximumFractionDigits: 2
+                                    }) + ' VND');
+
+                                    $("#order_total").val(orderTotal1)
+                                }
+
+                            });
+                        });
+                    }
+                });
+            });
+            @endif
 
 
         });

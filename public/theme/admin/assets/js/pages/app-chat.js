@@ -53,7 +53,7 @@ class Chat {
 
         Echo.private(`chat-support-${chatRoomId}`)
             .listen('SendMessage', e => {
-                let senderId = e.sender.id;
+                let senderId = e.senderId;
                 if (authId != senderId) {
                     self.receiveMessage(e.message.message);
                 } else {

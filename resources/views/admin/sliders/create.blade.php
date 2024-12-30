@@ -15,7 +15,8 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="title" class="form-label">Slide Title</label>
-                                        <input type="text" id="title" value="{{ old('title') }}" name="title" class="form-control"
+                                        <input type="text" id="title" value="{{ old('title') }}" name="title"
+                                               class="form-control"
                                                placeholder="Slider title">
                                         <span class="error-notification">
                                             @error('title')
@@ -29,8 +30,8 @@
                                         <label for="slide-image" class="form-label">Slider Image</label>
                                         <input type="file" id="slide-image" name="image" class="form-control">
                                         <span class="error-notification">
-                                        @error('image')
-                                            {{ $message }}
+                                            @error('image')
+                                                {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
@@ -38,7 +39,8 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="link" class="form-label">Link</label>
-                                        <input type="text" id="link" value="{{ old('link') }}" name="link" class="form-control"
+                                        <input type="text" id="link" value="{{ old('link') }}" name="link"
+                                               class="form-control"
                                                placeholder="Slider link">
                                         <span class="error-notification">
                                             @error('link')
@@ -50,7 +52,8 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="content" class="form-label">Content</label>
-                                        <input type="text" id="content" value="{{ old('content') }}" name="content" class="form-control"
+                                        <input type="text" id="content" value="{{ old('content') }}" name="content"
+                                               class="form-control"
                                                placeholder="Slider content">
                                         <span class="error-notification">
                                             @error('content')

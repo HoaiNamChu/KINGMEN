@@ -14,23 +14,41 @@ class ProductController extends Controller
 
     public function productDetail(Request $request)
     {
-        $product = Product::query()
-            ->with('attributes.attributeValues')
-//            ->with('variants')
-            ->with('categories')
-            ->with('brand')
-            ->where('slug', $request->slug)
-            ->first();
+        $product = Product::with([
+            'variants.attributeValues.attribute',
+            'categories',
+            'brand',
+            'galleries'
+        ])->where('slug', $request->slug)->first();
+
+
+        $productAttributes = $product->variants->flatMap(function ($variant) {
+            return $variant->attributeValues->pluck('attribute');
+        })->unique('id');
+
+        $productAttributeValues = [];
+
+        foreach ($productAttributes as $attribute) {
+            $values = $product->variants->flatMap(function ($variant) use ($attribute) {
+                return $variant->attributeValues->where('attribute_id', $attribute->id);
+            })->unique();
+
+            $productAttributeValues = $values;
+        }
 
         $relatedProducts = Product::query()
             ->where('id', '!=', $product->id)
             ->where('is_active', '=', 1)
-            ->where('brand_id' , '=', $product->brand_id)
+            ->where('brand_id', '=', $product->brand_id)
+            ->with([
+                'variants',
+                'categories',
+            ])
             ->latest()
             ->limit(8)
             ->get();
 
-        return view(self::PATH_VIEW . 'product-detail', compact('product', 'relatedProducts'));
+        return view(self::PATH_VIEW . 'product-detail', compact('product', 'relatedProducts', 'productAttributes', 'productAttributeValues'));
     }
 
     public function variantInformation(Request $request)
@@ -50,5 +68,17 @@ class ProductController extends Controller
         return response()->json([
             'data' => $variant
         ], 200);
+    }
+
+    public function show($id)
+    {
+        $product = Product::query()
+            ->where('id', $id)
+            ->with('attributes.attributeValues')
+            ->first();
+
+        return response()->json([
+            'product' => $product
+        ]);
     }
 }

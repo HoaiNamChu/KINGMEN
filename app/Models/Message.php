@@ -16,4 +16,9 @@ class Message extends Model
         'sender_name',
         'message'
     ];
+
+    public function chatRoom()
+    {
+        return $this->belongsTo(ChatRoom::class);
+    }
 }

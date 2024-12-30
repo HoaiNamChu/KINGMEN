@@ -118,9 +118,10 @@
 @section('script')
     <script>
         ClassicEditor
-            .create(document.querySelector('#editor'))
-            .then(editor => {
-                window.editor = editor;
+            .create(document.querySelector('#editor'), {
+                ckfinder: {
+                    uploadUrl: '{{route('admin.ckeditor.uploads',['_token'=>csrf_token()])}}'
+                }
             })
             .catch(error => {
                 console.error('There was a problem initializing the editor.', error);

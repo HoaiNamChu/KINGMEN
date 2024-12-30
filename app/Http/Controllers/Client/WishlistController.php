@@ -31,28 +31,32 @@ class WishlistController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
         $request->validate([
             'product_id' => 'required|exists:products,id',
         ]);
 
-        // Kiểm tra xem sản phẩm đã có trong wishlist của người dùng chưa
         $exists = Wishlist::where('user_id', auth()->id())
-            ->where('product_id', $request->product_id)
-            ->exists();
+            ->where('product_id', $request->product_id);
 
-        if ($exists) {
-            // Nếu tồn tại, hiển thị thông báo
-            return redirect()->back()->with('warning', 'Product is already in your wishlist!');
+        if ($exists->exists()) {
+            $exists->delete();
+            return response()->json([
+                'success' => false,
+                'message' => 'This product has been removed from wishlist.'
+            ]);
+        } else {
+            Wishlist::create([
+                'user_id' => auth()->id(),
+                'product_id' => $request->product_id,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Product added to wishlist!'
+            ]);
         }
-        
-        // Nếu chưa tồn tại, thêm sản phẩm vào wishlist
-        Wishlist::create([
-            'user_id' => auth()->id(),
-            'product_id' => $request->product_id,
-        ]);
 
-        return redirect()->back()->with('success', 'Product added to wishlist!');
     }
 
     /**

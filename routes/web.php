@@ -1,29 +1,11 @@
 <?php
 
-use App\Http\Controllers\Admin\ChatController;
-use App\Http\Controllers\Admin\PostController;
-use App\Http\Controllers\Client\WishlistController;
-use App\Http\Controllers\Admin\SlideController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-use App\Http\Controllers\Admin\AttributeController;
-use App\Http\Controllers\Admin\AttributeValueController;
-use App\Http\Controllers\Admin\BrandController;
+
+use App\Http\Controllers\Client\WishlistController;
 use App\Http\Controllers\Client\CartController;
-use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\TagController;
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\PermissionController;
-
-;
-
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\OrderController;
-use App\Http\Controllers\Admin\StatisticOrderController;
-use App\Http\Controllers\Admin\StatisticUserController;
 use App\Http\Controllers\Client\AccountGoogleController;
 use App\Http\Controllers\Client\OrderClientController;
 use App\Http\Controllers\Client\CheckoutController;
@@ -81,7 +63,6 @@ Route::prefix('/')->group(function () {
     Route::post('/order/{id}/cancel', [OrderClientController::class, 'cancel'])->name('order.cancel')->middleware('auth');
     Route::post('/order/{id}/returnorder', [OrderClientController::class, 'returnorder'])->name('order.return')->middleware('auth');
     Route::post('/order/{id}/access', [OrderClientController::class, 'access'])->name('order.access')->middleware('auth');
-
 
 
     Route::post('/contact', [\App\Http\Controllers\Client\ContactController::class, 'store'])->name('contact.store');
@@ -149,38 +130,16 @@ Route::prefix('/')->group(function () {
     Route::get('reset-password/{token}', [AccountGoogleController::class, 'showResetPasswordForm'])->name('reset.password.get');
 
     Route::post('reset-password', [AccountGoogleController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+
+//    Route::get('/product/show/{id}', [\App\Http\Controllers\Client\ProductController::class, 'show'])->name('product.show');
+
+    Route::get('/search', [\App\Http\Controllers\Client\SearchController::class, 'search'])->name('search');
+
+    Route::get('/brand/{slug}', [\App\Http\Controllers\Client\ShopController::class, 'brandFilter'])->name('brand.filter');
+
+    Route::get('/category/{slug}', [\App\Http\Controllers\Client\ShopController::class, 'categoryFilter'])->name('category.filter');
+
 });
 
 
 // viết các route admin vào đây
-Route::prefix('/admin')
-    ->as('admin.')
-    ->middleware(['auth', 'isAdmin'])
-    ->group(function () {
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-        Route::get('/api/orders/revenue', [DashboardController::class, 'getRevenueData']);
-        
-        Route::resources([
-            'categories' => CategoryController::class,
-            'brands' => BrandController::class,
-            'attributes' => AttributeController::class,
-            'attributeValues' => AttributeValueController::class,
-            'products' => ProductController::class,
-            'tags' => TagController::class,
-            'posts' => PostController::class,
-        ]);
-
-        Route::resource('chats', ChatController::class);
-
-        Route::post('/ckeditor/image_upload', [ProductController::class, 'ckeditorUpload'])->name('ckeditor.uploads');
-
-        Route::resource('orders', OrderController::class);
-        Route::resource('slides', SlideController::class);
-        Route::patch('orders/{order}/update-status', [OrderController::class, 'update'])->name('orders.updateStatus');
-        Route::resource('users', UserController::class)->middleware('checkPermission:Manager Users');
-        Route::resource('roles', RoleController::class)->middleware('checkPermission:Manager Roles');
-        Route::resource('brands', BrandController::class)->middleware('checkPermission:Manager Brands');
-        Route::resource('permissions', PermissionController::class)->middleware('checkPermission:Manager Permissions');
-        Route::get('statistics/order', [StatisticOrderController::class, 'statistics'])->name('statistics.orders');
-        Route::get('statistics/user', [StatisticUserController::class, 'showStatisticsPage'])->name('statistics.users');
-    });

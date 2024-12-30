@@ -5844,9 +5844,9 @@ table p {
 }
 
 .shopping-cart-form .table tbody .cart-product-item .product-quantity .pro-qty {
-    display: inline-block;
-    position: relative;
-    width: 80px;
+    display: flex;
+    /*position: relative;*/
+    /*width: 80px;*/
     margin-right: 0;
 }
 
@@ -5858,12 +5858,12 @@ table p {
 
 .shopping-cart-form .table tbody .cart-product-item .product-quantity .pro-qty input {
     border: 1px solid #e8e8e8;
-    border-radius: 8px;
-    height: 50px;
-    padding: 10px 20px 8px;
-    line-height: 50px;
+    /*border-radius: 8px;*/
+    height: 32px;
+    /*padding: 10px 20px 8px;*/
+    /*line-height: 50px;*/
     text-align: center;
-    width: 80px;
+    width: 50px;
 }
 
 @media only screen and (max-width: 479.98px) {
@@ -5880,16 +5880,17 @@ table p {
 }
 
 .shopping-cart-form .table tbody .cart-product-item .product-quantity .pro-qty .qty-btn {
-    position: absolute;
-    top: 0;
-    height: 50px;
+    /*position: absolute;*/
+    /*top: 0;*/
+    border: 1px solid #e8e8e8;
+    height: 32px;
     cursor: pointer;
-    width: 20px;
+    width: 32px;
     font-size: 14px;
     font-family: sans-serif;
-    line-height: 50px;
-    left: 0;
-    text-align: right;
+    /*line-height: 50px;*/
+    /*left: 0;*/
+    text-align: center;
 }
 
 @media only screen and (max-width: 479.98px) {
@@ -5900,11 +5901,11 @@ table p {
     }
 }
 
-.shopping-cart-form .table tbody .cart-product-item .product-quantity .pro-qty .inc {
-    text-align: left;
-    left: auto;
-    right: 0;
-}
+/*.shopping-cart-form .table tbody .cart-product-item .product-quantity .pro-qty .inc {*/
+/*    text-align: center;*/
+/*    left: auto;*/
+/*    right: 0;*/
+/*}*/
 
 .shopping-cart-form .table tbody .cart-product-item .product-quantity .btn-add-to-cart {
     background-color: #333131;
@@ -6048,6 +6049,7 @@ table p {
 
 .section-title-cart {
     margin-bottom: 30px;
+    text-align: center;
 }
 
 .section-title-cart .title {
@@ -9032,6 +9034,7 @@ table p {
     background-color: #fafafa;
     border: 2px solid #e1e1e1;
     border-radius: 13px;
+    margin-bottom: 30px;
     padding: 41px 28px 38px;
 }
 
@@ -9497,6 +9500,8 @@ table p {
     border-radius: 10px;
     position: relative;
     overflow: hidden;
+
+    height: 260px;
 }
 
 .post-item .inner-content .thumb img {

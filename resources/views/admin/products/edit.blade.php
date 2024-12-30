@@ -1,8 +1,5 @@
 @extends('admin.layouts.main')
 
-@section('links')
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-@endsection
 
 @section('styles')
     <style>
@@ -24,6 +21,7 @@
             @method('PUT')
             <div class="row">
                 <div class="col-xl-9 col-lg-8 ">
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Product Information</h4>
@@ -75,6 +73,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title mb-0">Product data
@@ -92,16 +91,71 @@
                                 </span>
                             </h4>
                         </div>
-                        <div class="card-body p-0">
+                        <div class="card-body">
+
+                            <div class="row" id="general-item">
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="product-price-import" class="form-label">Price
+                                            Import</label>
+                                        <div class="input-group mb-3">
+                                                    <span class="input-group-text fs-20"><i
+                                                            class="bx bx-dollar"></i></span>
+                                            <input type="number" name="price_import"
+                                                   value="{{ $product->price_import }}"
+                                                   id="product-price-import"
+                                                   class="form-control"
+                                                   placeholder="000">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="product-price" class="form-label">Price</label>
+                                        <div class="input-group mb-3">
+                                                    <span class="input-group-text fs-20"><i
+                                                            class="bx bx-dollar"></i></span>
+                                            <input type="number" name="price"
+                                                   value="{{ $product->price }}"
+                                                   id="product-price"
+                                                   class="form-control"
+                                                   placeholder="000">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="product-price-sale" class="form-label">Price Sale</label>
+                                        <div class="input-group mb-3">
+                                                    <span class="input-group-text fs-20"><i
+                                                            class="bx bx-dollar"></i></span>
+                                            <input type="number" name="price_sale"
+                                                   value="{{ $product->price_sale }}"
+                                                   id="product-price-sale"
+                                                   class="form-control"
+                                                   placeholder="000">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="product-stock" class="form-label">Stock</label>
+                                        <input type="number" id="product-stock"
+                                               value="{{ $product->quantity }}"
+                                               name="quantity"
+                                               class="form-control" placeholder="Quantity">
+                                    </div>
+                                </div>
+
+                            </div>
+
                             <div class="row">
                                 <div class="col-lg-3">
                                     <ul class="list-group list-group-flush ">
-                                        <li class="list-group-item product-option" data-bs-toggle="pill" id="general">
-                                            General
-                                        </li>
-                                        <li class="list-group-item product-option" data-bs-toggle="pill" id="inventory">
-                                            Inventory
-                                        </li>
                                         <li class="list-group-item product-option" data-bs-toggle="pill"
                                             id="attributes">Attributes
                                         </li>
@@ -112,69 +166,6 @@
                                 </div>
                                 <!-- end col -->
                                 <div class="col-lg-9">
-                                    <div class="row pt-3 pb-3" id="general-item">
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label for="product-price-import" class="form-label">Price
-                                                    Import</label>
-                                                <div class="input-group mb-3">
-                                                    <span class="input-group-text fs-20"><i
-                                                            class="bx bx-dollar"></i></span>
-                                                    <input type="number" name="price_import"
-                                                           @if(!$product->variants->count())
-                                                               value="{{$product->price}}"
-                                                           @endif
-                                                           id="product-price-import"
-                                                           class="form-control"
-                                                           placeholder="000">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label for="product-price" class="form-label">Price</label>
-                                                <div class="input-group mb-3">
-                                                    <span class="input-group-text fs-20"><i
-                                                            class="bx bx-dollar"></i></span>
-                                                    <input type="number" name="price"
-                                                           @if(!$product->variants->count())
-                                                               value="{{$product->price}}"
-                                                           @endif
-                                                           id="product-price"
-                                                           class="form-control"
-                                                           placeholder="000">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label for="product-price-sale" class="form-label">Price Sale</label>
-                                                <div class="input-group mb-3">
-                                                    <span class="input-group-text fs-20"><i
-                                                            class="bx bx-dollar"></i></span>
-                                                    <input type="number" name="price_sale"
-                                                           @if(!$product->variants->count())
-                                                               value="{{$product->price_sale}}"
-                                                           @endif
-                                                           id="product-price-sale"
-                                                           class="form-control"
-                                                           placeholder="000">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row pt-3 pb-3" id="inventory-item">
-                                        <div class="col-lg-6">
-                                            <div class="mb-3">
-                                                <label for="product-stock" class="form-label">Stock</label>
-                                                <input type="number" id="product-stock" name="quantity"
-                                                       @if(!$product->variants->count())
-                                                           value="{{ $product->quantity }}"
-                                                       @endif
-                                                       class="form-control" placeholder="Quantity">
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="row pt-3 pb-3" id="attributes-item">
                                         <div>
                                             <div class="col-lg-6 mb-3 d-inline-block">
@@ -280,14 +271,6 @@
                                                                            class="form-control"
                                                                            placeholder="000">
                                                                 </div>
-                                                                {{--                        <label class="form-label" for="variant-price[{{ $productVariant->id }}]">Price</label>--}}
-                                                                {{--                        <div class="input-group has-validation mb-3">--}}
-                                                                {{--                            <span class="input-group-text" id="variant-price-addon">$</span>--}}
-                                                                {{--                            <input type="text" class="form-control" id="variant-price[{{ $productVariant->id }}]"--}}
-                                                                {{--                                   name="product_variants[{{ $productVariant->id }}][variant_price]"--}}
-                                                                {{--                                   placeholder="Enter price" aria-label="Price"--}}
-                                                                {{--                                   aria-describedby="product-price-addon">--}}
-                                                                {{--                        </div>--}}
 
                                                             </div>
                                                         </div>
@@ -306,17 +289,7 @@
                                                                            class="form-control"
                                                                            placeholder="000">
                                                                 </div>
-                                                                {{--                        <label class="form-label" for="variant-price-sale[{{ $productVariant->id }}]">Price--}}
-                                                                {{--                            Sale</label>--}}
-                                                                {{--                        <div class="input-group mb-3">--}}
-                                                                {{--                                                        <span class="input-group-text"--}}
-                                                                {{--                                                              id="variant-price-sale-addon">$</span>--}}
-                                                                {{--                            <input type="text" class="form-control"--}}
-                                                                {{--                                   id="variant-price-sale[{{ $productVariant->id }}]"--}}
-                                                                {{--                                   name="product_variants[{{ $productVariant->id }}][variant_price_sale]"--}}
-                                                                {{--                                   placeholder="Enter discount" aria-label="discount"--}}
-                                                                {{--                                   aria-describedby="product-discount-addon">--}}
-                                                                {{--                        </div>--}}
+
                                                             </div>
                                                         </div>
                                                         <!-- end col -->
@@ -331,6 +304,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Short Description</h4>
@@ -347,9 +321,11 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
 
                 <div class="col-xl-3 col-lg-4">
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Publish</h4>
@@ -396,6 +372,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Product Image</h4>
@@ -413,6 +390,7 @@
 
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Product Gallery</h4>
@@ -435,6 +413,7 @@
 
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title d-inline-block">Product Categories</h4>
@@ -451,6 +430,7 @@
 
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Product Brands</h4>
@@ -472,6 +452,7 @@
 
                         </div>
                     </div>
+
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title">Tags</h4>
@@ -490,6 +471,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="p-3 bg-light mb-3 rounded">
                         <div class="row justify-content-center g-2">
                             <div class="col-lg-7">
@@ -500,6 +482,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </form>
@@ -512,7 +495,6 @@
 @section('lib-script')
     <script src="{{ asset('theme/admin/assets/js/components/form-quilljs.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="{{ asset('theme/admin/assets/vendor/@ckeditor/ckeditor5-build-classic/build/ckeditor.js') }}"></script>
 
 @endsection
@@ -716,37 +698,5 @@
                 $('#variant-data-' + variantID[1]).hide();
             }
         });
-
-        @if(session('success'))
-        Toastify({
-
-            text: "{{ session('success') }}",
-
-            duration: 3000,
-
-            gravity: top,
-
-            close: true,
-
-            className: "bg-success",
-
-        }).showToast();
-        @endif
-
-        @if(session('error'))
-        Toastify({
-
-            text: "{{ session('error') }}",
-
-            duration: 3000,
-
-            gravity: top,
-
-            close: true,
-
-            className: "bg-danger",
-
-        }).showToast();
-        @endif
     </script>
 @endsection
