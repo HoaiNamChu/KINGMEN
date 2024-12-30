@@ -50,14 +50,20 @@ class OrderClientController extends Controller
 
 
     // cái này là hoàn đơn này ... loạn hết cả rồi @@
-    public function returnorder($id)
+    public function returnorder(Request $request, $id)
     {
+
+        $request->validate([
+            'reason' => 'required|string|max:50',
+        ]);
+
         // Lấy đơn hàng của người dùng với id được chỉ định
         $order = auth()->user()->orders()->findOrFail($id);
 
         if ($order->status == 'Hoàn thành') {
 
             $order->status = 'Đơn yêu cầu hoàn trả';
+            $order->return_reason = $request->reason; // Lưu lý do hoàn trả
             $order->save(); // Lưu lại thay đổi vào cơ sở dữ liệu
 
             // Trả về thông báo thành công
@@ -86,7 +92,7 @@ class OrderClientController extends Controller
 
 
         // Nếu đơn hàng không thể hủy, trả về thông báo lỗi
-        return redirect()->route('order.detail', $id)->with('error', 'Không thể hoàn trả đơn hàng này.');
+        return redirect()->route('order.detail', $id)->with('error', 'Không thể hoàn thành đơn hàng này.');
     }
 
 
