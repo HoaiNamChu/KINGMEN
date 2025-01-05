@@ -86,8 +86,10 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 {{--// js dành cho trang dó thôi--}}
-
-@vite('resources/js/app.js')
+<script>
+    let userId = {{ Auth::id() }};
+</script>
+@vite(['resources/js/admin/app.js'])
 {{--// js tự viết hoặc thêm (nếu có)--}}
 @yield('script')
 
@@ -124,29 +126,6 @@
     }).showToast();
     @endif
 </script>
-
-<script type="module">
-    Echo.join('staff-support')
-        .here(users => {
-            console.log("Users here: ", users)
-        })
-        .joining(user => {
-            console.log("Users joining: ", user)
-        })
-        .leaving(user => {
-            console.log("Users leaving: ", user)
-        })
-        .listen('AdminLogin', e => {
-            console.log(e);
-        })
-    Echo.private('staff-private-channel-{{Auth::id()}}')
-        .listen('StaffPrivateChannel', e => {
-            alert(e);
-            console.log(e);
-        });
-
-</script>
-
 
 </body>
 

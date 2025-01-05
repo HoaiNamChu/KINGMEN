@@ -41,7 +41,7 @@ class OrderClientController extends Controller
             $order->save(); // Lưu lại thay đổi vào cơ sở dữ liệu
 
             // Trả về thông báo thành công
-            return redirect()->route('account.index')->with('success', 'Đơn hàng đã được hủy thành công.');
+            return redirect()->route('order.detail', $id)->with('success', 'Đơn hàng đã được hủy thành công.');
         }
 
         // Nếu đơn hàng không thể hủy, trả về thông báo lỗi
@@ -67,7 +67,7 @@ class OrderClientController extends Controller
             $order->save(); // Lưu lại thay đổi vào cơ sở dữ liệu
 
             // Trả về thông báo thành công
-            return redirect()->route('account.index')->with('success', 'Đơn hàng đã được hoàn trả hãy chờ liên hệ của nhân viên.');
+            return redirect()->route('order.detail', $id)->with('success', 'Đơn hàng đã được hoàn trả hãy chờ liên hệ của nhân viên.');
         }
 
         // Nếu đơn hàng không thể hủy, trả về thông báo lỗi
@@ -86,7 +86,7 @@ class OrderClientController extends Controller
             $order->save(); // Lưu lại thay đổi vào cơ sở dữ liệu
 
             // Trả về thông báo thành công
-            return redirect()->route('account.index')
+            return redirect()->route('order.detail', $id)
                 ->with('success', 'Đơn hàng đã được cập nhật trạng thái thành Hoàn thành.');
         }
 

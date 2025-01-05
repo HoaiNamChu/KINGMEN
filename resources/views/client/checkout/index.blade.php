@@ -96,7 +96,7 @@
                                         <div class="form-group">
                                             <label for="phone"> Phone <abbr class="required"
                                                                             title="required">*</abbr></label>
-                                            <input id="phone" value="{{ $data->addresses[0]->phone }}" name="phone"
+                                            <input id="phone" value="@if(!empty($data->addresses)) {{  $data->addresses[0]->phone }} @endif" name="phone"
                                                    type="text"
                                                    class="form-control  @error('phone') border-danger @enderror">
                                             <span class="error-notification">
@@ -156,7 +156,7 @@
                                             <label for="street-address">Street address <abbr
                                                     class="required" title="required">*</abbr></label>
                                             <input id="street-address" name="house_number" type="text"
-                                                   value="{{ $data->addresses[0]->detailed_address }}"
+                                                   value="@if(!empty($data->addresses)) {{ $data->addresses[0]->detailed_address }} @endif"
                                                    class="form-control  @error('house_number') border-danger @enderror"
                                                    placeholder="House number and street name">
                                             <span class="error-notification">

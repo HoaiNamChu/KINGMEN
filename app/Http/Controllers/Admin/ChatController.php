@@ -70,7 +70,7 @@ class ChatController extends Controller
             'message' => $request->message,
         ]);
 
-        broadcast( new SendMessage($chatRoom, \Auth::user(), $message));
+        broadcast( new SendMessage($message, $chatRoom->customer_id))->toOthers();
 
         return response()->json([
             'success' => true,

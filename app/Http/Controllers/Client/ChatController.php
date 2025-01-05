@@ -76,110 +76,53 @@ class ChatController extends Controller
      */
     public function store(Request $request)
     {
-        if (!request()->hasCookie('guest_id')) {
-            $guestId = (string)Str::uuid();
-            cookie()->queue('guest_id', $guestId, 60 * 24);
-        } else {
-            $guestId = request()->cookie('guest_id');
-        }
 
         $staffOnline = $this->getOnlineStaff();
 
         $staffOnlineLeastChatRoom = $this->getStaffOnlineAndLeastChatRoom();
 
+        $chatRoom = ChatRoom::where('customer_id', Auth::id())->first();
 
-        //Xu ly khi dang nhap va chua dang nhap
-        if (Auth::check()) {
-            $chatRoom = ChatRoom::where('chat_session_id', $guestId)
-                ->where('customer_id', Auth::id())
-                ->first();
-
-            if ($chatRoom) {
-                if ($chatRoom->staff_id != null && in_array($chatRoom->staff_id, (array)$staffOnline)) {
-                    $message = Message::create([
-                        'chat_room_id' => $chatRoom->id,
-                        'sender_id' => $guestId,
-                        'sender_name' => $chatRoom->customer_name,
-                        'message' => $request->message
-                    ]);
-                } else {
-                    $chatRoom->update([
-                        'staff_id' => $staffOnlineLeastChatRoom->id ?? null,
-                    ]);
-                    $message = Message::create([
-                        'chat_room_id' => $chatRoom->id,
-                        'sender_id' => $guestId,
-                        'sender_name' => $chatRoom->customer_name,
-                        'message' => $request->message
-                    ]);
-                }
+        if ($chatRoom) {
+            if ($chatRoom->staff_id != null && in_array($chatRoom->staff_id, (array)$staffOnline)) {
+                $message = Message::create([
+                    'chat_room_id' => $chatRoom->id,
+                    'sender_id' => Auth::id(),
+                    'sender_name' => $chatRoom->customer_name,
+                    'message' => $request->message
+                ]);
             } else {
-                $chatRoom = ChatRoom::create([
-                    'chat_session_id' => $guestId,
-                    'customer_id' => Auth::id(),
-                    'customer_name' => $request->username ?? 'client',
-                    'customer_email' => $request->email ?? 'client@gmail.com',
-                    'customer_phone' => $request->phone ?? '0123456789',
+                $chatRoom->update([
                     'staff_id' => $staffOnlineLeastChatRoom->id ?? null,
                 ]);
                 $message = Message::create([
                     'chat_room_id' => $chatRoom->id,
-                    'sender_id' => $guestId,
+                    'sender_id' => Auth::id(),
                     'sender_name' => $chatRoom->customer_name,
                     'message' => $request->message
                 ]);
             }
-            broadcast(new SendMessage($chatRoom, $guestId, $message));
-
-            return response()->json([
-                'message' => $message,
-            ]);
-
         } else {
-            $chatRoom = ChatRoom::where('chat_session_id', $guestId)->first();
-
-            if ($chatRoom) {
-                if ($chatRoom->staff_id != null && in_array($chatRoom->staff_id, (array)$staffOnline)) {
-                    $message = Message::create([
-                        'chat_room_id' => $chatRoom->id,
-                        'sender_id' => $guestId,
-                        'sender_name' => $chatRoom->customer_name,
-                        'message' => $request->message
-                    ]);
-                } else {
-                    $chatRoom->update([
-                        'staff_id' => $staffOnlineLeastChatRoom->id ?? null,
-                    ]);
-                    $message = Message::create([
-                        'chat_room_id' => $chatRoom->id,
-                        'sender_id' => $guestId,
-                        'sender_name' => $chatRoom->customer_name,
-                        'message' => $request->message
-                    ]);
-                }
-            } else {
-                $chatRoom = ChatRoom::create([
-                    'chat_session_id' => $guestId,
-                    'customer_id' => null,
-                    'customer_name' => $request->username ?? 'client',
-                    'customer_email' => $request->email ?? 'client@gmail.com',
-                    'customer_phone' => $request->phone ?? '0123456789',
-                    'staff_id' => $staffOnlineLeastChatRoom->id ?? null,
-                ]);
-                $message = Message::create([
-                    'chat_room_id' => $chatRoom->id,
-                    'sender_id' => $guestId,
-                    'sender_name' => $chatRoom->customer_name,
-                    'message' => $request->message
-                ]);
-            }
-
-            broadcast(new SendMessage($chatRoom, $guestId, $message));
-
-            return response()->json([
-                'message' => $message,
+            $chatRoom = ChatRoom::create([
+                'chat_session_id' => null,
+                'customer_id' => Auth::id(),
+                'customer_name' => $request->username ?? 'client',
+                'customer_email' => $request->email ?? 'client@gmail.com',
+                'customer_phone' => $request->phone ?? '0123456789',
+                'staff_id' => $staffOnlineLeastChatRoom->id ?? null,
+            ]);
+            $message = Message::create([
+                'chat_room_id' => $chatRoom->id,
+                'sender_id' => Auth::id(),
+                'sender_name' => $chatRoom->customer_name,
+                'message' => $request->message
             ]);
         }
+        broadcast(new SendMessage($message, $chatRoom->staff_id))->toOthers();
+
+        return response()->json([
+            'message' => $message,
+        ]);
     }
 
     /**

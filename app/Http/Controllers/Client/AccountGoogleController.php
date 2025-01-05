@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
@@ -80,12 +81,7 @@ class AccountGoogleController extends Controller
     // View detail account
     public function index()
     {
-        $user = Auth::user()->load([
-                'orders' => function ($query) {
-                    $query->orderBy('created_at', 'desc');
-                },
-                'addresses',
-        ]);
+        $user = Auth::user();
 
         if (!$user) {
             return redirect()->route('login');
@@ -300,5 +296,23 @@ class AccountGoogleController extends Controller
         return redirect('/login')->with('error', 'There was an issue logging in. Please try logging in manually.');
     }
 
+    public function getUserOrder()
+    {
+        $data = Order::where('user_id', Auth::id())->latest()->paginate(5);
+
+        return view('client.account.order', compact('data'));
+    }
+
+    public function getUserAddress()
+    {
+        $data = Address::where('user_id', Auth::id())->latest()->get();
+
+        return view('client.account.address', compact('data'));
+    }
+
+    public function getUserInfo()
+    {
+        return view('client.account.info');
+    }
 
 }

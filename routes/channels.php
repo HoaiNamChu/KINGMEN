@@ -31,17 +31,8 @@ Broadcast::channel('staff-private-channel-{staffId}', function ($user, $staffId)
 
 });
 
-Broadcast::channel('chat-support-{chatRoomId}', function ($user, $chatRoomId) {
-    $chatRoom = ChatRoom::find($chatRoomId);
-    $token = request()->cookie('guest_id');
-    if (Auth::check() && ((int)$user->id == (int)$chatRoom->staff_id || (int)$user->id == (int)$chatRoom->customer_id)) {
-        return true;
-    } elseif (!Auth::check() && $token == $chatRoom->chat_session_id) {
-        return true;
-    } else {
-        return false;
-    }
-
+Broadcast::channel('chat-support-{userId}', function ($user, $userId) {
+    return ((int)$userId === (int)$user->id);
 });
 
 

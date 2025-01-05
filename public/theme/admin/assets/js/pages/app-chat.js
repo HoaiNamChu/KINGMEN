@@ -33,7 +33,7 @@ class Chat {
             const message = messageInput.value;
             if (message.trim().length > 0) {
 
-                axios.put(`${route}`, {
+                axios.put(form.getAttribute('action'), {
                     'message': message,
                 }).then((data) => {
                     messageInput.value = "";
@@ -51,13 +51,11 @@ class Chat {
             }
         }
 
-        Echo.private(`chat-support-${chatRoomId}`)
+        Echo.private(`chat-support-${userId}`)
             .listen('SendMessage', e => {
                 let senderId = e.senderId;
-                if (authId != senderId) {
-                    self.receiveMessage(e.message.message);
-                } else {
-
+                if (userId != senderId && senderId == customerId) {
+                    self.receiveMessage(e.message);
                 }
             });
     }
@@ -121,6 +119,4 @@ class Chat {
 
 document.addEventListener('DOMContentLoaded', function (e) {
     new Chat().init();
-
-
 });

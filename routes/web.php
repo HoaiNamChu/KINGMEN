@@ -74,8 +74,20 @@ Route::prefix('/')->group(function () {
 
     //tuyen
 
-    // view account
-    Route::get('/account', [AccountGoogleController::class, 'index'])->name('account.index');
+    Route::prefix('/account')
+        ->as('account.')
+        ->middleware('auth')
+        ->group(function () {
+
+        Route::get('/', [AccountGoogleController::class, 'index'])->name('index');
+        Route::get('/orders', [AccountGoogleController::class, 'getUserOrder'])->name('orders');
+        Route::get('/addresses', [AccountGoogleController::class, 'getUserAddress'])->name('addresses');
+        Route::get('/detail', [AccountGoogleController::class, 'getUserInfo'])->name('info');
+        Route::post('/', [AccountGoogleController::class, 'storeAddress'])->name('add_address');
+        Route::delete('/{id}', [AccountGoogleController::class, 'deleteAddress'])->name('delete_address');
+        Route::patch('/{id}/set-default', [AccountGoogleController::class, 'setDefault'])->name('set_default');
+
+    });
 
     // login
     Route::get('/login', [AccountGoogleController::class, 'viewLogin'])->name('login');
@@ -92,12 +104,6 @@ Route::prefix('/')->group(function () {
     // logout account
     Route::get('/logout', [AccountGoogleController::class, 'logout'])->name('logout');
 
-    // detail address
-    Route::post('/account', [AccountGoogleController::class, 'storeAddress'])->name('account.add_address');
-    Route::delete('/addresses/{id}', [AccountGoogleController::class, 'deleteAddress'])->name('account.delete_address');
-    Route::patch('/account/{id}/set-default', [AccountGoogleController::class, 'setDefault'])->name('account.set_default');
-
-
     // forget password
     Route::get('/forget-password', [AccountGoogleController::class, 'showForgetPasswordForm'])->name('forget.password.get');
     Route::post('/forget-password', [AccountGoogleController::class, 'sendEmailForgetPasswordForm'])->name('forget.password.post');
@@ -106,32 +112,6 @@ Route::prefix('/')->group(function () {
 
     Route::post('reset-password', [AccountGoogleController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
-
-    // view account
-    Route::get('/account', [AccountGoogleController::class, 'index'])->name('account.index');
-    // login
-    Route::get('/login', [AccountGoogleController::class, 'viewLogin'])->name('login');
-    Route::post('login', [AccountGoogleController::class, 'login'])->name('login.submit');
-    // register
-    Route::get('/register', [AccountGoogleController::class, 'create'])->name('account.register');
-    Route::post('/register', [AccountGoogleController::class, 'store'])->name('store');
-    // login by google
-    Route::get('auth/google', [AccountGoogleController::class, 'redirectToGoogle'])->name('login-by-google');
-    Route::get('auth/google/callback', [AccountGoogleController::class, 'handleGoogleCallback']);
-    // logout account
-    Route::get('/logout', [AccountGoogleController::class, 'logout'])->name('logout');
-    // update billing address
-    Route::post('/update-billing-address', [AccountGoogleController::class, 'updateBillingAddress']);
-    // forget password
-    Route::get('/forget-password', [AccountGoogleController::class, 'showForgetPasswordForm'])->name('forget.password.get');
-
-    Route::post('/forget-password', [AccountGoogleController::class, 'sendEmailForgetPasswordForm'])->name('forget.password.post');
-
-    Route::get('reset-password/{token}', [AccountGoogleController::class, 'showResetPasswordForm'])->name('reset.password.get');
-
-    Route::post('reset-password', [AccountGoogleController::class, 'submitResetPasswordForm'])->name('reset.password.post');
-
-//    Route::get('/product/show/{id}', [\App\Http\Controllers\Client\ProductController::class, 'show'])->name('product.show');
 
     Route::get('/search', [\App\Http\Controllers\Client\SearchController::class, 'search'])->name('search');
 

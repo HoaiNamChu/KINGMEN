@@ -18,28 +18,26 @@ class SendMessage implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
-    public $chatRoomId;
 
-    public $senderId;
+    public $userId;
 
-    public function __construct(ChatRoom $chatRoom, $senderId, Message $message)
+    public function __construct(Message $message, $userId = null)
     {
         $this->message = $message;
-        $this->chatRoomId = $chatRoom->id;
-        $this->senderId = $senderId;
+
+        $this->userId = $userId;
     }
 
     public function broadcastOn(): PrivateChannel
     {
-        return new PrivateChannel('chat-support-' . $this->chatRoomId);
+        return new PrivateChannel('chat-support-' . $this->userId);
     }
 
     public function broadcastWith()
     {
         return [
-            'message' => $this->message,
-            'chatRoomId' => $this->chatRoomId,
-            'senderId' => $this->senderId,
+            'senderId' => $this->message->sender_id,
+            'message' => $this->message->message,
         ];
     }
 }
