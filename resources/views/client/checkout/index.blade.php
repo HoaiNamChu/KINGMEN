@@ -96,7 +96,9 @@
                                         <div class="form-group">
                                             <label for="phone"> Phone <abbr class="required"
                                                                             title="required">*</abbr></label>
-                                            <input id="phone" value="@if(!empty($data->addresses)) {{  $data->addresses[0]->phone }} @endif" name="phone"
+                                            <input id="phone"
+                                                   value="@if($data->addresses->count()) {{  $data->addresses[0]->phone }} @endif"
+                                                   name="phone"
                                                    type="text"
                                                    class="form-control  @error('phone') border-danger @enderror">
                                             <span class="error-notification">
@@ -156,7 +158,7 @@
                                             <label for="street-address">Street address <abbr
                                                     class="required" title="required">*</abbr></label>
                                             <input id="street-address" name="house_number" type="text"
-                                                   value="@if(!empty($data->addresses)) {{ $data->addresses[0]->detailed_address }} @endif"
+                                                   value="@if($data->addresses->count()) {{ $data->addresses[0]->detailed_address }} @endif"
                                                    class="form-control  @error('house_number') border-danger @enderror"
                                                    placeholder="House number and street name">
                                             <span class="error-notification">
@@ -387,7 +389,7 @@
 
             $('#order_total').val(orderTotal);
 
-            @if($data->addresses[0] != null)
+            @if($data->addresses->count())
             $.ajax({
                 url: 'https://online-gateway.ghn.vn/shiip/public-api/master-data/province',
                 type: 'GET',

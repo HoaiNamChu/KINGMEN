@@ -27,6 +27,7 @@ class CheckoutController extends Controller
             'cart.cartItems.variant.attributeValues'
         ]);
 
+
         if (!$data->cart->cartItems->count()) {
             return redirect()->back()->with('error', 'Your cart is empty');
         }
