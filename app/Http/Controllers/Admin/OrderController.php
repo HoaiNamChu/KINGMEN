@@ -87,10 +87,10 @@ class OrderController extends Controller
 
         // Các quy tắc chuyển đổi trạng thái
         $validTransitions = [
-            'Đang chờ xác nhận' => ['Đã xác nhận', 'Đã hủy', 'Hoàn thành', 'Đang giao hàng', 'Hoàn đơn', 'Không giao được'],
-            'Đã xác nhận' => ['Chờ xác nhận', 'Đã hủy', 'Hoàn thành', 'Đang giao hàng', 'Hoàn đơn', 'Không giao được'],
-            'Đang giao hàng' => ['Đã xác nhận', 'Đã hủy', 'Hoàn thành', 'Đã xác nhận', 'Hoàn đơn', 'Không giao được'],
-            'Hoàn thành' => [], // Không cho phép thay đổi nếu đã hoàn thành
+            'Đang chờ xác nhận' => ['Đã xác nhận', 'Đã hủy'],
+            'Đã xác nhận' => ['Đang giao hàng'],
+            'Đang giao hàng' => ['Hoàn thành','Không giao được'],
+            'Hoàn thành' => ['Đơn yêu cầu hoàn trả'], // Không cho phép thay đổi nếu đã hoàn thành
             'Đã hủy' => [], // Không cho phép thay đổi nếu đã hủy
             'Hoàn đơn' => [], // Không cho phép thay đổi nếu đã hoàn đơn
             'Không giao được' => [], // Không cho phép thay đổi nếu không giao được
@@ -113,6 +113,7 @@ class OrderController extends Controller
         $order->save();
         //nếu trạng thái đơn hàng == hoàn thành thì đổi trạng thái thanh toán thành 'đã thanh toán'
         if ($order->status == 'Hoàn thành') {
+            $order->completed_at = now(); // Lưu thời gian hiện tại vào completed_at
             $order->update(['payment_status' => 'Đã thanh toán']);
         }
 

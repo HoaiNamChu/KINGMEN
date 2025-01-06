@@ -81,9 +81,17 @@ class OrderClientController extends Controller
         // Lấy đơn hàng của người dùng với id được chỉ định
         $order = auth()->user()->orders()->findOrFail($id);
 
-        if (!in_array($order->status, ['Chờ xác nhận', 'Hoàn trả', 'Đã hủy'])) {
+        if (!in_array($order->status, ['Chờ xác nhận', 'Hoàn đơn', 'Đã hủy'])) {
             $order->status = 'Hoàn thành'; // Cập nhật trạng thái thành 'Hoàn thành'
+            $order->completed_at = now(); // Lưu thời gian hiện tại vào completed_at
             $order->save(); // Lưu lại thay đổi vào cơ sở dữ liệu
+
+             //nếu trạng thái đơn hàng == hoàn thành thì đổi trạng thái thanh toán thành 'đã thanh toán'
+             //cái này đúng ra là để shiper chuyển trạng thái thanh toán nhưng do không có shiper nên chuyển luôn..
+        if ($order->status == 'Hoàn thành') {
+            $order->update(['payment_status' => 'Đã thanh toán']);
+        }
+
 
             // Trả về thông báo thành công
             return redirect()->route('order.detail', $id)
