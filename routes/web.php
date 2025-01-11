@@ -52,7 +52,7 @@ Route::prefix('/')->group(function () {
         ->group(function () {
             Route::get('/', [CheckoutController::class, 'index'])->name('checkout');
             Route::post('/', [CheckoutController::class, 'order'])->name('order');
-            Route::get('/vnpay/return', [CheckoutController::class, 'vnPayReturn'])->name('vnpay.return');
+            Route::get('/return', [CheckoutController::class, 'checkoutReturn'])->name('checkout.return');
         });
     // Route chat
     Route::get('/chat', [\App\Http\Controllers\Client\ChatController::class, 'index'])->name('chat.index');

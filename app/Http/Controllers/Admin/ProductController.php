@@ -287,6 +287,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
+
         if (request('product_type') === 'simple') {
             $data = [
                 'name' => request('name'),
@@ -439,13 +440,9 @@ class ProductController extends Controller
 
                 $minPrice = [];
 
-                $attributeValueId = [];
 
                 foreach ($product->variants as $variant) {
 
-                    foreach ($variant->attributeValues as $attributeValue) {
-                        $attributeValueId[] = $attributeValue->id;
-                    }
                     if ($product->is_sale) {
                         $minPrice[] = $variant->price_sale;
 

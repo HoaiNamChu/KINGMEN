@@ -3,7 +3,7 @@ import '../bootstrap.js'
 
 window.Echo.private(`chat-support-${userId}`)
     .listen('SendMessage', (e) => {
-        document.getElementById('message-list').innerHTML = createHTMLMessageFromOther(e.message);
+        document.getElementById('message-list').insertAdjacentHTML('beforeend', createHTMLMessageFromOther(e.message));
 });
 
 
@@ -24,7 +24,7 @@ document.getElementById('chat-support-form').addEventListener('submit', (e) => {
     }).then((response) => {
 
         document.getElementById('chat-support-form').reset();
-        document.getElementById('message-list').append( createHTMLMessageFromMe(response.data.message.message));
+        document.getElementById('message-list').insertAdjacentHTML('beforeend', createHTMLMessageFromMe(response.data.message.message));
 
     }).catch((error) => {
 

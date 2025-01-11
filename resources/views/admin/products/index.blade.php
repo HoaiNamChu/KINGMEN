@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="container-fluid">
-
         <div class="row">
             <div class="col-xl-12">
                 <div class="card">
@@ -39,7 +38,7 @@
                                             <label class="form-check-label" for="customCheck1"></label>
                                         </div>
                                     </th>
-                                    <th>Product Name & Size</th>
+                                    <th>Product Name</th>
                                     <th>Price</th>
                                     <th>Stock</th>
                                     <th>Brand</th>
@@ -103,11 +102,6 @@
                                         </td>
                                         <td>
                                             <div class="d-flex gap-2">
-                                                <a href="{{ route('admin.products.show', $item) }}"
-                                                   class="btn btn-light btn-sm">
-                                                    <iconify-icon icon="solar:eye-broken"
-                                                                  class="align-middle fs-18"></iconify-icon>
-                                                </a>
                                                 <a href="{{ route('admin.products.edit', $item) }}"
                                                    class="btn btn-soft-primary btn-sm">
                                                     <iconify-icon icon="solar:pen-2-broken"

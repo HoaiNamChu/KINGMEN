@@ -3,13 +3,6 @@
 
 @section('content')
 
-
-
-<div class="wrapper">
-
-    <!-- <div class="page-content"> -->
-
-
     <div class="container-xxl">
 
         <div class="row">
@@ -26,10 +19,10 @@
                                     <div class="mb-3">
                                         <label for="User-name" class="form-label">Name</label>
                                         <input type="text" value="{{ old('name') }}" name="name"
-                                            class="form-control" placeholder="Enter Name">
+                                               class="form-control" placeholder="Enter Name">
                                         <span class="error-notification">
                                             @error('name')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
@@ -37,11 +30,11 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label for="User-name" class="form-label"> User Name</label>
-                                        <input type="text"  value="{{ old('username') }}" name="username"
-                                            class="form-control" placeholder="User name">
+                                        <input type="text" value="{{ old('username') }}" name="username"
+                                               class="form-control" placeholder="User name">
                                         <span class="error-notification">
                                             @error('username')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
@@ -50,7 +43,7 @@
 
                                     <label for="product-categories" class="form-label">Role User</label>
                                     <select class="form-control" data-choices data-choices-groups
-                                        data-placeholder="Select Categories" name="role[]" required>
+                                            data-placeholder="Select Categories" name="role[]" required>
                                         @foreach($roles as $role)
                                             <option value="{{ $role->id }}">{{ $role->name }}</option>
                                         @endforeach
@@ -63,7 +56,7 @@
                                         <input type="file" name="avatar" class="form-control">
                                         <span class="error-notification">
                                             @error('avatar')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
@@ -71,11 +64,11 @@
                                 <div class="col-lg-12">
                                     <div class="mb-3">
                                         <label for="User-name" class="form-label">Password</label>
-                                        <input type="text"  value="{{ old('password') }}" name="password"
-                                            class="form-control" placeholder="Enter Password">
+                                        <input type="text" value="{{ old('password') }}" name="password"
+                                               class="form-control" placeholder="Enter Password">
                                         <span class="error-notification">
                                             @error('password')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
@@ -88,7 +81,7 @@
                                                 icon="solar:point-on-map-bold-duotone"
                                                 class="fs-18"></iconify-icon></span>
                                         <input name="address" type="text" class="form-control"
-                                            placeholder="Add Address" value="{{ old('address') }}">
+                                               placeholder="Add Address" value="{{ old('address') }}">
                                     </div>
 
                                 </div>
@@ -97,10 +90,11 @@
                                     <div class="input-group mb-3">
                                         <span class="input-group-text fs-20"><iconify-icon
                                                 icon="solar:letter-bold-duotone" class="fs-18"></iconify-icon></span>
-                                        <input name="email" type="email" class="form-control" value="{{ old(key: 'email') }}" placeholder="Add Email">
+                                        <input name="email" type="email" class="form-control"
+                                               value="{{ old(key: 'email') }}" placeholder="Add Email">
                                         <span class="error-notification">
                                             @error('email')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
@@ -113,31 +107,32 @@
                                                 icon="solar:outgoing-call-rounded-bold-duotone"
                                                 class="fs-20"></iconify-icon></span>
                                         <input name="phone" type="text" class="form-control"
-                                            placeholder="Phone number" value="{{ old('phone') }}">
+                                               placeholder="Phone number" value="{{ old('phone') }}">
                                         <span class="error-notification">
                                             @error('phone')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>
                                 </div>
- 
+
                                 <div class="col-lg-6">
                                     <div class="form-check form-switch">
                                         <label for="is_active">Status</label>
-                                        <input type="hidden" name="is_active" value="0" value="{{ old(key: 'is_active') }}">
+                                        <input type="hidden" name="is_active" value="0"
+                                               value="{{ old(key: 'is_active') }}">
                                         <!-- Trường ẩn: input type="hidden" với giá trị 0 sẽ được gửi khi biểu mẫu được gửi đi, bất kể checkbox có được chọn hay không.
                                         Checkbox: Nếu checkbox được chọn, giá trị 1 sẽ được gửi, và giá trị 0 từ trường ẩn sẽ bị ghi đè. -->
 
                                         <input class="form-check-input" type="checkbox" role="switch"
-                                            id="flexSwitchCheckChecked1" name="is_active" value="1">
+                                               id="flexSwitchCheckChecked1" name="is_active" value="1">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer border-top">
                             <div class="col-lg-6">
-                               <button type="submit" class="btn btn-primary">Create User</button>
+                                <button type="submit" class="btn btn-primary">Create User</button>
                             </div>
 
                         </div>
@@ -146,24 +141,13 @@
             </div>
 
 
-
             <div class="col-lg-6">
-                <a href="{{route('admin.users.index')}}"><button class="btn btn-secondary">Cance</button></a>
+                <a href="{{route('admin.users.index')}}">
+                    <button class="btn btn-secondary">Cance</button>
+                </a>
             </div>
 
         </div>
     </div>
 
-
-</div>
-@endsection
-
-@section('lib-script')
-<!-- Vector Map Js -->
-<script src="{{ asset('theme/admin/assets/vendor/jsvectormap/js/jsvectormap.min.js') }}"></script>
-<script src="{{ asset('theme/admin/assets/vendor/jsvectormap/maps/world-merc.js') }}"></script>
-<script src="{{ asset('theme/admin/assets/vendor/jsvectormap/maps/world.js') }}"></script>
-
-<!-- Dashboard Js -->
-<script src="{{ asset('theme/admin/assets/js/pages/dashboard.js') }}"></script>
 @endsection

@@ -31,7 +31,7 @@
                                         <input type="file" id="slide-image" name="image" class="form-control">
                                         <span class="error-notification">
                                             @error('image')
-                                                {{ $message }}
+                                            {{ $message }}
                                             @enderror
                                         </span>
                                     </div>

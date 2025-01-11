@@ -41,7 +41,6 @@ class CheckoutController extends Controller
 
 
         $dataOrder = [
-
             'user_id' => Auth::id(),
             'name' => $request->name,
             'phone' => $request->phone,
@@ -60,66 +59,6 @@ class CheckoutController extends Controller
 
         $dataOrderItems = $request->orderItems;
 
-        if ($request->payment_method == 'cash_payment') {
-//            $this->cashPayment($dataOrder, $dataOrderItems);
-            try {
-                $order = Order::query()->create($dataOrder);
-                foreach ($dataOrderItems as $orderItem) {
-                    OrderItem::query()->create([
-                        'order_id' => $order->id,
-                        'product_id' => $orderItem['product_id'],
-                        'variant_id' => $orderItem['variant_id'],
-                        'product_name' => $orderItem['product_name'],
-                        'product_price' => $orderItem['product_price'],
-                        'product_quantity' => $orderItem['product_quantity'],
-                        'total_price' => $orderItem['total_price'],
-                    ]);
-                }
-                $cart = Cart::query()->where('user_id', \Auth::id())->first();
-                $cart->cartItems()->delete();
-            } catch (\Exception $exception) {
-                \DB::rollBack();
-                return redirect()->back()->with('error', $exception->getMessage());
-            }
-        }
-
-        if ($request->payment_method == 'vnpay_payment') {
-
-            $this->vnPayPayment($dataOrder, $dataOrderItems);
-
-        }
-
-        return redirect()->route('vnpay.return')->with('success', 'Order created!');
-    }
-
-    public function cashPayment($dataOrder, $dataOrderItems)
-    {
-        try {
-            $order = Order::query()->create($dataOrder);
-
-            foreach ($dataOrderItems as $orderItem) {
-                OrderItem::query()->create([
-                    'order_id' => $order->id,
-                    'product_id' => $orderItem->product_id,
-                    'variant_id' => $orderItem->variant_id,
-                    'product_name' => $orderItem->product_name,
-                    'product_price' => $orderItem->product_price,
-                    'product_quantity' => $orderItem->quantity,
-                    'total_price' => $orderItem->total_price,
-                ]);
-            }
-            $cart = Cart::query()->where('user_id', \Auth::id())->first();
-            $cart->cartItems()->delete();
-            return true;
-        } catch (\Exception $exception) {
-            \DB::rollBack();
-            return redirect()->back()->with('error', $exception->getMessage());
-        }
-    }
-
-    public function vnPayPayment($dataOrder, $dataOrderItems)
-    {
-
         try {
             $order = Order::query()->create($dataOrder);
             foreach ($dataOrderItems as $orderItem) {
@@ -135,22 +74,36 @@ class CheckoutController extends Controller
             }
             $cart = Cart::query()->where('user_id', \Auth::id())->first();
             $cart->cartItems()->delete();
+
+            if ($request->payment_method == 'vnpay_payment') {
+
+                return redirect($this->vnPayPayment($order));
+
+            }
+
+            return redirect()->route('checkout.return')->with('success', 'Order created!');
         } catch (\Exception $exception) {
             \DB::rollBack();
             return redirect()->back()->with('error', $exception->getMessage());
         }
 
+
+    }
+
+    public function vnPayPayment($dataOrder)
+    {
+
         $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        $vnp_Returnurl = env('APP_URL') . '/checkout/vnpay/return';
+        $vnp_Returnurl = env('APP_URL') . '/checkout/return';
         $vnp_TmnCode = "VE6K2G0A";//Mã website tại VNPAY
         $vnp_HashSecret = "2YZEFBP627O8ZXMP8H5XH0YWF19QXCV1"; //Chuỗi bí mật
 
-        $vnp_TxnRef = $order->id; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        $vnp_TxnRef = $dataOrder->id; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
         $vnp_OrderInfo = 'Thanh toan hoa don';
         $vnp_OrderType = 'billpayment';
-        $vnp_Amount = intval($order->total) * 100;
+        $vnp_Amount = intval($dataOrder->total) * 100;
         $vnp_Locale = 'vn';
-        $vnp_BankCode = '';
+        $vnp_BankCode = 'VNBANK';
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
         $inputData = array(
             "vnp_Version" => "2.1.0",
@@ -187,15 +140,15 @@ class CheckoutController extends Controller
 
         $vnp_Url = $vnp_Url . "?" . $query;
         if (isset($vnp_HashSecret)) {
+
             $vnpSecureHash = hash_hmac('sha512', $hashdata, $vnp_HashSecret);//
             $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
         }
 
-        header('Location: ' . $vnp_Url);
-        die();
+        return $vnp_Url;
     }
 
-    public function vnPayReturn(Request $request)
+    public function checkoutReturn(Request $request)
     {
 
         if ($request->vnp_ResponseCode == '00') {

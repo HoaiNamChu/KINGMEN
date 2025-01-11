@@ -11,7 +11,8 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('admin.dashboard.index'); // Trả về view với dữ liệu
+        $totalOrders = Order::count();
+        return view('admin.dashboard.index', compact('totalOrders')); // Trả về view với dữ liệu
     }
 
     public function getRevenueData(Request $request)

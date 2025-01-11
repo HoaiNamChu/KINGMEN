@@ -1,8 +1,8 @@
 /**
-* Theme: Larkon - Responsive Bootstrap 5 Admin Dashboard
-* Author: Techzaa
-* Module/App: Dashboard
-*/
+ * Theme: Larkon - Responsive Bootstrap 5 Admin Dashboard
+ * Author: Techzaa
+ * Module/App: Dashboard
+ */
 
 //
 // Conversions
@@ -89,11 +89,11 @@ var options = {
         type: "bar",
         data: [34, 65, 46, 68, 49, 61, 42, 44, 78, 52, 63, 67],
     },
-    {
-        name: "Clicks",
-        type: "area",
-        data: [8, 12, 7, 17, 21, 11, 5, 9, 7, 29, 12, 35],
-    },
+        {
+            name: "Clicks",
+            type: "area",
+            data: [8, 12, 7, 17, 21, 11, 5, 9, 7, 29, 12, 35],
+        },
     ],
     chart: {
         height: 313,
@@ -206,14 +206,14 @@ var options = {
                 return y;
             },
         },
-        {
-            formatter: function (y) {
-                if (typeof y !== "undefined") {
-                    return y.toFixed(1) + "k";
-                }
-                return y;
+            {
+                formatter: function (y) {
+                    if (typeof y !== "undefined") {
+                        return y.toFixed(1) + "k";
+                    }
+                    return y;
+                },
             },
-        },
         ],
     },
 }
@@ -237,15 +237,15 @@ class VectorMap {
             zoomButtons: false,
             markersSelectable: true,
             markers: [
-                { name: "Canada", coords: [56.1304, -106.3468] },
-                { name: "Brazil", coords: [-14.2350, -51.9253] },
-                { name: "Russia", coords: [61, 105] },
-                { name: "China", coords: [35.8617, 104.1954] },
-                { name: "United States", coords: [37.0902, -95.7129] }
+                {name: "Canada", coords: [56.1304, -106.3468]},
+                {name: "Brazil", coords: [-14.2350, -51.9253]},
+                {name: "Russia", coords: [61, 105]},
+                {name: "China", coords: [35.8617, 104.1954]},
+                {name: "United States", coords: [37.0902, -95.7129]}
             ],
             markerStyle: {
-                initial: { fill: "#7f56da" },
-                selected: { fill: "#22c55e" }
+                initial: {fill: "#7f56da"},
+                selected: {fill: "#22c55e"}
             },
             labels: {
                 markers: {
@@ -339,7 +339,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const totalRevenue = newData.reduce((acc, curr) => acc + curr, 0);
 
             // Cập nhật tổng doanh thu trong giao diện
-            document.getElementById("total-revenue").textContent = totalRevenue.toLocaleString("vi-VN", { minimumFractionDigits: 2 });
+            document.getElementById("total-revenue").textContent = totalRevenue.toLocaleString("vi-VN", {minimumFractionDigits: 2});
 
             // Cập nhật biểu đồ
             revenueChart.updateOptions({

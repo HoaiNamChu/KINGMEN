@@ -2,28 +2,13 @@
 
 
 @section('content')
-<div class="wrapper">
-
-    <!-- ========== Topbar Start ========== -->
-    <!-- Activity Timeline -->
-    <!-- Right Sidebar (Theme Settings) -->
-    <!-- ========== Topbar End ========== -->
-
-    <!-- ========== App Menu Start ========== -->
-
-    <!-- ========== App Menu End ========== -->
-
-    <!-- ==================================================== -->
-    <!-- Start right Content here -->
-    <!-- ==================================================== -->
-    <div class="page-content">
 
         <!-- Start Container Fluid -->
         <div class="container-xxl">
 
             <div class="row">
 
-                <div class="col-xl-9 col-lg-8 ">
+                <div class="col-xl-12 col-lg-12 ">
 
                     <div class="card">
                         <div class="card-header">
@@ -103,65 +88,10 @@
                             </div>
                         </div>
                     </div>
-                    <!-- card 
-                              <div class="card">
-                                   <div class="card-header">
-                                        <h4 class="card-title">Meta Options</h4>
-                                   </div>
-                                   <div class="card-body">
-                                        <div class="row">
-                                             <div class="col-lg-6">
-                                                  
-                                                       <div class="mb-3">
-                                                            <label for="meta-title" class="form-label">Meta Title</label>
-                                                            <input type="text" id="meta-title" class="form-control" placeholder="Enter Title">
-                                                       </div>
-                                                  
-                                             </div>
-                                             <div class="col-lg-6">
-                                                  
-                                                       <div class="mb-3">
-                                                            <label for="meta-tag" class="form-label">Meta Tag Keyword</label>
-                                                            <input type="text" id="meta-tag" class="form-control" placeholder="Enter word">
-                                                       </div>
-                                                  
-                                             </div>
-                                             <div class="col-lg-12">
-                                                  <div class="mb-0">
-                                                       <label for="description" class="form-label">Description</label>
-                                                       <textarea class="form-control bg-light-subtle" id="description" rows="4" placeholder="Type description"></textarea>
-                                                  </div>
-                                             </div>
-                                        </div>
-                                   </div>
-                              </div> -->
-
                 </div>
             </div>
 
         </div>
         <!-- End Container Fluid -->
 
-        <!-- ========== Footer Start ========== -->
-        <footer class="footer">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <script>document.write(new Date().getFullYear())</script> &copy; Larkon. Crafted by
-                        <iconify-icon icon="iconamoon:heart-duotone"
-                            class="fs-18 align-middle text-danger"></iconify-icon> <a href="#"
-                            class="fw-bold footer-text" target="_blank">Techzaa</a>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- ========== Footer End ========== -->
-
-    </div>
-    <!-- ==================================================== -->
-    <!-- End Page Content -->
-    <!-- ==================================================== -->
-
-
-</div>
 @endsection

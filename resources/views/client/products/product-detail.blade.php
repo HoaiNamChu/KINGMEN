@@ -147,7 +147,7 @@
                                             <a href="javascript:void(0)">(5 Customer Review)</a>
                                         </div>
                                     </div>
-                                    <p>{{ $product->short_desc }}</p>
+                                    <p>{!! $product->short_desc !!}</p>
                                     <form action="{{ route('cart.store') }}" method="post">
                                         @csrf
                                         @if($productAttributes != null)

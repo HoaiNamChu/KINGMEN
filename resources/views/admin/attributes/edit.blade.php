@@ -1,9 +1,5 @@
 @extends('admin.layouts.main')
 
-@section('link')
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-@endsection
-
 @section('content')
     <div class="container-xxl">
 
@@ -118,28 +114,3 @@
     @include('admin.attributes.modals.create-attribute-value')
 @endsection
 
-@section('lib-script')
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-@endsection
-
-@section('script')
-
-    <script>
-
-        @if(session('success'))
-        Toastify({
-
-            text: "{{ session('success') }}",
-
-            duration: 3000,
-
-            gravity: top,
-
-            close: true,
-
-        }).showToast();
-        @endif
-
-    </script>
-
-@endsection

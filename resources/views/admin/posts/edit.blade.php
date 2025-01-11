@@ -1,5 +1,12 @@
 @extends('admin.layouts.main')
 
+@section('styles')
+    <style>
+        .ck-editor__editable_inline {
+            min-height: 300px;
+        }
+    </style>
+@endsection
 
 @section('content')
     <div class="container-xxl">
@@ -33,9 +40,9 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <div>
-                                        <label for="editor" class="form-label">Content</label>
+                                        <label for="content" class="form-label">Content</label>
                                         <div class="mb-3">
-                                            <textarea id="editor" name="content">
+                                            <textarea id="content" name="content">
                                                 {!! $post->content !!}
                                             </textarea>
 
@@ -124,7 +131,7 @@
 @section('script')
     <script>
         ClassicEditor
-            .create(document.querySelector('#editor'))
+            .create(document.querySelector('#content'))
             .then(editor => {
                 window.editor = editor;
             })

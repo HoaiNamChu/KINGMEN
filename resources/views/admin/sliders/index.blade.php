@@ -1,10 +1,7 @@
-
 @extends('admin.layouts.main')
 
 
 @section('content')
-
-
     <div class="container-xxl">
 
         <div class="row">
@@ -14,13 +11,14 @@
                         <h4 class="card-title flex-grow-1">All Sliders List</h4>
 
                         <a href="{{route('admin.slides.create')}}" class="btn btn-sm btn-primary">
-Add Slider
-</a>
+                            Add Slider
+                        </a>
 
                         <div class="dropdown">
-                            <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light" data-bs-toggle="dropdown" aria-expanded="false">
-    This Month
-</a>
+                            <a href="#" class="dropdown-toggle btn btn-sm btn-outline-light" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                This Month
+                            </a>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
                                 <a href="#!" class="dropdown-item">Download</a>
@@ -120,32 +118,5 @@ Add Slider
         </div>
 
     </div>
-@endsection
-
-
-@section('lib-script')
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-@endsection
-
-@section('script')
-
-    <script>
-
-        @if(session('success'))
-        Toastify({
-
-            text: "{{ session('success') }}",
-
-            duration: 3000,
-
-            gravity: top,
-
-            close: true,
-
-        }).showToast();
-        @endif
-
-    </script>
-
 @endsection
 

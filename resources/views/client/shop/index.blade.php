@@ -31,8 +31,8 @@
                         <div class="col-12">
                             <div class="shop-top-bar">
                                 <div class="shop-top-left">
-                                    <p class="pagination-line"><a href="shop.html">12</a> Product Found of <a
-                                            href="shop.html">30</a></p>
+                                    <p class="pagination-line"><a href="">12</a> Product Found of <a
+                                            href="">30</a></p>
                                 </div>
 
                                 <div class="shop-top-right">
@@ -87,7 +87,7 @@
 
                 <div class="col-xl-3">
                     <div class="shop-sidebar">
-                        @if($categories)
+                        @if($categories->count())
                             <div class="shop-sidebar-category">
                                 <h4 class="sidebar-title">Top Categories</h4>
                                 <div class="sidebar-category">

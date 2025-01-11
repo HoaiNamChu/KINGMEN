@@ -7,7 +7,7 @@
         }
 
         .ck-editor__editable_inline {
-            height: 300px;
+            min-height: 300px;
         }
     </style>
 @endsection
@@ -404,6 +404,13 @@
 
 @section('script')
     <script>
+        ClassicEditor
+            .create(document.querySelector('#short-description'), {
+
+            })
+            .catch(error => {
+                console.error('There was a problem initializing the editor.', error);
+            });
         ClassicEditor
             .create(document.querySelector('#editor'), {
                 ckfinder: {

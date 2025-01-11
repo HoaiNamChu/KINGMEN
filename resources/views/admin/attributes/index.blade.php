@@ -1,8 +1,5 @@
 @extends('admin.layouts.main')
 
-@section('link')
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-@endsection
 
 @section('content')
     <div class="container-xxl">
@@ -131,7 +128,7 @@
                                     <th>ID</th>
                                     <th>Variant</th>
                                     <th>Value</th>
-                                    <th>Created On</th>
+                                    <th>Created at</th>
                                     <th>Published</th>
                                     <th>Action</th>
                                 </tr>
@@ -162,10 +159,6 @@
                                         </td>
                                         <td>
                                             <div class="d-flex gap-2">
-                                                <a href="#!" class="btn btn-light btn-sm">
-                                                    <iconify-icon icon="solar:eye-broken"
-                                                                  class="align-middle fs-18"></iconify-icon>
-                                                </a>
                                                 <a href="{{ route('admin.attributes.edit', $item) }}"
                                                    class="btn btn-soft-primary btn-sm">
                                                     <iconify-icon icon="solar:pen-2-broken"
@@ -211,28 +204,3 @@
     </div>
 @endsection
 
-@section('lib-script')
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-@endsection
-
-@section('script')
-
-    <script>
-
-        @if(session('success'))
-        Toastify({
-
-            text: "{{ session('success') }}",
-
-            duration: 3000,
-
-            gravity: top,
-
-            close: true,
-
-        }).showToast();
-        @endif
-
-    </script>
-
-@endsection

@@ -3,53 +3,38 @@
 @section('content')
     <!--== Start Hero Area Wrapper ==-->
     <section class="home-slider-area">
-        <div class="swiper-container home-slider-container default-slider-container">
-            <div class="swiper-wrapper home-slider-wrapper slider-default">
+        <div
+            class="swiper-container home-slider-container default-slider-container swiper-container-fade swiper-container-initialized swiper-container-horizontal swiper-container-autoheight">
+            <div class="swiper-wrapper home-slider-wrapper slider-default"
+                 style="transition-duration: 0ms; height: 748px;">
                 @foreach($sliders as $item)
-                    <div class="swiper-slide">
-                        <div class="slider-content-area"
-                             data-bg-img="{{ asset('theme/client/assets/img/shape/1.webp') }}">
+                    <div class="swiper-slide swiper-slide-active" data-swiper-slide-index="{{ $item->id }}"
+                         style="width: 1519px; transition-duration: 0ms; opacity: 1; transform: translate3d(-1519px, 0px, 0px);">
+                        <div class="slider-content-area slider-content-area-two"
+                             data-bg-img="{{ Storage::url($item->image) }}"
+                             style="background-image: url(&quot;{{ Storage::url($item->image) }}&quot;);">
                             <div class="container">
                                 <div class="slider-container">
                                     <div class="row justify-content-between align-items-center">
-                                        <div class="col-sm-6 col-md-5">
+                                        <div class="col-lg-5">
                                             <div class="slider-content">
                                                 <div class="content">
-                                                    <div class="title-box">
-                                                        <h2 class="title">{{ $item->title }}</h2>
-                                                    </div>
                                                     <div class="desc-box">
                                                         <p class="desc">{{ $item->content }}</p>
                                                     </div>
-                                                    <div class="btn-box">
-                                                        <a class="btn-slider" href="{{$item->link}}">More</a>
+                                                    <div class="title-box">
+                                                        <h2 class="title"><span
+                                                                class="font-weight-400">{{ $item->title }}</h2>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-md-6">
-                                            <div class="slider-thumb">
-                                                <div class="thumb scene">
-                                                    <span class="scene-layer" data-depth=".3"><img
-                                                            src="{{ Storage::url($item->image) }}"
-                                                            width="461"
-                                                            height="489" alt="Image-HasTech"></span>
-                                                </div>
-                                                <div class="shape-group mousemove">
-                                                    <div class="shape-group-one mousemove-layer" data-speed=".8"
-                                                         data-bg-img="{{ asset('theme/client/assets/img/shape/2.webp') }}"></div>
-                                                    <div class="shape-group-two scene"><span class="scene-layer"
-                                                                                             data-depth=".6"><img
-                                                                src="{{ asset('theme/client/assets/img/shape/3.webp') }}"
-                                                                width="471" height="462"
-                                                                alt="Image-HasTech"></span></div>
+                                                    <div class="btn-box">
+                                                        <a class="btn-slider" href="{{ route('shop') }}">Shop Now</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-{{--                            <h2 class="slider-text-shape">NEW 2021</h2>--}}
                         </div>
                     </div>
                 @endforeach
@@ -57,14 +42,14 @@
 
             <!--== Add Swiper Arrows ==-->
             <div class="swiper-btn-wrap">
-                <div class="swiper-btn-prev">
+                <div class="swiper-btn-prev" tabindex="0" role="button" aria-label="Previous slide">
                     <i class="pe-7s-angle-left"></i>
                 </div>
-                <div class="swiper-btn-next">
+                <div class="swiper-btn-next" tabindex="0" role="button" aria-label="Next slide">
                     <i class="pe-7s-angle-right"></i>
                 </div>
             </div>
-        </div>
+            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
     </section>
     <!--== End Hero Area Wrapper ==-->
 

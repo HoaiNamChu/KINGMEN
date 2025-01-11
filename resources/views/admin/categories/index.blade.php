@@ -1,9 +1,5 @@
 @extends('admin.layouts.main')
 
-@section('link')
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-@endsection
-
 
 @section('content')
     <div class="container-xxl">
@@ -159,17 +155,17 @@
                         <!-- end table-responsive -->
                     </div>
                     <div class="card-footer border-top">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination justify-content-end mb-0">
-                                <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
-                                <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>
-                            </ul>
-                        </nav>
+{{--                        <nav aria-label="Page navigation example">--}}
+{{--                            <ul class="pagination justify-content-end mb-0">--}}
+{{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">Previous</a>--}}
+{{--                                </li>--}}
+{{--                                <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a>--}}
+{{--                                </li>--}}
+{{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>--}}
+{{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>--}}
+{{--                                <li class="page-item"><a class="page-link" href="javascript:void(0);">Next</a></li>--}}
+{{--                            </ul>--}}
+{{--                        </nav>--}}
                     </div>
                 </div>
             </div>
@@ -178,29 +174,4 @@
     </div>
 @endsection
 
-@section('lib-script')
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-@endsection
-
-@section('script')
-
-    <script>
-
-        @if(session('success'))
-        Toastify({
-
-            text: "{{ session('success') }}",
-
-            duration: 3000,
-
-            gravity: top,
-
-            close: true,
-
-        }).showToast();
-        @endif
-
-    </script>
-
-@endsection
 

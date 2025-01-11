@@ -161,7 +161,8 @@
                        aria-haspopup="true" aria-expanded="false">
                                         <span class="d-flex align-items-center">
                                              <img class="rounded-circle" width="32"
-                                                  src="{{ asset('theme/admin/assets/images/users/avatar-1.jpg') }}" alt="avatar-3">
+                                                  src="{{ asset('theme/admin/assets/images/users/avatar-1.jpg') }}"
+                                                  alt="avatar-3">
                                         </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
