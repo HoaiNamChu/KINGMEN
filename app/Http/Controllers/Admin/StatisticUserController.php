@@ -35,7 +35,8 @@ class StatisticUserController extends Controller
 
         $totalUsers = User::count();
         $activeUsers = User::where('is_active', 1)->count();
-        $unverifiedEmails = User::whereNull('email_verified_at')->count();
+        $inactiveUsers = User::where('is_active', 0)->count();
+        // $unverifiedEmails = User::whereNull('email_verified_at')->count();
         $userStatus = User::select('is_active', DB::raw('count(*) as total'))
             ->groupBy('is_active')
             ->get();
@@ -46,6 +47,6 @@ class StatisticUserController extends Controller
             'data' => $userStatus->pluck('total'),
         ];
 
-        return view('admin.dashboard.statisticUser', compact('totalUsers', 'activeUsers', 'unverifiedEmails', 'userStatus', 'search', 'users', 'userStatusChartData'));
+        return view('admin.dashboard.statisticUser', compact('totalUsers', 'activeUsers', 'inactiveUsers', 'userStatus', 'search', 'users', 'userStatusChartData'));
     }
 }

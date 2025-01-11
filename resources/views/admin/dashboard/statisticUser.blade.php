@@ -3,7 +3,7 @@
     <div class="container-fluid">
 
         <div class="container mt-5">
-            <h1 class="mb-4">User Statistics</h1>
+            <h1 class="mb-4">Thống kê người dùng</h1>
 
             <!-- Thanh tìm kiếm -->
             <form method="GET" action="{{ url('/admin/statistics/user') }}" class="mb-4">
@@ -18,7 +18,7 @@
                 <div class="col-md-4">
                     <div class="card text-white bg-primary mb-3">
                         <div class="card-body">
-                            <h5 class="card-title">Total Users</h5>
+                            <h5 class="card-title">Tổng người dùng</h5>
                             <p class="card-text">{{ $totalUsers }}</p>
                         </div>
                     </div>
@@ -26,7 +26,7 @@
                 <div class="col-md-4">
                     <div class="card text-white bg-success mb-3">
                         <div class="card-body">
-                            <h5 class="card-title">Active Users</h5>
+                            <h5 class="card-title">Người dùng đang hoạt động</h5>
                             <p class="card-text">{{ $activeUsers }}</p>
                         </div>
                     </div>
@@ -34,8 +34,8 @@
                 <div class="col-md-4">
                     <div class="card text-white bg-warning mb-3">
                         <div class="card-body">
-                            <h5 class="card-title">Unverified Emails</h5>
-                            <p class="card-text">{{ $unverifiedEmails }}</p>
+                            <h5 class="card-title">Người dùng không hoạt động</h5>
+                            <p class="card-text">{{ $inactiveUsers }}</p>
                         </div>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->orders_count }}</td>
                             <td>{{ number_format($user->orders_sum_total, 2) }} VND</td>
-                            <td>{{ $user->is_active ? 'Active' : 'Inactive' }}</td>
+                            <td>{{ $user->is_active ? 'InActive' : 'Active' }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -83,48 +83,49 @@
             </div>
 
 
-        </div>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-        </body>
         <div class="mt-5">
-            <h3>User Status Breakdown</h3>
+            <h3>Biểu đồ trạng thái người dùng</h3>
             <canvas id="userStatusChart" width="400" height="200"></canvas>
         </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-            const ctx = document.getElementById('userStatusChart').getContext('2d');
-            const userStatusChart = new Chart(ctx, {
-                type: 'pie', // Loại biểu đồ (pie chart)
-                data: {
-                    labels: {!! json_encode($userStatusChartData['labels']) !!},
-                    datasets: [{
-                        label: 'User Status',
-                        data: {!! json_encode($userStatusChartData['data']) !!},
-                        backgroundColor: [
-                            'rgba(54, 162, 235, 0.6)', // Màu cho trạng thái Active
-                            'rgba(255, 99, 132, 0.6)' // Màu cho trạng thái Inactive
-                        ],
-                        borderColor: [
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 99, 132, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: false,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        tooltip: {
-                            enabled: true,
-                        }
+
+        </div>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('userStatusChart').getContext('2d');
+        const userStatusChart = new Chart(ctx, {
+            type: 'pie', // Loại biểu đồ (pie chart)
+            data: {
+                labels: {!! json_encode($userStatusChartData['labels']) !!},
+                datasets: [{
+                    label: 'User Status',
+                    data: {!! json_encode($userStatusChartData['data']) !!},
+                    backgroundColor: [
+                        'rgba(54, 162, 235, 0.6)', // Màu cho trạng thái Active
+                        'rgba(255, 99, 132, 0.6)' // Màu cho trạng thái Inactive
+                    ],
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        enabled: true,
                     }
                 }
-            });
-        </script>
-    </div>
+            }
+        });
+    </script>
 @endsection

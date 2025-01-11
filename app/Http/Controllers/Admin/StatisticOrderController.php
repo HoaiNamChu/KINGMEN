@@ -12,16 +12,15 @@ class StatisticOrderController extends Controller
     //
     public function statistics(Request $request)
     {
-        // Lấy ngày bắt đầu và ngày kết thúc từ request
+
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
 
-        // Nếu có chọn ngày bắt đầu và ngày kết thúc, lọc đơn hàng trong khoảng thời gian
-        $orders = collect(); // Khởi tạo Collection rỗng để tránh lỗi nếu không có kết quả
+        $orders = collect();
         if ($startDate && $endDate) {
             $orders = Order::whereBetween('created_at', [$startDate, $endDate])
                 ->orderBy('created_at', 'desc')
-                ->get(); // Lấy kết quả dưới dạng Collection
+                ->get();
         }
 
         // Tính doanh thu hiện tại (tổng tiền từ các đơn đã hoàn thành)
@@ -46,8 +45,6 @@ class StatisticOrderController extends Controller
             'pendingOrders' => Order::where('status', 'Đang giao hàng')->count(),
         ];
 
-
-        // Trả về view với dữ liệu thống kê
         return view('admin.dashboard.statisticOrder', compact('orders', 'statistics', 'startDate', 'endDate','currentRevenue','expectedRevenue'));
     }
 }
