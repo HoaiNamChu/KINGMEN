@@ -141,25 +141,25 @@
                 <div class="col-md-12 col-lg-4">
                     <div class="shipping-form-cart-totals" style="background-color: #f7f7f7;">
                         <div class="section-title-cart">
-                            <h5 class="title">Cart totals</h5>
+{{--                            <h5 class="title">Cart totals</h5>--}}
                         </div>
                         <div class="cart-total-table">
                             <table class="table">
                                 <tbody>
                                 <tr class="cart-subtotal">
                                     <td>
-                                        <p class="value">Subtotal</p>
+{{--                                        <p class="value">Subtotal</p>--}}
                                     </td>
                                     <td>
-                                        <p class="price">£128.00</p>
+{{--                                        <p class="price">£128.00</p>--}}
                                     </td>
                                 </tr>
                                 <tr class="order-total">
                                     <td>
-                                        <p class="value">Total</p>
+{{--                                        <p class="value">Total</p>--}}
                                     </td>
                                     <td>
-                                        <p class="price">£128.00</p>
+{{--                                        <p class="price">£128.00</p>--}}
                                     </td>
                                 </tr>
                                 </tbody>

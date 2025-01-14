@@ -44,9 +44,9 @@
                                     <th>Name</th>
                                     <th>Assigned To</th>
                                     <th>Description</th>
-                                    <th>Created Date &amp; Time</th>
-                                    <th>Last Update</th>
-                                    <th>Action</th>
+{{--                                    <th>Created Date &amp; Time</th>--}}
+{{--                                    <th>Last Update</th>--}}
+{{--                                    <th>Action</th>--}}
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -67,42 +67,44 @@
                                                 No roles assigned
                                             @else
                                                 @foreach($permission->roles as $role)
-                                                    <span class="badge bg-info-subtle text-info py-1 px-2 fs-11">{{ $role->name }}</span>
+                                                    <span
+                                                        class="badge bg-info-subtle text-info py-1 px-2 fs-11">{{ $role->name }}</span>
                                                 @endforeach
                                             @endif
                                         </td>
                                         <td>{{ $permission->description }} </td>
-                                        <td>{{ $permission->created_at }}</td>
-                                        <td>{{ $permission->updated_at }}</td>
-                                        <td>
-                                            <div class="d-flex gap-2">
-                                                <!-- <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken"
-                                                        class="align-middle fs-18"></iconify-icon></a> -->
-                                                <a href="{{route('admin.permissions.edit', $permission->id)}}"
-                                                   class="btn btn-soft-primary btn-sm">
-                                                    <iconify-icon icon="solar:pen-2-broken"
-                                                                  class="align-middle fs-18"></iconify-icon>
-                                                </a>
-                                                <script>
-                                                    // Hàm để xác nhận xóa
-                                                    function confirmDelete(event) {
-                                                        if (!confirm('Bạn có muốn xóa Quyền {{$permission->name}} không?')) {
-                                                            event.preventDefault(); // Hủy bỏ hành động xóa nếu người dùng không xác nhận
-                                                        }
-                                                    }
-                                                </script>
-                                                <form action="{{route('admin.permissions.destroy', $permission->id)}}" method="post">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-soft-danger btn-sm"
-                                                            onclick="confirmDelete(event)">
-                                                        <iconify-icon
-                                                            icon="solar:trash-bin-minimalistic-2-broken"
-                                                            class="align-middle fs-18"></iconify-icon>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
+{{--                                        <td>{{ $permission->created_at }}</td>--}}
+{{--                                        <td>{{ $permission->updated_at }}</td>--}}
+{{--                                        <td>--}}
+{{--                                            <div class="d-flex gap-2">--}}
+{{--                                                <!-- <a href="#!" class="btn btn-light btn-sm"><iconify-icon icon="solar:eye-broken"--}}
+{{--                                                        class="align-middle fs-18"></iconify-icon></a> -->--}}
+{{--                                                <a href="{{route('admin.permissions.edit', $permission->id)}}"--}}
+{{--                                                   class="btn btn-soft-primary btn-sm">--}}
+{{--                                                    <iconify-icon icon="solar:pen-2-broken"--}}
+{{--                                                                  class="align-middle fs-18"></iconify-icon>--}}
+{{--                                                </a>--}}
+{{--                                                <script>--}}
+{{--                                                    // Hàm để xác nhận xóa--}}
+{{--                                                    function confirmDelete(event) {--}}
+{{--                                                        if (!confirm('Bạn có muốn xóa Quyền {{$permission->name}} không?')) {--}}
+{{--                                                            event.preventDefault(); // Hủy bỏ hành động xóa nếu người dùng không xác nhận--}}
+{{--                                                        }--}}
+{{--                                                    }--}}
+{{--                                                </script>--}}
+{{--                                                <form action="{{route('admin.permissions.destroy', $permission->id)}}"--}}
+{{--                                                      method="post">--}}
+{{--                                                    @csrf--}}
+{{--                                                    @method('DELETE')--}}
+{{--                                                    <button type="submit" class="btn btn-soft-danger btn-sm"--}}
+{{--                                                            onclick="confirmDelete(event)">--}}
+{{--                                                        <iconify-icon--}}
+{{--                                                            icon="solar:trash-bin-minimalistic-2-broken"--}}
+{{--                                                            class="align-middle fs-18"></iconify-icon>--}}
+{{--                                                    </button>--}}
+{{--                                                </form>--}}
+{{--                                            </div>--}}
+{{--                                        </td>--}}
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -128,6 +130,5 @@
         </div>
 
     </div>
-
 
 @endsection

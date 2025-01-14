@@ -119,14 +119,14 @@
                 </div>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.settings.index') }}">
-                                   <span class="nav-icon">
-                                        <iconify-icon icon="solar:settings-bold-duotone"></iconify-icon>
-                                   </span>
-                    <span class="nav-text"> Settings </span>
-                </a>
-            </li>
+{{--            <li class="nav-item">--}}
+{{--                <a class="nav-link" href="{{ route('admin.settings.index') }}">--}}
+{{--                                   <span class="nav-icon">--}}
+{{--                                        <iconify-icon icon="solar:settings-bold-duotone"></iconify-icon>--}}
+{{--                                   </span>--}}
+{{--                    <span class="nav-text"> Settings </span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
 
             <li class="menu-title mt-2">Users</li>
 
@@ -170,52 +170,7 @@
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link menu-arrow" href="#sidebarCustomers" data-bs-toggle="collapse" role="button"
-                   aria-expanded="false" aria-controls="sidebarCustomers">
-                                   <span class="nav-icon">
-                                        <iconify-icon icon="solar:users-group-two-rounded-bold-duotone"></iconify-icon>
-                                   </span>
-                    <span class="nav-text"> Customers </span>
-                </a>
-                <div class="collapse" id="sidebarCustomers">
-                    <ul class="nav sub-navbar-nav">
 
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="customer-list.html">List</a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="customer-detail.html">Details</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="nav-item">
-                <a class="nav-link menu-arrow" href="#sidebarSellers" data-bs-toggle="collapse" role="button"
-                   aria-expanded="false" aria-controls="sidebarSellers">
-                                   <span class="nav-icon">
-                                        <iconify-icon icon="solar:shop-bold-duotone"></iconify-icon>
-                                   </span>
-                    <span class="nav-text"> Sellers </span>
-                </a>
-                <div class="collapse" id="sidebarSellers">
-                    <ul class="nav sub-navbar-nav">
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="seller-list.html">List</a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="seller-details.html">Details</a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="seller-edit.html">Edit</a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="seller-add.html">Create</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
 
             <li class="menu-title mt-2">Other</li>
 
