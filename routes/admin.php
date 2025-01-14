@@ -19,6 +19,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SlideController;
 
 
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
 
@@ -30,28 +31,32 @@ Route::prefix('/admin')
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/api/orders/revenue', [DashboardController::class, 'getRevenueData']);
 
-        Route::resources([
-            'categories' => CategoryController::class,
-            'brands' => BrandController::class,
-            'attributes' => AttributeController::class,
-            'attributeValues' => AttributeValueController::class,
-            'products' => ProductController::class,
-            'tags' => TagController::class,
-            'posts' => PostController::class,
-            'settings' => SettingController::class,
-        ]);
-
-        Route::resource('chats', ChatController::class);
+        // Route::resources([
+        //     'categories' => CategoryController::class,
+        //     'attributes' => AttributeController::class,
+        //     'attributeValues' => AttributeValueController::class,
+        //     'tags' => TagController::class,
+        //     'settings' => SettingController::class,
+        // ]);
+        route::resource('settings', SettingController::class);
+        route::resource( 'categories' , CategoryController::class)->middleware('checkPermission:Manager Products');
+        route::resource('attributes' , AttributeController::class)->middleware('checkPermission:Manager Products');
+        Route::resource( 'attributeValues' , AttributeValueController::class)->middleware('checkPermission:Manager Products');
+        Route::resource('tags' , TagController::class)->middleware('checkPermission:Manager Products');
+        route::resource('products' , ProductController::class)->middleware('checkPermission:Manager Products');
+        route::resource('posts' , PostController::class)->middleware('checkPermission:Manager Posts');
+        route::resource('brands' , BrandController::class)->middleware('checkPermission:Manager Brands');
+        Route::resource('chats', ChatController::class)->middleware('checkPermission:Manager Chats');
 
         Route::post('/ckeditor/image_upload', [ProductController::class, 'ckeditorUpload'])->name('ckeditor.uploads');
 
-        Route::resource('orders', OrderController::class);
-        Route::resource('slides', SlideController::class);
+        Route::resource('orders', OrderController::class)->middleware('checkPermission:Manager Orders');
+        Route::resource('slides', SlideController::class)->middleware('checkPermission:Manager Sliders');
         Route::patch('orders/{order}/update-status', [OrderController::class, 'update'])->name('orders.updateStatus');
-        Route::resource('users', UserController::class);
-        Route::resource('roles', RoleController::class);
-        Route::resource('brands', BrandController::class);
-        Route::resource('permissions', PermissionController::class);
+        Route::resource('users', UserController::class)->middleware('checkPermission:Manager Users');
+        Route::resource('roles', RoleController::class)->middleware('checkPermission:Manager Roles');
+        Route::resource('brands', BrandController::class)->middleware('checkPermission:Manager Brands');
+        Route::resource('permissions', PermissionController::class)->middleware('checkPermission:Manager Permissions');
         Route::get('statistics/order', [StatisticOrderController::class, 'statistics'])->name('statistics.orders');
         Route::get('statistics/user', [StatisticUserController::class, 'showStatisticsPage'])->name('statistics.users');
     });
