@@ -54,6 +54,8 @@ Route::prefix('/')->group(function () {
             Route::post('/', [CheckoutController::class, 'order'])->name('order');
             Route::get('/return', [CheckoutController::class, 'checkoutReturn'])->name('checkout.return');
         });
+
+    Route::get('/pay-back/{id}', [CheckoutController::class, 'payBack'])->name('payback');
     // Route chat
     Route::get('/chat', [\App\Http\Controllers\Client\ChatController::class, 'index'])->name('chat.index');
     Route::post('/chat', [\App\Http\Controllers\Client\ChatController::class, 'store'])->name('chat.store');

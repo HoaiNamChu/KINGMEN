@@ -20,8 +20,6 @@
     <div class="scrollbar" data-simplebar>
         <ul class="navbar-nav" id="navbar-nav">
 
-            <li class="menu-title">General</li>
-
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin.dashboard') }}">
                                    <span class="nav-icon">
@@ -229,29 +227,6 @@
                     <span class="nav-text"> Sliders </span>
                 </a>
             </li>
-
-
-            <li class="nav-item">
-                <a class="nav-link menu-arrow" href="#sidebarCoupons" data-bs-toggle="collapse" role="button"
-                   aria-expanded="false" aria-controls="sidebarCoupons">
-                                   <span class="nav-icon">
-                                        <iconify-icon icon="solar:leaf-bold-duotone"></iconify-icon>
-                                   </span>
-                    <span class="nav-text"> Coupons </span>
-                </a>
-                <div class="collapse" id="sidebarCoupons">
-                    <ul class="nav sub-navbar-nav">
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="coupons-list.html">List</a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="coupons-add.html">Add</a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <li class="menu-title mt-2">Other Apps</li>
 
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin.chats.index') }}">

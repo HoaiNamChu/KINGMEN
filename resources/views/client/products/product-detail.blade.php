@@ -190,7 +190,7 @@
                                         <a class="btn-product-wishlist" data-route="{{ route('wishlist.store') }}"
                                            data-product-id="{{ $product->id }}"><i class="pe-7s-like"></i>Add to
                                             Wishlist</a>
-                                        <a href="shop-compare.html"><i class="pe-7s-shuffle"></i>Add to Compare</a>
+                                        <a href=""><i class="pe-7s-shuffle"></i>Add to Compare</a>
                                     </div>
                                     <div class="product-info-footer">
                                         <h6 class="code"><span>Code :</span>{{ $product->sku }}</h6>

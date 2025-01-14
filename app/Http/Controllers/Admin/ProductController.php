@@ -386,6 +386,7 @@ class ProductController extends Controller
                 $data['quantity'] += $variant['quantity'];
             }
 
+//            dd($data['quantity']);
             try {
                 $product->update($data);
 

@@ -27,6 +27,17 @@ class CheckoutController extends Controller
             'cart.cartItems.variant.attributeValues'
         ]);
 
+        foreach ($data->cart->cartItems as $cartItem) {
+            if ($cartItem->variant_id != null && $cartItem->product_id != null) {
+                if ($cartItem->variant->quantity == null || $cartItem->quantity > $cartItem->variant->quantity) {
+                    return redirect()->back()->with('error', 'The product ' . $cartItem->product->name . ' is out of stock or the quantity you selected is incorrect or exceeds the remaining quantity.');
+                }
+            } else {
+                if ($cartItem->quantity > $cartItem->product->quantity) {
+                    return redirect()->back()->with('error', 'The product ' . $cartItem->product->name . ' is out of stock or the quantity you selected is incorrect or exceeds the remaining quantity.');
+                }
+            }
+        }
 
         if (!$data->cart->cartItems->count()) {
             return redirect()->back()->with('error', 'Your cart is empty');
@@ -161,5 +172,11 @@ class CheckoutController extends Controller
             ]);
         }
         return view('client.vnpay.return');
+    }
+
+    public function payBack($id){
+        $order = Order::query()->find($id);
+
+        return redirect($this->vnPayPayment($order));
     }
 }

@@ -107,16 +107,6 @@
                                                     <iconify-icon icon="solar:pen-2-broken"
                                                                   class="align-middle fs-18"></iconify-icon>
                                                 </a>
-                                                <form action="{{ route('admin.products.destroy', $item) }}"
-                                                      method="post">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" onclick="return confirm('Are you sure?')"
-                                                            class="btn btn-soft-danger btn-sm">
-                                                        <iconify-icon icon="solar:trash-bin-minimalistic-2-broken"
-                                                                      class="align-middle fs-18"></iconify-icon>
-                                                    </button>
-                                                </form>
                                             </div>
                                         </td>
                                     </tr>

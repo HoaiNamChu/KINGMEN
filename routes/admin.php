@@ -35,11 +35,12 @@ Route::prefix('/admin')
             'brands' => BrandController::class,
             'attributes' => AttributeController::class,
             'attributeValues' => AttributeValueController::class,
-            'products' => ProductController::class,
             'tags' => TagController::class,
             'posts' => PostController::class,
             'settings' => SettingController::class,
         ]);
+
+        Route::resource('products', ProductController::class)->except(['destroy', 'show']);
 
         Route::resource('chats', ChatController::class);
 
